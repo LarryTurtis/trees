@@ -1,0 +1,56 @@
+<!doctype html>
+
+<head>
+</head>
+
+<body style="margin: 0px;">
+    <canvas id="main"></canvas>
+</body>
+<script>
+var centerX;
+var centerY;
+var canvas = document.getElementById('main');
+window.addEventListener('load', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
+    window.requestAnimationFrame(draw);
+
+}, false);
+
+
+var ctx = canvas.getContext("2d");
+var x = 1;
+var y = 1;
+var add = 1;
+
+document.addEventListener('mousemove', function(e) {
+    if (e.clientX - centerX < 100 && e.clientX - centerX > -100 &&
+        e.clientY - centerY < 100 && e.clientY - centerY > -100) {
+        x = e.clientX - centerX;
+        y = e.clientY - centerY;
+    }
+    window.requestAnimationFrame(draw);
+
+})
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var a = -1; a < 2; a++) {
+        for (var i = -1; i < 2; i++) {
+            rect(centerX + (i * 100), centerY + (a * 100));
+        }
+    }
+}
+
+function rect(offsetX, offsetY) {
+    ctx.beginPath();
+    ctx.rect(offsetX - (x / 2), offsetY - (y / 2), x, y)
+    ctx.fill();
+    ctx.closePath();
+}
+</script>
+
+</html>
