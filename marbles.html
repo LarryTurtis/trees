@@ -1,0 +1,168 @@
+<!doctype html>
+
+<head>
+</head>
+
+<body style="margin: 0px;">
+    <canvas id="main"></canvas>
+</body>
+<script>
+var centerX;
+var centerY;
+var canvas = document.getElementById('main');
+var ctx = canvas.getContext("2d");
+var add = 1;
+var height = 10;
+var width = 10;
+var marbles = [];
+var numberOfMarbles = 10;
+var landed = 0;
+
+window.addEventListener('load', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
+
+    for (var i = 0; i < numberOfMarbles; i++) {
+        marbles.push(new Marble(i, Math.floor(Math.random() * canvas.width) + 1))
+    }
+
+    // setInterval(function() {
+    //     marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1));
+    // }, 1000)
+
+    animate();
+
+}, false);
+
+// document.addEventListener('mousemove', function(e) {
+//     mousey = e.clientY || centerY;
+// })
+
+function animate() {
+    if (centerY > 0) requestAnimationFrame(animate);
+    ctx.lineWidth = "1px"
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < marbles.length; i++) {
+        marbles[i].fall();
+    }
+    // if (landed > 1) {
+    //     centerY--;
+    //     landed = 0;
+    // }
+    drawBaseLine();
+}
+
+function Marble(id, x, y) {
+    var speed = Math.random() * 3 + 1;
+    var bouncing = false;
+    var colorArray = [0, 0, 0];
+    var marble = this;
+    var colorIndex1 = Math.floor(Math.random() * 3);
+    var colorIndex2 = Math.floor(Math.random() * 3);
+    var size = 10//Math.floor(Math.random() * 15) + 1;
+    var velocity = (Math.floor(Math.random() * 6) + 5) * 0.01
+    var baseline = canvas.height - marble.diameter - 1;
+    var counter = 0;
+    var timer = 0;
+    marble.id = id;
+    marble.x = x || 0;
+    marble.y = y || -size;
+    marble.radius = size;
+    marble.diameter = size * 2;
+    marble.fall = fall;
+    marble.opacity = 1;
+    marble.setColor = setColor;
+    marble.color = null;
+    marble.speed = Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+    return marble;
+
+    var settled = false;
+
+    function fall() {
+        baseline = canvas.height - marble.diameter - 1;
+        if (!settled) {
+            if (marble.y !== baseline && !bouncing) {
+                speed = speed * (1 + velocity);
+            } else {
+                bounce();
+            }
+            if (marble.y + speed > baseline) {
+                marble.y = baseline;
+            } else {
+                marble.y += speed;
+            }
+            marble.x += marble.speed;
+        } else {
+            if (timer === 100) {
+                marbles[marble.id] = new Marble(marble.id, Math.floor(Math.random() * canvas.width) + 1);
+                timer = 0;
+            }
+            marble.opacity -= 0.01
+            timer++;
+        }
+        setColor();
+        draw(marble.x, marble.y);
+
+
+        function bounce() {
+            //turn on the bounce
+            if (!bouncing) {
+                bouncing = true;
+                velocity = velocity * 3;
+                speed = -speed;
+            }
+            var bounceComplete = Math.abs(speed) < Math.abs(velocity) + 1;
+
+            //send the ball up, decreasing speed
+            if (bouncing && !bounceComplete) {
+                speed = speed * (1 - velocity);
+            }
+
+            //turn off the bounce, speed is slow, start a new fall
+            if (bouncing && bounceComplete) {
+                bouncing = false;
+                speed = -speed;
+            }
+
+            if (marble.y + speed > baseline) {
+                settled = true;
+            }
+
+        }
+    }
+
+
+
+    function setColor() {
+        if (marble.diameter !== baseline) {
+            colorArray[0] += Math.floor(speed);
+        }
+        marble.color = "rgba(" + colorArray.join(',') + "," + marble.opacity + ")";
+    }
+
+
+    function draw(offsetX, offsetY) {
+        ctx.beginPath();
+        ctx.fillStyle = marble.color;
+        ctx.arc(offsetX, offsetY, marble.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+}
+
+function drawBaseLine() {
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height);
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.closePath();
+    //ctx.stroke();
+}
+</script>
+
+</html>
