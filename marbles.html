@@ -19,10 +19,13 @@ var platforms = [];
 var numberOfMarbles = 1;
 var landed = 0;
 var paused = false;
+var animationSpeed = 0;
+var ready = true;
+var animationTimer = 0;
 
 window.addEventListener('load', function() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight - 20;
 
     centerX = canvas.width / 2;
     centerY = canvas.height / 2;
@@ -36,7 +39,7 @@ window.addEventListener('load', function() {
     platforms.push(new Platform(600, 800, 100))
     platforms.push(new Platform(800, 700, 100))
     platforms.push(new Platform(100, 300, 200))
-    platforms.push(new Platform(0, canvas.height - 1, canvas.width))
+    platforms.push(new Platform(0, canvas.height, canvas.width))
 
     // setInterval(function() {
     //     marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1));
@@ -47,22 +50,29 @@ window.addEventListener('load', function() {
 }, false);
 
 document.addEventListener('click', function(e) {
-	paused = !paused;
-	animate();
+    paused = !paused;
+    animate();
 })
 
 function animate() {
+
     if (!paused) requestAnimationFrame(animate);
     ctx.lineWidth = "1px"
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (ready) ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < marbles.length; i++) {
-        marbles[i].fall();
+        if (ready) marbles[i].fall();
     }
     for (var i = 0; i < platforms.length; i++) {
         platforms[i].draw();
     }
 
-    drawBaseLine();
+    if (animationTimer < animationSpeed) {
+        ready = false;
+        animationTimer++
+    } else {
+        animationTimer = 0;
+        ready = true;
+    }
 }
 
 function Platform(x, y, length) {
@@ -137,13 +147,14 @@ function Marble(id, x, y) {
     var colorIndex1 = Math.floor(Math.random() * 3);
     var colorIndex2 = Math.floor(Math.random() * 3);
     var size = 15;
-    var velocity = 0.07;
     var counter = 0;
     var timer = 0;
+    marble.velocity = 0.07;
     marble.id = id;
     marble.bouncing = false;
     marble.x = x || 0;
     marble.y = y || -size;
+    marble.weight = 3;
     marble.radius = size;
     marble.diameter = size * 2;
     marble.fall = fall;
@@ -162,14 +173,14 @@ function Marble(id, x, y) {
             if (didCollide(marble) || marble.bouncing) {
                 bounce();
             } else {
-                marble.yspeed = marble.yspeed * (1 + velocity);
+                marble.yspeed = marble.yspeed * (1 + marble.velocity);
             }
 
             marble.y = aboutToCollide(marble);
 
         } else {
             marble.yspeed = 3;
-            velocity = 0.07;
+            marble.velocity = 0.07;
             //var closest = closestPlatform(marble);
             //if (closest !== platforms[platforms.length - 1])
             if (marble.x < 0 || marble.x > canvas.width) {
@@ -190,14 +201,14 @@ function Marble(id, x, y) {
             //turn on the bounce
             if (!marble.bouncing) {
                 marble.bouncing = true;
-                velocity = velocity * 3;
+                marble.velocity = marble.velocity * marble.weight;
                 marble.yspeed = -marble.yspeed;
             }
-            var bounceComplete = Math.abs(marble.yspeed) < Math.abs(velocity) + 1;
+            var bounceComplete = Math.abs(marble.yspeed) < Math.abs(marble.velocity) + 1;
 
             //send the ball up, decreasing marble.yspeed
             if (marble.bouncing && !bounceComplete) {
-                marble.yspeed = marble.yspeed * (1 - velocity);
+                marble.yspeed = marble.yspeed * (1 - marble.velocity);
             }
 
             //turn off the bounce, marble.yspeed is slow, start a new fall
@@ -228,14 +239,6 @@ function Marble(id, x, y) {
         ctx.closePath();
     }
 
-}
-
-function drawBaseLine() {
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height);
-    ctx.lineTo(canvas.width, canvas.height);
-    ctx.closePath();
-    ctx.stroke();
 }
 </script>
 
