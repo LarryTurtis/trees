@@ -10,8 +10,9 @@
 <script>
 var canvas = document.getElementById('main');
 var ctx = canvas.getContext("2d");
-var bounceSound = new Audio('kick.wav');
+var bounceSound = new Audio('kjick.wav');
 var marbles = [];
+var maxMarbles = 20;
 var platforms = [];
 var paused = false;
 var animationSpeed = 0;
@@ -26,7 +27,7 @@ window.addEventListener('load', function() {
     addPlatforms(10);
     addBaseline();
 
-    //setInterval(addMarble, 1000)
+    setInterval(addMarble, 100)
 
     animate();
 
@@ -60,7 +61,8 @@ function clearCanvas() {
  */
 function addMarbles(n) {
     for (var i = 0; i < n; i++) {
-        marbles.push(new Marble(i, Math.floor(Math.random() * canvas.width) + 1))
+        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        marbles.push(new Marble(i, Math.floor(Math.random() * canvas.width) + 1, null, color));
     }
 }
 
@@ -81,7 +83,10 @@ function addPlatforms(n) {
  * Add a marble to the canvas in a random X position.
  */
 function addMarble() {
-    marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1));
+    if (marbles.length < maxMarbles) {
+        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1, null, color));
+    }
 }
 
 /**
@@ -157,7 +162,7 @@ function Platform(x, y, length) {
  * @param {Number} x
  * @param {Number} y
  */
-function Marble(id, x, y) {
+function Marble(id, x, y, color) {
     var marble = this;
     var size = 10;
     var initialVelocity = 0.2;
@@ -172,13 +177,15 @@ function Marble(id, x, y) {
     marble.radius = size;
     marble.diameter = size * 2;
     marble.fall = fall;
+    marble.bounce = bounce;
     marble.getClosestPlatform = getClosestPlatform;
     marble.getNextX = getNextX;
     marble.getNextY = getNextY;
     marble.onPlatform = onPlatform;
+    marble.didMarblesCollide = didMarblesCollide;
     marble.didCollide = didCollide;
     marble.opacity = 1;
-    marble.color = null;
+    marble.color = color;
     marble.direction = Math.floor(Math.random() * 2) == 1 ? 1 : -1;
     marble.xspeed = 3;
     marble.yspeed = 3;
@@ -191,9 +198,10 @@ function Marble(id, x, y) {
      */
     function fall() {
         marble.getClosestPlatform();
-
+        marble.inCollision = marble.didMarblesCollide();
+        marble.x = marble.getNextX();
         if (!settled) {
-            if (marble.didCollide() || marble.bouncing) {
+            if (!marble.inCollision && (marble.didCollide() || marble.bouncing)) {
                 bounce();
             } else {
                 marble.yspeed = marble.yspeed * (1 + marble.velocity);
@@ -205,7 +213,6 @@ function Marble(id, x, y) {
             marble.yspeed = 3;
             settled = marble.onPlatform();
         }
-        marble.x = marble.getNextX();
         draw(marble.x, marble.y);
     }
 
@@ -270,6 +277,23 @@ function Marble(id, x, y) {
         return result;
     }
 
+    function didMarblesCollide() {
+        var collision = false;
+        marbles.forEach(function(object) {
+            if (object !== marble) {
+                if (Math.abs(object.x - marble.x) < marble.diameter && Math.abs(object.y - marble.y) < marble.diameter) {
+                    collision = true;
+                    marble.xspeed *= -1;
+                    marble.x += marble.xspeed;
+                    if (!settled) {
+                        marble.bounce();
+                    }
+                }
+            }
+        });
+        return collision;
+    }
+
     /**
      * Gets the next Y position for the object. If the object is about to hit a platform,
      * returns the difference between the object and the platform Y.
@@ -296,7 +320,7 @@ function Marble(id, x, y) {
             marble.xspeed *= marble.direction;
         }
         if (Math.abs(marble.xspeed) > 0.4) {
-            marble.xspeed *= 0.99;
+            if (!marble.inCollision) marble.xspeed *= 0.99;
         } else {
             marble.xspeed = 0;
         }
