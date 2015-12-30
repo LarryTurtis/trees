@@ -1,0 +1,433 @@
+<!doctype html>
+
+<head>
+</head>
+
+<body style="margin: 0px;">
+    <div id="status" style="position: absolute;height:100px;width:100px;top: 50%; left: 50%;"></div>
+    <canvas id="main"></canvas>
+</body>
+<script>
+var canvas = document.getElementById('main');
+var ctx = canvas.getContext("2d");
+var bounceSound = new Audio('kjick.wav');
+var marbles = [];
+var maxMarbles = 20;
+var platforms = [];
+var paused = false;
+var animationSpeed = 0;
+var ready = true;
+var animationTimer = 0;
+var debugMode = true;
+
+window.addEventListener('load', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 20;
+
+    addMarbles(1);
+    addPlatforms(3);
+    addBaseline();
+
+    setInterval(addMarble, 100)
+
+    animate();
+
+}, false);
+
+document.addEventListener('click', pause)
+
+/**
+ * Pause Animation
+ */
+function pause() {
+    paused = !paused;
+    if (paused) {
+        document.getElementById('status').innerHTML = "PAUSED";
+    } else {
+        document.getElementById('status').innerHTML = "";
+    }
+    animate();
+}
+
+/**
+ * Clear canvas
+ */
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+/**
+ * Add # marbles to the canvas at random x positions.
+ * @param {Number} n
+ */
+function addMarbles(n) {
+    for (var i = 0; i < n; i++) {
+        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        marbles.push(new Marble(i, Math.floor(Math.random() * canvas.width) + 1, null, color));
+    }
+}
+
+/**
+ * Add # platforms to the canvas at random positions
+ * @param {Number} n
+ */
+function addPlatforms(n) {
+    for (var i = 0; i < n; i++) {
+        var x = Math.floor(Math.random() * canvas.width) + 1;
+        var y = Math.floor(Math.random() * canvas.height) + 1;
+        var l = Math.floor(Math.random() * canvas.width / 2) + 1;
+        platforms.push(new Platform(x, y, l));
+    }
+}
+
+/**
+ * Add a marble to the canvas in a random X position.
+ */
+function addMarble() {
+    if (marbles.length < maxMarbles) {
+        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1, null, color));
+    }
+}
+
+/**
+ * Add a base platform at the bottom of the canvas.
+ */
+function addBaseline() {
+    platforms.push(new Platform(0, canvas.height - 1, canvas.width));
+}
+
+/**
+ * Advance animation timer and return whether the animation should occur
+ * @return {Boolean}
+ */
+function advanceTimer() {
+    if (animationTimer < animationSpeed) {
+        animationTimer++
+        return false;
+    } else {
+        animationTimer = 0;
+        return true;
+    }
+}
+
+/**
+ * Animate a frame
+ */
+function animate() {
+    if (!paused) requestAnimationFrame(animate);
+
+    if (advanceTimer()) {
+        clearCanvas();
+
+        //draw all marbles
+        for (var i = 0; i < marbles.length; i++) {
+            marbles[i].fall();
+        }
+
+        //draw all platforms
+        for (var i = 0; i < platforms.length; i++) {
+            platforms[i].draw();
+        }
+    }
+}
+
+/**
+ * Constructor for Platform object
+ * @param {Number} x      x position of platform's left edge
+ * @param {Number} y      y position of platform's left edge
+ * @param {Number} length length of platform
+ */
+function Platform(x, y, length) {
+    var platform = this;
+    platform.x = x;
+    platform.y = y;
+    platform.length = length;
+    platform.endx = platform.x + platform.length;
+    platform.draw = draw;
+    platform.thickness = 1;
+
+    function draw() {
+        ctx.beginPath();
+        ctx.lineWidth = platform.thickness;
+        ctx.moveTo(platform.x, platform.y + platform.thickness / 2);
+        ctx.lineTo(platform.endx, platform.y + platform.thickness / 2);
+        ctx.closePath();
+        ctx.stroke();
+    }
+}
+
+/**
+ * Constructs Marble Object
+ * @param {Number} id
+ * @param {Number} x
+ * @param {Number} y
+ */
+function Marble(id, x, y, color) {
+    var marble = this;
+    var size = 10;
+    var initialVelocity = 0.2;
+    var weight = 2;
+    marble.settled = false;
+    marble.velocity = initialVelocity;
+    marble.weight = weight;
+    marble.id = id;
+    marble.bouncing = false;
+    marble.x = x || 0;
+    marble.y = y || -size;
+    marble.radius = size;
+    marble.diameter = size * 2;
+    marble.fall = fall;
+    marble.bounce = bounce;
+    marble.getClosestPlatform = getClosestPlatform;
+    marble.getNextX = getNextX;
+    marble.getNextY = getNextY;
+    marble.onMarble = onMarble;
+    marble.onPlatform = onPlatform;
+    marble.detectCollisions = detectCollisions;
+    marble.didCollide = didCollide;
+    marble.opacity = 1;
+    marble.color = color;
+    marble.direction = Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+    marble.xspeed = 3;
+    marble.yspeed = 3;
+
+    return marble;
+
+    /**
+     * Move the marble
+     * @return
+     */
+    function fall() {
+        marble.getClosestPlatform();
+        marble.x = marble.getNextX();
+        marble.y = marble.getNextY();
+        draw(marble.x, marble.y);
+    }
+
+    /**
+     * Bounce the marble in the air
+     * @return {[type]} [description]
+     */
+    function bounce() {
+        //turn on the bounce
+        if (!marble.bouncing) {
+            bounceSound.play();
+            marble.bouncing = true;
+            marble.yspeed = -marble.yspeed;
+        }
+
+        var bounceComplete = Math.abs(marble.yspeed) < 1;
+
+        //send the ball up, decreasing marble.yspeed
+        if (marble.bouncing && !bounceComplete) {
+            for (var i = 0; i < marble.weight; i++) {
+                marble.yspeed = marble.yspeed * (1 - marble.velocity);
+            }
+        }
+
+        //turn gravity back on
+        if (marble.bouncing && bounceComplete) {
+            marble.bouncing = false;
+            marble.yspeed = -marble.yspeed;
+        }
+
+        marble.settled = didSettle(marble) || marble.onMarble();
+
+        if (marble.settled) {
+            marble.bouncing = false;
+        }
+    }
+
+    /**
+     * Tells us if the object is currently on any platform AND is not bouncing.
+     * @param  {Object} object
+     * @return {Boolean}
+     */
+    function onPlatform() {
+        var isOnPlatform = false;
+        platforms.forEach(function(platform) {
+            if (marble.x >= platform.x - marble.radius / 2 &&
+                marble.x <= platform.endx + marble.radius / 2 &&
+                marble.y === platform.y - marble.radius) {
+                isOnPlatform = true;
+            }
+        });
+        return isOnPlatform;
+    }
+
+    /**
+     * Detects whether the object is on top of any other object.
+     * @return {Boolean}
+     */
+    function onMarble() {
+        var isOnMarble = false;
+        marbles.forEach(function(object) {
+            if (marble !== object) {
+                if (Math.abs(marble.x - object.x) < marble.diameter && marble.y + marble.diameter === object.y) {
+                    isOnMarble = true;
+                }
+            }
+        })
+        return isOnMarble;
+    }
+
+    /**
+     * Returns true any time the object is sharing the same Y position as its closest platform.
+     * @param  {Object} object
+     * @return {Boolean}
+     */
+    function didCollide() {
+        var result = marble.y === marble.closestPlatform.y - marble.radius;
+        return result;
+    }
+
+    /**
+     * Determines if the current object is about to collide with any other object (looks at Y AXIS)
+     * @return {Object}
+     */
+    function detectCollisions() {
+        var collision = false;
+        marbles.forEach(function(object) {
+            if (marble !== object) {
+                if (Math.abs(marble.y - object.y + marble.yspeed) < marble.diameter && Math.abs(marble.x - object.x) < marble.diameter) {
+                    collision = object;
+                }
+            }
+        });
+        return collision;
+    }
+
+    /**
+     * Gets the next Y position for the object. If the object is about to hit a platform,
+     * returns the difference between the object and the platform Y.
+     * @param  {Object} object
+     * @return {Number}
+     */
+    function getNextY() {
+        var result;
+        var collision = detectCollisions();
+
+        if (collision) {
+            marble.xspeed *= -1;
+            marble.x += marble.xspeed;
+            if (collision.settled) {
+                if (marble.y !== collision.y) {
+                    marble.collision = marble.y + (marble.bouncing ? -Math.abs(collision.y - marble.y) : Math.abs(collision.y - marble.y)) - marble.diameter;
+                }
+                marble.bounce();
+            } else {
+                if (marble.bouncing && !collision.bouncing) collision.bounce();
+                if (!marble.bouncing && collision.bouncing) marble.bounce();
+                if (!marble.bouncing && !collision.bouncing) {
+                    collision.y < marble.y ? collision.bounce() : marble.bounce();
+                }
+            }
+        } else {
+            marble.collision = null;
+        }
+
+        if (!marble.settled) {
+            if (marble.didCollide() || marble.bouncing) {
+                bounce();
+            } else {
+                marble.yspeed = marble.yspeed * (1 + marble.velocity);
+            }
+
+            if (marble.y + marble.yspeed >= marble.closestPlatform.y - marble.radius) {
+                return marble.closestPlatform.y - marble.radius;
+            }
+            return marble.collision || marble.y + marble.yspeed;
+
+        } else {
+            marble.yspeed = 3;
+            marble.settled = marble.onMarble() || marble.onPlatform();
+            return marble.y;
+        }
+
+    }
+
+    /**
+     * Gets the next X position for the object. If the object collides with the
+     * sides of the canvas, it is reversed.
+     * @return {Number}
+     */
+    function getNextX() {
+        if (marble.x < 0 + marble.radius || marble.x > canvas.width - marble.radius) {
+            //resetMarble(marble.id)
+            bounceSound.play();
+            marble.direction *= -1;
+            marble.xspeed *= marble.direction;
+        }
+        if (Math.abs(marble.xspeed) > 0.4) {
+            marble.xspeed *= 0.99;
+        } else {
+            marble.xspeed = 0;
+        }
+        return marble.x + marble.xspeed;
+    }
+
+    /**
+     * Returns the closest platform which is below the object and within its x range.
+     * @param  {Object} object
+     * @return {Object}
+     */
+    function getClosestPlatform() {
+        var currentPlatform;
+        platforms.forEach(function(platform) {
+            if (marble.x >= platform.x - marble.radius / 2 && marble.x <= platform.endx + marble.radius / 2 && platform.y - marble.radius >= marble.y) {
+                if (!currentPlatform || platform.y < currentPlatform.y) {
+                    currentPlatform = platform;
+                }
+            }
+        });
+        marble.closestPlatform = currentPlatform || platforms[platforms.length - 1];
+    }
+
+    /**
+     * Returns true if the object's Y will surpass the closest platform on the next animation frame.
+     * @param  {Object} object
+     * @return {Boolean}
+     */
+    function didSettle(object) {
+        if (object.y + object.yspeed > marble.closestPlatform.y - object.radius) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Moves the marble back to the top of the canvas at a random X
+     * @param  {Number} id
+     * @return
+     */
+    function resetMarble(id) {
+        marbles[id] = new Marble(id, Math.floor(Math.random() * canvas.width) + 1);
+    }
+
+    /**
+     * Draw the marble
+     * @param  {Number} centerX
+     * @param  {Number} centerY
+     */
+    function draw(centerX, centerY) {
+        ctx.beginPath();
+        ctx.fillStyle = marble.color;
+        ctx.arc(centerX, centerY, marble.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.closePath();
+
+        if (debugMode) {
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            ctx.rect(centerX, centerY, 1, 1);
+            ctx.fill();
+            ctx.closePath();
+            ctx.fillText(marble.id, centerX, centerY)
+        }
+    }
+
+}
+</script>
+
+</html>
