@@ -3,7 +3,7 @@
 <head>
 </head>
 
-<body style="margin: 0px;">
+<body style="margin: 0px;background: black">
     <div id="status" style="position: absolute;height:100px;width:100px;top: 50%; left: 50%;"></div>
     <canvas id="main"></canvas>
 </body>
@@ -12,7 +12,7 @@ var canvas = document.getElementById('main');
 var ctx = canvas.getContext("2d");
 var bounceSound = new Audio('kjick.wav');
 var marbles = [];
-var maxMarbles = 20;
+var maxMarbles = 200;
 var platforms = [];
 var paused = false;
 var animationSpeed = 0;
@@ -24,11 +24,11 @@ window.addEventListener('load', function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight - 20;
 
-    addMarbles(1);
-    addPlatforms(3);
+    //addMarbles(1);
+    addPlatforms(10);
     addBaseline();
 
-    setInterval(addMarble, 100)
+    setInterval(addMarble, 50)
 
     animate();
 
@@ -148,6 +148,7 @@ function Platform(x, y, length) {
     platform.thickness = 1;
 
     function draw() {
+        ctx.strokeStyle = "white";
         ctx.beginPath();
         ctx.lineWidth = platform.thickness;
         ctx.moveTo(platform.x, platform.y + platform.thickness / 2);
@@ -317,6 +318,9 @@ function Marble(id, x, y, color) {
 
         if (marble.y + marble.yspeed >= marble.closestPlatform.y - marble.radius) {
             return marble.closestPlatform.y - marble.radius;
+        }
+        if (Math.abs(marble.collision.y - marble.y) < marble.diameter) {
+            return marble.y;
         }
         return collisionY || marble.y + marble.yspeed;
     }
