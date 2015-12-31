@@ -18,7 +18,7 @@ var paused = false;
 var animationSpeed = 0;
 var ready = true;
 var animationTimer = 0;
-var debugMode = true;
+var debugMode = false;
 
 window.addEventListener('load', function() {
     canvas.width = window.innerWidth;
@@ -168,24 +168,23 @@ function Marble(id, x, y, color) {
     var size = 10;
     var initialVelocity = 0.2;
     var weight = 2;
-    marble.settled = false;
     marble.velocity = initialVelocity;
     marble.weight = weight;
     marble.id = id;
-    marble.bouncing = false;
+    marble.bouncingUp = false;
     marble.x = x || 0;
     marble.y = y || -size;
     marble.radius = size;
     marble.diameter = size * 2;
     marble.fall = fall;
-    marble.bounce = bounce;
+    marble.bounceUp = bounceUp;
     marble.getClosestPlatform = getClosestPlatform;
     marble.getNextX = getNextX;
     marble.getNextY = getNextY;
     marble.onMarble = onMarble;
     marble.onPlatform = onPlatform;
     marble.detectCollisions = detectCollisions;
-    marble.didCollide = didCollide;
+    marble.didCollideWithPlatform = didCollideWithPlatform;
     marble.opacity = 1;
     marble.color = color;
     marble.direction = Math.floor(Math.random() * 2) == 1 ? 1 : -1;
@@ -200,6 +199,7 @@ function Marble(id, x, y, color) {
      */
     function fall() {
         marble.getClosestPlatform();
+        marble.collision = marble.detectCollisions();
         marble.x = marble.getNextX();
         marble.y = marble.getNextY();
         draw(marble.x, marble.y);
@@ -209,38 +209,35 @@ function Marble(id, x, y, color) {
      * Bounce the marble in the air
      * @return {[type]} [description]
      */
-    function bounce() {
+    function bounceUp() {
         //turn on the bounce
-        if (!marble.bouncing) {
+        if (!marble.bouncingUp) {
             bounceSound.play();
-            marble.bouncing = true;
+            marble.bouncingUp = true;
             marble.yspeed = -marble.yspeed;
         }
 
-        var bounceComplete = Math.abs(marble.yspeed) < 1;
+        //the bounce will be complete when the marble's upward velocity has sufficiently slowed
+        var bounceUpComplete = Math.abs(marble.yspeed) < 1;
 
         //send the ball up, decreasing marble.yspeed
-        if (marble.bouncing && !bounceComplete) {
+        if (marble.bouncingUp && !bounceUpComplete) {
+
+            //depending on the marble's weight, bounce it less (decrease the velocity more rapidly)
             for (var i = 0; i < marble.weight; i++) {
                 marble.yspeed = marble.yspeed * (1 - marble.velocity);
             }
         }
 
-        //turn gravity back on
-        if (marble.bouncing && bounceComplete) {
-            marble.bouncing = false;
+        //turn gravity back on when the bounce is complete
+        if (marble.bouncingUp && bounceUpComplete) {
+            marble.bouncingUp = false;
             marble.yspeed = -marble.yspeed;
-        }
-
-        marble.settled = didSettle(marble) || marble.onMarble();
-
-        if (marble.settled) {
-            marble.bouncing = false;
         }
     }
 
     /**
-     * Tells us if the object is currently on any platform AND is not bouncing.
+     * Tells us if the object is currently on any platform AND is not bouncingUp.
      * @param  {Object} object
      * @return {Boolean}
      */
@@ -277,7 +274,7 @@ function Marble(id, x, y, color) {
      * @param  {Object} object
      * @return {Boolean}
      */
-    function didCollide() {
+    function didCollideWithPlatform() {
         var result = marble.y === marble.closestPlatform.y - marble.radius;
         return result;
     }
@@ -305,46 +302,23 @@ function Marble(id, x, y, color) {
      * @return {Number}
      */
     function getNextY() {
-        var result;
-        var collision = detectCollisions();
+        if (marble.collision) {
 
-        if (collision) {
-            marble.xspeed *= -1;
-            marble.x += marble.xspeed;
-            if (collision.settled) {
-                if (marble.y !== collision.y) {
-                    marble.collision = marble.y + (marble.bouncing ? -Math.abs(collision.y - marble.y) : Math.abs(collision.y - marble.y)) - marble.diameter;
-                }
-                marble.bounce();
-            } else {
-                if (marble.bouncing && !collision.bouncing) collision.bounce();
-                if (!marble.bouncing && collision.bouncing) marble.bounce();
-                if (!marble.bouncing && !collision.bouncing) {
-                    collision.y < marble.y ? collision.bounce() : marble.bounce();
-                }
-            }
-        } else {
-            marble.collision = null;
+            if (!marble.bouncingUp) var collisionY = marble.y + (marble.bouncingUp ? -Math.abs(marble.collision.y - marble.y) : Math.abs(marble.collision.y - marble.y)) - marble.diameter;
+            if (marble.bouncingUp && !marble.collision.bouncingUp || !marble.bouncingUp && !marble.collision.bouncingUp && marble.collision.y < marble.y) marble.collision.bounceUp();
+            if (!marble.bouncingUp && marble.collision.bouncingUp || !marble.bouncingUp && !marble.collision.bouncingUp && marble.y < marble.collision.y) marble.bounceUp();
         }
 
-        if (!marble.settled) {
-            if (marble.didCollide() || marble.bouncing) {
-                bounce();
-            } else {
-                marble.yspeed = marble.yspeed * (1 + marble.velocity);
-            }
-
-            if (marble.y + marble.yspeed >= marble.closestPlatform.y - marble.radius) {
-                return marble.closestPlatform.y - marble.radius;
-            }
-            return marble.collision || marble.y + marble.yspeed;
-
+        if (marble.didCollideWithPlatform() || marble.bouncingUp) {
+            bounceUp();
         } else {
-            marble.yspeed = 3;
-            marble.settled = marble.onMarble() || marble.onPlatform();
-            return marble.y;
+            marble.yspeed = marble.yspeed * (1 + marble.velocity);
         }
 
+        if (marble.y + marble.yspeed >= marble.closestPlatform.y - marble.radius) {
+            return marble.closestPlatform.y - marble.radius;
+        }
+        return collisionY || marble.y + marble.yspeed;
     }
 
     /**
@@ -353,12 +327,13 @@ function Marble(id, x, y, color) {
      * @return {Number}
      */
     function getNextX() {
-        if (marble.x < 0 + marble.radius || marble.x > canvas.width - marble.radius) {
+        if (marble.x < 0 + marble.radius || marble.x > canvas.width - marble.radius || marble.collision) {
             //resetMarble(marble.id)
             bounceSound.play();
             marble.direction *= -1;
             marble.xspeed *= marble.direction;
         }
+        //if (marble.onMarble()) console.log(marble.id, marble.xspeed);
         if (Math.abs(marble.xspeed) > 0.4) {
             marble.xspeed *= 0.99;
         } else {
@@ -420,10 +395,10 @@ function Marble(id, x, y, color) {
         if (debugMode) {
             ctx.beginPath();
             ctx.fillStyle = "black";
-            ctx.rect(centerX, centerY, 1, 1);
-            ctx.fill();
+            ctx.rect(centerX - marble.radius, centerY - marble.radius, marble.diameter, marble.diameter);
+            ctx.stroke();
+            ctx.fillText(marble.id, centerX - 2, centerY + 2)
             ctx.closePath();
-            ctx.fillText(marble.id, centerX, centerY)
         }
     }
 
