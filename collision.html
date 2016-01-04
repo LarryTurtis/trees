@@ -3,7 +3,7 @@
 <head>
 </head>
 
-<body style="margin: 0px;background: black">
+<body style="margin: 0px;">
     <div id="status" style="position: absolute;height:100px;width:100px;top: 50%; left: 50%;"></div>
     <canvas id="main"></canvas>
 </body>
@@ -12,7 +12,7 @@ var canvas = document.getElementById('main');
 var ctx = canvas.getContext("2d");
 var bounceSound = new Audio('kjick.wav');
 var marbles = [];
-var maxMarbles = 200;
+var maxMarbles = 20;
 var platforms = [];
 var paused = false;
 var animationSpeed = 0;
@@ -28,7 +28,7 @@ window.addEventListener('load', function() {
     addPlatforms(10);
     addBaseline();
 
-    setInterval(addMarble, 50)
+    setInterval(addMarble, 200)
 
     animate();
 
@@ -148,7 +148,6 @@ function Platform(x, y, length) {
     platform.thickness = 1;
 
     function draw() {
-        ctx.strokeStyle = "white";
         ctx.beginPath();
         ctx.lineWidth = platform.thickness;
         ctx.moveTo(platform.x, platform.y + platform.thickness / 2);
@@ -189,7 +188,8 @@ function Marble(id, x, y, color) {
     marble.opacity = 1;
     marble.color = color;
     marble.direction = Math.floor(Math.random() * 2) == 1 ? 1 : -1;
-    marble.xspeed = 3;
+    marble.xspeed = 3 * marble.direction;
+    console.log(marble.id, marble.direction, marble.xspeed);
     marble.yspeed = 3;
 
     return marble;
@@ -262,7 +262,7 @@ function Marble(id, x, y, color) {
         var isOnMarble = false;
         marbles.forEach(function(object) {
             if (marble !== object) {
-                if (Math.abs(marble.x - object.x) < marble.diameter && marble.y + marble.diameter === object.y) {
+                if (Math.abs(marble.x - object.x) <= marble.diameter && Math.abs(marble.y - object.y) <= marble.diameter) {
                     isOnMarble = true;
                 }
             }
@@ -288,7 +288,7 @@ function Marble(id, x, y, color) {
         var collision = false;
         marbles.forEach(function(object) {
             if (marble !== object) {
-                if (Math.abs(marble.y - object.y + marble.yspeed) < marble.diameter && Math.abs(marble.x - object.x) < marble.diameter) {
+                if (Math.abs(marble.y - object.y + marble.yspeed) < marble.diameter && Math.abs(marble.x - object.x + marble.xspeed) < marble.diameter) {
                     collision = object;
                 }
             }
@@ -304,8 +304,8 @@ function Marble(id, x, y, color) {
      */
     function getNextY() {
         if (marble.collision) {
+            var collisionY = marble.y + (marble.collision.bouncingUp ? -Math.abs(marble.collision.y - marble.y) + marble.diameter : Math.abs(marble.collision.y - marble.y) - marble.diameter);
 
-            if (!marble.bouncingUp) var collisionY = marble.y + (marble.bouncingUp ? -Math.abs(marble.collision.y - marble.y) : Math.abs(marble.collision.y - marble.y)) - marble.diameter;
             if (marble.bouncingUp && !marble.collision.bouncingUp || !marble.bouncingUp && !marble.collision.bouncingUp && marble.collision.y < marble.y) marble.collision.bounceUp();
             if (!marble.bouncingUp && marble.collision.bouncingUp || !marble.bouncingUp && !marble.collision.bouncingUp && marble.y < marble.collision.y) marble.bounceUp();
         }
@@ -331,11 +331,48 @@ function Marble(id, x, y, color) {
      * @return {Number}
      */
     function getNextX() {
-        if (marble.x < 0 + marble.radius || marble.x > canvas.width - marble.radius || marble.collision) {
+        var isExact = false;
+
+        if (marble.x < 0 + marble.radius || marble.x > canvas.width - marble.radius) {
             //resetMarble(marble.id)
             bounceSound.play();
             marble.direction *= -1;
-            marble.xspeed *= marble.direction;
+            marble.xspeed *= -1;
+        }
+
+        //what happens when the x is already overlapping and a Y collision occurs? The collision becomes
+        //continous and both of them are slowed by the repeated -1 / 1 action of the code below. 
+        //how can we prevent the overlap without a hurky-jerky movement? This also causes direction and speed values to be misaligned
+
+        if (marble.collision) {
+            if (marble.direction > 0) {
+                //the marble is rolling to the right
+                if (marble.collision.direction > 0) {
+                    //the marble is rolling faster than the collision and hit the left side
+                    marble.collision.xspeed = marble.xspeed;
+                } else {
+                    //the collision hit the right side of the marble
+                    marble.direction *= -1;
+                    marble.xspeed *= -1;
+                }
+            } else {
+                //the marble is rolling to the left
+                if (marble.collision.direction > 0) {
+                    //the collision hit the left side of the marble
+                    marble.direction *= -1;
+                    marble.xspeed *= -1;
+                } else {
+                    //the collision is rolling faster than the marble and hit the right side
+                    marble.xspeed = marble.collision.xspeed;
+                }
+            }
+            if (marble.onMarble() && Math.abs(marble.xspeed) < 1) {
+                if (marble.x > marble.collision.x) {
+                    marble.x++
+                } else {
+                    marble.x--
+                } 
+            }
         }
         //if (marble.onMarble()) console.log(marble.id, marble.xspeed);
         if (Math.abs(marble.xspeed) > 0.4) {
