@@ -120,14 +120,16 @@ function animate() {
     if (advanceTimer()) {
         clearCanvas();
 
+        //draw all platforms
+        for (var i = 0; i < platforms.length; i++) {
+            platforms[i].draw();
+        }
         //draw all marbles
         for (var i = 0; i < marbles.length; i++) {
             marbles[i].fall();
         }
-
-        //draw all platforms
-        for (var i = 0; i < platforms.length; i++) {
-            platforms[i].draw();
+        for (var i = 0; i < marbles.length; i++) {
+            marbles[i].collision = marbles[i].detectCollisions();
         }
     }
 }
@@ -189,7 +191,6 @@ function Marble(id, x, y, color) {
     marble.color = color;
     marble.direction = Math.floor(Math.random() * 2) == 1 ? 1 : -1;
     marble.xspeed = 3 * marble.direction;
-    console.log(marble.id, marble.direction, marble.xspeed);
     marble.yspeed = 3;
 
     return marble;
@@ -200,7 +201,6 @@ function Marble(id, x, y, color) {
      */
     function fall() {
         marble.getClosestPlatform();
-        marble.collision = marble.detectCollisions();
         marble.x = marble.getNextX();
         marble.y = marble.getNextY();
         draw(marble.x, marble.y);
@@ -319,9 +319,6 @@ function Marble(id, x, y, color) {
         if (marble.y + marble.yspeed >= marble.closestPlatform.y - marble.radius) {
             return marble.closestPlatform.y - marble.radius;
         }
-        if (Math.abs(marble.collision.y - marble.y) < marble.diameter) {
-            return marble.y;
-        }
         return collisionY || marble.y + marble.yspeed;
     }
 
@@ -371,7 +368,7 @@ function Marble(id, x, y, color) {
                     marble.x++
                 } else {
                     marble.x--
-                } 
+                }
             }
         }
         //if (marble.onMarble()) console.log(marble.id, marble.xspeed);
