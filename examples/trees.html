@@ -1,0 +1,128 @@
+<!doctype html>
+
+<head>
+</head>
+
+<body style="margin: 0px;">
+    <canvas id="main"></canvas>
+</body>
+<script>
+var centerX;
+var centerY;
+var canvas = document.getElementById('main');
+var ctx = canvas.getContext("2d");
+var add = 1;
+var height = 10;
+var width = 10;
+var triangles = [];
+var numberOfTriangles = 500;
+var landed = 0;
+
+window.addEventListener('load', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    centerX = canvas.width / 2;
+    centerY = canvas.height;
+
+    for (var i = 0; i < numberOfTriangles; i++) {
+        triangles.push(new Triangle(i, Math.floor(Math.random() * canvas.width) + 1))
+    }
+
+    // setInterval(function() {
+    //     triangles.push(new Triangle(triangles.length + 1, Math.floor(Math.random() * canvas.width) + 1));
+    // }, 1000)
+
+    animate();
+
+}, false);
+
+// document.addEventListener('mousemove', function(e) {
+//     mousey = e.clientY || centerY;
+// })
+
+function animate() {
+    if (centerY > 0) requestAnimationFrame(animate);
+    ctx.lineWidth = "1px"
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < triangles.length; i++) {
+        triangles[i].fall();
+    }
+    if (landed > 1) {
+        centerY--;
+        landed = 0;
+    }
+    drawBaseLine();
+}
+
+function Triangle(id, x, y) {
+    var speed = Math.random() * 3 + 1;
+    var colorArray = [0, 0, 0];
+    var triangle = this;
+    var colorIndex1 = Math.floor(Math.random() * 3);
+    var colorIndex2 = Math.floor(Math.random() * 3);
+    var size = Math.floor(Math.random() * 5) + 10;
+    var baseline = centerY - triangle.h - 1;
+    var counter = 0;
+    triangle.id = id;
+    triangle.x = x || 0;
+    triangle.y = y || -size;
+    triangle.w = size;
+    triangle.h = size;
+    triangle.fall = fall;
+    triangle.opacity = 2;
+    triangle.setColor = setColor;
+    triangle.color = null;
+
+    return triangle;
+
+    function fall() {
+        baseline = centerY - triangle.h - 1;
+        if (triangle.y < baseline) {
+            triangle.y += speed;
+            setColor();
+            draw(triangle.x, triangle.y);
+        } else {
+            if (triangle.opacity > 0) {
+                triangle.opacity -= 0.1;
+                setColor();
+                draw(triangle.x, baseline);
+            } else {
+                triangles[triangle.id] = new Triangle(triangle.id, Math.floor(Math.random() * canvas.width) + 1);
+                landed++;
+            }
+        }
+    }
+
+    function setColor() {
+        if (triangle.h !== baseline) {
+            colorArray[0] += Math.floor(speed);
+            //if (colorIndex1 !== colorIndex2) colorArray[colorIndex2] += Math.floor(speed);
+        }
+        triangle.color = "rgba(" + colorArray.join(',') + "," + triangle.opacity + ")";
+    }
+
+
+    function draw(offsetX, offsetY) {
+        ctx.beginPath();
+        ctx.fillStyle = triangle.color;
+        ctx.moveTo(offsetX, offsetY)
+        ctx.lineTo(offsetX - triangle.w / 2, offsetY + triangle.h)
+        ctx.lineTo(offsetX + triangle.w / 2, offsetY + triangle.h)
+        ctx.lineTo(offsetX, offsetY)
+        ctx.fill();
+        ctx.closePath();
+    }
+
+}
+
+function drawBaseLine() {
+    ctx.beginPath();
+    ctx.moveTo(0, centerY);
+    ctx.lineTo(canvas.width, centerY);
+    ctx.closePath();
+    //ctx.stroke();
+}
+</script>
+
+</html>
