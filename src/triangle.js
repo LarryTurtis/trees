@@ -5,7 +5,6 @@ class Triangle extends Sprite {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
         super(x, y, size);
-        this.color = "red";
     }
 
     draw(ctx) {

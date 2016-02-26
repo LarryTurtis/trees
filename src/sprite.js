@@ -1,17 +1,34 @@
 class Sprite {
     constructor(x, y, size) {
-        this.x = x || 0;
-        this.y = y || -size;
+        this.centerX = x || 0;
+        this.centerY = y || -size;
+        this.size = size;
         this.w = size;
         this.h = size;
-        this.color = "#000000";
-        this.lineWidth = 1;
-        this.strokeStyle = "#000000";
-        this.showBoundingBox = true;
+        this.x = this.centerX - (size / 2);
+        this.y = this.centerY - (size / 2);
+        this.lineWidth = 2;
+    }
+
+    resize(size) {
+        this.size = size;
+        this.w = size;
+        this.h = size;
+        this.x = this.centerX - (size / 2);
+        this.y = this.centerY - (size / 2);
+    }
+
+    moveInCircle(deg, size) {
+        this.x = this.centerX + Math.sin(deg)*size;
+        this.y = this.centerY + Math.cos(deg)*size;
     }
 
     setColor(color) {
         this.color = color;
+    }
+
+    setBoundingBox(value) {
+        this.showBoundingBox = value;
     }
 
     setStrokeSize(size) {
@@ -23,7 +40,7 @@ class Sprite {
     }
 
     draw(ctx) {
-        if (this.showBoundingBox) {
+        if (true) {
             ctx.beginPath();
             ctx.strokeStyle = this.strokeStyle;
             ctx.lineWidth = this.lineWidth;
