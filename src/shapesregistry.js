@@ -9,15 +9,17 @@ var shapesRegistry = {
 }
 
 function setCanvas(object) {
-	canvas = object;
+    canvas = object;
 }
 
 function getCanvas() {
-	return canvas;
+    return canvas;
 }
 
 function addShape(shape) {
-    shapes.push(shape);
+    if (shapes.length < 25) {
+        shapes.push(shape);
+    }
     return shapes;
 }
 

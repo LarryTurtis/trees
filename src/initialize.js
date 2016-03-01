@@ -1,10 +1,10 @@
 import { Canvas } from './canvas.js';
-import { Triangle } from './triangle.js';
+import { Cloud } from './cloud.js';
 import { shapesRegistry } from './shapesregistry.js'
 import { animate } from './animate.js';
 
 function initialize() {
-	var shape;
+    var shape;
     window.addEventListener('load', function() {
         var canvas = new Canvas();
 
@@ -12,16 +12,16 @@ function initialize() {
         canvas.setHeight(window.innerHeight);
 
         shapesRegistry.setCanvas(canvas);
+        setInterval(() => {
+            var shape = new Cloud(-50, 25, 50)
+            shapesRegistry.addShape(shape);
+            shape.setColor("white");
+        }, 400);
 
-        shape = new Triangle(canvas.centerX, canvas.centerY, 50);
-        shape.setColor("green");
-        shape.setStrokeColor("orange");
-        shapesRegistry.addShape(shape);
-        var size = 1;
         var callback = function() {
-           size += .01;
-           //shape.resize(size);
-           shape.rotate(size, 200);
+            shapesRegistry.getShapes().forEach(shape => { 
+              shape.x += 1;
+            });
         }
 
         animate(callback);

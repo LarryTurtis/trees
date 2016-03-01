@@ -1,7 +1,7 @@
 import { Sprite } from './sprite.js'
 
 
-class Triangle extends Sprite {
+class Cloud extends Sprite {
     constructor(centerX, centerY, size) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
@@ -10,35 +10,19 @@ class Triangle extends Sprite {
 
     draw(ctx) {
 
-        var a = {
-            x: this.x,
-            y: this.y + this.h
-        };
-
-        var b = {
-            x: this.x + this.w / 2,
-            y: this.y
-        };
-
-        var c = {
-            x: this.x + this.w,
-            y: this.y + this.h
-        };
-
         ctx.lineWidth = this.lineWidth;
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.moveTo(a.x, a.y)
-        ctx.lineTo(b.x, b.y)
-        ctx.lineTo(c.x, c.y)
-        ctx.lineTo(a.x, a.y)
+        ctx.moveTo(this.x, this.y);
+        ctx.bezierCurveTo(this.x + 10, this.x + 20, this.x + 200, this.x + 100,this.x,this.y);
         ctx.fill();
+        ctx.stroke();
         ctx.closePath();
         super.draw(ctx);
     }
 
 }
 
-export { Triangle }
+export { Cloud }
 
 
