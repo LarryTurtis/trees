@@ -1,36 +1,31 @@
-var shapes = [];
-var canvas = null;
-var shapesRegistry = {
-    addShape: addShape,
-    removeShape: removeShape,
-    getShapes: getShapes,
-    setCanvas: setCanvas,
-    getCanvas: getCanvas
-}
+let instance = null;
 
-function setCanvas(object) {
-    canvas = object;
-}
+class ShapesRegistry {
+    constructor(canvas) {
+        if (!instance) {
+            instance = this;
+        }
 
-function getCanvas() {
-    return canvas;
-}
+        this._shapes = [];
 
-function addShape(shape) {
-    if (shapes.length < 25) {
-        shapes.push(shape);
+        return instance;
     }
-    return shapes;
+
+    get shapes() {
+        return this._shapes;
+    }
+
+    addShape(shape) {
+        if (this._shapes.length < 25) {
+            this._shapes.push(shape);
+        }
+    }
+
+    removeShape(shape) {
+        this._shapes.splice(this._shapes.indexOf(shape), 1);
+    }
+
 }
 
-function removeShape(shape) {
-    shapes.splice(shapes.indexOf(shape), 1);
-    return shapes
-}
 
-function getShapes() {
-    return shapes;
-}
-
-
-export { shapesRegistry }
+export { ShapesRegistry }

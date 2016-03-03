@@ -1,9 +1,14 @@
+import { ShapesRegistry } from './shapesregistry.js'
+
+let shapesRegistry = new ShapesRegistry();
+let shapes = shapesRegistry.shapes;
+
 class Canvas {
     constructor() {
-       this.element = document.getElementById('main');
-       this.ctx = this.element.getContext("2d");
-       this.centerX = this.element.width / 2;
-       this.centerY = this.element.height /2;
+        this.element = document.getElementById('main');
+        this.ctx = this.element.getContext("2d");
+        this.centerX = this.element.width / 2;
+        this.centerY = this.element.height / 2;
     }
 
     setWidth(width) {
@@ -15,6 +20,32 @@ class Canvas {
         this.element.height = height;
         this.centerY = height / 2;
     }
+
+    removeOffScreenObjects() {
+        if (shapes[shapes.length - 1].x > this.element.width) {
+            shapesRegistry.removeShape(shapes[shapes.length - 1]);
+        }
+        if (shapes[shapes.length - 1].y > this.element.height) {
+            shapesRegistry.removeShape(shapes[shapes.length - 1]);
+        }
+    }
+
+    animate(callback) {
+        if (shapes.length) {
+          this.removeOffScreenObjects();
+          this.ctx.clearRect(0, 0, this.element.width, this.element.height);
+          callback();
+          shapes.forEach(shape => {
+              shape.draw(this.ctx);
+          });
+        }
+
+        requestAnimationFrame(() => {
+            this.animate(callback);
+        });
+    }
+
+
 };
 
 export { Canvas }

@@ -1,17 +1,16 @@
 import { Canvas } from './canvas.js';
 import { Cloud } from './cloud.js';
-import { shapesRegistry } from './shapesregistry.js'
-import { animate } from './animate.js';
+import { ShapesRegistry } from './shapesregistry.js'
 
 function initialize() {
     var shape;
+    let shapesRegistry = new ShapesRegistry();
     window.addEventListener('load', function() {
         var canvas = new Canvas();
 
         canvas.setWidth(window.innerWidth);
         canvas.setHeight(window.innerHeight);
 
-        shapesRegistry.setCanvas(canvas);
         setInterval(() => {
             var shape = new Cloud(-50, 25, 50)
             shapesRegistry.addShape(shape);
@@ -19,12 +18,12 @@ function initialize() {
         }, 400);
 
         var callback = function() {
-            shapesRegistry.getShapes().forEach(shape => { 
+            shapesRegistry.shapes.forEach(shape => { 
               shape.x += 1;
             });
         }
 
-        animate(callback);
+        canvas.animate(callback);
 
     }, false);
 
