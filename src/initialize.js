@@ -20,12 +20,13 @@ function initialize() {
         shape.lineColor = "black"
             //}, 400);
         let size = 1;
-
+        let gravity = 1;
         var callback = function() {
             shapesRegistry.shapes.forEach(shape => {
-                size *= 0.99;
                 shape.w += size;
-                shape.gravity += 2;
+                shape.gravity += gravity;
+                size *= 0.99;
+                gravity *= gravity < 30 ? 1.10 : 1;
             });
         }
 

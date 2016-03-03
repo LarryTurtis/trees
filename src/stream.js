@@ -81,12 +81,13 @@ class Stream extends Sprite {
         ctx.beginPath();
         ctx.curve(curve.top);
         ctx.lineTo(curve.left.end.x, curve.left.end.y)
-        //ctx.curve(curve.left);
+            //ctx.curve(curve.left);
         ctx.curve(curve.bottom);
         ctx.curve(curve.right);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
+
 
         // [curve.top, curve.left, curve.bottom].forEach(point => {
         //     ctx.beginPath();
