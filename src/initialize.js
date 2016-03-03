@@ -14,10 +14,10 @@ function initialize() {
         canvas.setHeight(window.innerHeight);
 
         //setInterval(() => {
-        let shape = new Stream(100, 100, 50, 50)
+        let shape = new Stream(0, 100, 0, 25)
         shapesRegistry.addShape(shape);
         shape.color = "white";
-        shape.lineColor = "green"
+        shape.lineColor = "black"
             //}, 400);
         let size = 1;
 
@@ -25,7 +25,7 @@ function initialize() {
             shapesRegistry.shapes.forEach(shape => {
                 size *= 0.99;
                 shape.w += size;
-                shape.gravity += 1;
+                shape.gravity += 2;
             });
         }
 
