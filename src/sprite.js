@@ -1,22 +1,22 @@
 class Sprite {
-    constructor(centerX, centerY, size) {
+    constructor(centerX, centerY, width, height) {
         this.centerX = centerX;
         this.centerY = centerY;
-        this.size = size;
-        this.w = size;
-        this.h = size;
-        this.x = this.centerX - (size / 2);
-        this.y = this.centerY - (size / 2);
-        this.lineWidth = 2;
-        this.showBoundingBox = false;
+        this.w = width;
+        this.h = height || width;
+        this.x = this.centerX - (width / 2);
+        this.y = this.centerY - (height / 2);
+        this._lineWidth = 2;
+        this._showBoundingBox = true;
+        this._color = "black";
+        this._lineColor = "black"
     }
 
-    resize(size) {
-        this.size = size;
-        this.w = size;
-        this.h = size;
-        this.x = this.centerX - (size / 2);
-        this.y = this.centerY - (size / 2);
+    resize(width, height) {
+        this.w = width;
+        this.h = height;
+        this.x = this.centerX - (width / 2);
+        this.y = this.centerY - (height / 2);
     }
 
     moveInCircle(deg, size) {
@@ -24,31 +24,53 @@ class Sprite {
         this.y = this.centerY + Math.cos(deg) * size;
     }
 
-    setColor(color) {
-        this.color = color;
+    set showBoundingBox(bool) {
+        this._showBoundingBox = bool;
     }
 
-    setBoundingBox(value) {
-        this.showBoundingBox = value;
+    get showBoundingBox() {
+        return this._showBoundingBox;
     }
 
-    setStrokeSize(size) {
-        this.lineWidth = size;
+    set color(color) {
+        this._color = color;
     }
 
-    setStrokeColor(color) {
-        this.strokeStyle = color;
+    get color() {
+        return this._color;
     }
+
+    set lineColor(color) {
+        this._lineColor = color
+    }
+
+    get lineColor() {
+        return this._lineColor;
+    }
+
+    set lineWidth(width) {
+        this._lineWidth = width
+    }
+
+    get lineWidth() {
+        return this._lineWidth;
+    }
+
 
     draw(ctx) {
-        if (this.showBoundingBox) {
+        if (this._showBoundingBox) {
             ctx.beginPath();
-            ctx.strokeStyle = this.strokeStyle;
-            ctx.lineWidth = this.lineWidth;
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "none";
+            ctx.lineWidth = "2px";
+            ctx.rect(this.x, this.y, 5, 5);
             ctx.rect(this.x, this.y, this.w, this.h)
             ctx.stroke();
             ctx.closePath();
         }
+        ctx.fillStyle = this._color;
+        ctx.strokeStyle = this._lineColor;
+        ctx.lineWidth = this._lineWidth;
     }
 }
 export { Sprite }

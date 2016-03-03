@@ -1,25 +1,31 @@
 import { Canvas } from './canvas.js';
-import { Cloud } from './cloud.js';
+import { Stream } from './stream.js';
 import { ShapesRegistry } from './shapesregistry.js'
 
 function initialize() {
-    var shape;
+
     let shapesRegistry = new ShapesRegistry();
+
     window.addEventListener('load', function() {
-        var canvas = new Canvas();
+
+        let canvas = new Canvas();
 
         canvas.setWidth(window.innerWidth);
         canvas.setHeight(window.innerHeight);
 
-        setInterval(() => {
-            var shape = new Cloud(-50, 25, 50)
-            shapesRegistry.addShape(shape);
-            shape.setColor("white");
-        }, 400);
+        //setInterval(() => {
+        let shape = new Stream(100, 100, 50, 50)
+        shapesRegistry.addShape(shape);
+        shape.color = "white";
+        shape.lineColor = "green"
+            //}, 400);
+        let size = 1;
 
         var callback = function() {
-            shapesRegistry.shapes.forEach(shape => { 
-              shape.x += 1;
+            shapesRegistry.shapes.forEach(shape => {
+                size *= 0.99;
+                shape.w += size;
+                shape.gravity += 1;
             });
         }
 
