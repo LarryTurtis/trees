@@ -23,10 +23,12 @@ function initialize() {
         let gravity = 1;
         var callback = function() {
             shapesRegistry.shapes.forEach(shape => {
-                shape.w += size;
-                shape.gravity += gravity;
-                size *= 0.99;
-                gravity *= gravity < 30 ? 1.10 : 1;
+                if (gravity < 50) {
+                    shape.w += size;
+                    shape.gravity += gravity;
+                    size *= 0.99;
+                    gravity *= 1.10;
+                }
             });
         }
 

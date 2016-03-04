@@ -11,6 +11,8 @@ class Stream extends Sprite {
     applyGravity(curve) {
         curve.top.end.y += this.gravity;
         curve.left.end.y += this.gravity;
+        curve.left.cp1.y += this.gravity;
+        curve.left.cp2.y += this.gravity;
         //curve.bottom.cp1.y += this.gravity;
         //curve.bottom.end.y += this.gravity / 2;
         //curve.top.cp2.x = this.x + this.w;
@@ -80,8 +82,7 @@ class Stream extends Sprite {
         ctx.moveTo(this.x, this.y)
         ctx.beginPath();
         ctx.curve(curve.top);
-        ctx.lineTo(curve.left.end.x, curve.left.end.y)
-            //ctx.curve(curve.left);
+        ctx.curve(curve.left);
         ctx.curve(curve.bottom);
         ctx.curve(curve.right);
         ctx.closePath();
@@ -89,23 +90,23 @@ class Stream extends Sprite {
         ctx.stroke();
 
 
-        // [curve.top, curve.left, curve.bottom].forEach(point => {
-        //     ctx.beginPath();
-        //     ctx.fillStyle = "red";
-        //     ctx.rect(point.cp1.x, point.cp1.y, 10, 10);
-        //     ctx.fill();
-        //     ctx.closePath();
-        //     ctx.beginPath();
-        //     ctx.fillStyle = "blue";
-        //     ctx.rect(point.cp2.x, point.cp2.y, 10, 10);
-        //     ctx.fill();
-        //     ctx.closePath();
-        //     ctx.beginPath();
-        //     ctx.fillStyle = "yellow";
-        //     ctx.rect(point.end.x, point.end.y, 10, 10);
-        //     ctx.fill();
-        //     ctx.closePath();
-        // })
+        [curve.top, curve.left, curve.bottom].forEach(point => {
+            ctx.beginPath();
+            ctx.fillStyle = "red";
+            ctx.rect(point.cp1.x, point.cp1.y, 10, 10);
+            ctx.fill();
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.fillStyle = "blue";
+            ctx.rect(point.cp2.x, point.cp2.y, 10, 10);
+            ctx.fill();
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.fillStyle = "yellow";
+            ctx.rect(point.end.x, point.end.y, 10, 10);
+            ctx.fill();
+            ctx.closePath();
+        })
 
     }
 
