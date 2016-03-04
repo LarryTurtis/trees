@@ -1,27 +1,79 @@
+import { Point } from './point.js'
+
 class Sprite {
     constructor(centerX, centerY, width, height) {
-        this.centerX = centerX;
-        this.centerY = centerY;
-        this.w = width;
-        this.h = height || width;
-        this.x = this.centerX - (width / 2);
-        this.y = this.centerY - (height / 2);
+        this._center = new Point(centerX, centerY);
+        this._width = width;
+        this._height = height || width;
+
+        let x = centerX - (width / 2);
+        let y = centerY - (height / 2);
+
+        this._a = new Point(x, y);
+        this._b = new Point(x + width, y)
+        this._c = new Point(x + width, y + height);
+        this._d = new Point(x, y + height);
         this._lineWidth = 2;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "black";
-        this._lineColor = "black"
+        this._lineColor = "black";
+
     }
 
-    resize(width, height) {
-        this.w = width;
-        this.h = height;
-        this.x = this.centerX - (width / 2);
-        this.y = this.centerY - (height / 2);
+    set a(obj) {
+        this._a.x = obj.x;
+        this._a.y = obj.y;
     }
 
-    moveInCircle(deg, size) {
-        this.x = this.centerX + Math.sin(deg) * size;
-        this.y = this.centerY + Math.cos(deg) * size;
+    get a() {
+        return this._a;
+    }
+
+    set b(obj) {
+        this._b.x = obj.x;
+        this._b.y = obj.y;
+    }
+
+    get b() {
+        return this._b;
+    }
+
+    set c(obj) {
+        this._c.x = obj.x;
+        this._c.y = obj.y;
+    }
+
+    get c() {
+        return this._c;
+    }
+
+    set d(obj) {
+        this._d.x = obj.x;
+        this._d.y = obj.y;
+    }
+
+    get d() {
+        return this._d;
+    }
+
+    get width() {
+        return this._width;
+    }
+
+    get height() {
+        return this._height;
+    }
+
+    set width(width) {
+        this._width = width;
+        this._b.x = width;
+        this._c.x = width;
+    }
+
+    set height(height) {
+        this._height = height;
+        this._c.y = height;
+        this._d.y = height;
     }
 
     set showBoundingBox(bool) {
@@ -58,13 +110,20 @@ class Sprite {
 
 
     draw(ctx) {
+
+        let rect = {
+            a: this.a,
+            b: this.b,
+            c: this.c,
+            d: this.d
+        }
+
         if (this._showBoundingBox) {
-            ctx.beginPath();
             ctx.strokeStyle = "black";
             ctx.fillStyle = "none";
-            ctx.lineWidth = "2px";
-            ctx.rect(this.x, this.y, 5, 5);
-            ctx.rect(this.x, this.y, this.w, this.h)
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.yRect(rect);
             ctx.stroke();
             ctx.closePath();
         }

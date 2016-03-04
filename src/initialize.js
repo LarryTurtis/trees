@@ -1,5 +1,6 @@
 import { Canvas } from './canvas.js';
 import { Stream } from './stream.js';
+import { Spurt } from './spurt.js';
 import { ShapesRegistry } from './shapesregistry.js'
 
 function initialize() {
@@ -10,26 +11,23 @@ function initialize() {
 
         let canvas = new Canvas();
 
-        canvas.setWidth(window.innerWidth);
-        canvas.setHeight(window.innerHeight);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        //setInterval(() => {
-        let shape = new Stream(0, 100, 0, 25)
+        let shape = new Stream(0, 0, 0, 0)
         shapesRegistry.addShape(shape);
-        shape.color = "white";
-        shape.lineColor = "black"
-            //}, 400);
-        let size = 1;
-        let gravity = 1;
+        shape.lineColor = "white";
+        shape.lineWidth = 31;
+
+        shape.size = 1;
+        shape.gravity = 1;
         var callback = function() {
-            shapesRegistry.shapes.forEach(shape => {
-                if (gravity < 50) {
-                    shape.w += size;
-                    shape.gravity += gravity;
-                    size *= 0.99;
-                    gravity *= 1.10;
-                }
-            });
+            if (!shape.hitBottom) {
+
+                shape.size *= 0.995
+                shape.gravity *= 1.01;
+
+            } 
         }
 
         canvas.animate(callback);
