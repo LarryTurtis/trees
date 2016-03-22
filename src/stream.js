@@ -1,7 +1,6 @@
 import { Point } from './point.js'
 import { Sprite } from './sprite.js'
 import { Curve } from './curve.js'
-import { CollisionRegistry } from './collisionRegistry.js'
 import { Collision } from './collision.js'
 
 class Stream extends Sprite {
@@ -19,7 +18,6 @@ class Stream extends Sprite {
         let end = new Point(x + width, y);
 
         this.curves = [new Curve(cp1, cp2, end)];
-        this.collisionRegistry = new CollisionRegistry();
 
         // var left = new Collision(0,0,0,782);
         // var right = new Collision(1800,1800,0,782);
@@ -45,40 +43,35 @@ class Stream extends Sprite {
         super.draw(ctx);
         ctx.yMove(this.a)
         ctx.beginPath();
-        this.curves.forEach(function(curve) {
+        this.curves.forEach(curve => {
 
-            stream.collisionRegistry.collisions.forEach(function(collision) {
+            if (!stream.hasCollisions) {
 
-                collision.test(stream.c.x, stream.d.y);
+                stream.applyGravity(curve);
+                ctx.curve(curve);
+                ctx.stroke();
+                //ctx.closePath();
 
-                if (collision.resolved) {
+                ctx.beginPath();
+                ctx.fillStyle = "red";
+                ctx.rect(curve.cp1.x, curve.cp1.y, 10, 10);
+                ctx.fill();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.fillStyle = "blue";
+                ctx.rect(curve.cp2.x, curve.cp2.y, 10, 10);
+                ctx.fill();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.fillStyle = "yellow";
+                ctx.rect(curve.end.x, curve.end.y, 10, 10);
+                ctx.fill();
+                ctx.closePath();
 
-                    stream.applyGravity(curve);
-                    ctx.curve(curve);
-                    ctx.stroke();
-                    //ctx.closePath();
-
-                    ctx.beginPath();
-                    ctx.fillStyle = "red";
-                    ctx.rect(curve.cp1.x, curve.cp1.y, 10, 10);
-                    ctx.fill();
-                    ctx.closePath();
-                    ctx.beginPath();
-                    ctx.fillStyle = "blue";
-                    ctx.rect(curve.cp2.x, curve.cp2.y, 10, 10);
-                    ctx.fill();
-                    ctx.closePath();
-                    ctx.beginPath();
-                    ctx.fillStyle = "yellow";
-                    ctx.rect(curve.end.x, curve.end.y, 10, 10);
-                    ctx.fill();
-                    ctx.closePath();
-
-                }
-
-            });
+            }
 
         });
+
     }
 
 }

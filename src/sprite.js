@@ -1,4 +1,5 @@
 import { Point } from './point.js'
+import { CollisionRegistry } from './collisionRegistry.js'
 
 class Sprite {
     constructor(centerX, centerY, width, height) {
@@ -17,6 +18,8 @@ class Sprite {
         this._showBoundingBox = true;
         this._color = "black";
         this._lineColor = "black";
+        this.collisionRegistry = new CollisionRegistry();
+        this._hasCollisions = false;
 
     }
 
@@ -64,16 +67,22 @@ class Sprite {
         return this._height;
     }
 
+    get hasCollisions() {
+        return this._hasCollisions;
+    }
+
     set width(width) {
         this._width = width;
         this._b.x = width;
         this._c.x = width;
+        this.collisionRegistry.collisions.forEach(collision => this._hasCollisions = this._hasCollisions || collision.test(this._width, this.height));
     }
 
     set height(height) {
         this._height = height;
         this._c.y = height;
         this._d.y = height;
+        this.collisionRegistry.collisions.forEach(collision => this._hasCollisions = this._hasCollisions || collision.test(this._width, this.height));
     }
 
     set showBoundingBox(bool) {
