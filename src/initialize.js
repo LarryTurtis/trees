@@ -23,11 +23,9 @@ function initialize() {
         shape.gravity = 1;
         var callback = function() {
             if (!shape.hitBottom) {
-
                 shape.size *= 0.995
                 shape.gravity *= 1.01;
-
-            } 
+            }
         }
 
         canvas.animate(callback);

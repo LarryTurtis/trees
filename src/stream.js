@@ -1,6 +1,8 @@
 import { Point } from './point.js'
 import { Sprite } from './sprite.js'
 import { Curve } from './curve.js'
+import { CollisionRegistry } from './collisionRegistry.js'
+import { Collision } from './collision.js'
 
 class Stream extends Sprite {
     constructor(centerX, centerY, width, height) {
@@ -16,49 +18,67 @@ class Stream extends Sprite {
         let cp2 = new Point(x + width, y);
         let end = new Point(x + width, y);
 
-        this._curve = new Curve(cp1, cp2, end);
+        this.curves = [new Curve(cp1, cp2, end)];
+        this.collisionRegistry = new CollisionRegistry();
+
+        // var left = new Collision(0,0,0,782);
+        // var right = new Collision(1800,1800,0,782);
+        // var top = new Collision(0,1800,0,0);
+        var bottom = new Collision(0, 1800, 782, 782);
+
+        // this.collisionRegistry.addCollision(left);
+        // this.collisionRegistry.addCollision(right);
+        // this.collisionRegistry.addCollision(top);
+        this.collisionRegistry.addCollision(bottom);
     }
 
-    applyGravity() {
+    applyGravity(curve) {
         this.height += this.gravity;
-        this.curve.end.y = this.height;
+        curve.end.y = this.height;
         this.width += this.size;
-        this.curve.end.x = this.width;
-        this.curve.cp2.x = this.width;
-        if (this.curve.end.y > 782) {
-            this.hitBottom = true;
-        }
-    }
-
-    get curve() {
-        return this._curve;
+        curve.end.x = this.width;
+        curve.cp2.x = this.width;
     }
 
     draw(ctx) {
+        var stream = this;
         super.draw(ctx);
-        this.applyGravity();
         ctx.yMove(this.a)
         ctx.beginPath();
-        ctx.curve(this.curve);
-        ctx.stroke();
-        //ctx.closePath();
+        this.curves.forEach(function(curve) {
 
-        ctx.beginPath();
-        ctx.fillStyle = "red";
-        ctx.rect(this.curve.cp1.x, this.curve.cp1.y, 10, 10);
-        ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
-        ctx.fillStyle = "blue";
-        ctx.rect(this.curve.cp2.x, this.curve.cp2.y, 10, 10);
-        ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
-        ctx.fillStyle = "yellow";
-        ctx.rect(this.curve.end.x, this.curve.end.y, 10, 10);
-        ctx.fill();
-        ctx.closePath();
+            stream.collisionRegistry.collisions.forEach(function(collision) {
 
+                collision.test(stream.c.x, stream.d.y);
+
+                if (collision.resolved) {
+
+                    stream.applyGravity(curve);
+                    ctx.curve(curve);
+                    ctx.stroke();
+                    //ctx.closePath();
+
+                    ctx.beginPath();
+                    ctx.fillStyle = "red";
+                    ctx.rect(curve.cp1.x, curve.cp1.y, 10, 10);
+                    ctx.fill();
+                    ctx.closePath();
+                    ctx.beginPath();
+                    ctx.fillStyle = "blue";
+                    ctx.rect(curve.cp2.x, curve.cp2.y, 10, 10);
+                    ctx.fill();
+                    ctx.closePath();
+                    ctx.beginPath();
+                    ctx.fillStyle = "yellow";
+                    ctx.rect(curve.end.x, curve.end.y, 10, 10);
+                    ctx.fill();
+                    ctx.closePath();
+
+                }
+
+            });
+
+        });
     }
 
 }
