@@ -8,6 +8,9 @@ class Collision {
     }
 
     test(x, y, width, height) {
+        if (!this.resolved) {
+            return true;
+        }
         if (x < this._x + this._width &&
             x + width > this._x &&
             y < this._y + this._height &&

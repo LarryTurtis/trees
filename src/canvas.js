@@ -6,7 +6,7 @@ CanvasRenderingContext2D.prototype.curve = function(points) {
     this.bezierCurveTo(points.cp1.x, points.cp1.y, points.cp2.x, points.cp2.y, points.end.x, points.end.y);
 };
 
-CanvasRenderingContext2D.prototype.yLine = function(a,b) {
+CanvasRenderingContext2D.prototype.yLine = function(a, b) {
     this.moveTo(a.x, a.y);
     this.lineTo(b.x, b.y);
 };

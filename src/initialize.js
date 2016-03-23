@@ -1,5 +1,5 @@
 import { Canvas } from './canvas.js';
-import { Stream } from './stream.js';
+import { Marble } from './marble.js';
 import { Platform } from './platform.js';
 import { Spurt } from './spurt.js';
 import { ShapesRegistry } from './shapesregistry.js'
@@ -15,27 +15,26 @@ function initialize() {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let stream = new Stream(0, 0, 0, 0);
+        let marble = new Marble(0, 0, 10, 10);
         let platform = new Platform(0, 300, 300, 5);
 
-        shapesRegistry.addShape(stream);
+        shapesRegistry.addShape(marble);
         shapesRegistry.addShape(platform);
 
-        stream.collisionRegistry.addCollision(platform)
-        stream.lineColor = "black";
-        stream.lineWidth = 5;
-        
+        marble.collisionRegistry.addCollision(platform)
+        marble.lineColor = "black";
+        marble.lineWidth = 1;
+
         var callback = function() {
-            // stream.size *= 0.995
-            // stream.gravity *= 1.01;
-            stream.collisionRegistry.collisions.forEach(collision => {
-                if (!collision.resolved) {
-                    collision.resolved = true;
-                    let newStream = new Stream(stream.c.x, stream.c.y, stream.c.x, stream.c.y);
-                    newStream.lineWidth = 5;
-                    shapesRegistry.addShape(newStream);
-                }
-            });
+            marble.size *= 0.995
+            marble.gravity *= 1.01;
+            if (marble.hasCollisions) {
+                marble.collisionRegistry.collisions.forEach(collision => {
+                    marble.collisionRegistry.removeCollision(collision);
+                    //marble.y = platform.y - marble.height;
+                });
+            }
+
 
         }
 

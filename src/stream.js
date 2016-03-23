@@ -1,7 +1,6 @@
 import { Point } from './point.js'
 import { Sprite } from './sprite.js'
 import { Curve } from './curve.js'
-import { Collision } from './collision.js'
 
 class Stream extends Sprite {
     constructor(x, y, width, height) {

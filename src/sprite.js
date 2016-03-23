@@ -22,10 +22,26 @@ class Sprite {
 
     set x(x) {
         this._x = x;
+        this._a.x = x;
+        this._b.x = x + this._width;
+        this._c.x = x + this._width;
+        this._d.x = x;
+        this._hasCollisions = false;
+        this.collisionRegistry.collisions.forEach(collision => {
+            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
+        });
     }
 
     set y(y) {
         this._y = y;
+        this._a.y = y;
+        this._b.y = y;
+        this._c.y = y + this._height;
+        this._d.y = y + this._height;
+        this._hasCollisions = false;
+        this.collisionRegistry.collisions.forEach(collision => {
+            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
+        });
     }
 
     get x() {
@@ -86,8 +102,8 @@ class Sprite {
 
     set width(width) {
         this._width = width;
-        this._b.x = width;
-        this._c.x = width;
+        this._b.x = this._x + width;
+        this._c.x = this._x + width;
         this._hasCollisions = false;
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
@@ -96,8 +112,8 @@ class Sprite {
 
     set height(height) {
         this._height = height;
-        this._c.y = height;
-        this._d.y = height;
+        this._c.y = this._y + height;
+        this._d.y = this._y + height;
         this._hasCollisions = false;
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
