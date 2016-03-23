@@ -1,55 +1,58 @@
 class Collision {
-    constructor(x1,x2,y1,y2) {
+    constructor(x, y, width, height) {
         this._resolved = true;
-        this._x1 = x1;
-        this._y1 = y1;
-        this._x2 = x2;
-        this._y2 = y2;
+        this._x = x;
+        this._y = y;
+        this._width = width;
+        this._height = height;
     }
 
-    test(x,y) {
-        x = Math.floor(x);
-        y = Math.floor(y);
-        if (x >= this._x1 && x <= this._x2 && y >= this._y1 && y <= this._y2) {
+    test(x, y, width, height) {
+        if (x < this._x + this._width &&
+            x + width > this._x &&
+            y < this._y + this._height &&
+            height + y > this._y) {
             this.resolved = false;
             return true;
+        } else {
+            return false;
         }
     }
 
-    get x1() {
-        return this._x1;
+    get x() {
+        return this._x;
     }
 
-    get y1() {
-        return this._y1;
+    get y() {
+        return this._y;
     }
 
     get x2() {
-        return this._x2;
+        return this._width;
     }
 
-    get y2() {
-        return this._y2;
+    get height() {
+        return this._height;
     }
 
     get resolved() {
         return this._resolved;
     }
 
-    set x1(x) {
-        this._x1 = x;
+    set x(x) {
+        this._x = x;
     }
 
-    set y1(y) {
-        this._y1 = y;
+    set y(y) {
+        this._y = y;
     }
 
     set x2(x) {
-        this._x2 = x;
+        this._width = x;
     }
 
-    set y2(y) {
-        this._y2 = y;
+    set height(y) {
+        this._height = y;
     }
 
     set resolved(resolved) {

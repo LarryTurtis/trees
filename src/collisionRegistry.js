@@ -1,3 +1,5 @@
+import { Collision } from './collision.js'
+
 class CollisionRegistry {
     constructor() {
         this._collisions = [];
@@ -7,7 +9,8 @@ class CollisionRegistry {
         return this._collisions;
     }
 
-    addCollision(collision) {
+    addCollision(shape) {
+        var collision = new Collision(shape.x, shape.y, shape.width, shape.height);
         this._collisions.push(collision);
     }
 

@@ -2,25 +2,38 @@ import { Point } from './point.js'
 import { CollisionRegistry } from './collisionRegistry.js'
 
 class Sprite {
-    constructor(centerX, centerY, width, height) {
-        this._center = new Point(centerX, centerY);
+    constructor(x, y, width, height) {
         this._width = width;
-        this._height = height || width;
-
-        let x = centerX - (width / 2);
-        let y = centerY - (height / 2);
-
+        this._height = height;
+        this._x = x;
+        this._y = y;
         this._a = new Point(x, y);
         this._b = new Point(x + width, y)
         this._c = new Point(x + width, y + height);
         this._d = new Point(x, y + height);
         this._lineWidth = 2;
-        this._showBoundingBox = true;
+        this._showBoundingBox = false;
         this._color = "black";
         this._lineColor = "black";
         this.collisionRegistry = new CollisionRegistry();
         this._hasCollisions = false;
 
+    }
+
+    set x(x) {
+        this._x = x;
+    }
+
+    set y(y) {
+        this._y = y;
+    }
+
+    get x() {
+        return this._x;
+    }
+
+    get y() {
+        return this._y;
     }
 
     set a(obj) {
@@ -75,14 +88,20 @@ class Sprite {
         this._width = width;
         this._b.x = width;
         this._c.x = width;
-        this.collisionRegistry.collisions.forEach(collision => this._hasCollisions = this._hasCollisions || collision.test(this._width, this.height));
+        this._hasCollisions = false;
+        this.collisionRegistry.collisions.forEach(collision => {
+            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
+        });
     }
 
     set height(height) {
         this._height = height;
         this._c.y = height;
         this._d.y = height;
-        this.collisionRegistry.collisions.forEach(collision => this._hasCollisions = this._hasCollisions || collision.test(this._width, this.height));
+        this._hasCollisions = false;
+        this.collisionRegistry.collisions.forEach(collision => {
+            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
+        });
     }
 
     set showBoundingBox(bool) {

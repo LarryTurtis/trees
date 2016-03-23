@@ -7,8 +7,10 @@ CanvasRenderingContext2D.prototype.curve = function(points) {
 };
 
 CanvasRenderingContext2D.prototype.yLine = function(a,b) {
-    this.lineTo(a.x, a.y, b.x, b.y);
+    this.moveTo(a.x, a.y);
+    this.lineTo(b.x, b.y);
 };
+
 CanvasRenderingContext2D.prototype.yRect = function(rect) {
     this.yLine(rect.a, rect.b);
     this.yLine(rect.b, rect.c);
