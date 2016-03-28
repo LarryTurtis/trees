@@ -11,6 +11,7 @@ class Droplet extends Sprite {
         this.ySpeed = 1;
         this.xSpeed = 1;
         this.isFlat = false;
+        this.minHeight = this.height / 2;
 
         var lb1 = new Point(this.centerX - this.xBezierDistance, this.y + this.height);
         var lb2 = new Point(this.x, this.centerY + this.yBezierDistance);
@@ -36,8 +37,9 @@ class Droplet extends Sprite {
 
     applyGravity() {
         if (!this.hasCollisions) {
+            this.ySpeed *= 1.02;
             this.y += this.ySpeed;
-            this.x += this.xSpeed;
+            //this.x += this.xSpeed;
         }
     }
 
@@ -100,7 +102,7 @@ class Droplet extends Sprite {
     }
 
     flatten() {
-        if (this.height > 25) {
+        if (this.height > this.minHeight) {
             this.height -= this.ySpeed / 2;
             this.leftBottom.cp1.x -= this.ySpeed;
             this.rightBottom.cp2.x += this.ySpeed;
@@ -160,6 +162,7 @@ class Droplet extends Sprite {
         ctx.curve(this.leftTop);
         ctx.curve(this.rightTop);
         ctx.curve(this.rightBottom);
+        ctx.fill();
         ctx.stroke();
         ctx.closePath();
     }

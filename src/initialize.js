@@ -15,19 +15,25 @@ function initialize() {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let droplet = new Droplet(50, 0, 50, 50);
-        let platform = new Platform(0, 300, 300, 5);
 
-        shapesRegistry.addShape(droplet);
+        let platform = new Platform(0, 300, 3000, 5);
         shapesRegistry.addShape(platform);
 
-        droplet.collisionRegistry.addCollision(platform)
-        droplet.lineColor = "black";
-        droplet.lineWidth = 1;
+
+        setInterval(function() {
+
+            var droplet = new Droplet(Math.floor(Math.random() * 500) + 1, 0, 20, 20);
+            shapesRegistry.addShape(droplet);
+            droplet.collisionRegistry.addCollision(platform)
+            droplet.lineColor = "transparent";
+            droplet.color = "white";
+            droplet.lineWidth = 1;
+
+        }, 500);
 
         var callback = function() {
             //droplet.xSpeed *= 0.995
-            droplet.ySpeed *= 1.02;
+            //droplet.ySpeed *= 1.02;
         }
 
         canvas.animate(callback);
