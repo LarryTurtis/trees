@@ -1,10 +1,11 @@
 class Collision {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, type) {
         this._resolved = true;
         this._x = x;
         this._y = y;
         this._width = width;
         this._height = height;
+        this._type = type;
     }
 
     test(x, y, width, height) {
@@ -20,6 +21,10 @@ class Collision {
         } else {
             return false;
         }
+    }
+
+    get type() {
+        return this._type;
     }
 
     get x() {

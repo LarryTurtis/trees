@@ -10,7 +10,7 @@ class CollisionRegistry {
     }
 
     addCollision(shape) {
-        var collision = new Collision(shape.x, shape.y, shape.width, shape.height);
+        var collision = new Collision(shape.x, shape.y, shape.width, shape.height, shape.type);
         this._collisions.push(collision);
     }
 

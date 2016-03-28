@@ -7,6 +7,8 @@ class Sprite {
         this._height = height;
         this._x = x;
         this._y = y;
+        this._centerX = this.x + (this.width / 2);
+        this._centerY = this.y + (this.height / 2);
         this._a = new Point(x, y);
         this._b = new Point(x + width, y)
         this._c = new Point(x + width, y + height);
@@ -21,11 +23,13 @@ class Sprite {
     }
 
     set x(x) {
+        console.log(x);
         this._x = x;
         this._a.x = x;
         this._b.x = x + this._width;
         this._c.x = x + this._width;
         this._d.x = x;
+        this._centerX = x + (this.width / 2);
         this._hasCollisions = false;
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
@@ -38,6 +42,7 @@ class Sprite {
         this._b.y = y;
         this._c.y = y + this._height;
         this._d.y = y + this._height;
+        this._centerY = y + (this.height / 2);
         this._hasCollisions = false;
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
@@ -51,6 +56,15 @@ class Sprite {
     get y() {
         return this._y;
     }
+
+    get centerX() {
+        return this._centerX;
+    }
+
+    get centerY() {
+        return this._centerY;
+    }
+
 
     set a(obj) {
         this._a.x = obj.x;
@@ -104,6 +118,7 @@ class Sprite {
         this._width = width;
         this._b.x = this._x + width;
         this._c.x = this._x + width;
+        this._centerX = this.x + (width / 2);
         this._hasCollisions = false;
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
@@ -115,6 +130,7 @@ class Sprite {
         this._c.y = this._y + height;
         this._d.y = this._y + height;
         this._hasCollisions = false;
+        this._centerY = this.y + (height / 2);
         this.collisionRegistry.collisions.forEach(collision => {
             this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
         });

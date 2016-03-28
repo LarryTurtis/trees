@@ -4,7 +4,9 @@
 </head>
 
 <body style="margin: 0px;">
-    <div id="status" style="position: absolute;height:100px;width:100px;top: 50%; left: 50%;"></div>
+    <div id="status" style="position: absolute;height:200px;width:200px;top: 50%; left: 45%;">
+            Polly Duff Kertis
+    </div>
     <canvas id="main"></canvas>
 </body>
 <script>
@@ -22,13 +24,13 @@ var debugMode = false;
 
 window.addEventListener('load', function() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 20;
+    canvas.height = window.innerHeight;
 
     //addMarbles(1);
-    addPlatforms(10);
+    addPlatforms(2);
     addBaseline();
 
-    setInterval(addMarble, 200)
+    setInterval(addMarble, 1000)
 
     animate();
 
@@ -85,7 +87,7 @@ function addPlatforms(n) {
  */
 function addMarble() {
     if (marbles.length < maxMarbles) {
-        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        var color = '#000' //+ Math.floor(Math.random() * 16777215).toString(16);
         marbles.push(new Marble(marbles.length + 1, Math.floor(Math.random() * canvas.width) + 1, null, color));
     }
 }
@@ -94,7 +96,7 @@ function addMarble() {
  * Add a base platform at the bottom of the canvas.
  */
 function addBaseline() {
-    platforms.push(new Platform(0, canvas.height - 1, canvas.width));
+    platforms.push(new Platform(0, canvas.height - 25, canvas.width));
 }
 
 /**
@@ -167,7 +169,7 @@ function Platform(x, y, length) {
  */
 function Marble(id, x, y, color) {
     var marble = this;
-    var size = 10;
+    var size = 5;
     var initialVelocity = 0.2;
     var weight = 2;
     marble.velocity = initialVelocity;
@@ -373,7 +375,7 @@ function Marble(id, x, y, color) {
         }
         //if (marble.onMarble()) console.log(marble.id, marble.xspeed);
         if (Math.abs(marble.xspeed) > 0.4) {
-            marble.xspeed *= 0.99;
+             marble.xspeed *= 0.99;
         } else {
             marble.xspeed = 0;
         }

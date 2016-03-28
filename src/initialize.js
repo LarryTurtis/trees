@@ -1,5 +1,5 @@
 import { Canvas } from './canvas.js';
-import { Marble } from './marble.js';
+import { Droplet } from './droplet.js';
 import { Platform } from './platform.js';
 import { Spurt } from './spurt.js';
 import { ShapesRegistry } from './shapesregistry.js'
@@ -15,27 +15,19 @@ function initialize() {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let marble = new Marble(0, 0, 10, 10);
+        let droplet = new Droplet(0, 0, 50, 50);
         let platform = new Platform(0, 300, 300, 5);
 
-        shapesRegistry.addShape(marble);
+        shapesRegistry.addShape(droplet);
         shapesRegistry.addShape(platform);
 
-        marble.collisionRegistry.addCollision(platform)
-        marble.lineColor = "black";
-        marble.lineWidth = 1;
+        droplet.collisionRegistry.addCollision(platform)
+        droplet.lineColor = "black";
+        droplet.lineWidth = 1;
 
         var callback = function() {
-            marble.size *= 0.995
-            marble.gravity *= 1.01;
-            if (marble.hasCollisions) {
-                marble.collisionRegistry.collisions.forEach(collision => {
-                    marble.collisionRegistry.removeCollision(collision);
-                    //marble.y = platform.y - marble.height;
-                });
-            }
-
-
+            droplet.xSpeed *= 0.995
+            droplet.ySpeed *= 1.01;
         }
 
         canvas.animate(callback);
