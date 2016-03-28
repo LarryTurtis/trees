@@ -15,7 +15,7 @@ function initialize() {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let droplet = new Droplet(0, 0, 50, 50);
+        let droplet = new Droplet(50, 0, 50, 50);
         let platform = new Platform(0, 300, 300, 5);
 
         shapesRegistry.addShape(droplet);
@@ -26,8 +26,8 @@ function initialize() {
         droplet.lineWidth = 1;
 
         var callback = function() {
-            droplet.xSpeed *= 0.995
-            droplet.ySpeed *= 1.01;
+            //droplet.xSpeed *= 0.995
+            droplet.ySpeed *= 1.02;
         }
 
         canvas.animate(callback);

@@ -23,7 +23,6 @@ class Sprite {
     }
 
     set x(x) {
-        console.log(x);
         this._x = x;
         this._a.x = x;
         this._b.x = x + this._width;
