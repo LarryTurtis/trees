@@ -1,6 +1,15 @@
-import { Point } from './point.js'
-import { Sprite } from './sprite.js'
-import { Curve } from './curve.js'
+import {
+    Point
+}
+from './point.js'
+import {
+    Sprite
+}
+from './sprite.js'
+import {
+    Curve
+}
+from './curve.js'
 
 class Droplet extends Sprite {
     constructor(x, y, width, height) {
@@ -9,7 +18,7 @@ class Droplet extends Sprite {
         super(x, y, width, height);
         this.type = "Droplet";
         this.ySpeed = 1;
-        this.xSpeed = 1;
+        this.xSpeed = 0;
         this.isFlat = false;
         this.minHeight = this.height / 2;
 
@@ -36,11 +45,10 @@ class Droplet extends Sprite {
     }
 
     applyGravity() {
-        if (!this.hasCollisions) {
-            this.ySpeed *= 1.02;
-            this.y += this.ySpeed;
-            //this.x += this.xSpeed;
-        }
+        console.log('gravity');
+        this.ySpeed *= 1.02;
+        this.y += this.ySpeed;
+        this.x += this.xSpeed;
     }
 
     get x() {
@@ -52,14 +60,36 @@ class Droplet extends Sprite {
         this.updateX();
     }
 
+    get width() {
+        return super.width;
+    }
+
+    set width(width) {
+        super.width = width;
+        this.updateX();
+    }
+
     get y() {
         return super.y;
     }
 
     set y(y) {
         super.y = y;
+        if (this.height <= this.minHeight) {
+            this.isFlat = true;
+        }
         this.updateY();
     }
+
+    get height() {
+        return super.height;
+    }
+
+    set height(height) {
+        super.height = height;
+        this.updateY();
+    }
+
 
     get yBezierDistance() {
         return (this.height / 2) * 0.552284749831;
@@ -102,11 +132,10 @@ class Droplet extends Sprite {
     }
 
     flatten() {
-        if (this.height > this.minHeight) {
-            this.height -= this.ySpeed / 2;
-            this.leftBottom.cp1.x -= this.ySpeed;
-            this.rightBottom.cp2.x += this.ySpeed;
-        }
+        console.log('flattening');
+        this.height -= this.ySpeed / 2;
+        this.leftBottom.cp1.x -= this.ySpeed;
+        this.rightBottom.cp2.x += this.ySpeed;
     }
 
     updateX() {
@@ -139,21 +168,24 @@ class Droplet extends Sprite {
         this.leftBottom.end.y = this.centerY;
     }
 
-    draw(ctx) {
+    animate() {
 
-        var droplet = this;
-
-        droplet.applyGravity();
+        if (!this.hasCollisions) {
+            this.applyGravity();
+        }
 
         if (this.hasCollisions) {
             this.collisionRegistry.collisions.forEach(collision => {
-                if (collision.type === "Platform" && !droplet.isFlat) {
-                    droplet.flatten();
+                if (collision.type === "Platform" && !this.isFlat) {
+                    this.flatten();
                     this.y = collision.y - this.height;
                 }
             });
         }
+    }
 
+    draw(ctx) {
+        this.animate();
         super.draw(ctx);
         ctx.lineJoin = "miter";
         ctx.beginPath();
@@ -169,4 +201,6 @@ class Droplet extends Sprite {
 
 }
 
-export { Droplet }
+export {
+    Droplet
+}

@@ -14,7 +14,7 @@ class Sprite {
         this._c = new Point(x + width, y + height);
         this._d = new Point(x, y + height);
         this._lineWidth = 2;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "black";
         this._lineColor = "black";
         this.collisionRegistry = new CollisionRegistry();

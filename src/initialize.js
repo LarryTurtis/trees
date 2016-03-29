@@ -20,16 +20,14 @@ function initialize() {
         shapesRegistry.addShape(platform);
 
 
-        setInterval(function() {
+        var droplet = new Droplet(Math.floor(Math.random() * 500) + 1, 0, 100, 100);
+        shapesRegistry.addShape(droplet);
+        droplet.collisionRegistry.addCollision(platform)
+        droplet.lineColor = "black";
+        droplet.color = "white";
+        droplet.lineWidth = 1;
 
-            var droplet = new Droplet(Math.floor(Math.random() * 500) + 1, 0, 20, 20);
-            shapesRegistry.addShape(droplet);
-            droplet.collisionRegistry.addCollision(platform)
-            droplet.lineColor = "transparent";
-            droplet.color = "white";
-            droplet.lineWidth = 1;
 
-        }, 500);
 
         var callback = function() {
             //droplet.xSpeed *= 0.995

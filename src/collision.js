@@ -1,6 +1,6 @@
 class Collision {
     constructor(x, y, width, height, type) {
-        this._resolved = true;
+        this._resolved = false;
         this._x = x;
         this._y = y;
         this._width = width;
@@ -9,14 +9,10 @@ class Collision {
     }
 
     test(x, y, width, height) {
-        if (!this.resolved) {
-            return true;
-        }
-        if (x < this._x + this._width &&
-            x + width > this._x &&
-            y < this._y + this._height &&
-            height + y > this._y) {
-            this.resolved = false;
+        if (x <= this._x + this._width &&
+            x + width >= this._x &&
+            y <= this._y + this._height &&
+            height + y >= this._y) {
             return true;
         } else {
             return false;
