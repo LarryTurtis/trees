@@ -16,7 +16,7 @@ class ShapesRegistry {
     }
 
     addShape(shape) {
-        if (this._shapes.length < 25) {
+        if (this._shapes.length < 250) {
             this._shapes.push(shape);
         }
     }

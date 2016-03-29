@@ -18,17 +18,12 @@ function initialize() {
 
         let platform = new Platform(0, 300, 3000, 5);
         shapesRegistry.addShape(platform);
-
-        setInterval(function() {
+        setInterval(function(){
             var fallingDrop = new FallingDrop(Math.floor(Math.random() * 500) + 1, 0, 20, 20);
             shapesRegistry.addShape(fallingDrop);
             fallingDrop.collisionRegistry.addCollision(platform)
-            fallingDrop.lineColor = "black";
-
-        }, 50);
-
-
-
+        }, 100);
+        
         var callback = function() {
             //fallingDrop.xSpeed *= 0.995
             //fallingDrop.ySpeed *= 1.02;

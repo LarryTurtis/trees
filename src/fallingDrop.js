@@ -111,10 +111,9 @@ class FallingDrop extends Droplet {
                     if (!collision.resolved) {
                         this.y = collision.y - this.height;
                         collision.resolved = true;
-                        console.log(this.ySpeed);
-                        var splat = new Splat(this.x, this.y, this.width, this.height);
-                        shapesRegistry.removeShape(this);
+                        var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
                         shapesRegistry.addShape(splat);
+                        shapesRegistry.removeShape(this);
                     }
                 }
             });
