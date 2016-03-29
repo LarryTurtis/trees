@@ -1,5 +1,5 @@
 import { Canvas } from './canvas.js';
-import { Droplet } from './droplet.js';
+import { FallingDrop } from './fallingDrop.js';
 import { Platform } from './platform.js';
 import { Spurt } from './spurt.js';
 import { ShapesRegistry } from './shapesregistry.js'
@@ -20,18 +20,18 @@ function initialize() {
         shapesRegistry.addShape(platform);
 
 
-        var droplet = new Droplet(Math.floor(Math.random() * 500) + 1, 0, 100, 100);
-        shapesRegistry.addShape(droplet);
-        droplet.collisionRegistry.addCollision(platform)
-        droplet.lineColor = "black";
-        droplet.color = "white";
-        droplet.lineWidth = 1;
+        var fallingDrop = new FallingDrop(Math.floor(Math.random() * 500) + 1, 0, 100, 100);
+        shapesRegistry.addShape(fallingDrop);
+        fallingDrop.collisionRegistry.addCollision(platform)
+        fallingDrop.lineColor = "black";
+        fallingDrop.color = "white";
+        fallingDrop.lineWidth = 1;
 
 
 
         var callback = function() {
-            //droplet.xSpeed *= 0.995
-            //droplet.ySpeed *= 1.02;
+            //fallingDrop.xSpeed *= 0.995
+            //fallingDrop.ySpeed *= 1.02;
         }
 
         canvas.animate(callback);

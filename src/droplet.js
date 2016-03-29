@@ -1,27 +1,12 @@
-import {
-    Point
-}
-from './point.js'
-import {
-    Sprite
-}
-from './sprite.js'
-import {
-    Curve
-}
-from './curve.js'
+import { Point } from './point.js'
+import { Sprite } from './sprite.js'
+import { Curve } from './curve.js'
 
 class Droplet extends Sprite {
     constructor(x, y, width, height) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
         super(x, y, width, height);
-        this.type = "Droplet";
-        this.ySpeed = 1;
-        this.xSpeed = 0;
-        this.isFlat = false;
-        this.minHeight = this.height / 2;
-
         var lb1 = new Point(this.centerX - this.xBezierDistance, this.y + this.height);
         var lb2 = new Point(this.x, this.centerY + this.yBezierDistance);
         var lb3 = new Point(this.x, this.centerY);
@@ -42,13 +27,6 @@ class Droplet extends Sprite {
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
 
-    }
-
-    applyGravity() {
-        console.log('gravity');
-        this.ySpeed *= 1.02;
-        this.y += this.ySpeed;
-        this.x += this.xSpeed;
     }
 
     get x() {
@@ -75,9 +53,6 @@ class Droplet extends Sprite {
 
     set y(y) {
         super.y = y;
-        if (this.height <= this.minHeight) {
-            this.isFlat = true;
-        }
         this.updateY();
     }
 
@@ -131,13 +106,6 @@ class Droplet extends Sprite {
         this._leftBottom = leftBottom;
     }
 
-    flatten() {
-        console.log('flattening');
-        this.height -= this.ySpeed / 2;
-        this.leftBottom.cp1.x -= this.ySpeed;
-        this.rightBottom.cp2.x += this.ySpeed;
-    }
-
     updateX() {
         this.leftTop.cp1.x = this.x;
         this.leftTop.cp2.x = this.centerX - this.xBezierDistance;
@@ -168,24 +136,7 @@ class Droplet extends Sprite {
         this.leftBottom.end.y = this.centerY;
     }
 
-    animate() {
-
-        if (!this.hasCollisions) {
-            this.applyGravity();
-        }
-
-        if (this.hasCollisions) {
-            this.collisionRegistry.collisions.forEach(collision => {
-                if (collision.type === "Platform" && !this.isFlat) {
-                    this.flatten();
-                    this.y = collision.y - this.height;
-                }
-            });
-        }
-    }
-
     draw(ctx) {
-        this.animate();
         super.draw(ctx);
         ctx.lineJoin = "miter";
         ctx.beginPath();
