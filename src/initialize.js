@@ -19,13 +19,13 @@ function initialize() {
         let platform = new Platform(0, 300, 3000, 5);
         shapesRegistry.addShape(platform);
 
+        setInterval(function() {
+            var fallingDrop = new FallingDrop(Math.floor(Math.random() * 500) + 1, 0, 20, 20);
+            shapesRegistry.addShape(fallingDrop);
+            fallingDrop.collisionRegistry.addCollision(platform)
+            fallingDrop.lineColor = "black";
 
-        var fallingDrop = new FallingDrop(Math.floor(Math.random() * 500) + 1, 0, 100, 100);
-        shapesRegistry.addShape(fallingDrop);
-        fallingDrop.collisionRegistry.addCollision(platform)
-        fallingDrop.lineColor = "black";
-        fallingDrop.color = "white";
-        fallingDrop.lineWidth = 1;
+        }, 50);
 
 
 
@@ -43,6 +43,5 @@ function initialize() {
     //     shape.y = e.clientY;
     // })
 }
-
 
 export { initialize };

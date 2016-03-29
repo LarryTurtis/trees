@@ -27,44 +27,9 @@ class Droplet extends Sprite {
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
 
-    }
+        this.startingPoint = new Point(this.centerX, this.y + this.height);
 
-    get x() {
-        return super.x;
     }
-
-    set x(x) {
-        super.x = x;
-        this.updateX();
-    }
-
-    get width() {
-        return super.width;
-    }
-
-    set width(width) {
-        super.width = width;
-        this.updateX();
-    }
-
-    get y() {
-        return super.y;
-    }
-
-    set y(y) {
-        super.y = y;
-        this.updateY();
-    }
-
-    get height() {
-        return super.height;
-    }
-
-    set height(height) {
-        super.height = height;
-        this.updateY();
-    }
-
 
     get yBezierDistance() {
         return (this.height / 2) * 0.552284749831;
@@ -106,41 +71,11 @@ class Droplet extends Sprite {
         this._leftBottom = leftBottom;
     }
 
-    updateX() {
-        this.leftTop.cp1.x = this.x;
-        this.leftTop.cp2.x = this.centerX - this.xBezierDistance;
-        this.leftTop.end.x = this.centerX;
-        this.rightTop.cp1.x = this.centerX + this.xBezierDistance;
-        this.rightTop.cp2.x = this.x + this.width;
-        this.rightTop.end.x = this.x + this.width;
-        this.rightBottom.cp1.x = this.x + this.width;
-        this.rightBottom.cp2.x = this.centerX + this.xBezierDistance;
-        this.rightBottom.end.x = this.centerX;
-        this.leftBottom.cp1.x = this.centerX - this.xBezierDistance;
-        this.leftBottom.cp2.x = this.x;
-        this.leftBottom.end.x = this.x;
-    }
-
-    updateY() {
-        this.leftTop.cp1.y = this.centerY - this.yBezierDistance;
-        this.leftTop.cp2.y = this.y;
-        this.leftTop.end.y = this.y;
-        this.rightTop.cp1.y = this.y;
-        this.rightTop.cp2.y = this.centerY - this.yBezierDistance;
-        this.rightTop.end.y = this.centerY;
-        this.rightBottom.cp1.y = this.centerY + this.yBezierDistance;
-        this.rightBottom.cp2.y = this.y + this.height;
-        this.rightBottom.end.y = this.y + this.height;
-        this.leftBottom.cp1.y = this.y + this.height;
-        this.leftBottom.cp2.y = this.centerY + this.yBezierDistance;
-        this.leftBottom.end.y = this.centerY;
-    }
-
     draw(ctx) {
         super.draw(ctx);
         ctx.lineJoin = "miter";
         ctx.beginPath();
-        ctx.moveTo(this.centerX, this.y + this.height)
+        ctx.yMove(this.startingPoint);
         ctx.curve(this.leftBottom);
         ctx.curve(this.leftTop);
         ctx.curve(this.rightTop);
