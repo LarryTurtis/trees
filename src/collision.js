@@ -4,11 +4,12 @@ class Collision {
         this._obj = obj;
     }
 
-    test(x, y, width, height) {
-        if (x <= this.obj.x + this.obj.width &&
-            x + width >= this.obj.x &&
-            y <= this.obj.y + this.obj.height &&
-            height + y >= this.obj.y) {
+    test(obj) {
+        if (obj !== this.obj &&
+            obj.x <= this.obj.x + this.obj.width &&
+            obj.x + obj.width >= this.obj.x &&
+            obj.y <= this.obj.y + this.obj.height &&
+            obj.height + obj.y >= this.obj.y) {
             return true;
         } else {
             return false;
@@ -32,4 +33,6 @@ class Collision {
     }
 }
 
-export { Collision }
+export {
+    Collision
+}

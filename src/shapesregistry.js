@@ -1,4 +1,10 @@
+import {
+    CollisionRegistry
+}
+from './collisionRegistry.js'
+
 let instance = null;
+let collisionRegistry = new CollisionRegistry();
 
 class ShapesRegistry {
     constructor(canvas) {
@@ -7,7 +13,7 @@ class ShapesRegistry {
         }
 
         this._shapes = [];
-
+        this._shapeId = 0;
         return instance;
     }
 
@@ -15,17 +21,31 @@ class ShapesRegistry {
         return this._shapes;
     }
 
-    addShape(shape) {
-        if (this._shapes.length < 250) {
+    get shapeId() {
+        return this._shapeId;
+    }
+
+    set shapeId(id) {
+        this._shapeId = id;
+    }
+
+    add(shape) {
+        shape.id = this.shapeId;
+        this.shapeId++;
+        if (this._shapes.length < 5) {
             this._shapes.push(shape);
+            collisionRegistry.add(shape)
         }
     }
 
-    removeShape(shape) {
+    remove(shape) {
+        collisionRegistry.remove(shape.id);
         this._shapes.splice(this._shapes.indexOf(shape), 1);
     }
 
 }
 
 
-export { ShapesRegistry }
+export {
+    ShapesRegistry
+}

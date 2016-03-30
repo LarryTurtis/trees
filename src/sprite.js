@@ -1,5 +1,13 @@
-import { Point } from './point.js'
-import { CollisionRegistry } from './collisionRegistry.js'
+import {
+    Point
+}
+from './point.js'
+import {
+    CollisionRegistry
+}
+from './collisionRegistry.js'
+
+let collisionRegistry = new CollisionRegistry();
 
 class Sprite {
     constructor(x, y, width, height) {
@@ -14,11 +22,11 @@ class Sprite {
         this._c = new Point(x + width, y + height);
         this._d = new Point(x, y + height);
         this._lineWidth = 1;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "white";
         this._lineColor = "black";
-        this.collisionRegistry = new CollisionRegistry();
-        this._hasCollisions = false;
+        this.collisions = [];
+        this._id = null;
 
     }
 
@@ -29,10 +37,7 @@ class Sprite {
         this._c.x = x + this._width;
         this._d.x = x;
         this._centerX = x + (this.width / 2);
-        this._hasCollisions = false;
-        this.collisionRegistry.collisions.forEach(collision => {
-            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
-        });
+        this.updateCollisions();
     }
 
     set y(y) {
@@ -42,10 +47,7 @@ class Sprite {
         this._c.y = y + this._height;
         this._d.y = y + this._height;
         this._centerY = y + (this.height / 2);
-        this._hasCollisions = false;
-        this.collisionRegistry.collisions.forEach(collision => {
-            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
-        });
+        this.updateCollisions();
     }
 
     get x() {
@@ -64,6 +66,9 @@ class Sprite {
         return this._centerY;
     }
 
+    set id(id) {
+        this._id = id;
+    }
 
     set a(obj) {
         this._a.x = obj.x;
@@ -109,8 +114,8 @@ class Sprite {
         return this._height;
     }
 
-    get hasCollisions() {
-        return this._hasCollisions;
+    get id() {
+        return this._id;
     }
 
     set width(width) {
@@ -118,21 +123,15 @@ class Sprite {
         this._b.x = this._x + width;
         this._c.x = this._x + width;
         this._centerX = this.x + (width / 2);
-        this._hasCollisions = false;
-        this.collisionRegistry.collisions.forEach(collision => {
-            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
-        });
+        this.updateCollisions();
     }
 
     set height(height) {
         this._height = height;
         this._c.y = this._y + height;
         this._d.y = this._y + height;
-        this._hasCollisions = false;
         this._centerY = this.y + (height / 2);
-        this.collisionRegistry.collisions.forEach(collision => {
-            this._hasCollisions = this._hasCollisions || collision.test(this._x, this._y, this._width, this.height)
-        });
+        this.updateCollisions();
     }
 
     set showBoundingBox(bool) {
@@ -167,6 +166,15 @@ class Sprite {
         return this._lineWidth;
     }
 
+    updateCollisions() {
+        this.collisions = [];
+        collisionRegistry.forEach(collision => {
+            if (collision.test(this)) {
+                this.collisions.push(collision);
+            }
+        });
+    }
+
 
     draw(ctx) {
 
@@ -191,4 +199,6 @@ class Sprite {
         ctx.lineWidth = this._lineWidth;
     }
 }
-export { Sprite }
+export {
+    Sprite
+}

@@ -3,7 +3,6 @@ import { FallingDrop } from './fallingDrop.js';
 import { Platform } from './platform.js';
 import { Spurt } from './spurt.js';
 import { ShapesRegistry } from './shapesregistry.js'
-import { CollisionRegistry } from './collisionRegistry.js'
 
 function initialize() {
 
@@ -17,12 +16,12 @@ function initialize() {
         canvas.height = window.innerHeight;
 
         let platform = new Platform(0, 300, 3000, 5);
-        shapesRegistry.addShape(platform);
-        //setInterval(function(){
-            var fallingDrop = new FallingDrop(Math.floor(Math.random() * canvas.width) + 1, 0, 20, 20);
-            shapesRegistry.addShape(fallingDrop);
-            fallingDrop.collisionRegistry.addCollision(platform)
-        //}, 100);
+        shapesRegistry.add(platform);
+
+        setInterval(function(){
+            var fallingDrop = new FallingDrop(500, 0, 20, 20);
+            shapesRegistry.add(fallingDrop);
+        }, 1000);
 
         var callback = function() {
             //fallingDrop.xSpeed *= 0.995
