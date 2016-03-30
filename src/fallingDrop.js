@@ -107,9 +107,9 @@ class FallingDrop extends Droplet {
 
         if (this.hasCollisions) {
             this.collisionRegistry.collisions.forEach(collision => {
-                if (collision.type === "Platform") {
+                if (collision.obj.type === "Platform") {
                     if (!collision.resolved) {
-                        this.y = collision.y - this.height;
+                        this.y = collision.obj.y - this.height;
                         collision.resolved = true;
                         var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
                         shapesRegistry.addShape(splat);

@@ -15,33 +15,27 @@ class Splat extends Droplet {
     }
 
     flatten() {
+
         this.height -= this.ySpeed / 2;
         this.width += this.ySpeed + (this.ySpeed / 4);
         this.x -= (this.ySpeed + (this.ySpeed / 4)) / 2;
         this.y += this.ySpeed / 2;
 
-        // this.leftBottom.cp1.x -= this.ySpeed;
-        // this.rightBottom.cp2.x += this.ySpeed;
-
         this.leftBottom.cp2.x -= this.ySpeed / 2;
         this.rightBottom.cp1.x += this.ySpeed / 2;
-
-        this.leftBottom.end.x -= this.ySpeed / 4;
-        this.leftBottom.end.y = this.centerY;
-
         this.rightTop.end.x += this.ySpeed / 4;
-        this.rightTop.end.y = this.centerY;
-
-        this.leftTop.cp1.y = this.centerY - this.yBezierDistance;
-        this.leftTop.cp2.y = this.y;
-        this.leftTop.end.y = this.y;
-        this.rightTop.cp1.y = this.y;
-
+        this.leftBottom.end.x -= this.ySpeed / 4;
         this.startingPoint.x -= this.ySpeed;
         this.leftBottom.cp1.x -= this.ySpeed;
         this.rightBottom.cp2.x += this.ySpeed;
         this.rightBottom.end.x += this.ySpeed;
 
+        this.leftBottom.end.y = this.centerY;
+        this.rightTop.end.y = this.centerY;
+        this.leftTop.cp2.y = this.y;
+        this.leftTop.end.y = this.y;
+        this.rightTop.cp1.y = this.y;
+        this.leftTop.cp1.y = this.centerY - this.yBezierDistance;
         this.rightTop.cp2.y = this.centerY - this.yBezierDistance;
         this.rightBottom.cp1.y = this.centerY + this.yBezierDistance;
         this.leftBottom.cp2.y = this.centerY + this.yBezierDistance;

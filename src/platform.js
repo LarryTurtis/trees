@@ -1,8 +1,8 @@
 import { Sprite } from './sprite.js'
 
 class Platform extends Sprite {
-    constructor(centerX, centerY, width, height) {
-        super(centerX, centerY, width, height);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Platform";
         this.lineColor = "black";
     }
