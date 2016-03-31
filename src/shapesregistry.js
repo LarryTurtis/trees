@@ -32,15 +32,18 @@ class ShapesRegistry {
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this._shapes.length < 5) {
+        if (this._shapes.length < 5000) {
             this._shapes.push(shape);
             collisionRegistry.add(shape)
         }
     }
 
     remove(shape) {
+        var shapesRegistry = this;
         collisionRegistry.remove(shape.id);
-        this._shapes.splice(this._shapes.indexOf(shape), 1);
+        setTimeout(function() {
+            shapesRegistry._shapes.splice(shapesRegistry._shapes.indexOf(shape), 1);
+        }, 0);
     }
 
 }

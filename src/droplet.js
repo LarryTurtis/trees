@@ -1,6 +1,15 @@
-import { Point } from './point.js'
-import { Sprite } from './sprite.js'
-import { Curve } from './curve.js'
+import {
+    Point
+}
+from './point.js'
+import {
+    Sprite
+}
+from './sprite.js'
+import {
+    Curve
+}
+from './curve.js'
 
 class Droplet extends Sprite {
     constructor(x, y, width, height) {
@@ -26,6 +35,7 @@ class Droplet extends Sprite {
         var rb2 = new Point(this.centerX + this.xBezierDistance, this.y + this.height);
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
+        this.lineColor = "transparent";
 
         this.startingPoint = new Point(this.centerX, this.y + this.height);
 
@@ -74,6 +84,7 @@ class Droplet extends Sprite {
     draw(ctx) {
         super.draw(ctx);
         ctx.lineJoin = "miter";
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.yMove(this.startingPoint);
         ctx.curve(this.leftBottom);
@@ -83,6 +94,21 @@ class Droplet extends Sprite {
         ctx.fill();
         ctx.stroke();
         ctx.closePath();
+
+        if (this.showBoundingBox) {
+            var rectWidth = 5;
+            var rectHeight = 5;
+            [this.leftBottom, this.rightBottom, this.leftTop, this.rightTop].forEach(curve => {
+                ctx.beginPath()
+                ctx.fillStyle = "red";
+                ctx.rect(this.startingPoint.x - rectWidth / 2, this.startingPoint.y - rectHeight / 2, rectWidth, rectHeight)
+                ctx.rect(curve.cp1.x - rectWidth / 2, curve.cp1.y - rectHeight / 2, rectWidth, rectHeight)
+                ctx.rect(curve.cp2.x - rectWidth / 2, curve.cp2.y - rectHeight / 2, rectWidth, rectHeight)
+                ctx.rect(curve.end.x - rectWidth / 2, curve.end.y - rectHeight / 2, rectWidth, rectHeight)
+                ctx.fill();
+                ctx.closePath();
+            });
+        }
     }
 
 }

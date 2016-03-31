@@ -19,9 +19,9 @@ function initialize() {
         shapesRegistry.add(platform);
 
         setInterval(function(){
-            var fallingDrop = new FallingDrop(500, 0, 20, 20);
+            var fallingDrop = new FallingDrop(Math.floor(Math.random() * 500) + 1, -20, 20, 20);
             shapesRegistry.add(fallingDrop);
-        }, 1000);
+        },  500);
 
         var callback = function() {
             //fallingDrop.xSpeed *= 0.995

@@ -22,7 +22,7 @@ class Sprite {
         this._c = new Point(x + width, y + height);
         this._d = new Point(x, y + height);
         this._lineWidth = 1;
-        this._showBoundingBox = true;
+        this._showBoundingBox = false;
         this._color = "white";
         this._lineColor = "black";
         this.collisions = [];

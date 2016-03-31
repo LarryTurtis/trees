@@ -1,4 +1,7 @@
-import { ShapesRegistry } from './shapesregistry.js'
+import {
+    ShapesRegistry
+}
+from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 let shapes = shapesRegistry.shapes;
@@ -11,7 +14,9 @@ let delta;
 
 
 CanvasRenderingContext2D.prototype.curve = function(points) {
-    this.bezierCurveTo(points.cp1.x, points.cp1.y, points.cp2.x, points.cp2.y, points.end.x, points.end.y);
+    if (points) {
+        this.bezierCurveTo(points.cp1.x, points.cp1.y, points.cp2.x, points.cp2.y, points.end.x, points.end.y);
+    }
 };
 
 CanvasRenderingContext2D.prototype.yLine = function(a, b) {
@@ -111,7 +116,7 @@ class Canvas {
                 this.removeOffScreenObjects();
                 this.ctx.clearRect(0, 0, this.width, this.height);
                 shapes.forEach(shape => {
-                    shape.draw(this.ctx);
+                    if (!shape.removed) shape.draw(this.ctx);
                 });
                 callback();
             }
@@ -122,4 +127,6 @@ class Canvas {
 
 };
 
-export { Canvas }
+export {
+    Canvas
+}

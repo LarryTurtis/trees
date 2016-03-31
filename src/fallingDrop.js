@@ -21,7 +21,7 @@ class FallingDrop extends Droplet {
         // provided for the Polygon's width and height
         super(x, y, width, height);
         this.type = "FallingDrop";
-        this.ySpeed = 1;
+        this.ySpeed = 3;
         this.xSpeed = 0;
     }
 
@@ -108,22 +108,19 @@ class FallingDrop extends Droplet {
         if (this.collisions.length) {
             this.collisions.forEach(collision => {
                 if (collision.obj !== this) {
-                    if (collision.obj.type === "Platform" && !collision.resolved) {
+                    if (collision.obj.type === "Platform") {
                         this.y = collision.obj.y - this.height;
-                        collision.resolved = true;
                         var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
                         shapesRegistry.add(splat);
                         shapesRegistry.remove(this);
                     }
                     if (collision.obj.type === "Splat") {
-                        console.log('splat');
                         this.y = collision.obj.y - this.height;
                         collision.obj.growTo = this;
                         shapesRegistry.remove(this);
                     }
                     if (collision.obj.type === "FallingDrop") {
                         this.y = collision.obj.y - this.height;
-                        shapesRegistry.remove(this);
                     }
                 }
             });
