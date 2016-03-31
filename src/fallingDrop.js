@@ -106,24 +106,27 @@ class FallingDrop extends Droplet {
         }
 
         if (this.collisions.length) {
-            this.collisions.forEach(collision => {
-                if (collision.obj !== this) {
-                    if (collision.obj.type === "Platform") {
-                        this.y = collision.obj.y - this.height;
+            for (var i = 0; i < this.collisions.length; i++) {
+                if (this.collisions[i].obj !== this) {
+                    if (this.collisions[i].obj.type === "Splat") {
+                        this.y = this.collisions[i].obj.y - this.height;
+                        this.collisions[i].obj.growTo = this;
+                        shapesRegistry.remove(this);
+                        break;
+                    }
+                    if (this.collisions[i].obj.type === "Platform") {
+                        this.y = this.collisions[i].obj.y - this.height;
                         var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
                         shapesRegistry.add(splat);
                         shapesRegistry.remove(this);
+                        break;
                     }
-                    if (collision.obj.type === "Splat") {
-                        this.y = collision.obj.y - this.height;
-                        collision.obj.growTo = this;
-                        shapesRegistry.remove(this);
-                    }
-                    if (collision.obj.type === "FallingDrop") {
-                        this.y = collision.obj.y - this.height;
+                    if (this.collisions[i].obj.type === "FallingDrop") {
+                        this.y = this.collisions[i].obj.y - this.height;
+                        break;
                     }
                 }
-            });
+            };
         }
     }
 

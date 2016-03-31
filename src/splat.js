@@ -28,7 +28,6 @@ class Splat extends Droplet {
         this.minHeight = this.height / 2;
         this._growTo = null;
         this.heightFactor = 5;
-        console.log('new splat');
     }
 
     flatten() {
@@ -132,7 +131,6 @@ class Splat extends Droplet {
     }
 
     set growTo(target) {
-
         this._growTo = {
             width: this.width + target.width / 2,
             speed: target.ySpeed
