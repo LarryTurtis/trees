@@ -35,7 +35,7 @@ class Droplet extends Sprite {
         var rb2 = new Point(this.centerX + this.xBezierDistance, this.y + this.height);
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
-
+        this.lineColor = "transparent";
         this.startingPoint = new Point(this.centerX, this.y + this.height);
 
     }

@@ -15,13 +15,13 @@ function initialize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let platform = new Platform(0, 300, 3000, 5);
+        let platform = new Platform(300, 300, 300, 5);
         shapesRegistry.add(platform);
 
         setInterval(function(){
-            var fallingDrop = new FallingDrop(300, -20, 20, 20);
+            var fallingDrop = new FallingDrop(Math.floor(Math.random() * canvas.width)+1, -20, 20, 20);
             shapesRegistry.add(fallingDrop);
-        },  1000);
+        },  100);
 
         var callback = function() {
             //fallingDrop.xSpeed *= 0.995
