@@ -41,8 +41,8 @@ class Splat extends Droplet {
         this.rightBottom.end.x += this.ySpeed;
         this.leftBottom.cp1.x -= this.ySpeed / 2;
         this.rightBottom.cp2.x += this.ySpeed / 2;
-        this.leftBottom.cp2.x -= this.ySpeed / 4;
-        this.rightBottom.cp1.x += this.ySpeed / 4;
+        this.leftBottom.cp2.x -= this.ySpeed / 3;
+        this.rightBottom.cp1.x += this.ySpeed / 3;
         this.rightTop.end.x += this.ySpeed / 6;
         this.leftBottom.end.x -= this.ySpeed / 6;
         
@@ -77,6 +77,7 @@ class Splat extends Droplet {
             this.leftBottom.end.x = this.newRatio(this.leftBottom.end);
             this.leftTop.cp1.x = this.newRatio(this.leftTop.cp1);
             this.leftTop.cp2.x = this.newRatio(this.leftTop.cp2);
+            this.leftTop.end.x = this.newRatio(this.leftTop.end);
             this.rightTop.cp1.x = this.newRatio(this.rightTop.cp1);
             this.rightTop.cp2.x = this.newRatio(this.rightTop.cp2);
             this.rightTop.end.x = this.newRatio(this.rightTop.end);

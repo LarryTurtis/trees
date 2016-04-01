@@ -96,7 +96,6 @@ class Droplet extends Sprite {
     draw(ctx) {
         super.draw(ctx);
         ctx.lineJoin = "miter";
-        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.yMove(this.startingPoint);
         ctx.curve(this.leftBottom);

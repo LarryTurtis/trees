@@ -20,11 +20,11 @@ CanvasRenderingContext2D.prototype.curve = function(points) {
 };
 
 CanvasRenderingContext2D.prototype.yLine = function(a, b) {
-    this.moveTo(a.x, a.y);
     this.lineTo(b.x, b.y);
 };
 
 CanvasRenderingContext2D.prototype.yRect = function(rect) {
+    this.yMove(rect.a);
     this.yLine(rect.a, rect.b);
     this.yLine(rect.b, rect.c);
     this.yLine(rect.c, rect.d);

@@ -24,7 +24,7 @@ class Sprite {
         this._lineWidth = 1;
         this._showBoundingBox = false;
         this._color = "white";
-        this._lineColor = "black";
+        this._lineColor = "transparent";
         this.collisions = [];
         this._id = null;
 
@@ -190,16 +190,17 @@ class Sprite {
 
         if (this._showBoundingBox) {
             ctx.strokeStyle = "black";
-            ctx.fillStyle = "none";
+            ctx.fillStyle = "transparent";
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.yRect(rect);
             ctx.stroke();
+            ctx.fill();
             ctx.closePath();
         }
-        ctx.fillStyle = this._color;
-        ctx.strokeStyle = this._lineColor;
-        ctx.lineWidth = this._lineWidth;
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.lineColor;
+        ctx.lineWidth = this.lineWidth;
     }
 }
 export {
