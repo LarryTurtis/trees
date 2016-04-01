@@ -109,7 +109,6 @@ class FallingDrop extends Droplet {
             for (var i = 0; i < this.collisions.length; i++) {
                 if (this.collisions[i].obj !== this) {
                     if (this.collisions[i].obj.type === "Splat") {
-                        this.y = this.collisions[i].obj.y - this.height;
                         this.collisions[i].obj.growTo = this;
                         shapesRegistry.remove(this);
                         break;

@@ -58,17 +58,17 @@ class Splat extends Droplet {
 
         if (this.startingPoint.x <= this.x) {
             this.isFlat = true;
-            this.ratio1 = this.ratio(this.leftBottom.cp2.x);
-            this.ratio2 = this.ratio(this.leftBottom.end.x);
-            this.ratio3 = this.ratio(this.leftTop.cp1.x);
-            this.ratio4 = this.ratio(this.leftTop.cp2.x);
-            this.ratio5 = this.ratio(this.rightTop.cp1.x);
-            this.ratio6 = this.ratio(this.rightTop.cp2.x);
-            this.ratio7 = this.ratio(this.rightTop.end.x);
-            this.ratio8 = this.ratio(this.rightTop.cp1.x);
-            this.ratio9 = this.ratio(this.rightTop.cp2.x);
-            this.ratio10 = this.ratio(this.rightTop.end.x);
-            this.ratio11 = this.ratio(this.rightBottom.cp1.x);
+            this.ratio(this.leftBottom.cp2);
+            this.ratio(this.leftBottom.end);
+            this.ratio(this.leftTop.cp1);
+            this.ratio(this.leftTop.cp2);
+            this.ratio(this.rightTop.cp1);
+            this.ratio(this.rightTop.cp2);
+            this.ratio(this.rightTop.end);
+            this.ratio(this.rightTop.cp1);
+            this.ratio(this.rightTop.cp2);
+            this.ratio(this.rightTop.end);
+            this.ratio(this.rightBottom.cp1);
         }
     }
 
@@ -81,17 +81,17 @@ class Splat extends Droplet {
 
             this.startingPoint.x -= growRateX;
             this.leftBottom.cp1.x -= growRateX;
-            this.leftBottom.cp2.x = this.width * this.ratio1 + this.x;
-            this.leftBottom.end.x = this.width * this.ratio2 + this.x;
-            this.leftTop.cp1.x = this.width * this.ratio3 + this.x;
-            this.leftTop.cp2.x = this.width * this.ratio4 + this.x;
-            this.rightTop.cp1.x = this.width * this.ratio5 + this.x;
-            this.rightTop.cp2.x = this.width * this.ratio6 + this.x;
-            this.rightTop.end.x = this.width * this.ratio7 + this.x;
-            this.rightTop.cp1.x = this.width * this.ratio8 + this.x;
-            this.rightTop.cp2.x = this.width * this.ratio9 + this.x;
-            this.rightTop.end.x = this.width * this.ratio10 + this.x;
-            this.rightBottom.cp1.x = this.width * this.ratio11 + this.x;
+            this.leftBottom.cp2.x = ;
+            this.leftBottom.end.x = newRatio(leftBottom.cp2);
+            this.leftTop.cp1.x = newRatio(leftTop.cp1);
+            this.leftTop.cp2.x = newRatio(leftTop.cp2);
+            this.rightTop.cp1.x = newRatio(rightTop.cp1);
+            this.rightTop.cp2.x = newRatio(rightTop.cp2);
+            this.rightTop.end.x = newRatio(rightTop.end);
+            this.rightTop.cp1.x = newRatio(rightTop.cp1);
+            this.rightTop.cp2.x = newRatio(rightTop.cp2);
+            this.rightTop.end.x = newRatio(rightTop.end);
+            this.rightBottom.cp1.x = newRatio(rightBottom.cp1);
             this.rightBottom.cp2.x += growRateX;
             this.rightBottom.end.x += growRateX;
 
@@ -113,8 +113,12 @@ class Splat extends Droplet {
         }
     }
 
-    ratio(x) {
-        return (x - this.x) / this.width;
+    ratio(point) {
+        point.ratio = (point.x - this.x) / this.width;
+    }
+
+    newRatio(point) {
+        return this.width * point.ratio + this.x
     }
 
     animate() {

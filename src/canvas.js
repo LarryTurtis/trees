@@ -75,15 +75,6 @@ class Canvas {
         return this._centerY;
     }
 
-    removeOffScreenObjects() {
-        if (shapes[shapes.length - 1].x > this.width) {
-            shapesRegistry.removeShape(shapes[shapes.length - 1]);
-        }
-        if (shapes[shapes.length - 1].y > this.height) {
-            shapesRegistry.removeShape(shapes[shapes.length - 1]);
-        }
-    }
-
     animate(callback) {
 
         requestAnimationFrame(() => {
@@ -113,10 +104,15 @@ class Canvas {
             // ... Code for Drawing the Frame ...
 
             if (shapes.length) {
-                this.removeOffScreenObjects();
                 this.ctx.clearRect(0, 0, this.width, this.height);
                 shapes.forEach(shape => {
-                    if (!shape.removed) shape.draw(this.ctx);
+                    if (shape.x > this.width) {
+                        shapesRegistry.remove(shape);
+                    }
+                    if (shape.y > this.height) {
+                        shapesRegistry.remove(shape);
+                    }
+                    shape.draw(this.ctx);
                 });
                 callback();
             }
