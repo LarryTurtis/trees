@@ -12,7 +12,7 @@ class ShapesRegistry {
             instance = this;
         }
 
-        this._shapes = [];
+        this._shapes = {};
         this._shapeId = 0;
         return instance;
     }
@@ -29,12 +29,25 @@ class ShapesRegistry {
         this._shapeId = id;
     }
 
+    get length() {
+        return Object.keys(this.shapes).length;
+    }
+
+    forEach(callback) {
+        Object.keys(this.shapes).forEach(key => {
+            let obj = this.shapes[key];
+            if (obj) {
+                callback(obj);
+            }
+        });
+    }
+
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this._shapes.length < 5000) {
-            this._shapes.push(shape);
-            collisionRegistry.add(shape)
+        if (this.length < 5000) {
+            this._shapes[shape.id] = shape;
+            if (shape.type !== "FallingDrop" && shape.type !== "Spout") collisionRegistry.add(shape)
         }
     }
 
@@ -42,7 +55,7 @@ class ShapesRegistry {
         var shapesRegistry = this;
         collisionRegistry.remove(shape.id);
         setTimeout(function() {
-            shapesRegistry._shapes.splice(shapesRegistry._shapes.indexOf(shape), 1);
+            delete shapesRegistry._shapes[shape.id];
         }, 0);
     }
 

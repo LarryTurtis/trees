@@ -24,7 +24,7 @@ class Sprite {
         this._lineWidth = 1;
         this._showBoundingBox = false;
         this._color = "white";
-        this._lineColor = "transparent";
+        this._lineColor = "black";
         this.collisions = [];
         this._id = null;
 

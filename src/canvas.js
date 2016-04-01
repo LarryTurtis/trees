@@ -4,7 +4,6 @@ import {
 from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
-let shapes = shapesRegistry.shapes;
 
 let fps = 60;
 let now;
@@ -103,9 +102,9 @@ class Canvas {
 
             // ... Code for Drawing the Frame ...
 
-            if (shapes.length) {
+            if (shapesRegistry.length) {
                 this.ctx.clearRect(0, 0, this.width, this.height);
-                shapes.forEach(shape => {
+                shapesRegistry.forEach(shape => {
                     if (shape.x > this.width) {
                         shapesRegistry.remove(shape);
                     }

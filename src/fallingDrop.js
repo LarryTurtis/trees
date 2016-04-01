@@ -22,7 +22,7 @@ class FallingDrop extends Droplet {
         super(x, y, width, height);
         this.type = "FallingDrop";
         this.ySpeed = 3;
-        this.xSpeed = 1;
+        this.xSpeed = 0;
     }
 
     get x() {
@@ -118,10 +118,6 @@ class FallingDrop extends Droplet {
                         var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
                         shapesRegistry.add(splat);
                         shapesRegistry.remove(this);
-                        break;
-                    }
-                    if (this.collisions[i].obj.type === "FallingDrop") {
-                        this.y = this.collisions[i].obj.y - this.height;
                         break;
                     }
                 }

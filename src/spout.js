@@ -3,10 +3,10 @@ import {
 }
 from './sprite.js'
 
-class Platform extends Sprite {
+class Spout extends Sprite {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.type = "Platform";
+        this.type = "Spout";
     }
 
     draw(ctx) {
@@ -17,7 +17,8 @@ class Platform extends Sprite {
             c: this.c,
             d: this.d
         };
-        
+        ctx.globalCompositeOperation = 'destination-over';
+
         ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
@@ -29,5 +30,5 @@ class Platform extends Sprite {
 }
 
 export {
-    Platform
+    Spout
 }

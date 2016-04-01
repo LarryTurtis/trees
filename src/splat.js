@@ -112,8 +112,7 @@ class Splat extends Droplet {
     animate() {
         if (!this.isFlat) {
             this.flatten();
-        }
-        if (this.growTo) {
+        } else if (this.growTo) {
             this.grow();
         }
     }

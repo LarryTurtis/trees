@@ -35,8 +35,6 @@ class Droplet extends Sprite {
         var rb2 = new Point(this.centerX + this.xBezierDistance, this.y + this.height);
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
-
-        this.lineColor = "transparent";
         this.startingPoint = new Point(this.centerX, this.y + this.height);
         this._curves = [this.leftBottom, this.leftTop, this.rightBottom, this.rightTop];
     }
@@ -99,6 +97,8 @@ class Droplet extends Sprite {
 
     draw(ctx) {
         super.draw(ctx);
+        ctx.globalCompositeOperation = 'destination-over';
+
         ctx.lineJoin = "miter";
         ctx.beginPath();
         ctx.yMove(this.startingPoint);
@@ -120,6 +120,7 @@ class Droplet extends Sprite {
                 ctx.rect(curve.cp1.x - rectWidth / 2, curve.cp1.y - rectHeight / 2, rectWidth, rectHeight)
                 ctx.rect(curve.cp2.x - rectWidth / 2, curve.cp2.y - rectHeight / 2, rectWidth, rectHeight)
                 ctx.rect(curve.end.x - rectWidth / 2, curve.end.y - rectHeight / 2, rectWidth, rectHeight)
+                ctx.stroke();
                 ctx.fill();
                 ctx.closePath();
             });
