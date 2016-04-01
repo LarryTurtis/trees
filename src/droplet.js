@@ -37,7 +37,20 @@ class Droplet extends Sprite {
         this._rightBottom = new Curve(rb1, rb2, rb3);
         this.lineColor = "transparent";
         this.startingPoint = new Point(this.centerX, this.y + this.height);
+    }
 
+    allCurves(callback) {
+        [this.leftBottom, this.leftTop, this.rightBottom, this.rightTop].forEach(curve => {
+            callback(curve);
+        })
+    }
+
+    allPoints(callback) {
+        this.allCurves(curve => {
+            [curve.cp1, curve.cp2, curve.end].forEach(point => {
+                callback(point);
+            });
+        });
     }
 
     get yBezierDistance() {
@@ -97,7 +110,7 @@ class Droplet extends Sprite {
         if (this.showBoundingBox) {
             var rectWidth = 5;
             var rectHeight = 5;
-            [this.leftBottom, this.rightBottom, this.leftTop, this.rightTop].forEach(curve => {
+            this.allCurves(curve => {
                 ctx.beginPath()
                 ctx.fillStyle = "red";
                 ctx.rect(this.startingPoint.x - rectWidth / 2, this.startingPoint.y - rectHeight / 2, rectWidth, rectHeight)

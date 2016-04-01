@@ -58,17 +58,9 @@ class Splat extends Droplet {
 
         if (this.startingPoint.x <= this.x) {
             this.isFlat = true;
-            this.ratio(this.leftBottom.cp2);
-            this.ratio(this.leftBottom.end);
-            this.ratio(this.leftTop.cp1);
-            this.ratio(this.leftTop.cp2);
-            this.ratio(this.rightTop.cp1);
-            this.ratio(this.rightTop.cp2);
-            this.ratio(this.rightTop.end);
-            this.ratio(this.rightTop.cp1);
-            this.ratio(this.rightTop.cp2);
-            this.ratio(this.rightTop.end);
-            this.ratio(this.rightBottom.cp1);
+            this.allPoints(point => {
+                this.ratio(point)
+            });
         }
     }
 
@@ -81,17 +73,17 @@ class Splat extends Droplet {
 
             this.startingPoint.x -= growRateX;
             this.leftBottom.cp1.x -= growRateX;
-            this.leftBottom.cp2.x = ;
-            this.leftBottom.end.x = newRatio(leftBottom.cp2);
-            this.leftTop.cp1.x = newRatio(leftTop.cp1);
-            this.leftTop.cp2.x = newRatio(leftTop.cp2);
-            this.rightTop.cp1.x = newRatio(rightTop.cp1);
-            this.rightTop.cp2.x = newRatio(rightTop.cp2);
-            this.rightTop.end.x = newRatio(rightTop.end);
-            this.rightTop.cp1.x = newRatio(rightTop.cp1);
-            this.rightTop.cp2.x = newRatio(rightTop.cp2);
-            this.rightTop.end.x = newRatio(rightTop.end);
-            this.rightBottom.cp1.x = newRatio(rightBottom.cp1);
+            this.leftBottom.cp2.x = this.newRatio(this.leftBottom.cp2);
+            this.leftBottom.end.x = this.newRatio(this.leftBottom.end);
+            this.leftTop.cp1.x = this.newRatio(this.leftTop.cp1);
+            this.leftTop.cp2.x = this.newRatio(this.leftTop.cp2);
+            this.rightTop.cp1.x = this.newRatio(this.rightTop.cp1);
+            this.rightTop.cp2.x = this.newRatio(this.rightTop.cp2);
+            this.rightTop.end.x = this.newRatio(this.rightTop.end);
+            this.rightTop.cp1.x = this.newRatio(this.rightTop.cp1);
+            this.rightTop.cp2.x = this.newRatio(this.rightTop.cp2);
+            this.rightTop.end.x = this.newRatio(this.rightTop.end);
+            this.rightBottom.cp1.x = this.newRatio(this.rightBottom.cp1);
             this.rightBottom.cp2.x += growRateX;
             this.rightBottom.end.x += growRateX;
 
