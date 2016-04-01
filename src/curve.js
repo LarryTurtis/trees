@@ -2,12 +2,19 @@ import { Point } from './point.js'
 
 class Curve {
     constructor(cp1, cp2, end) {
-
         this._cp1 = cp1
         this._cp2 = cp2;
         this._end = end;
+        this._points = [this._cp1, this._cp2, this._end];
     }
 
+    get points() {
+        return this._points;
+    }
+
+    set points(points) {
+        this._points = points;
+    }
 
     get cp1() {
         return this._cp1;

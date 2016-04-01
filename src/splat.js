@@ -45,7 +45,7 @@ class Splat extends Droplet {
         this.rightBottom.cp1.x += this.ySpeed / 3;
         this.rightTop.end.x += this.ySpeed / 6;
         this.leftBottom.end.x -= this.ySpeed / 6;
-        
+
         this.leftBottom.end.y = this.centerY;
         this.rightTop.end.y = this.centerY;
         this.leftTop.cp2.y = this.y;
@@ -68,41 +68,36 @@ class Splat extends Droplet {
         if (this.width < this.growTo.width) {
             var growRateX = this.growTo.speed / 2;
             var growRateY = this.growTo.speed / 50;
+
             this.width += growRateX * 2;
             this.x -= growRateX;
+            this.height += growRateY;
+            this.y -= growRateY;
 
             this.startingPoint.x -= growRateX;
+            
             this.leftBottom.cp1.x -= growRateX;
             this.leftBottom.cp2.x = this.newRatio(this.leftBottom.cp2);
             this.leftBottom.end.x = this.newRatio(this.leftBottom.end);
-            this.leftTop.cp1.x = this.newRatio(this.leftTop.cp1);
-            this.leftTop.cp2.x = this.newRatio(this.leftTop.cp2);
-            this.leftTop.end.x = this.newRatio(this.leftTop.end);
-            this.rightTop.cp1.x = this.newRatio(this.rightTop.cp1);
-            this.rightTop.cp2.x = this.newRatio(this.rightTop.cp2);
-            this.rightTop.end.x = this.newRatio(this.rightTop.end);
-            this.rightTop.cp1.x = this.newRatio(this.rightTop.cp1);
-            this.rightTop.cp2.x = this.newRatio(this.rightTop.cp2);
-            this.rightTop.end.x = this.newRatio(this.rightTop.end);
+
             this.rightBottom.cp1.x = this.newRatio(this.rightBottom.cp1);
             this.rightBottom.cp2.x += growRateX;
             this.rightBottom.end.x += growRateX;
 
-
-            this.height += growRateY;
-            this.y -= growRateY;
-
-            this.leftTop.cp1.y -= growRateY;
-            this.leftTop.cp2.y -= growRateY;
-            this.leftTop.end.y -= growRateY;
-            this.rightTop.end.y -= growRateY;
-            this.rightTop.cp1.y -= growRateY;
-            this.rightTop.cp2.y -= growRateY;
             this.rightBottom.cp1.y -= growRateY;
             this.rightBottom.cp2.y -= growRateY;
-            this.leftBottom.cp1.y -= growRateY;
-            this.leftBottom.cp2.y -= growRateY;
-            this.leftBottom.end.y -= growRateY;
+
+            this.leftTop.points.forEach(point => {
+                point.x = this.newRatio(point);
+                point.y -= growRateY;
+            });
+            this.rightTop.points.forEach(point => {
+                point.x = this.newRatio(point);
+                point.y -= growRateY;
+            });
+            this.leftBottom.points.forEach(point => {
+                point.y -= growRateY;
+            });
         }
     }
 

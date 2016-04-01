@@ -22,7 +22,7 @@ class FallingDrop extends Droplet {
         super(x, y, width, height);
         this.type = "FallingDrop";
         this.ySpeed = 3;
-        this.xSpeed = 0;
+        this.xSpeed = 1;
     }
 
     get x() {

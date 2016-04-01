@@ -35,22 +35,26 @@ class Droplet extends Sprite {
         var rb2 = new Point(this.centerX + this.xBezierDistance, this.y + this.height);
         var rb3 = new Point(this.centerX, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
+
         this.lineColor = "transparent";
         this.startingPoint = new Point(this.centerX, this.y + this.height);
+        this._curves = [this.leftBottom, this.leftTop, this.rightBottom, this.rightTop];
     }
 
-    allCurves(callback) {
-        [this.leftBottom, this.leftTop, this.rightBottom, this.rightTop].forEach(curve => {
-            callback(curve);
-        })
+    get curves() {
+        return this._curves;
+    }
+
+    set curves(curves) {
+        this._curves = curves;
     }
 
     allPoints(callback) {
-        this.allCurves(curve => {
-            [curve.cp1, curve.cp2, curve.end].forEach(point => {
+        this.curves.forEach(curve => {
+            curve.points.forEach(point => {
                 callback(point);
             });
-        });
+        })
     }
 
     get yBezierDistance() {
