@@ -1,3 +1,5 @@
+import { collisionDetection } from './collisionDetection.js'
+
 class Collision {
     constructor(obj) {
         this._resolved = false;
@@ -5,15 +7,16 @@ class Collision {
     }
 
     test(obj) {
-        if (obj !== this.obj &&
-            obj.a.x <= this.obj.b.x &&
-            obj.b.x >= this.obj.a.x &&
-            obj.a.y <= this.obj.d.y &&
-            obj.d.y >= this.obj.a.y) {
-            return true;
-        } else {
-            return false;
-        }
+        return collisionDetection(obj, this.obj);
+        // if (obj !== this.obj &&
+        //     obj.a.x <= this.obj.b.x &&
+        //     obj.b.x >= this.obj.a.x &&
+        //     obj.a.y <= this.obj.d.y &&
+        //     obj.d.y >= this.obj.a.y) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     get obj() {

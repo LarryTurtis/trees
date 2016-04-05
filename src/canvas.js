@@ -5,7 +5,7 @@ from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 
-let fps = 60;
+let fps = 20;
 let now;
 let then = Date.now();
 let interval = 1000 / fps;

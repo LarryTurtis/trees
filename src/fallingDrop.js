@@ -16,10 +16,10 @@ from './splat.js'
 let shapesRegistry = new ShapesRegistry();
 
 class FallingDrop extends Droplet {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, angle) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
-        super(x, y, width, height);
+        super(x, y, width, height, angle);
         this.type = "FallingDrop";
         this.ySpeed = 3;
         this.xSpeed = 0;
@@ -107,19 +107,17 @@ class FallingDrop extends Droplet {
 
         if (this.collisions.length) {
             for (var i = 0; i < this.collisions.length; i++) {
-                if (this.collisions[i].obj !== this) {
-                    if (this.collisions[i].obj.type === "Splat") {
-                        this.collisions[i].obj.growTo = this;
-                        shapesRegistry.remove(this);
-                        break;
-                    }
-                    if (this.collisions[i].obj.type === "Platform") {
-                        this.y = this.collisions[i].obj.y - this.height;
-                        var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed);
-                        shapesRegistry.add(splat);
-                        shapesRegistry.remove(this);
-                        break;
-                    }
+                if (this.collisions[i].obj.type === "Splat") {
+                    this.collisions[i].obj.growTo = this;
+                    shapesRegistry.remove(this);
+                    break;
+                }
+                if (this.collisions[i].obj.type === "Platform") {
+                    this.y -= this.collisions[i].point.y;
+                    var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, this.collisions[i].obj.angle);
+                    shapesRegistry.add(splat);
+                    shapesRegistry.remove(this);
+                    break;
                 }
             };
         }

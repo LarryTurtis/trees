@@ -32,21 +32,21 @@ class Sprite {
 
     set x(x) {
         this._x = x;
-        this._a.x = x;
-        this._b.x = x + this._width;
-        this._c.x = x + this._width;
-        this._d.x = x;
-        this._centerX = x + (this.width / 2);
+        this.a.x = x;
+        this.b.x = this.getSecondPoint(this.a, this.width, this.angle).x;
+        this.c.x = this.getSecondPoint(this.b, this.height, this.angle + 90).x;
+        this.d.x = this.getSecondPoint(this.c, -this.width, this.angle).x;
+        this.centerX = x + (this.width / 2);
         this.updateCollisions();
     }
 
     set y(y) {
         this._y = y;
-        this._a.y = y;
-        this._b.y = y;
-        this._c.y = y + this._height;
-        this._d.y = y + this._height;
-        this._centerY = y + (this.height / 2);
+        this.a.y = y;
+        this.b.y = this.getSecondPoint(this.a, this.width, this.angle).y;
+        this.c.y = this.getSecondPoint(this.b, this.height, this.angle + 90).y;
+        this.d.y = this.getSecondPoint(this.c, -this.width, this.angle).y;
+        this.centerY = y + (this.height / 2);
         this.updateCollisions();
     }
 
@@ -62,8 +62,16 @@ class Sprite {
         return this._centerX;
     }
 
+    set centerX(centerX) {
+        this._centerX = centerX;
+    }
+
     get centerY() {
         return this._centerY;
+    }
+
+    set centerY(centerY) {
+        this._centerY = centerY;
     }
 
     set id(id) {
@@ -120,17 +128,16 @@ class Sprite {
 
     set width(width) {
         this._width = width;
-        this._b.x = this._x + width;
-        this._c.x = this._x + width;
-        this._centerX = this.x + (width / 2);
+        this.b.x = this.getSecondPoint(this.a, width, this.angle).x;
+        this.d.x = this.getSecondPoint(this.c, -width, this.angle).x;
+        this.centerX = this.x + (width / 2);
         this.updateCollisions();
     }
 
     set height(height) {
         this._height = height;
-        this._c.y = this._y + height;
-        this._d.y = this._y + height;
-        this._centerY = this.y + (height / 2);
+        this.c.x = this.getSecondPoint(this.b, height, this.angle + 90).x;
+        this.centerY = this.y + (height / 2);
         this.updateCollisions();
     }
 
@@ -181,9 +188,11 @@ class Sprite {
     }
 
     updateCollisions() {
-        this.collisions = [];
+        // this.collisions = [];
         collisionRegistry.forEach(collision => {
-            if (collision.test(this)) {
+            var collisionResult = collision.test(this);
+            if (collisionResult) {
+                collision.point = collisionResult;
                 this.collisions.push(collision);
             }
         });
@@ -191,7 +200,6 @@ class Sprite {
             return a.obj.y - b.obj.y;
         })
     }
-
 
     draw(ctx) {
 

@@ -12,10 +12,10 @@ import {
 from './curve.js'
 
 class Droplet extends Sprite {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, angle) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
-        super(x, y, width, height);
+        super(x, y, width, height, angle);
         var lb1 = new Point(this.centerX - this.xBezierDistance, this.y + this.height);
         var lb2 = new Point(this.x, this.centerY + this.yBezierDistance);
         var lb3 = new Point(this.x, this.centerY);

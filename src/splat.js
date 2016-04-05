@@ -17,14 +17,14 @@ let shapesRegistry = new ShapesRegistry();
 let collisionRegistry = new CollisionRegistry();
 
 class Splat extends Droplet {
-    constructor(x, y, width, height, ySpeed, isFlat) {
+    constructor(x, y, width, height, ySpeed, angle) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
-        super(x, y, width, height);
+        super(x, y, width, height, angle);
         this.type = "Splat";
         this.ySpeed = ySpeed;
         this.xSpeed = 0;
-        this.isFlat = isFlat || false;
+        this.isFlat = false;
         this.minHeight = this.height / 2;
         this._growTo = null;
         this.heightFactor = 5;
@@ -38,6 +38,7 @@ class Splat extends Droplet {
         this.y += this.ySpeed / 2;
 
         this.startingPoint.x -= this.ySpeed;
+
         this.rightBottom.end.x += this.ySpeed;
         this.leftBottom.cp1.x -= this.ySpeed / 2;
         this.rightBottom.cp2.x += this.ySpeed / 2;
