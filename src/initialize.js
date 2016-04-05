@@ -40,6 +40,7 @@ function initialize() {
         let platform = new Platform(300, 300, 300, 5, 0);
         let spout = new Spout(50, -10, 50, 50);
         shapesRegistry.add(spout);
+        shapesRegistry.add(new Platform(600,300,300,5,20));
         shapesRegistry.add(platform);
 
         interval = setInterval(addDrop, speed);

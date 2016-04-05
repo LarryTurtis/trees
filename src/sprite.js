@@ -23,7 +23,7 @@ class Sprite {
         this._c = this.getSecondPoint(this.b, height, this.angle + 90);
         this._d = this.getSecondPoint(this.c, -width, this.angle);
         this._lineWidth = 1;
-        this._showBoundingBox = true;
+        this._showBoundingBox = false;
         this._color = "white";
         this._lineColor = "black";
         this.collisions = [];
