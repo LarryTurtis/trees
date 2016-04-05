@@ -25,7 +25,7 @@ let speed = 1000;
 let interval = null;
 
 function addDrop() {
-    var fallingDrop = new FallingDrop(shooterX, 20, 30, 30);
+    var fallingDrop = new FallingDrop(shooterX, 20, 20, 20);
     shapesRegistry.add(fallingDrop);
 }
 
@@ -37,7 +37,7 @@ function initialize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let platform = new Platform(20, 300, 800, 5);
+        let platform = new Platform(300, 300, 300, 5, 0);
         let spout = new Spout(50, -10, 50, 50);
         shapesRegistry.add(spout);
         shapesRegistry.add(platform);

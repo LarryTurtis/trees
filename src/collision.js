@@ -6,10 +6,10 @@ class Collision {
 
     test(obj) {
         if (obj !== this.obj &&
-            obj.x <= this.obj.x + this.obj.width &&
-            obj.x + obj.width >= this.obj.x &&
-            obj.y <= this.obj.y + this.obj.height &&
-            obj.height + obj.y >= this.obj.y) {
+            obj.a.x <= this.obj.b.x &&
+            obj.b.x >= this.obj.a.x &&
+            obj.a.y <= this.obj.d.y &&
+            obj.d.y >= this.obj.a.y) {
             return true;
         } else {
             return false;

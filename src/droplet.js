@@ -113,17 +113,15 @@ class Droplet extends Sprite {
         if (this.showBoundingBox) {
             var rectWidth = 5;
             var rectHeight = 5;
-            this.allCurves(curve => {
-                ctx.beginPath()
-                ctx.fillStyle = "red";
-                ctx.rect(this.startingPoint.x - rectWidth / 2, this.startingPoint.y - rectHeight / 2, rectWidth, rectHeight)
-                ctx.rect(curve.cp1.x - rectWidth / 2, curve.cp1.y - rectHeight / 2, rectWidth, rectHeight)
-                ctx.rect(curve.cp2.x - rectWidth / 2, curve.cp2.y - rectHeight / 2, rectWidth, rectHeight)
-                ctx.rect(curve.end.x - rectWidth / 2, curve.end.y - rectHeight / 2, rectWidth, rectHeight)
-                ctx.stroke();
-                ctx.fill();
-                ctx.closePath();
+            ctx.beginPath()
+            ctx.fillStyle = "red";
+            ctx.rect(this.startingPoint.x - rectWidth / 2, this.startingPoint.y - rectHeight / 2, rectWidth, rectHeight)
+            this.allPoints(point => {
+                ctx.rect(point.x - rectWidth / 2, point.y - rectHeight / 2, rectWidth, rectHeight)
             });
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
         }
     }
 

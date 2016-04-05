@@ -10,24 +10,24 @@ from './collisionRegistry.js'
 let collisionRegistry = new CollisionRegistry();
 
 class Sprite {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, angle) {
         this._width = width;
         this._height = height;
         this._x = x;
         this._y = y;
         this._centerX = this.x + (this.width / 2);
         this._centerY = this.y + (this.height / 2);
+        this._angle = angle || 0;
         this._a = new Point(x, y);
-        this._b = new Point(x + width, y)
-        this._c = new Point(x + width, y + height);
-        this._d = new Point(x, y + height);
+        this._b = this.getSecondPoint(this.a, width, this.angle);
+        this._c = this.getSecondPoint(this.b, height, this.angle + 90);
+        this._d = this.getSecondPoint(this.c, -width, this.angle);
         this._lineWidth = 1;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "white";
         this._lineColor = "black";
         this.collisions = [];
         this._id = null;
-
     }
 
     set x(x) {
@@ -166,6 +166,20 @@ class Sprite {
         return this._lineWidth;
     }
 
+    get angle() {
+        return this._angle;
+    }
+
+    set angle(angle) {
+        this._angle = angle;
+    }
+
+    getSecondPoint(firstPoint, width, angle) {
+        let secondPointX = firstPoint.x + width * Math.cos(angle * Math.PI / 180);
+        let secondPointY = firstPoint.y + width * Math.sin(angle * Math.PI / 180);
+        return new Point(secondPointX, secondPointY);
+    }
+
     updateCollisions() {
         this.collisions = [];
         collisionRegistry.forEach(collision => {
@@ -173,7 +187,7 @@ class Sprite {
                 this.collisions.push(collision);
             }
         });
-        this.collisions.sort(function(a, b){
+        this.collisions.sort(function(a, b) {
             return a.obj.y - b.obj.y;
         })
     }
