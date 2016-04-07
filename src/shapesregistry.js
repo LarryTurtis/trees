@@ -42,9 +42,9 @@ class ShapesRegistry {
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this.length < 5000) {
+        if (this.length < 40000) {
             this._shapes[shape.id] = shape;
-            if (shape.type !== "FallingDrop" && shape.type !== "Spout") collisionRegistry.add(shape)
+            if (shape.type !== "Spout") collisionRegistry.add(shape)
         }
     }
 

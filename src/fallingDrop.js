@@ -113,9 +113,15 @@ class FallingDrop extends Droplet {
 
         if (this.collisions.length) {
             var collision = this.collisions.getLowestCollision();
+            if (this.id ===3) console.log(this, collision);
             if (collision.obj.type === "Splat") {
                 collision.obj.growTo = this;
                 shapesRegistry.remove(this);
+            }
+            if (collision.obj.type === "FallingDrop") {
+                if (this.y > collision.obj.y) {
+                    this.fall();
+                }
             }
             if (collision.obj.type === "Platform") {
                 this.ySpeed = 2;

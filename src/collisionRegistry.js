@@ -27,7 +27,7 @@ class CollisionRegistry {
         for (var shape in this.all)
             sortable.push(this.all[shape])
         sortable.sort((a, b) => {
-            return a.obj.y - b.obj.y
+            return b.obj.y - a.obj.y
         });
         return sortable[0];
     }
