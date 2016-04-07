@@ -82,16 +82,32 @@ class FallingDrop extends Droplet {
         this.leftBottom.end.y = this.centerY;
     }
 
-    applyGravity() {
+    fall() {
         this.ySpeed += 0.05;
         // this.xSpeed = this.angle / 360;
         this.y += this.ySpeed;
         // this.x += this.xSpeed;
     }
 
+    slide(collision) {
+        if (this.angle < collision.obj.angle) {
+            this.angle++;
+            this.y -= collision.y + 1;
+        } else {
+            this.angle = collision.obj.angle;
+            this.y -= collision.y + 1;
+        }
+        if (collision.obj.angle !== 0) {
+            var slideSpeed = this.ySpeed * (1 + this.angle/100);
+            var next = this.getSecondPoint(this.a, slideSpeed, this.angle);
+            this.x = next.x;
+            this.y = next.y;
+        }
+    }
+
     animate() {
         if (!this.collisions.length) {
-            this.applyGravity();
+            this.fall();
         }
 
         if (this.collisions.length) {
@@ -101,14 +117,9 @@ class FallingDrop extends Droplet {
                 shapesRegistry.remove(this);
             }
             if (collision.obj.type === "Platform") {
-                this.ySpeed = 3;
-                if (this.angle < collision.obj.angle) {
-                    this.angle++;
-                    this.y -= collision.y + 1;
-                }
-                var next = this.getSecondPoint(this.a, this.ySpeed, this.angle);
-                this.x = next.x;
-                this.y = next.y;
+                this.ySpeed = 2;
+                this.slide(collision);
+
                 //var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, collision.obj.angle);
                 // shapesRegistry.add(splat);
                 // shapesRegistry.remove(this);
