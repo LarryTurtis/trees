@@ -1,23 +1,8 @@
-import {
-    Canvas
-}
-from './canvas.js';
-import {
-    FallingDrop
-}
-from './fallingDrop.js';
-import {
-    Platform
-}
-from './platform.js';
-import {
-    Spout
-}
-from './spout.js';
-import {
-    ShapesRegistry
-}
-from './shapesregistry.js'
+import { Canvas } from './canvas.js';
+import { FallingDrop } from './fallingDrop.js';
+import { Platform } from './platform.js';
+import { Spout } from './spout.js';
+import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 let shooterX = 100;
@@ -37,14 +22,14 @@ function initialize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let platform = new Platform(10, 300, 300, 5, 0);
+        let platform = new Platform(10, 300, 300, 5, 30);
         let spout = new Spout(50, -10, 50, 50);
         shapesRegistry.add(spout);
-        shapesRegistry.add(new Platform(600,300,300,5,20));
+        shapesRegistry.add(new Platform(600, 300, 300, 5, 20));
         shapesRegistry.add(platform);
         //interval = setInterval(addDrop, speed);
         addDrop();
-
+        var deg = -50;
         var callback = function() {
             //fallingDrop.xSpeed *= 0.995
             //fallingDrop.ySpeed *= 1.02;
@@ -86,6 +71,4 @@ function initialize() {
     };
 }
 
-export {
-    initialize
-};
+export { initialize };

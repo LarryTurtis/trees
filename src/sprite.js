@@ -1,13 +1,8 @@
-import {
-    Point
-}
-from './point.js'
-import {
-    CollisionRegistry
-}
-from './collisionRegistry.js'
+import { Point } from './point.js'
+import { GlobalCollisionRegistry } from './globalCollisionRegistry.js'
+import { CollisionRegistry } from './collisionRegistry.js'
 
-let collisionRegistry = new CollisionRegistry();
+let globalCollisionRegistry = new GlobalCollisionRegistry();
 
 class Sprite {
     constructor(x, y, width, height, angle) {
@@ -15,38 +10,27 @@ class Sprite {
         this._height = height;
         this._x = x;
         this._y = y;
+        this._angle = angle || 0
+        this.updatePoints(x, y);
         this._centerX = this.x + (this.width / 2);
         this._centerY = this.y + (this.height / 2);
-        this._angle = angle || 0;
-        this._a = new Point(x, y);
-        this._b = this.getSecondPoint(this.a, width, this.angle);
-        this._c = this.getSecondPoint(this.b, height, this.angle + 90);
-        this._d = this.getSecondPoint(this.c, -width, this.angle);
         this._lineWidth = 1;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "white";
         this._lineColor = "black";
-        this.collisions = [];
+        this.collisions = new CollisionRegistry();
         this._id = null;
     }
 
     set x(x) {
         this._x = x;
-        this.a.x = x;
-        this.b.x = this.getSecondPoint(this.a, this.width, this.angle).x;
-        this.c.x = this.getSecondPoint(this.b, this.height, this.angle + 90).x;
-        this.d.x = this.getSecondPoint(this.c, -this.width, this.angle).x;
-        this.centerX = x + (this.width / 2);
+        this.updatePoints(this.x, this.y)
         this.updateCollisions();
     }
 
     set y(y) {
         this._y = y;
-        this.a.y = y;
-        this.b.y = this.getSecondPoint(this.a, this.width, this.angle).y;
-        this.c.y = this.getSecondPoint(this.b, this.height, this.angle + 90).y;
-        this.d.y = this.getSecondPoint(this.c, -this.width, this.angle).y;
-        this.centerY = y + (this.height / 2);
+        this.updatePoints(this.x, this.y)
         this.updateCollisions();
     }
 
@@ -79,8 +63,7 @@ class Sprite {
     }
 
     set a(obj) {
-        this._a.x = obj.x;
-        this._a.y = obj.y;
+        this._a = obj;
     }
 
     get a() {
@@ -88,8 +71,7 @@ class Sprite {
     }
 
     set b(obj) {
-        this._b.x = obj.x;
-        this._b.y = obj.y;
+        this._b = obj;
     }
 
     get b() {
@@ -97,8 +79,7 @@ class Sprite {
     }
 
     set c(obj) {
-        this._c.x = obj.x;
-        this._c.y = obj.y;
+        this._c = obj;
     }
 
     get c() {
@@ -106,8 +87,7 @@ class Sprite {
     }
 
     set d(obj) {
-        this._d.x = obj.x;
-        this._d.y = obj.y;
+        this._d = obj;
     }
 
     get d() {
@@ -128,16 +108,13 @@ class Sprite {
 
     set width(width) {
         this._width = width;
-        this.b.x = this.getSecondPoint(this.a, width, this.angle).x;
-        this.d.x = this.getSecondPoint(this.c, -width, this.angle).x;
-        this.centerX = this.x + (width / 2);
+        this.updatePoints(this.x, this.y)
         this.updateCollisions();
     }
 
     set height(height) {
         this._height = height;
-        this.c.x = this.getSecondPoint(this.b, height, this.angle + 90).x;
-        this.centerY = this.y + (height / 2);
+        this.updatePoints(this.x, this.y)
         this.updateCollisions();
     }
 
@@ -179,6 +156,12 @@ class Sprite {
 
     set angle(angle) {
         this._angle = angle;
+        this.updatePoints(this.x, this.y);
+        this.updateCollisions();
+    }
+
+    rotate(deg) {
+        this.angle = deg;
     }
 
     getSecondPoint(firstPoint, width, angle) {
@@ -188,17 +171,31 @@ class Sprite {
     }
 
     updateCollisions() {
-        // this.collisions = [];
-        collisionRegistry.forEach(collision => {
-            var collisionResult = collision.test(this);
-            if (collisionResult) {
-                collision.point = collisionResult;
-                this.collisions.push(collision);
+        globalCollisionRegistry.forEach(collision => {
+            if (collision.obj !== this) {
+                var collisionResult = collision.test(this);
+                if (collisionResult) {
+                    collisionResult.type = collision.type;
+                    collisionResult.obj = collision.obj;
+                    if (!this.collisions.all[collision.obj.id]) this.collisions.add(collisionResult);
+                } else {
+
+                    //this is weird. should we just update collisions for all objects every frame?
+                    collision.obj.collisions.remove(this);
+                    this.collisions.remove(collision);
+                }
             }
         });
-        this.collisions.sort(function(a, b) {
-            return a.obj.y - b.obj.y;
-        })
+    }
+
+    updatePoints(x, y) {
+        this.centerX = this.x + (this.width / 2);
+        this.centerY = y + (this.height / 2);
+
+        this.a = new Point(x, y);
+        this.b = this.getSecondPoint(this.a, this.width, this.angle);
+        this.c = this.getSecondPoint(this.b, this.height, this.angle + 90);
+        this.d = this.getSecondPoint(this.c, -this.width, this.angle);
     }
 
     draw(ctx) {

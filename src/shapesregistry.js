@@ -1,10 +1,7 @@
-import {
-    CollisionRegistry
-}
-from './collisionRegistry.js'
+import { GlobalCollisionRegistry } from './globalCollisionRegistry.js'
 
 let instance = null;
-let collisionRegistry = new CollisionRegistry();
+let collisionRegistry = new GlobalCollisionRegistry();
 
 class ShapesRegistry {
     constructor(canvas) {
@@ -62,6 +59,4 @@ class ShapesRegistry {
 }
 
 
-export {
-    ShapesRegistry
-}
+export { ShapesRegistry }

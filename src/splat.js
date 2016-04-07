@@ -1,17 +1,6 @@
-import {
-    Droplet
-}
-from './droplet.js';
-
-import {
-    CollisionRegistry
-}
-from './collisionRegistry.js';
-
-import {
-    ShapesRegistry
-}
-from './shapesregistry.js';
+import { Droplet } from './droplet.js';
+import { CollisionRegistry } from './collisionRegistry.js';
+import { ShapesRegistry } from './shapesregistry.js';
 
 let shapesRegistry = new ShapesRegistry();
 let collisionRegistry = new CollisionRegistry();
@@ -28,6 +17,12 @@ class Splat extends Droplet {
         this.minHeight = this.height / 2;
         this._growTo = null;
         this.heightFactor = 5;
+    }
+
+    applyGravity() {
+        this.ySpeed *= 1.02;
+        this.y += this.ySpeed;
+        this.x += this.xSpeed;
     }
 
     flatten() {
@@ -76,7 +71,7 @@ class Splat extends Droplet {
             this.y -= growRateY;
 
             this.startingPoint.x -= growRateX;
-            
+
             this.leftBottom.cp1.x -= growRateX;
             this.leftBottom.cp2.x = this.newRatio(this.leftBottom.cp2);
             this.leftBottom.end.x = this.newRatio(this.leftBottom.end);
@@ -116,6 +111,13 @@ class Splat extends Droplet {
         } else if (this.growTo) {
             this.grow();
         }
+        if (!this.collisions.length) {
+            this.applyGravity();
+        }
+        this.collisions.forEach(collision => {
+            this.angle = collision.obj.angle;
+        });
+
     }
 
     get growTo() {
@@ -136,6 +138,4 @@ class Splat extends Droplet {
 
 }
 
-export {
-    Splat
-}
+export { Splat }

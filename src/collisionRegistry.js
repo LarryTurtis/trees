@@ -1,25 +1,16 @@
-import {
-    Collision
-}
-from './collision.js'
-let instance = null;
+import { Collision } from './collision.js'
+
 class CollisionRegistry {
     constructor(canvas) {
-        if (!instance) {
-            instance = this;
-        }
-
         this._collisions = {};
-
-        return instance;
     }
 
-    get collisions() {
+    get all() {
         return this._collisions;
     }
 
     forEach(callback) {
-        Object.keys(this.collisions).forEach(key => {
+        Object.keys(this.all).forEach(key => {
             let obj = this._collisions[key];
             if (obj) {
                 callback(obj);
@@ -27,18 +18,30 @@ class CollisionRegistry {
         });
     }
 
-    add(shape) {
-        var collision = new Collision(shape);
-        this._collisions[shape.id] = collision;
+    get length() {
+        return Object.keys(this.all).length;
     }
 
-    remove(id) {
+    getLowestCollision() {
+        var sortable = [];
+        for (var shape in this.all)
+            sortable.push(this.all[shape])
+        sortable.sort((a, b) => {
+            return a.obj.y - b.obj.y
+        });
+        return sortable[0];
+    }
+
+    add(shape) {
+        this._collisions[shape.obj.id] = shape;
+    }
+
+    remove(shape) {
+        var id = shape.obj && shape.obj.id || shape.id;
         delete this._collisions[id];
     }
 
 }
 
 
-export {
-    CollisionRegistry
-}
+export { CollisionRegistry }

@@ -1,7 +1,4 @@
-import {
-    Sprite
-}
-from './sprite.js'
+import { Sprite } from './sprite.js'
 
 class Platform extends Sprite {
     constructor(x, y, width, height, angle) {
@@ -17,7 +14,7 @@ class Platform extends Sprite {
             c: this.c,
             d: this.d
         };
-        
+
         ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
@@ -28,6 +25,4 @@ class Platform extends Sprite {
 
 }
 
-export {
-    Platform
-}
+export { Platform }

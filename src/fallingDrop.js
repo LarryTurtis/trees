@@ -1,17 +1,6 @@
-import {
-    Droplet
-}
-from './droplet.js';
-
-import {
-    ShapesRegistry
-}
-from './shapesregistry.js'
-
-import {
-    Splat
-}
-from './splat.js'
+import { Droplet } from './droplet.js';
+import { ShapesRegistry } from './shapesregistry.js'
+import { Splat } from './splat.js'
 
 let shapesRegistry = new ShapesRegistry();
 
@@ -94,32 +83,36 @@ class FallingDrop extends Droplet {
     }
 
     applyGravity() {
-        this.ySpeed *= 1.02;
+        this.ySpeed += 0.05;
+        // this.xSpeed = this.angle / 360;
         this.y += this.ySpeed;
-        this.x += this.xSpeed;
+        // this.x += this.xSpeed;
     }
 
     animate() {
-
         if (!this.collisions.length) {
             this.applyGravity();
         }
 
         if (this.collisions.length) {
-            for (var i = 0; i < this.collisions.length; i++) {
-                if (this.collisions[i].obj.type === "Splat") {
-                    this.collisions[i].obj.growTo = this;
-                    shapesRegistry.remove(this);
-                    break;
+            var collision = this.collisions.getLowestCollision();
+            if (collision.obj.type === "Splat") {
+                collision.obj.growTo = this;
+                shapesRegistry.remove(this);
+            }
+            if (collision.obj.type === "Platform") {
+                this.ySpeed = 3;
+                if (this.angle < collision.obj.angle) {
+                    this.angle++;
+                    this.y -= collision.y + 1;
                 }
-                if (this.collisions[i].obj.type === "Platform") {
-                    this.y -= this.collisions[i].point.y;
-                    var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, this.collisions[i].obj.angle);
-                    shapesRegistry.add(splat);
-                    shapesRegistry.remove(this);
-                    break;
-                }
-            };
+                var next = this.getSecondPoint(this.a, this.ySpeed, this.angle);
+                this.x = next.x;
+                this.y = next.y;
+                //var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, collision.obj.angle);
+                // shapesRegistry.add(splat);
+                // shapesRegistry.remove(this);
+            }
         }
     }
 
@@ -130,6 +123,4 @@ class FallingDrop extends Droplet {
 
 }
 
-export {
-    FallingDrop
-}
+export { FallingDrop }

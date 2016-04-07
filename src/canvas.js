@@ -1,11 +1,8 @@
-import {
-    ShapesRegistry
-}
-from './shapesregistry.js'
+import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 
-let fps = 20;
+let fps = 60;
 let now;
 let then = Date.now();
 let interval = 1000 / fps;
@@ -122,6 +119,4 @@ class Canvas {
 
 };
 
-export {
-    Canvas
-}
+export { Canvas }
