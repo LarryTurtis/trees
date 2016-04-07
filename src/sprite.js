@@ -164,7 +164,7 @@ class Sprite {
         this.angle = deg;
     }
 
-    getSecondPoint(firstPoint, width, angle) {
+    getPointOnLine(firstPoint, width, angle) {
         let secondPointX = firstPoint.x + width * Math.cos(angle * Math.PI / 180);
         let secondPointY = firstPoint.y + width * Math.sin(angle * Math.PI / 180);
         return new Point(secondPointX, secondPointY);
@@ -193,9 +193,9 @@ class Sprite {
         this.centerY = y + (this.height / 2);
 
         this.a = new Point(x, y);
-        this.b = this.getSecondPoint(this.a, this.width, this.angle);
-        this.c = this.getSecondPoint(this.b, this.height, this.angle + 90);
-        this.d = this.getSecondPoint(this.c, -this.width, this.angle);
+        this.b = this.getPointOnLine(this.a, this.width, this.angle);
+        this.c = this.getPointOnLine(this.b, this.height, this.angle + 90);
+        this.d = this.getPointOnLine(this.c, -this.width, this.angle);
     }
 
     draw(ctx) {
