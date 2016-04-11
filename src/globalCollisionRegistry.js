@@ -8,34 +8,43 @@ class GlobalCollisionRegistry {
             instance = this;
         }
 
-        this._collisions = {};
+        this._all = {};
 
         return instance;
     }
 
-    get collisions() {
-        return this._collisions;
+    get all() {
+        return this._all;
     }
 
     forEach(callback) {
-        Object.keys(this.collisions).forEach(key => {
-            let obj = this._collisions[key];
+        Object.keys(this.all).forEach(key => {
+            let obj = this._all[key];
             if (obj) {
                 callback(obj);
             }
         });
     }
 
-    add(shape) {
-        var collision = new Collision(shape);
-        this._collisions[shape.id] = collision;
+    add(o1, o2, overlap) {
+        var existingCollision = this._all[getId(o1, o2)] || this._all[getId(o2, o1)];
+        if (!existingCollision) {
+            var collision = new Collision(o1, o2, overlap);
+            this._all[collision.id] = collision;
+            return collision;
+        }
+        return existingCollision;
     }
 
-    remove(id) {
-        delete this._collisions[id];
+    remove(o1, o2) {
+        delete this._all[getId(o1, o2)];
+        delete this._all[getId(o2, o1)];
     }
 
 }
 
+function getId(o1, o2) {
+    return o1.id + "-" + o2.id;
+}
 
 export { GlobalCollisionRegistry }

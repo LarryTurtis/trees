@@ -1,7 +1,4 @@
-import { GlobalCollisionRegistry } from './globalCollisionRegistry.js'
-
 let instance = null;
-let collisionRegistry = new GlobalCollisionRegistry();
 
 class ShapesRegistry {
     constructor(canvas) {
@@ -42,15 +39,13 @@ class ShapesRegistry {
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this.length < 40000) {
+        if (this.length < 50) {
             this._shapes[shape.id] = shape;
-            if (shape.type !== "Spout") collisionRegistry.add(shape)
         }
     }
 
     remove(shape) {
         var shapesRegistry = this;
-        collisionRegistry.remove(shape.id);
         setTimeout(function() {
             delete shapesRegistry._shapes[shape.id];
         }, 0);

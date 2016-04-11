@@ -1,15 +1,6 @@
-import {
-    Point
-}
-from './point.js'
-import {
-    Sprite
-}
-from './sprite.js'
-import {
-    Curve
-}
-from './curve.js'
+import { Point } from './point.js'
+import { Sprite } from './sprite.js'
+import { Curve } from './curve.js'
 
 class Droplet extends Sprite {
     constructor(x, y, width, height, angle) {
@@ -127,6 +118,4 @@ class Droplet extends Sprite {
 
 }
 
-export {
-    Droplet
-}
+export { Droplet }

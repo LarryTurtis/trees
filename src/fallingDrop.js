@@ -10,6 +10,7 @@ class FallingDrop extends Droplet {
         // provided for the Polygon's width and height
         super(x, y, width, height, angle);
         this.type = "FallingDrop";
+        this.falling = true;
         this.ySpeed = 3;
         this.xSpeed = 0;
     }
@@ -82,24 +83,41 @@ class FallingDrop extends Droplet {
         this.leftBottom.end.y = this.centerY;
     }
 
-    fall() {
-        this.ySpeed += 0.05;
-        // this.xSpeed = this.angle / 360;
-        this.y += this.ySpeed;
-        // this.x += this.xSpeed;
+    handleCollision(collision) {
+        if (collision.o2.type === "Splat") {
+            collision.o2.growTo = this;
+            shapesRegistry.remove(this);
+        }
+        if (collision.o2.type === "Platform") {
+            this.ySpeed = 2;
+            this.y -= collision.overlap.y;
+
+            //var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, collision.obj.angle);
+            // shapesRegistry.add(splat);
+            // shapesRegistry.remove(this);
+        }
+        collision.resolved = true;
     }
 
-    slide(collision) {
-        if (this.angle < collision.obj.angle) {
+    fall() {
+            this.ySpeed *= 1.1;
+            // this.xSpeed = this.angle / 360;
+            this.y += this.ySpeed;
+            // this.x += this.xSpeed;
+    }
+
+    slide(platform) {
+        this.ySpeed = 3;
+        if (this.angle < platform.angle) {
             this.angle++;
         }
-        if (this.angle > collision.obj.angle) {
+        if (this.angle > platform.angle) {
             this.angle--;
         }
         //this.y -= collision.y + 1;
-        if (collision.obj.angle !== 0) {
-            var slideSpeed = this.ySpeed * (1 + this.angle / 100);
-            if (collision.obj.angle < 0) slideSpeed = -slideSpeed;
+        if (platform.angle !== 0) {
+            var slideSpeed = 2;
+            if (platform.angle < 0) slideSpeed = -slideSpeed;
             var next = this.getPointOnLine(this.a, slideSpeed, this.angle);
             this.x = next.x;
             this.y = next.y;
@@ -107,35 +125,10 @@ class FallingDrop extends Droplet {
     }
 
     animate() {
-        if (!this.collisions.length) {
-            this.fall();
-        }
-
-        if (this.collisions.length) {
-            var collision = this.collisions.getLowestCollision();
-            if (this.id ===3) console.log(this, collision);
-            if (collision.obj.type === "Splat") {
-                collision.obj.growTo = this;
-                shapesRegistry.remove(this);
-            }
-            if (collision.obj.type === "FallingDrop") {
-                if (this.y > collision.obj.y) {
-                    this.fall();
-                }
-            }
-            if (collision.obj.type === "Platform") {
-                this.ySpeed = 2;
-                this.slide(collision);
-
-                //var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, collision.obj.angle);
-                // shapesRegistry.add(splat);
-                // shapesRegistry.remove(this);
-            }
-        }
+        if (this.collidingWith !== "Platform") this.fall();
     }
 
     draw(ctx) {
-        this.animate();
         super.draw(ctx);
     }
 

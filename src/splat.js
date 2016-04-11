@@ -1,9 +1,7 @@
 import { Droplet } from './droplet.js';
-import { CollisionRegistry } from './collisionRegistry.js';
 import { ShapesRegistry } from './shapesregistry.js';
 
 let shapesRegistry = new ShapesRegistry();
-let collisionRegistry = new CollisionRegistry();
 
 class Splat extends Droplet {
     constructor(x, y, width, height, ySpeed, angle) {

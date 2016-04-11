@@ -1,8 +1,4 @@
 import { Point } from './point.js'
-import { GlobalCollisionRegistry } from './globalCollisionRegistry.js'
-import { CollisionRegistry } from './collisionRegistry.js'
-
-let globalCollisionRegistry = new GlobalCollisionRegistry();
 
 class Sprite {
     constructor(x, y, width, height, angle) {
@@ -10,6 +6,7 @@ class Sprite {
         this._height = height;
         this._x = x;
         this._y = y;
+        this._boundary = {};
         this._angle = angle || 0
         this.updatePoints(x, y);
         this._centerX = this.x + (this.width / 2);
@@ -18,20 +15,18 @@ class Sprite {
         this._showBoundingBox = true;
         this._color = "white";
         this._lineColor = "black";
-        this.collisions = new CollisionRegistry();
         this._id = null;
+        this._collidingWith = null;
     }
 
     set x(x) {
         this._x = x;
         this.updatePoints(this.x, this.y)
-        this.updateCollisions();
     }
 
     set y(y) {
         this._y = y;
         this.updatePoints(this.x, this.y)
-        this.updateCollisions();
     }
 
     get x() {
@@ -109,13 +104,11 @@ class Sprite {
     set width(width) {
         this._width = width;
         this.updatePoints(this.x, this.y)
-        this.updateCollisions();
     }
 
     set height(height) {
         this._height = height;
         this.updatePoints(this.x, this.y)
-        this.updateCollisions();
     }
 
     set showBoundingBox(bool) {
@@ -157,11 +150,34 @@ class Sprite {
     set angle(angle) {
         this._angle = angle;
         this.updatePoints(this.x, this.y);
-        this.updateCollisions();
     }
 
     rotate(deg) {
         this.angle = deg;
+    }
+
+    get rect() {
+        return this._rect;
+    }
+
+    set rect(rect) {
+        this._rect = rect;
+    }
+
+    get boundary() {
+        return this._boundary;
+    }
+
+    set boundary(boundary) {
+        this._boundary = boundary;
+    }
+
+    get collidingWith() {
+        return this._collidingWith;
+    }
+
+    set collidingWith(collidingWith) {
+        this._collidingWith = collidingWith;
     }
 
     getPointOnLine(firstPoint, width, angle) {
@@ -170,58 +186,68 @@ class Sprite {
         return new Point(secondPointX, secondPointY);
     }
 
-    updateCollisions() {
-        globalCollisionRegistry.forEach(collision => {
-            if (collision.obj !== this) {
-                var collisionResult = collision.test(this);
-                if (collisionResult) {
-                    collisionResult.type = collision.type;
-                    collisionResult.obj = collision.obj;
-                    if (!this.collisions.all[collision.obj.id]) this.collisions.add(collisionResult);
-                } else {
-
-                    //this is weird. should we just update collisions for all objects every frame?
-                    collision.obj.collisions.remove(this);
-                    this.collisions.remove(collision);
-                }
-            }
-        });
-    }
-
     updatePoints(x, y) {
         this.centerX = this.x + (this.width / 2);
         this.centerY = y + (this.height / 2);
+
 
         this.a = new Point(x, y);
         this.b = this.getPointOnLine(this.a, this.width, this.angle);
         this.c = this.getPointOnLine(this.b, this.height, this.angle + 90);
         this.d = this.getPointOnLine(this.c, -this.width, this.angle);
-    }
 
-    draw(ctx) {
-
-        let rect = {
+        this.rect = {
             a: this.a,
             b: this.b,
             c: this.c,
             d: this.d
-        }
+        };
+
+        this.updateBoundaries(x, y);
+    }
+
+    updateBoundaries(x, y) {
+        var lowestX = Math.min(this.a.x, this.b.x, this.c.x, this.d.x);
+        var highestX = Math.max(this.a.x, this.b.x, this.c.x, this.d.x);
+        var lowestY = Math.min(this.a.y, this.b.y, this.c.y, this.d.y);
+        var highestY = Math.max(this.a.y, this.b.y, this.c.y, this.d.y);
+        var boundaryW = highestX - lowestX;
+        var boundaryH = highestY - lowestY;
+
+        this.boundary.a = new Point(lowestX, lowestY);
+        this.boundary.b = new Point(lowestX + boundaryW, lowestY);
+        this.boundary.c = new Point(lowestX + boundaryW, lowestY + boundaryH);
+        this.boundary.d = new Point(lowestX, lowestY + boundaryH);
+    }
+
+    draw(ctx) {
 
         if (this._showBoundingBox) {
             ctx.strokeStyle = "black";
             ctx.fillStyle = "transparent";
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.yRect(rect);
+            ctx.yRect(this.rect);
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.strokeStyle = "blue";
+            ctx.fillStyle = "transparent";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.yRect(this.boundary);
             ctx.stroke();
             ctx.fill();
             ctx.closePath();
         }
+
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.lineColor;
         ctx.lineWidth = this.lineWidth;
     }
 }
+
 export {
     Sprite
 }

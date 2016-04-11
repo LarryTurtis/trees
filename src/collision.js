@@ -1,40 +1,59 @@
 import { collisionDetection } from './collisionDetection.js'
 
 class Collision {
-    constructor(obj) {
+    constructor(o1, o2, overlap) {
         this._resolved = false;
-        this._obj = obj;
+        this._o1 = o1;
+        this._o2 = o2;
+        this._id = getId(o1, o2);
+        this._overlap = overlap;
     }
 
-    test(obj) {
-        return collisionDetection(obj, this.obj);
-        // if (obj !== this.obj &&
-        //     obj.a.x <= this.obj.b.x &&
-        //     obj.b.x >= this.obj.a.x &&
-        //     obj.a.y <= this.obj.d.y &&
-        //     obj.d.y >= this.obj.a.y) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+    get id() {
+        return this._id;
     }
 
-    get obj() {
-        return this._obj;
+    set id(id) {
+        this._id = id;
+    }
+
+    get o1() {
+        return this._o1;
+    }
+
+    set o1(o1) {
+        this._o1 = o1;
+    }
+
+    get o2() {
+        return this._o2;
+    }
+
+    set o2(o2) {
+        this._o2 = o2;
+    }
+
+    get overlap() {
+        return this._overlap;
+    }
+
+    set overlap(overlap) {
+        this._overlap = overlap;
     }
 
     get resolved() {
         return this._resolved;
     }
 
-    set obj(obj) {
-        this._obj = obj;
-    }
-
     set resolved(resolved) {
         this._resolved = resolved;
     }
 }
+
+function getId(o1, o2) {
+    return o1.id + "-" + o2.id;
+}
+
 
 export {
     Collision

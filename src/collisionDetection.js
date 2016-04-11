@@ -1,14 +1,25 @@
-import { Point } from './point.js';
+import { GlobalCollisionRegistry } from './globalCollisionRegistry.js';
+import { ShapesRegistry } from './shapesregistry.js';
 
-function collisionDetection(o1, o2) {
-    var p1 = new SAT.Polygon(new SAT.Vector(0,0), [
+
+function broadPhase(o1, o2) {
+    if (o1.boundary.a.x <= o2.boundary.b.x &&
+        o1.boundary.b.x >= o2.boundary.a.x &&
+        o1.boundary.a.y <= o2.boundary.d.y &&
+        o1.boundary.d.y >= o2.boundary.a.y) {
+        return true;
+    }
+}
+
+function narrowPhase(o1, o2) {
+    var p1 = new SAT.Polygon(new SAT.Vector(0, 0), [
         new SAT.Vector(o1.d.x, o1.d.y),
         new SAT.Vector(o1.c.x, o1.c.y),
         new SAT.Vector(o1.b.x, o1.b.y),
         new SAT.Vector(o1.a.x, o1.a.y)
     ]);
 
-    var p2 = new SAT.Polygon(new SAT.Vector(0,0), [
+    var p2 = new SAT.Polygon(new SAT.Vector(0, 0), [
         new SAT.Vector(o2.d.x, o2.d.y),
         new SAT.Vector(o2.c.x, o2.c.y),
         new SAT.Vector(o2.b.x, o2.b.y),
@@ -24,8 +35,30 @@ function collisionDetection(o1, o2) {
     } else {
         return false;
     }
-
 }
 
+function updateCollisions(shape) {
+    let collisions = [];
+    let shapesRegistry = new ShapesRegistry();
+    let globalCollisionRegistry = new GlobalCollisionRegistry();
 
-export { collisionDetection }
+    shapesRegistry.forEach(otherShape => {
+        if (shape !== otherShape) {
+            if (broadPhase(shape, otherShape)) {
+                var overlap = narrowPhase(shape, otherShape);
+                if (overlap) {
+                    let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
+                    collisions.push(collision);
+                } else {
+                    globalCollisionRegistry.remove(shape, otherShape);
+                }
+            } else {
+                globalCollisionRegistry.remove(shape, otherShape);
+            }
+        }
+    });
+    if (!collisions.length) shape.collidingWith = null;
+    return collisions;
+}
+
+export { updateCollisions }
