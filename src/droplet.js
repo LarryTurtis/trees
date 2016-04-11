@@ -93,6 +93,7 @@ class Droplet extends Sprite {
         ctx.lineJoin = "miter";
         ctx.beginPath();
         ctx.yMove(this.startingPoint);
+        ctx.yRect(this.rect);
         ctx.curve(this.leftBottom);
         ctx.curve(this.leftTop);
         ctx.curve(this.rightTop);

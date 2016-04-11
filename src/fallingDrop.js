@@ -100,25 +100,25 @@ class FallingDrop extends Droplet {
     }
 
     fall() {
+            this.xSpeed *= 0.9;
             this.ySpeed *= 1.1;
-            // this.xSpeed = this.angle / 360;
             this.y += this.ySpeed;
-            // this.x += this.xSpeed;
+            this.x += this.xSpeed;
     }
 
     slide(platform) {
-        this.ySpeed = 3;
         if (this.angle < platform.angle) {
-            this.angle++;
+            this.angle += this.ySpeed;
+            if (this.angle > platform.angle) this.angle = platform.angle;
         }
         if (this.angle > platform.angle) {
-            this.angle--;
+            this.angle -= this.ySpeed;
+            if (this.angle < platform.angle) this.angle = platform.angle;
         }
-        //this.y -= collision.y + 1;
         if (platform.angle !== 0) {
-            var slideSpeed = 2;
-            if (platform.angle < 0) slideSpeed = -slideSpeed;
-            var next = this.getPointOnLine(this.a, slideSpeed, this.angle);
+            if (platform.angle < 0) this.xSpeed = -Math.abs(this.xSpeed);
+            this.xSpeed *= 1.01
+            var next = this.getPointOnLine(this.a, this.xSpeed, this.angle);
             this.x = next.x;
             this.y = next.y;
         }

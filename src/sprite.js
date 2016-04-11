@@ -12,7 +12,7 @@ class Sprite {
         this._centerX = this.x + (this.width / 2);
         this._centerY = this.y + (this.height / 2);
         this._lineWidth = 1;
-        this._showBoundingBox = true;
+        this._showBoundingBox = false;
         this._color = "white";
         this._lineColor = "black";
         this._id = null;
@@ -225,7 +225,7 @@ class Sprite {
         if (this._showBoundingBox) {
             ctx.strokeStyle = "black";
             ctx.fillStyle = "transparent";
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.yRect(this.rect);
             ctx.stroke();
@@ -234,7 +234,7 @@ class Sprite {
 
             ctx.strokeStyle = "blue";
             ctx.fillStyle = "transparent";
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.yRect(this.boundary);
             ctx.stroke();
