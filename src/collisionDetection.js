@@ -41,14 +41,16 @@ function updateCollisions(shape) {
     let collisions = [];
     let shapesRegistry = new ShapesRegistry();
     let globalCollisionRegistry = new GlobalCollisionRegistry();
-
+    shape.collidingWithPlatform = false;
     shapesRegistry.forEach(otherShape => {
         if (shape !== otherShape) {
             if (broadPhase(shape, otherShape)) {
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
+                    if (otherShape.type === "Platform") shape.collidingWithPlatform = true;
                     collisions.push(collision);
+
                 } else {
                     globalCollisionRegistry.remove(shape, otherShape);
                 }
@@ -57,7 +59,6 @@ function updateCollisions(shape) {
             }
         }
     });
-    if (!collisions.length) shape.collidingWith = null;
     return collisions;
 }
 

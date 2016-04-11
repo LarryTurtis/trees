@@ -125,7 +125,7 @@ class FallingDrop extends Droplet {
     }
 
     animate() {
-        if (this.collidingWith !== "Platform") this.fall();
+        if (!this.collidingWithPlatform) this.fall();
     }
 
     draw(ctx) {
