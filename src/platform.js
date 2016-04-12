@@ -4,6 +4,7 @@ class Platform extends Sprite {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Platform";
+        this._color = "transparent";
     }
 
     draw(ctx) {

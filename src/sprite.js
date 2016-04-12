@@ -12,9 +12,9 @@ class Sprite {
         this._centerX = this.x + (this.width / 2);
         this._centerY = this.y + (this.height / 2);
         this._lineWidth = 1;
-        this._showBoundingBox = true;
-        this._color = "white";
-        this._lineColor = "black";
+        this._showBoundingBox = false;
+        this._color = '#'+Math.floor(Math.random()*16777215).toString(16);;
+        this._lineColor = "transparent";
         this._id = null;
         this._collidingWith = null;
     }
