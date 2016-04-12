@@ -5,7 +5,8 @@
     "gulp": "3.9.1",
     "bower": "1.7.2",
     "browserify": "13.0.0",
-    "vinyl-source-stream": "1.1.0"
+    "vinyl-source-stream": "1.1.0",
+    "sat-js": "git://github.com/jriecken/sat-js.git#4995381"
   },
   "devDependencies": {
     "babel-preset-es2015": "~6.5.0",
