@@ -23,7 +23,6 @@ function initialize() {
         var platform = new Platform(canvas.width / 3, canvas.height / 3, canvas.width, 5, -10);
         var platform2 = new Platform(80, canvas.height / 3 * 2,  canvas.width / 2, 5, 10);
         shapesRegistry.add(platform);
-        shapesRegistry.add(new Text("polly duff kertis", canvas.width / 3, canvas.height / 3 + 120, 40, 40, -10));
         shapesRegistry.add(platform2);
         //shapesRegistry.add(new Platform(250, 850, 600, 5, -10));
 
