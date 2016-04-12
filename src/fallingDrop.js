@@ -10,7 +10,6 @@ class FallingDrop extends Droplet {
         // provided for the Polygon's width and height
         super(x, y, width, height, angle);
         this.type = "FallingDrop";
-        this.falling = true;
         this.ySpeed = 3;
         this.xSpeed = 0;
     }
@@ -52,55 +51,39 @@ class FallingDrop extends Droplet {
     }
 
     updateX() {
-        this.startingPoint.x = this.centerX;
-        this.leftTop.cp1.x = this.x;
-        this.leftTop.cp2.x = this.centerX - this.xBezierDistance;
-        this.leftTop.end.x = this.centerX;
-        this.rightTop.cp1.x = this.centerX + this.xBezierDistance;
-        this.rightTop.cp2.x = this.x + this.width;
-        this.rightTop.end.x = this.x + this.width;
-        this.rightBottom.cp1.x = this.x + this.width;
-        this.rightBottom.cp2.x = this.centerX + this.xBezierDistance;
-        this.rightBottom.end.x = this.centerX;
-        this.leftBottom.cp1.x = this.centerX - this.xBezierDistance;
-        this.leftBottom.cp2.x = this.x;
-        this.leftBottom.end.x = this.x;
+        this.startingPoint.x = this.getPointOnLine(this.d, this.width / 2, this.angle).x;
+        this.rightTop.cp1.x = this.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).x;
+        this.rightTop.cp2.x = this.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).x;
+        this.rightTop.end.x = this.getPointOnLine(this.b, this.height / 2, this.angle + 90).x;
+        this.leftTop.cp1.x = this.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).x;
+        this.leftTop.cp2.x = this.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).x;
+        this.leftTop.end.x = this.getPointOnLine(this.a, this.width / 2, this.angle).x;
+        this.rightBottom.cp1.x = this.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).x;
+        this.rightBottom.cp2.x = this.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).x;
+        this.rightBottom.end.x = this.getPointOnLine(this.d, this.width / 2, this.angle).x;
+        this.leftBottom.cp1.x = this.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).x;
+        this.leftBottom.cp2.x = this.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).x;
+        this.leftBottom.end.x = this.getPointOnLine(this.d, this.height / 2, this.angle - 90).x;
     }
 
     updateY() {
-        this.startingPoint.y = this.y + this.height;
-        this.leftTop.cp1.y = this.centerY - this.yBezierDistance;
-        this.leftTop.cp2.y = this.y;
-        this.leftTop.end.y = this.y;
-        this.rightTop.cp1.y = this.y;
-        this.rightTop.cp2.y = this.centerY - this.yBezierDistance;
-        this.rightTop.end.y = this.centerY;
-        this.rightBottom.cp1.y = this.centerY + this.yBezierDistance;
-        this.rightBottom.cp2.y = this.y + this.height;
-        this.rightBottom.end.y = this.y + this.height;
-        this.leftBottom.cp1.y = this.y + this.height;
-        this.leftBottom.cp2.y = this.centerY + this.yBezierDistance;
-        this.leftBottom.end.y = this.centerY;
-    }
-
-    handleCollision(collision) {
-        if (collision.o2.type === "Splat") {
-            collision.o2.growTo = this;
-            shapesRegistry.remove(this);
-        }
-        if (collision.o2.type === "Platform") {
-            this.ySpeed = 2;
-            this.y -= collision.overlap.y;
-
-            //var splat = new Splat(this.x, this.y, this.width, this.height, this.ySpeed, collision.obj.angle);
-            // shapesRegistry.add(splat);
-            // shapesRegistry.remove(this);
-        }
-        collision.resolved = true;
+        this.startingPoint.y = this.getPointOnLine(this.d, this.width / 2, this.angle).y;
+        this.rightTop.cp1.y = this.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).y;
+        this.rightTop.cp2.y = this.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).y;
+        this.rightTop.end.y = this.getPointOnLine(this.b, this.height / 2, this.angle + 90).y;
+        this.leftTop.cp1.y = this.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).y;
+        this.leftTop.cp2.y = this.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).y;
+        this.leftTop.end.y = this.getPointOnLine(this.a, this.width / 2, this.angle).y;
+        this.rightBottom.cp1.y = this.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).y;
+        this.rightBottom.cp2.y = this.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).y;
+        this.rightBottom.end.y = this.getPointOnLine(this.d, this.width / 2, this.angle).y;
+        this.leftBottom.cp1.y = this.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).y;
+        this.leftBottom.cp2.y = this.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).y;
+        this.leftBottom.end.y = this.getPointOnLine(this.d, this.height / 2, this.angle - 90).y;
     }
 
     fall() {
-            this.xSpeed *= 0.9;
+            this.xSpeed *= 0.95;
             this.ySpeed *= 1.1;
             this.y += this.ySpeed;
             this.x += this.xSpeed;

@@ -12,7 +12,7 @@ class Sprite {
         this._centerX = this.x + (this.width / 2);
         this._centerY = this.y + (this.height / 2);
         this._lineWidth = 1;
-        this._showBoundingBox = false;
+        this._showBoundingBox = true;
         this._color = "white";
         this._lineColor = "black";
         this._id = null;
