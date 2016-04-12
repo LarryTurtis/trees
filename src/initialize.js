@@ -1,30 +1,30 @@
 import { Canvas } from './canvas.js';
 import { FallingDrop } from './fallingDrop.js';
 import { Platform } from './platform.js';
-import { Spout } from './spout.js';
+import { Text } from './text.js';
 import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
-let shooterX = 100;
 let speed = 80;
 let interval = null;
+let canvas = new Canvas();
 
 function addDrop() {
-    var fallingDrop = new FallingDrop(shooterX, -80, 80, 80);
+    let dropSize = 80;
+    var fallingDrop = new FallingDrop(canvas.width - dropSize * 2, -dropSize, dropSize, dropSize);
     shapesRegistry.add(fallingDrop);
+    if (shapesRegistry.length === 25) clearInterval(interval);
 }
 
 function initialize() {
     window.addEventListener('load', function() {
-
-        let canvas = new Canvas();
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let spout = new Spout(50, -10, 50, 50);
-        shapesRegistry.add(spout);
-        var platform = new Platform(-110, 300, 600, 5, 10);
+        var platform = new Platform(canvas.width / 3, canvas.height / 3, canvas.width, 5, -10);
+        var platform2 = new Platform(80, canvas.height / 3 * 2,  canvas.width / 2, 5, 10);
         shapesRegistry.add(platform);
+        shapesRegistry.add(new Text("polly duff kertis", canvas.width / 3, canvas.height / 3 + 120, 40, 40, -10));
+        shapesRegistry.add(platform2);
         //shapesRegistry.add(new Platform(250, 850, 600, 5, -10));
 
         interval = setInterval(addDrop, speed);
@@ -37,36 +37,6 @@ function initialize() {
 
     }, false);
 
-    document.onkeydown = function(e) {
-        e = e || window.event;
-        switch (e.keyCode) {
-            case 37: // left
-                shooterX -= 10;
-                shapesRegistry.shapes[0].x = shooterX;
-                break;
-
-            case 38: // up
-                speed -= 100;
-                clearInterval(interval);
-                interval = setInterval(addDrop, speed);
-                break;
-
-            case 39: // right
-                shooterX += 10;
-                shapesRegistry.shapes[0].x = shooterX;
-                break;
-
-            case 40: // down
-                speed += 100;
-                clearInterval(interval);
-                interval = setInterval(addDrop, speed);
-                break;
-
-            default:
-                return; // exit this handler for other keys
-        }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
-    };
 }
 
 export { initialize };
