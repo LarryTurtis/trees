@@ -2,7 +2,6 @@ import { Droplet } from './droplet.js';
 import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
-let textRegistry = new TextRegistry();
 
 class FallingDrop extends Droplet {
     constructor(x, y, width, height, angle) {
