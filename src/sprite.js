@@ -6,11 +6,12 @@ class Sprite {
         this._height = height;
         this._x = x;
         this._y = y;
+        this._origin = new Point(x, y);
         this._boundary = {};
+        this._center = null;
+        this._transformOrigin = null;
         this._angle = angle || 0
         this.updatePoints(x, y);
-        this._centerX = this.x + (this.width / 2);
-        this._centerY = this.y + (this.height / 2);
         this._lineWidth = 1;
         this._showBoundingBox = true;
         this._color = "white";
@@ -21,12 +22,12 @@ class Sprite {
 
     set x(x) {
         this._x = x;
-        this.updatePoints(this.x, this.y)
+        this.updatePoints()
     }
 
     set y(y) {
         this._y = y;
-        this.updatePoints(this.x, this.y)
+        this.updatePoints()
     }
 
     get x() {
@@ -37,20 +38,28 @@ class Sprite {
         return this._y;
     }
 
-    get centerX() {
-        return this._centerX;
+    get center() {
+        return this._center;
     }
 
-    set centerX(centerX) {
-        this._centerX = centerX;
+    set center(center) {
+        this._center = center;
     }
 
-    get centerY() {
-        return this._centerY;
+    get transformOrigin() {
+        return this._transformOrigin;
     }
 
-    set centerY(centerY) {
-        this._centerY = centerY;
+    set transformOrigin(transformOrigin) {
+        this._transformOrigin = transformOrigin;
+    }
+
+    get origin() {
+        return this._origin;
+    }
+
+    set origin(origin) {
+        this._origin = origin;
     }
 
     set id(id) {
@@ -103,12 +112,12 @@ class Sprite {
 
     set width(width) {
         this._width = width;
-        this.updatePoints(this.x, this.y)
+        this.updatePoints()
     }
 
     set height(height) {
         this._height = height;
-        this.updatePoints(this.x, this.y)
+        this.updatePoints()
     }
 
     set showBoundingBox(bool) {
@@ -149,7 +158,7 @@ class Sprite {
 
     set angle(angle) {
         this._angle = angle;
-        this.updatePoints(this.x, this.y);
+        this.updatePoints();
     }
 
     rotate(deg) {
@@ -186,15 +195,29 @@ class Sprite {
         return new Point(secondPointX, secondPointY);
     }
 
-    updatePoints(x, y) {
-        this.centerX = this.x + (this.width / 2);
-        this.centerY = y + (this.height / 2);
+    rotate_point(point, origin) {
+        let angle = this.angle * Math.PI / 180.0;
+        let x = Math.cos(angle) * (point.x - origin.x) - Math.sin(angle) * (point.y - origin.y) + origin.x;
+        let y = Math.sin(angle) * (point.x - origin.x) + Math.cos(angle) * (point.y - origin.y) + origin.y;
+        return new Point(x, y);
+    }
 
+    updatePoints() {
 
-        this.a = new Point(x, y);
-        this.b = this.getPointOnLine(this.a, this.width, this.angle);
-        this.c = this.getPointOnLine(this.b, this.height, this.angle + 90);
-        this.d = this.getPointOnLine(this.c, -this.width, this.angle);
+        this.origin = new Point(this.x, this.y);
+        this.center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
+
+        this.transformOrigin = this.transformOrigin || this.center;
+
+        let a = new Point(this.x, this.y);
+        let b = new Point(this.x + this.width, this.y);
+        let c = new Point(this.x + this.width, this.y + this.height);
+        let d = new Point(this.x, this.y + this.height);
+
+        this.a = this.rotate_point(a, this.transformOrigin);
+        this.b = this.rotate_point(b, this.transformOrigin);
+        this.c = this.rotate_point(c, this.transformOrigin);
+        this.d = this.rotate_point(d, this.transformOrigin);
 
         this.rect = {
             a: this.a,
@@ -203,10 +226,10 @@ class Sprite {
             d: this.d
         };
 
-        this.updateBoundaries(x, y);
+        this.updateBoundaries();
     }
 
-    updateBoundaries(x, y) {
+    updateBoundaries() {
         var lowestX = Math.min(this.a.x, this.b.x, this.c.x, this.d.x);
         var highestX = Math.max(this.a.x, this.b.x, this.c.x, this.d.x);
         var lowestY = Math.min(this.a.y, this.b.y, this.c.y, this.d.y);

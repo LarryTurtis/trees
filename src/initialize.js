@@ -23,16 +23,15 @@ function initialize() {
         canvas.height = window.innerHeight;
         let spout = new Spout(50, -10, 50, 50);
         shapesRegistry.add(spout);
-
-        shapesRegistry.add(new Platform(10, 300, 600, 5, 10));
-        shapesRegistry.add(new Platform(250, 850, 600, 5, -10));
+        let platform = new Platform(10, 300, 600, 5, 10);
+        shapesRegistry.add(platform);
+        shapesRegistry.add(new Platform(250, 650, 600, 5, -10));
 
         interval = setInterval(addDrop, speed);
         addDrop();
         var deg = -50;
         var callback = function() {
-            //fallingDrop.xSpeed *= 0.995
-            //fallingDrop.ySpeed *= 1.02;
+            //platform.angle++;
         }
 
         canvas.animate(callback);

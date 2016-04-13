@@ -7,26 +7,26 @@ class Droplet extends Sprite {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
         super(x, y, width, height, angle);
-        var lb1 = new Point(this.centerX - this.xBezierDistance, this.y + this.height);
-        var lb2 = new Point(this.x, this.centerY + this.yBezierDistance);
-        var lb3 = new Point(this.x, this.centerY);
+        var lb1 = new Point(this.center.x - this.xBezierDistance, this.y + this.height);
+        var lb2 = new Point(this.x, this.center.y + this.yBezierDistance);
+        var lb3 = new Point(this.x, this.center.y);
         this._leftBottom = new Curve(lb1, lb2, lb3);
 
-        var lt1 = new Point(this.x, this.centerY - this.yBezierDistance);
-        var lt2 = new Point(this.centerX - this.xBezierDistance, this.y);
-        var lt3 = new Point(this.centerX, this.y);
+        var lt1 = new Point(this.x, this.center.y - this.yBezierDistance);
+        var lt2 = new Point(this.center.x - this.xBezierDistance, this.y);
+        var lt3 = new Point(this.center.x, this.y);
         this._leftTop = new Curve(lt1, lt2, lt3);
 
-        var rt1 = new Point(this.centerX + this.xBezierDistance, this.y);
-        var rt2 = new Point(this.x + this.width, this.centerY - this.yBezierDistance);
-        var rt3 = new Point(this.x + this.width, this.centerY);
+        var rt1 = new Point(this.center.x + this.xBezierDistance, this.y);
+        var rt2 = new Point(this.x + this.width, this.center.y - this.yBezierDistance);
+        var rt3 = new Point(this.x + this.width, this.center.y);
         this._rightTop = new Curve(rt1, rt2, rt3);
 
-        var rb1 = new Point(this.x + this.width, this.centerY + this.yBezierDistance);
-        var rb2 = new Point(this.centerX + this.xBezierDistance, this.y + this.height);
-        var rb3 = new Point(this.centerX, this.y + this.height);
+        var rb1 = new Point(this.x + this.width, this.center.y + this.yBezierDistance);
+        var rb2 = new Point(this.center.x + this.xBezierDistance, this.y + this.height);
+        var rb3 = new Point(this.center.x, this.y + this.height);
         this._rightBottom = new Curve(rb1, rb2, rb3);
-        this.startingPoint = new Point(this.centerX, this.y + this.height);
+        this.startingPoint = new Point(this.center.x, this.y + this.height);
         this._curves = [this.leftBottom, this.leftTop, this.rightBottom, this.rightTop];
     }
 

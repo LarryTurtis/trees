@@ -39,7 +39,7 @@ class ShapesRegistry {
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this.length < 50) {
+        if (this.length < 4) {
             this._shapes[shape.id] = shape;
         }
     }

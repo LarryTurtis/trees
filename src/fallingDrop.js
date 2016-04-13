@@ -83,6 +83,7 @@ class FallingDrop extends Droplet {
     }
 
     fall() {
+        console.log('fall');
             this.xSpeed *= 0.95;
             this.ySpeed *= 1.1;
             this.y += this.ySpeed;
@@ -101,7 +102,8 @@ class FallingDrop extends Droplet {
         if (platform.angle !== 0) {
             if (platform.angle < 0) this.xSpeed = -Math.abs(this.xSpeed);
             this.xSpeed *= 1.01
-            var next = this.getPointOnLine(this.a, this.xSpeed, this.angle);
+            var next = this.getPointOnLine(this.origin, this.xSpeed, this.angle);
+            console.log(this.y, next);
             this.x = next.x;
             this.y = next.y;
         }

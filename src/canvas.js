@@ -113,9 +113,9 @@ class Canvas {
 
                     if (shape.animate) {
                         shape.animate();
-                        collisions = updateCollisions(shape);
                     }
 
+                    collisions = updateCollisions(shape);
                     if (collisions.length) {
                         collisions.forEach(collisionHandler);
                     }
