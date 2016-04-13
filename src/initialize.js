@@ -33,7 +33,7 @@ function initialize() {
         let page = document.getElementById("page");
 
         let rect = document.getElementById('handlesw').getBoundingClientRect();
-        let platform = new Platform(rect.left, rect.bottom, page.offsetWidth / 12 * 6, 5, -10);
+        let platform = new Platform(rect.left, rect.bottom, page.offsetWidth, 5, -10);
 
         let rect2 = document.getElementById("handlenw").getBoundingClientRect();
         let platform2 = new Platform(rect2.left, rect2.top - 5, page.offsetWidth / 12 * 8 - 20, 5, 10);
