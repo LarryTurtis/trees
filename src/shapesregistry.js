@@ -1,3 +1,4 @@
+
 let instance = null;
 
 class ShapesRegistry {
@@ -47,6 +48,7 @@ class ShapesRegistry {
     remove(shape) {
         var shapesRegistry = this;
         setTimeout(function() {
+            document.getElementById("colophon").style.backgroundColor = shape.color;
             delete shapesRegistry._shapes[shape.id];
         }, 0);
     }

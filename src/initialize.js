@@ -1,4 +1,5 @@
 import { Canvas } from './canvas.js';
+import { Point } from './point.js';
 import { FallingDrop } from './fallingDrop.js';
 import { Platform } from './platform.js';
 import { Text } from './text.js';
@@ -13,24 +14,35 @@ function addDrop() {
     let dropSize = 80;
     var fallingDrop = new FallingDrop(canvas.width - dropSize * 2, -dropSize, dropSize, dropSize);
     shapesRegistry.add(fallingDrop);
-    if (shapesRegistry.length === 25) clearInterval(interval);
+    if (shapesRegistry.length >= 25 && shapesRegistry.shapes["25"]) {
+        shapesRegistry.shapes["25"].color = "white";
+        clearInterval(interval);
+    }
 }
 
 function initialize() {
     window.addEventListener('load', function() {
+        jQuery(window).on('beforeunload', function() {
+            jQuery(window).scrollTop(0);
+        });
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        var platform = new Platform(canvas.width / 3, canvas.height / 3, canvas.width, 5, -10);
-        var platform2 = new Platform(80, canvas.height / 3 * 2,  canvas.width / 2, 5, 10);
+        var height = Math.max(document.body.scrollHeight, document.body.offsetHeight,
+            document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+        canvas.height = height;
+
+        let page = document.getElementById("page");
+
+        let rect = document.getElementById('handlesw').getBoundingClientRect();
+        let platform = new Platform(rect.left, rect.bottom, page.offsetWidth / 12 * 6, 5, -10);
+
+        let rect2 = document.getElementById("handlenw").getBoundingClientRect();
+        let platform2 = new Platform(rect2.left, rect2.top - 5, page.offsetWidth / 12 * 8 - 20, 5, 10);
+
         shapesRegistry.add(platform);
         shapesRegistry.add(platform2);
-        //shapesRegistry.add(new Platform(250, 850, 600, 5, -10));
-
         interval = setInterval(addDrop, speed);
         addDrop();
-        var deg = -50;
-        var callback = function() {
-        }
+        var callback = function() {}
 
         canvas.animate(callback);
 
