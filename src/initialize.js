@@ -23,9 +23,9 @@ function initialize() {
         canvas.height = window.innerHeight;
         let spout = new Spout(50, -10, 50, 50);
         shapesRegistry.add(spout);
-        let platform = new Platform(10, 300, 600, 5, 10);
+        let platform = new Platform(10, 300, 600, 40, 10);
         shapesRegistry.add(platform);
-        shapesRegistry.add(new Platform(250, 650, 600, 5, -10));
+        shapesRegistry.add(new Platform(250, 650, 600, 40, -10));
 
         interval = setInterval(addDrop, speed);
         addDrop();

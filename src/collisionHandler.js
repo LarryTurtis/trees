@@ -33,7 +33,7 @@ function dropOnPlatform(drop, collision) {
         collision.resolved = true;
         drop.xSpeed = collision.o2.angle / 5;
         drop.ySpeed = 3;
-        drop.y -= Math.abs(collision.overlap.y) - 1;
+        drop.y -= collision.overlap.y;
     }
        drop.slide(collision.o2)
 }
