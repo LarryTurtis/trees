@@ -3,11 +3,8 @@ import { updateCollisions } from './collisionDetection.js'
 import { collisionHandler } from './collisionHandler.js'
 
 let shapesRegistry = new ShapesRegistry();
-
-let fps = 60;
 let now;
 let then = Date.now();
-let interval = 1000 / fps;
 let delta;
 
 
@@ -43,6 +40,9 @@ class Canvas {
         this._centerY = this.element.height / 2;
         this._width = this.element.width;
         this._height = this.element.height;
+        this._fps = 60;
+        this.interval = 1000 / this._fps;
+
     }
 
     set width(width) {
@@ -59,6 +59,15 @@ class Canvas {
 
     get width() {
         return this._width;
+    }
+
+    get fps() {
+        return this._fps;
+    }
+
+    set fps(fps) {
+        this._fps = fps;
+        this.interval = 1000 / fps;
     }
 
     get height() {
@@ -81,7 +90,7 @@ class Canvas {
         now = Date.now();
         delta = now - then;
 
-        if (delta > interval) {
+        if (delta > this.interval) {
             // update time stuffs
 
             // Just `then = now` is not enough.
@@ -96,7 +105,7 @@ class Canvas {
             // by subtracting delta (112) % interval (100).
             // Hope that makes sense.
 
-            then = now - (delta % interval);
+            then = now - (delta % this.interval);
 
             // ... Code for Drawing the Frame ...
             if (shapesRegistry.length) {

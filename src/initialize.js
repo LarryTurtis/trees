@@ -6,8 +6,10 @@ import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 let shooterX = 100;
-let speed = 100;
+let speed = 1000;
 let interval = null;
+let canvas = new Canvas();
+let boundingBoxes = false;
 
 function addDrop() {
     var size = Math.floor(Math.random() * 70) + 10;
@@ -15,10 +17,16 @@ function addDrop() {
     shapesRegistry.add(fallingDrop);
 }
 
+function toggleBoundingBoxes() {
+        boundingBoxes = !boundingBoxes;
+    shapesRegistry.forEach(shape => {
+        shape.showBoundingBox = boundingBoxes;
+    })  
+}
+
 function initialize() {
     window.addEventListener('load', function() {
 
-        let canvas = new Canvas();
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -47,10 +55,12 @@ function initialize() {
                 shapesRegistry.shapes[0].x = shooterX;
                 break;
 
+            case 32: // up
+                toggleBoundingBoxes();
+                break;
+
             case 38: // up
-                speed -= 100;
-                clearInterval(interval);
-                interval = setInterval(addDrop, speed);
+                if (canvas.fps < 60) canvas.fps += 10;
                 break;
 
             case 39: // right
@@ -59,9 +69,7 @@ function initialize() {
                 break;
 
             case 40: // down
-                speed += 100;
-                clearInterval(interval);
-                interval = setInterval(addDrop, speed);
+                if (canvas.fps > 0) canvas.fps -= 10;
                 break;
 
             default:

@@ -249,7 +249,7 @@ class Sprite {
 
     draw(ctx) {
 
-        if (this._showBoundingBox) {
+        if (this.showBoundingBox) {
             ctx.strokeStyle = "black";
             ctx.fillStyle = "transparent";
             ctx.lineWidth = 1;
