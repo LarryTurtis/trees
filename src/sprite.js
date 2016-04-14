@@ -14,8 +14,8 @@ class Sprite {
         this.updatePoints(x, y);
         this._lineWidth = 1;
         this._showBoundingBox = false;
-        this._color = "white";
-        this._lineColor = "black";
+        this._color = "lightblue";
+        this._lineColor = "transparent";
         this._id = null;
         this._collidingWith = null;
     }

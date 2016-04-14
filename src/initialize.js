@@ -9,15 +9,16 @@ let shooterX = 100;
 let speed = 100;
 let interval = null;
 
+        let canvas = new Canvas();
 function addDrop() {
-    var fallingDrop = new FallingDrop(shooterX, 20, 40, 40);
+    var size = Math.floor(Math.random() * 10) + 17
+    var fallingDrop = new FallingDrop(Math.floor(Math.random()*canvas.width), canvas.height, size, size);
     shapesRegistry.add(fallingDrop);
 }
 
 function initialize() {
     window.addEventListener('load', function() {
 
-        let canvas = new Canvas();
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

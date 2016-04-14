@@ -107,7 +107,7 @@ class Canvas {
                     if (shape.x > this.width) {
                         shapesRegistry.remove(shape);
                     }
-                    if (shape.y > this.height) {
+                    if (shape.y + shape.height < 0) {
                         shapesRegistry.remove(shape);
                     }
 
