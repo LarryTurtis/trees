@@ -13,7 +13,7 @@ class Sprite {
         this._angle = angle || 0
         this.updatePoints(x, y);
         this._lineWidth = 1;
-        this._showBoundingBox = true;
+        this._showBoundingBox = false;
         this._color = "white";
         this._lineColor = "black";
         this._id = null;

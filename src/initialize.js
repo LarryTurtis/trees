@@ -6,11 +6,11 @@ import { ShapesRegistry } from './shapesregistry.js'
 
 let shapesRegistry = new ShapesRegistry();
 let shooterX = 100;
-let speed = 1000;
+let speed = 100;
 let interval = null;
 
 function addDrop() {
-    var fallingDrop = new FallingDrop(shooterX, 20, 80, 80);
+    var fallingDrop = new FallingDrop(shooterX, 20, 40, 40);
     shapesRegistry.add(fallingDrop);
 }
 
