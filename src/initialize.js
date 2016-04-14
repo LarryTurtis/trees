@@ -10,7 +10,8 @@ let speed = 100;
 let interval = null;
 
 function addDrop() {
-    var fallingDrop = new FallingDrop(shooterX, 20, 40, 40);
+    var size = Math.floor(Math.random() * 70) + 10;
+    var fallingDrop = new FallingDrop(shooterX, -size, size, size);
     shapesRegistry.add(fallingDrop);
 }
 

@@ -1,5 +1,9 @@
 import { Point } from './point.js'
 
+function randomColor() {
+    return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
 class Sprite {
     constructor(x, y, width, height, angle) {
         this._width = width;
@@ -14,7 +18,7 @@ class Sprite {
         this.updatePoints(x, y);
         this._lineWidth = 1;
         this._showBoundingBox = false;
-        this._color = "white";
+        this._color = randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;
