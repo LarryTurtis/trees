@@ -1,4 +1,5 @@
 import { Point } from './point.js'
+import { scroll } from './scroll.js'
 
 function randomColor() {
     return '#'+Math.floor(Math.random()*16777215).toString(16);
@@ -8,17 +9,17 @@ class Sprite {
     constructor(x, y, width, height, angle) {
         this._width = width;
         this._height = height;
-        this._x = x;
-        this._y = y;
-        this._origin = new Point(x, y);
+        this._x = x + scroll().x;
+        this._y = y + scroll().y;
+        this._origin = new Point(this.x, this.y);
         this._boundary = {};
         this._center = null;
         this._transformOrigin = null;
         this._angle = angle || 0
-        this.updatePoints(x, y);
+        this.updatePoints();
         this._lineWidth = 1;
         this._showBoundingBox = false;
-        this._color = randomColor();
+        this._color = "white" //randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;

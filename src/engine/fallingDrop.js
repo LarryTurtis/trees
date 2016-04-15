@@ -1,6 +1,6 @@
 import { Droplet } from './droplet.js';
 import { ShapesRegistry } from './shapesregistry.js'
-import { Splat } from './splat.js'
+import { gravity } from './gravity.js'
 
 let shapesRegistry = new ShapesRegistry();
 
@@ -10,7 +10,11 @@ class FallingDrop extends Droplet {
         // provided for the Polygon's width and height
         super(x, y, width, height, angle);
         this.type = "FallingDrop";
-        this.ySpeed = 3;
+        if (gravity()) {
+            this.ySpeed = 3;
+        } else {
+            this.ySpeed = 0;
+        }
         this.xSpeed = 0;
     }
 
