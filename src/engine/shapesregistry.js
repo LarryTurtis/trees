@@ -8,6 +8,7 @@ class ShapesRegistry {
 
         this._shapes = {};
         this._shapeId = 0;
+        this._maxShapes = 1000000;
         return instance;
     }
 
@@ -21,6 +22,14 @@ class ShapesRegistry {
 
     set shapeId(id) {
         this._shapeId = id;
+    }
+
+    get maxShapes() {
+        return this._maxShapes;
+    }
+
+    set maxShapes(n) {
+        this._maxShapes = n;
     }
 
     get length() {
@@ -39,7 +48,7 @@ class ShapesRegistry {
     add(shape) {
         shape.id = this.shapeId;
         this.shapeId++;
-        if (this.length < 20) {
+        if (this.length < this.maxShapes) {
             this._shapes[shape.id] = shape;
         }
     }

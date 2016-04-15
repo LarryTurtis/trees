@@ -4,7 +4,7 @@ let shapes = engine.shapesRegistry;
 let interval = null;
 
 function addDrop() {
-    let size = 40;
+    let size = 80;
     let fallingDrop = new engine.sprites.FallingDrop(size, -size, size, size);
     shapes.add(fallingDrop);
 }

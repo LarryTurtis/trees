@@ -17,7 +17,7 @@ class Sprite {
         this._transformOrigin = null;
         this._angle = angle || 0
         this.updatePoints();
-        this._lineWidth = 1;
+        this._lineWidth = 2;
         this._showBoundingBox = false;
         this._color = "white" //randomColor();
         this._lineColor = "black";
@@ -178,6 +178,14 @@ class Sprite {
         this._rect = rect;
     }
 
+    get rotatedRect() {
+        return this._rotatedRect;
+    }
+
+    set rotatedRect(rotatedRect) {
+        this._rotatedRect = rotatedRect;
+    }
+
     get boundary() {
         return this._boundary;
     }
@@ -219,12 +227,19 @@ class Sprite {
         let c = new Point(this.x + this.width, this.y + this.height);
         let d = new Point(this.x, this.y + this.height);
 
+        this.rect = {
+            a: a,
+            b: b,
+            c: c,
+            d: d
+        };
+
         this.a = this.rotate_point(a, this.transformOrigin);
         this.b = this.rotate_point(b, this.transformOrigin);
         this.c = this.rotate_point(c, this.transformOrigin);
         this.d = this.rotate_point(d, this.transformOrigin);
 
-        this.rect = {
+        this.rotatedRect = {
             a: this.a,
             b: this.b,
             c: this.c,
@@ -255,7 +270,7 @@ class Sprite {
             ctx.fillStyle = "transparent";
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.yRect(this.rect);
+            ctx.yRect(this.rotatedRect);
             ctx.stroke();
             ctx.fill();
             ctx.closePath();
@@ -265,6 +280,15 @@ class Sprite {
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.yRect(this.boundary);
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.strokeStyle = "green";
+            ctx.fillStyle = "transparent";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.yRect(this.rect);
             ctx.stroke();
             ctx.fill();
             ctx.closePath();
