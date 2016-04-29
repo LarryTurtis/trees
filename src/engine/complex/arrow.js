@@ -18,15 +18,16 @@ class Arrow extends ComplexShape {
     draw(ctx) {
         super.draw(ctx);
         if (!this.isComponent) ctx.beginPath();
+        this.angle++;
         this.shape.forEach(shape => {
             shape.draw(ctx);
         });
 
         ctx.fill();
-        ctx.stroke();
         if (!this.isComponent) {
-        ctx.closePath();
-    }
+            ctx.stroke();
+            ctx.closePath();
+        }
 
     }
 

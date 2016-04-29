@@ -6,9 +6,9 @@ class DoubleArrow extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "DoubleArrow";
 
-        let arrow1 = new complex.Arrow(x, y, width, height, this.angle + 180, true);
+        let arrow1 = new complex.Arrow(x, y, width, height, this.angle + 90, true);
         let arrow2 = new complex.Arrow(x, y, width, height, this.angle, true);
-        arrow1.relativeAngle = this.angle + 180;
+        arrow1.relativeAngle = this.angle + 90;
         arrow2.relativeAngle = this.angle;
         this.addShape(arrow1);
         this.addShape(arrow2);
