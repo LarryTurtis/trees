@@ -1,6 +1,6 @@
 import { Canvas } from './canvas.js';
 import { FallingDrop } from './fallingDrop.js';
-import { Platform } from './platform.js';
+import { Polygon } from './polygon.js';
 import { ShapesRegistry } from './shapesregistry.js'
 import { gravity } from './gravity.js';
 import { scroll } from './scroll.js';
@@ -16,7 +16,7 @@ let engine = {
     shapesRegistry: shapesRegistry,
     sprites: {
     	FallingDrop: FallingDrop,
-    	Platform: Platform
+    	Polygon: Polygon
     }, 
     mapKeys: mapKeys,
     go: go

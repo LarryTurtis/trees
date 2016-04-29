@@ -1,9 +1,9 @@
 import { Sprite } from './sprite.js'
 
-class Platform extends Sprite {
+class Polygon extends Sprite {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
-        this.type = "Platform";
+        this.type = "Polygon";
     }
 
     draw(ctx) {
@@ -25,4 +25,4 @@ class Platform extends Sprite {
 
 }
 
-export { Platform }
+export { Polygon }

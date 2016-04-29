@@ -14,8 +14,8 @@ function load() {
 
     engine.gravity(true);
 
-    let platform1 = new engine.sprites.Platform(10, 300, 600, 40, 10);
-    let platform2 = new engine.sprites.Platform(250, 650, 600, 40, -10)
+    let platform1 = new engine.sprites.Polygon(10, 300, 600, 40, 10);
+    let platform2 = new engine.sprites.Polygon(250, 650, 600, 40, -10)
 
     shapes.add(platform1);
     shapes.add(platform2);
