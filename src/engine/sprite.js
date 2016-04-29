@@ -293,7 +293,7 @@ class Sprite {
             ctx.fill();
             ctx.closePath();
         }
-
+        ctx.lineJoin = 'miter';
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.lineColor;
         ctx.lineWidth = this.lineWidth;

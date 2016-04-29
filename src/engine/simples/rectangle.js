@@ -1,9 +1,10 @@
 import { Sprite } from '../sprite.js'
 
 class Rectangle extends Sprite {
-    constructor(x, y, width, height, angle) {
+    constructor(x, y, width, height, angle, isComponent) {
         super(x, y, width, height, angle);
         this.type = "Rectangle";
+        this.isComponent = isComponent;
     }
 
     draw(ctx) {
@@ -15,12 +16,14 @@ class Rectangle extends Sprite {
             d: this.d
         };
 
-        ctx.beginPath();
+        if (!this.isComponent) ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
-        ctx.fill();
-        ctx.stroke();
-        ctx.closePath();
+            ctx.fill();
+        if (!this.isComponent) {
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
 
 }

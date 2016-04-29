@@ -14,16 +14,16 @@ CanvasRenderingContext2D.prototype.curve = function(points) {
     }
 };
 
-CanvasRenderingContext2D.prototype.yLine = function(a, b) {
-    this.lineTo(b.x, b.y);
+CanvasRenderingContext2D.prototype.yLine = function(a) {
+    this.lineTo(a.x, a.y);
 };
 
 CanvasRenderingContext2D.prototype.yRect = function(rect) {
     this.yMove(rect.a);
-    this.yLine(rect.a, rect.b);
-    this.yLine(rect.b, rect.c);
-    this.yLine(rect.c, rect.d);
-    this.yLine(rect.d, rect.a);
+    this.yLine(rect.b);
+    this.yLine(rect.c);
+    this.yLine(rect.d);
+    this.yLine(rect.a);
 };
 CanvasRenderingContext2D.prototype.yMove = function(point) {
     this.moveTo(point.x, point.y);
