@@ -1,4 +1,4 @@
-import { Sprite } from './sprite.js'
+import { Sprite } from '../sprite.js'
 
 class Rectangle extends Sprite {
     constructor(x, y, width, height, angle) {

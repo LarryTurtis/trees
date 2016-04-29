@@ -1,5 +1,5 @@
-import { Sprite } from './sprite.js'
-import { Point } from './point.js'
+import { Sprite } from '../sprite.js'
+import { Point } from '../point.js'
 
 class Triangle extends Sprite {
     constructor(x, y, width, height, angle) {
