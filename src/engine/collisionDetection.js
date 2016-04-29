@@ -48,7 +48,7 @@ function updateCollisions(shape) {
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
-                    if (otherShape.type === "Polygon") shape.collidingWithPlatform = true;
+                    if (otherShape.type === "Rectangle") shape.collidingWithPlatform = true;
                     collisions.push(collision);
 
                 } else {

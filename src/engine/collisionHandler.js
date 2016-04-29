@@ -4,7 +4,7 @@ function collisionHandler(collision) {
         case "FallingDrop":
             dropHandler(collision)
             break;
-        case "Polygon":
+        case "Rectangle":
             break;
         case "Splat":
             break;
@@ -18,7 +18,7 @@ function dropHandler(collision) {
     let other = collision.o2;
 
     switch (other.type) {
-        case "Polygon":
+        case "Rectangle":
             dropOnPlatform(drop, collision)
     }
 }

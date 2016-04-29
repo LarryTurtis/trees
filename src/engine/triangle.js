@@ -1,40 +1,27 @@
 import { Sprite } from './sprite.js'
-
+import { Point } from './point.js'
 
 class Triangle extends Sprite {
-    constructor(centerX, centerY, size) {
-        // Here, it calls the parent class' constructor with lengths
-        // provided for the Polygon's width and height
-        super(centerX, centerY, size);
+    constructor(x, y, width, height, angle) {
+        super(x, y, width, height, angle);
+        this.type = "Triangle";
     }
 
     draw(ctx) {
+        super.draw(ctx);
 
-        var a = {
-            x: this.x,
-            y: this.y + this.h
-        };
+        let a = new Point(this.x, this.y + this.height);
+        let b = new Point(this.x + this.width / 2, this.y);
+        let c = new Point(this.x + this.width, this.y + this.height);
 
-        var b = {
-            x: this.x + this.w / 2,
-            y: this.y
-        };
-
-        var c = {
-            x: this.x + this.w,
-            y: this.y + this.h
-        };
-
-        ctx.lineWidth = this.lineWidth;
-        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y)
         ctx.lineTo(b.x, b.y)
         ctx.lineTo(c.x, c.y)
         ctx.lineTo(a.x, a.y)
         ctx.fill();
+        ctx.stroke();
         ctx.closePath();
-        super.draw(ctx);
     }
 
 }

@@ -1,6 +1,7 @@
 import { Canvas } from './canvas.js';
 import { FallingDrop } from './fallingDrop.js';
-import { Polygon } from './polygon.js';
+import { Rectangle } from './rectangle.js';
+import { Triangle } from './triangle.js';
 import { ShapesRegistry } from './shapesregistry.js'
 import { gravity } from './gravity.js';
 import { scroll } from './scroll.js';
@@ -16,7 +17,8 @@ let engine = {
     shapesRegistry: shapesRegistry,
     sprites: {
     	FallingDrop: FallingDrop,
-    	Polygon: Polygon
+    	Rectangle: Rectangle,
+    	Triangle: Triangle
     }, 
     mapKeys: mapKeys,
     go: go
@@ -26,7 +28,7 @@ export { engine };
 
 //set canvas height, maps keys, calls game setup function, and begins animation.
 function go(setup) {
-	shapesRegistry.maxShapes = 3;
+	shapesRegistry.maxShapes = 4;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 

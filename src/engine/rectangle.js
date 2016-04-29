@@ -1,9 +1,9 @@
 import { Sprite } from './sprite.js'
 
-class Polygon extends Sprite {
+class Rectangle extends Sprite {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
-        this.type = "Polygon";
+        this.type = "Rectangle";
     }
 
     draw(ctx) {
@@ -25,4 +25,4 @@ class Polygon extends Sprite {
 
 }
 
-export { Polygon }
+export { Rectangle }

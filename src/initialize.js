@@ -14,11 +14,13 @@ function load() {
 
     engine.gravity(true);
 
-    let platform1 = new engine.sprites.Polygon(10, 300, 600, 40, 10);
-    let platform2 = new engine.sprites.Polygon(250, 650, 600, 40, -10)
+    let platform1 = new engine.sprites.Rectangle(10, 300, 600, 40, 10);
+    let platform2 = new engine.sprites.Rectangle(250, 650, 600, 40, -10)
+    let triangle = new engine.sprites.Triangle(400, 300, 80, 80, 0)
 
     shapes.add(platform1);
     shapes.add(platform2);
+    shapes.add(triangle);
 
     interval = setInterval(addDrop, 1000);
     
