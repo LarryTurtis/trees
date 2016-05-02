@@ -15,8 +15,8 @@ function narrowPhase(o1, o2) {
     let collision = false;
     let p1 = o1.createSATObject();
     let p2 = o2.createSATObject();
-
     let response = new SAT.Response();
+
 
     //if (o1.type === "FallingDrop" && o2.type === "Arrow") debugger
 
@@ -27,7 +27,16 @@ function narrowPhase(o1, o2) {
 
         //else search for a collision.
         for (let j = 0; j < p2.length; j++) {
-            if (SAT.testPolygonPolygon(p1[i], p2[j], response)) {
+
+            //assume two polygons by default
+            let test = SAT.testPolygonPolygon;
+
+            //if one or both SAT objects has a radius, change the test type.
+            if (p1[i].r) test = SAT.testCirclePolygon;
+            if (p2[j].r) test = SAT.testPolygonCircle;
+            if (p1[i].r && p2[j].r) test = SAT.testCircleCircle;
+
+            if (test(p1[i], p2[j], response)) {
                 break;
             }
         }

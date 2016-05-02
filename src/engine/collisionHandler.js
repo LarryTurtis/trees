@@ -8,6 +8,9 @@ function collisionHandler(collision) {
         case "Arrow":
             console.log("arrow", collision);
             break;
+        case "Circle":
+            console.log("circle", collision);
+            break;
     }
 
 }
@@ -39,7 +42,7 @@ function dropOnPlatform(drop, collision) {
         drop.ySpeed = 3;
         drop.y -= collision.overlap.y;
     }
-       drop.slide(collision.o2)
+    drop.slide(collision.o2)
 }
 
 export { collisionHandler }
