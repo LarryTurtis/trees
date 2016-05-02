@@ -54,6 +54,15 @@ class FallingDrop extends Droplet {
         this.updateY();
     }
 
+    createSATObject() {
+        return [new SAT.Polygon(new SAT.Vector(0, 0), [
+            new SAT.Vector(this.d.x, this.d.y),
+            new SAT.Vector(this.c.x, this.c.y),
+            new SAT.Vector(this.b.x, this.b.y),
+            new SAT.Vector(this.a.x, this.a.y)
+        ])];
+    }
+
     updateX() {
         this.startingPoint.x = this.getPointOnLine(this.d, this.width / 2, this.angle).x;
         this.rightTop.cp1.x = this.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).x;
@@ -87,15 +96,15 @@ class FallingDrop extends Droplet {
     }
 
     fall() {
-            this.transformOrigin = this.center;
-            this.xSpeed *= 0.95;
-            this.ySpeed *= 1.1;
-            this.y += this.ySpeed;
-            this.x += this.xSpeed;
+        this.transformOrigin = this.center;
+        this.xSpeed *= 0.95;
+        this.ySpeed *= 1.1;
+        this.y += this.ySpeed;
+        this.x += this.xSpeed;
     }
 
     slide(platform) {
-    if (this.angle < platform.angle) {
+        if (this.angle < platform.angle) {
             this.angle += this.ySpeed;
             if (this.angle > platform.angle) this.angle = platform.angle;
         }

@@ -18,7 +18,7 @@ function load() {
     let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
     let triangle = new engine.simples.Triangle(400, 300, 80, 80, 0)
 
-    let arrow = new engine.complex.Arrow(600, 300, 50, 50)
+    let arrow = new engine.complex.Arrow(600, 300, 150, 150)
 
     shapes.add(platform1);
     shapes.add(platform2);

@@ -1,12 +1,12 @@
 function collisionHandler(collision) {
-
     switch (collision.o1.type) {
         case "FallingDrop":
             dropHandler(collision)
             break;
         case "Rectangle":
             break;
-        case "Splat":
+        case "Arrow":
+            console.log("arrow", collision);
             break;
     }
 
@@ -20,6 +20,10 @@ function dropHandler(collision) {
     switch (other.type) {
         case "Rectangle":
             dropOnPlatform(drop, collision)
+            break;
+        case "Arrow":
+            console.log("arrow", collision)
+            break;
     }
 }
 

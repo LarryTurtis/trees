@@ -45,7 +45,6 @@ class ComplexShape extends Sprite {
         })
     }
 
-
     get angle() {
         return super.angle;
     }
@@ -57,8 +56,15 @@ class ComplexShape extends Sprite {
         })
     }
 
+    //merge all SAT objects into a single array.
+    createSATObject() {
+        let response = [];
+        this.shape.forEach(shape => {
+            response = response.concat(shape.createSATObject());
+        });
+        return response;
+    }
+
 }
 
 export { ComplexShape }
-
-

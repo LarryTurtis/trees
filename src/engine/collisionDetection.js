@@ -12,24 +12,28 @@ function broadPhase(o1, o2) {
 }
 
 function narrowPhase(o1, o2) {
-    var p1 = new SAT.Polygon(new SAT.Vector(0, 0), [
-        new SAT.Vector(o1.d.x, o1.d.y),
-        new SAT.Vector(o1.c.x, o1.c.y),
-        new SAT.Vector(o1.b.x, o1.b.y),
-        new SAT.Vector(o1.a.x, o1.a.y)
-    ]);
+    let collision = false;
+    let p1 = o1.createSATObject();
+    let p2 = o2.createSATObject();
 
-    var p2 = new SAT.Polygon(new SAT.Vector(0, 0), [
-        new SAT.Vector(o2.d.x, o2.d.y),
-        new SAT.Vector(o2.c.x, o2.c.y),
-        new SAT.Vector(o2.b.x, o2.b.y),
-        new SAT.Vector(o2.a.x, o2.a.y)
-    ]);
+    let response = new SAT.Response();
 
-    var response = new SAT.Response();
+    //if (o1.type === "FallingDrop" && o2.type === "Arrow") debugger
 
-    var collision = SAT.testPolygonPolygon(p1, p2, response);
+    for (let i = 0; i < p1.length; i++) {
 
+        //if we already have a collision, stop.
+        if (response.overlapV.x || response.overlapV.y) break;
+
+        //else search for a collision.
+        for (let j = 0; j < p2.length; j++) {
+            if (SAT.testPolygonPolygon(p1[i], p2[j], response)) {
+                break;
+            }
+        }
+    }
+
+    //return collision test results.
     if (response.overlapV.x || response.overlapV.y) {
         return response.overlapV;
     } else {

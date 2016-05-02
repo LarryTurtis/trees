@@ -8,6 +8,14 @@ class Triangle extends Sprite {
         this.isComponent = isComponent;
     }
 
+    createSATObject() {
+        return [new SAT.Polygon(new SAT.Vector(0, 0), [
+            new SAT.Vector(this.a.x, this.a.y),
+            new SAT.Vector(this.b.x, this.b.y),
+            new SAT.Vector(this.c.x, this.c.y),
+        ])];
+    }
+
     draw(ctx) {
         super.draw(ctx);
 
@@ -20,7 +28,7 @@ class Triangle extends Sprite {
         ctx.lineTo(b.x, b.y)
         ctx.lineTo(c.x, c.y)
         ctx.lineTo(a.x, a.y)
-            ctx.fill();
+        ctx.fill();
         if (!this.isComponent) {
             ctx.stroke();
             ctx.closePath();

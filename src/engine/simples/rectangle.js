@@ -7,6 +7,15 @@ class Rectangle extends Sprite {
         this.isComponent = isComponent;
     }
 
+    createSATObject() {
+        return [new SAT.Polygon(new SAT.Vector(0, 0), [
+            new SAT.Vector(this.d.x, this.d.y),
+            new SAT.Vector(this.c.x, this.c.y),
+            new SAT.Vector(this.b.x, this.b.y),
+            new SAT.Vector(this.a.x, this.a.y)
+        ])];
+    }
+
     draw(ctx) {
         super.draw(ctx);
         let rect = {
@@ -19,7 +28,7 @@ class Rectangle extends Sprite {
         if (!this.isComponent) ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
-            ctx.fill();
+        ctx.fill();
         if (!this.isComponent) {
             ctx.stroke();
             ctx.closePath();

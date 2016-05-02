@@ -19,7 +19,7 @@ class Sprite {
         this.updatePoints();
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = randomColor();
+        this._color = "white"//randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;
