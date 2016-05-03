@@ -28,8 +28,8 @@ class Rectangle extends Sprite {
         if (!this.isComponent) ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
-        ctx.fill();
         if (!this.isComponent) {
+            ctx.fill();
             ctx.stroke();
             ctx.closePath();
         }

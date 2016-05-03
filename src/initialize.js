@@ -19,7 +19,7 @@ function load() {
     let triangle = new engine.simples.Triangle(400, 300, 80, 80, 0)
     let circle = new engine.simples.Circle(500, 300, 80, 80)
 
-    let arrow = new engine.complex.Arrow(600, 300, 150, 150)
+    let arrow = new engine.complex.Arrow(600, 300, 150, 150, 0)
 
     shapes.add(platform1);
     shapes.add(platform2);
@@ -27,9 +27,9 @@ function load() {
     shapes.add(circle);
     shapes.add(arrow);
 
-    //interval = setInterval(addDrop, 1000);
+    interval = setInterval(addDrop, 1000);
     
-    //addDrop();
+    addDrop();
 
 }
 

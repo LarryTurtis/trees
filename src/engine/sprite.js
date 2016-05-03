@@ -2,7 +2,7 @@ import { Point } from './point.js'
 import { scroll } from './scroll.js'
 
 function randomColor() {
-    return '#'+Math.floor(Math.random()*16777215).toString(16);
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
 class Sprite {
@@ -19,7 +19,7 @@ class Sprite {
         this.updatePoints();
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = "white"//randomColor();
+        this._color = "transparent" //randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;
@@ -274,33 +274,31 @@ class Sprite {
     draw(ctx) {
 
         if (this.showBoundingBox) {
-            ctx.strokeStyle = "black";
             ctx.fillStyle = "transparent";
             ctx.lineWidth = 1;
+
+            ctx.strokeStyle = "orange";
             ctx.beginPath();
             ctx.yRect(this.rotatedRect);
-            ctx.stroke();
             ctx.fill();
+            ctx.stroke();
             ctx.closePath();
 
             ctx.strokeStyle = "blue";
-            ctx.fillStyle = "transparent";
-            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.yRect(this.boundary);
-            ctx.stroke();
             ctx.fill();
+            ctx.stroke();
             ctx.closePath();
 
             ctx.strokeStyle = "green";
-            ctx.fillStyle = "transparent";
-            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.yRect(this.rect);
-            ctx.stroke();
             ctx.fill();
+            ctx.stroke();
             ctx.closePath();
         }
+        
         ctx.lineJoin = 'miter';
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.lineColor;
@@ -308,6 +306,4 @@ class Sprite {
     }
 }
 
-export {
-    Sprite
-}
+export { Sprite }

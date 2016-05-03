@@ -11,23 +11,9 @@ class Triangle extends Sprite {
         this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
     }
 
-    get x() {
-        return super.x;
-    }
 
-    set x(x) {
-        super.x = x;
-        this.ta = new Point(this.d.x, this.d.y);
-        this.tb = new Point(this.c.x, this.c.y);
-        this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
-    }
-
-    get y() {
-        return super.y;
-    }
-
-    set y(y) {
-        super.y = y;
+    updatePoints() {
+        super.updatePoints();
         this.ta = new Point(this.d.x, this.d.y);
         this.tb = new Point(this.c.x, this.c.y);
         this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
@@ -43,14 +29,13 @@ class Triangle extends Sprite {
 
     draw(ctx) {
         super.draw(ctx);
-
         if (!this.isComponent) ctx.beginPath();
         ctx.moveTo(this.ta.x, this.ta.y)
         ctx.lineTo(this.tb.x, this.tb.y)
         ctx.lineTo(this.tc.x, this.tc.y)
         ctx.lineTo(this.ta.x, this.ta.y)
-        ctx.fill();
         if (!this.isComponent) {
+            ctx.fill();
             ctx.stroke();
             ctx.closePath();
         }

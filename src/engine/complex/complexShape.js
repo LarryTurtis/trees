@@ -9,8 +9,8 @@ class ComplexShape extends Sprite {
 
     addShape(shape) {
         shape.color = this.color;
-        shape.updatePoints();
         shape.transformOrigin = this.transformOrigin;
+        shape.updatePoints();
         this.shape.push(shape);
     }
 
@@ -20,6 +20,17 @@ class ComplexShape extends Sprite {
 
     set shape(shape) {
         this._shape = shape;
+    }
+
+    get showBoundingBox() {
+        return super.showBoundingBox;
+    }
+
+    set showBoundingBox(showBoundingBox) {
+        super.showBoundingBox = showBoundingBox;
+        this.shape.forEach(shape => {
+            shape.showBoundingBox = showBoundingBox;
+        })
     }
 
     get color() {
@@ -54,9 +65,7 @@ class ComplexShape extends Sprite {
         let diffX = x - oldX;
         super.x = x;
         this.shape.forEach(shape => {
-            shape.transformOrigin = shape.center;
             shape.x += diffX;
-            shape.transformOrigin = this.transformOrigin;
         })
     }
 
@@ -69,9 +78,7 @@ class ComplexShape extends Sprite {
         let diffY = y - oldY;
         super.y = y;
         this.shape.forEach(shape => {
-            shape.transformOrigin = shape.center;
             shape.y += diffY;
-            shape.transformOrigin = this.transformOrigin;
         })
     }
 
@@ -80,9 +87,11 @@ class ComplexShape extends Sprite {
     }
 
     set angle(angle) {
+        let oldAngle = this.angle;
+        let diffAngle = angle - this.angle;
         super.angle = angle;
         this.shape && this.shape.length && this.shape.forEach(shape => {
-            shape.angle = shape.relativeAngle + angle;
+            shape.angle += diffAngle;
         })
     }
 

@@ -6,10 +6,10 @@ function collisionHandler(collision) {
         case "Rectangle":
             break;
         case "Arrow":
-            console.log("arrow", collision);
+            console.log("arrow");
             break;
         case "Circle":
-            console.log("circle", collision);
+            console.log("circle");
             break;
     }
 
@@ -25,7 +25,7 @@ function dropHandler(collision) {
             dropOnPlatform(drop, collision)
             break;
         case "Arrow":
-            console.log("arrow", collision)
+            console.log("arrow")
             break;
     }
 }
