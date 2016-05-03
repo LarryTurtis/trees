@@ -9,8 +9,8 @@ class ComplexShape extends Sprite {
 
     addShape(shape) {
         shape.color = this.color;
-        shape.transformOrigin = this.transformOrigin;
         shape.updatePoints();
+        shape.transformOrigin = this.transformOrigin;
         this.shape.push(shape);
     }
 
@@ -42,6 +42,36 @@ class ComplexShape extends Sprite {
         this.shape && this.shape.length && this.shape.forEach(shape => {
             shape.transformOrigin = transformOrigin;
             shape.updatePoints();
+        })
+    }
+
+    get x() {
+        return super.x;
+    }
+
+    set x(x) {
+        let oldX = this.x;
+        let diffX = x - oldX;
+        super.x = x;
+        this.shape.forEach(shape => {
+            shape.transformOrigin = shape.center;
+            shape.x += diffX;
+            shape.transformOrigin = this.transformOrigin;
+        })
+    }
+
+    get y() {
+        return super.y;
+    }
+
+    set y(y) {
+        let oldY = this.y;
+        let diffY = y - oldY;
+        super.y = y;
+        this.shape.forEach(shape => {
+            shape.transformOrigin = shape.center;
+            shape.y += diffY;
+            shape.transformOrigin = this.transformOrigin;
         })
     }
 

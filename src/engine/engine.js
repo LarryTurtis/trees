@@ -9,6 +9,7 @@ import { scroll } from './scroll.js';
 let shapesRegistry = new ShapesRegistry();
 let canvas = new Canvas();
 let boundingBoxes = false;
+let clickedShape = null;
 
 let engine = {
     canvas: canvas,
@@ -26,7 +27,7 @@ export { engine };
 
 //set canvas height, maps keys, calls game setup function, and begins animation.
 function go(setup) {
-	shapesRegistry.maxShapes = 10;
+    shapesRegistry.maxShapes = 10;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -37,7 +38,27 @@ function go(setup) {
         //platform.angle++;
     }
 
+    window.addEventListener("click", dragObject);
+
     canvas.animate(callback);
+
+}
+
+function dragObject(e) {
+    if (!clickedShape) {
+        shapesRegistry.forEach(shape => {
+            if (shape.boundary.a.x <= e.clientX &&
+                shape.boundary.b.x >= e.clientX &&
+                shape.boundary.a.y <= e.clientY &&
+                shape.boundary.d.y >= e.clientY) {
+                clickedShape = shape;
+            }
+        });
+    } else {
+        clickedShape.x = e.clientX;
+        clickedShape.y = e.clientY;
+        clickedShape = null;
+    }
 }
 
 function toggleBoundingBoxes() {

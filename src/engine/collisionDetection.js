@@ -3,7 +3,7 @@ import { ShapesRegistry } from './shapesregistry.js';
 
 
 function broadPhase(o1, o2) {
-    if (o1.boundary.a.x <= o2.boundary.b.x &&
+     if (o1.boundary.a.x <= o2.boundary.b.x &&
         o1.boundary.b.x >= o2.boundary.a.x &&
         o1.boundary.a.y <= o2.boundary.d.y &&
         o1.boundary.d.y >= o2.boundary.a.y) {
@@ -35,7 +35,6 @@ function narrowPhase(o1, o2) {
             if (p1[i].r) test = SAT.testCirclePolygon;
             if (p2[j].r) test = SAT.testPolygonCircle;
             if (p1[i].r && p2[j].r) test = SAT.testCircleCircle;
-
             if (test(p1[i], p2[j], response)) {
                 break;
             }

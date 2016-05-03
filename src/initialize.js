@@ -17,19 +17,20 @@ function load() {
     let platform1 = new engine.simples.Rectangle(10, 300, 600, 40, 10);
     let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
     let triangle = new engine.simples.Triangle(400, 300, 80, 80, 0)
-    let circle = new engine.simples.Circle(400, 300, 80, 80)
+    let circle = new engine.simples.Circle(500, 300, 80, 80)
 
     let arrow = new engine.complex.Arrow(600, 300, 150, 150)
 
     shapes.add(platform1);
     shapes.add(platform2);
-    //shapes.add(triangle);
+    shapes.add(triangle);
     shapes.add(circle);
-    //shapes.add(arrow);
+    shapes.add(arrow);
 
-    interval = setInterval(addDrop, 1000);
+    //interval = setInterval(addDrop, 1000);
     
-    addDrop();
+    //addDrop();
+
 }
 
 function initialize() {

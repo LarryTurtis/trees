@@ -8,11 +8,11 @@ class Rectangle extends Sprite {
     }
 
     createSATObject() {
-        return [new SAT.Polygon(new SAT.Vector(0, 0), [
-            new SAT.Vector(this.d.x, this.d.y),
-            new SAT.Vector(this.c.x, this.c.y),
-            new SAT.Vector(this.b.x, this.b.y),
-            new SAT.Vector(this.a.x, this.a.y)
+        return [new SAT.Polygon(new SAT.Vector(this.x, this.y), [
+            new SAT.Vector(this.a.x - this.x, this.a.y - this.y),
+            new SAT.Vector(this.b.x - this.x, this.b.y - this.y),
+            new SAT.Vector(this.c.x - this.x, this.c.y - this.y),
+            new SAT.Vector(this.d.x - this.x, this.d.y - this.y)
         ])];
     }
 

@@ -8,7 +8,7 @@ class Arrow extends ComplexShape {
         this.isComponent = isComponent;
 
         let rectangle = new simples.Rectangle(x, y + height / 4, width / 2, height / 2, this.angle, true);
-        let triangle = new simples.Triangle(x, y, height, width / 2, this.angle + 90, true);
+        let triangle = new simples.Triangle(x + width / 4, y + height / 4, height, width / 2, this.angle + 90, true);
         triangle.relativeAngle = this.angle + 90;
         rectangle.relativeAngle = this.angle;
         this.addShape(rectangle);
@@ -18,7 +18,7 @@ class Arrow extends ComplexShape {
     draw(ctx) {
         super.draw(ctx);
         if (!this.isComponent) ctx.beginPath();
-        this.angle++;
+
         this.shape.forEach(shape => {
             shape.draw(ctx);
         });

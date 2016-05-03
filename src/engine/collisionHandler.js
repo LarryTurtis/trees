@@ -1,4 +1,5 @@
 function collisionHandler(collision) {
+    console.log(collision);
     switch (collision.o1.type) {
         case "FallingDrop":
             dropHandler(collision)

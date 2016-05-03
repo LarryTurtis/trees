@@ -6,28 +6,49 @@ class Triangle extends Sprite {
         super(x, y, width, height, angle);
         this.type = "Triangle";
         this.isComponent = isComponent;
+        this.ta = new Point(this.d.x, this.d.y);
+        this.tb = new Point(this.c.x, this.c.y);
+        this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
+    }
+
+    get x() {
+        return super.x;
+    }
+
+    set x(x) {
+        super.x = x;
+        this.ta = new Point(this.d.x, this.d.y);
+        this.tb = new Point(this.c.x, this.c.y);
+        this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
+    }
+
+    get y() {
+        return super.y;
+    }
+
+    set y(y) {
+        super.y = y;
+        this.ta = new Point(this.d.x, this.d.y);
+        this.tb = new Point(this.c.x, this.c.y);
+        this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
     }
 
     createSATObject() {
-        return [new SAT.Polygon(new SAT.Vector(0, 0), [
-            new SAT.Vector(this.a.x, this.a.y),
-            new SAT.Vector(this.b.x, this.b.y),
-            new SAT.Vector(this.c.x, this.c.y),
+        return [new SAT.Polygon(new SAT.Vector(this.x, this.y), [
+            new SAT.Vector(this.ta.x - this.x, this.ta.y - this.y),
+            new SAT.Vector(this.tc.x - this.x, this.tc.y - this.y),
+            new SAT.Vector(this.tb.x - this.x, this.tb.y - this.y),
         ])];
     }
 
     draw(ctx) {
         super.draw(ctx);
 
-        let a = new Point(this.c.x, this.c.y);
-        let b = this.getPointOnLine(this.a, this.width / 2, this.angle);
-        let c = new Point(this.d.x, this.d.y);
-
         if (!this.isComponent) ctx.beginPath();
-        ctx.moveTo(a.x, a.y)
-        ctx.lineTo(b.x, b.y)
-        ctx.lineTo(c.x, c.y)
-        ctx.lineTo(a.x, a.y)
+        ctx.moveTo(this.ta.x, this.ta.y)
+        ctx.lineTo(this.tb.x, this.tb.y)
+        ctx.lineTo(this.tc.x, this.tc.y)
+        ctx.lineTo(this.ta.x, this.ta.y)
         ctx.fill();
         if (!this.isComponent) {
             ctx.stroke();

@@ -13,8 +13,8 @@ class Sprite {
         this._y = y + scroll().y;
         this._origin = new Point(this.x, this.y);
         this._boundary = {};
-        this._center = null;
-        this._transformOrigin = null;
+        this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
+        this._transformOrigin = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
         this._angle = angle || 0
         this.updatePoints();
         this._lineWidth = 2;
@@ -217,10 +217,18 @@ class Sprite {
 
     updatePoints() {
 
+        //we need to preserve the old origin to see how much it's changed
+        let oldOrigin = this.origin || new Point(this.x, this.y);
+
         this.origin = new Point(this.x, this.y);
         this.center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
 
-        this.transformOrigin = this.transformOrigin || this.center;
+        //now that we have a new origin, find the change so we can apply it to the arbitrary point, transformOrigin.
+        //the user can set transformOrigin to anything, so we need to change it regardless of where it is.
+        let xDiff = this.origin.x - oldOrigin.x;
+        let yDiff = this.origin.y - oldOrigin.y;
+
+        this.transformOrigin = new Point(this.transformOrigin.x + xDiff, this.transformOrigin.y + yDiff);
 
         let a = new Point(this.x, this.y);
         let b = new Point(this.x + this.width, this.y);
