@@ -4,6 +4,7 @@ function collisionHandler(collision) {
             dropHandler(collision)
             break;
         case "Rectangle":
+            console.log("rectangle")
             break;
         case "Arrow":
             console.log("arrow");

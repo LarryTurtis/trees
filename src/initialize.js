@@ -23,13 +23,13 @@ function load() {
 
     shapes.add(platform1);
     shapes.add(platform2);
-    shapes.add(triangle);
-    shapes.add(circle);
+    // shapes.add(triangle);
+    // shapes.add(circle);
     shapes.add(arrow);
 
-    interval = setInterval(addDrop, 1000);
+    // interval = setInterval(addDrop, 1000);
     
-    addDrop();
+    // addDrop();
 
 }
 

@@ -14,6 +14,7 @@ class Arrow extends ComplexShape {
     }
 
     draw(ctx) {
+        this.y++
         super.draw(ctx);
 
         if (!this.isComponent) ctx.beginPath();
