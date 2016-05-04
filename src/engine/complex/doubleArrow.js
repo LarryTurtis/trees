@@ -6,18 +6,18 @@ class DoubleArrow extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "DoubleArrow";
 
-        let arrow1 = new complex.Arrow(x, y, width, height, this.angle + 90, true);
-        let arrow2 = new complex.Arrow(x, y, width, height, this.angle, true);
-        arrow1.relativeAngle = this.angle + 90;
-        arrow2.relativeAngle = this.angle;
+        let arrow1 = new complex.Arrow(x, y, width / 2, height / 2, 0, true);
+        let arrow2 = new complex.Arrow(x + width / 2, y, width / 2, height / 2, 180, true);
         this.addShape(arrow1);
         this.addShape(arrow2);
+        arrow1.rotate(this.angle, this.transformOrigin);
+        arrow2.rotate(this.angle, this.transformOrigin);
     }
 
     draw(ctx) {
+        this.rotate(1, this.transformOrigin)
         super.draw(ctx);
         ctx.beginPath();
-        this.angle++;
         this.shape.forEach(shape => {
             shape.draw(ctx);
         });

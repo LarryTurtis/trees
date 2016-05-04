@@ -11,6 +11,12 @@ class Triangle extends Sprite {
         this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
     }
 
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.ta = this.rotate_point(this.ta, transformOrigin, deg);
+        this.tb = this.rotate_point(this.tb, transformOrigin, deg);
+        this.tc = this.rotate_point(this.tc, transformOrigin, deg);
+    }
 
     updatePoints() {
         super.updatePoints();

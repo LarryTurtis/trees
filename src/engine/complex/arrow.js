@@ -7,14 +7,16 @@ class Arrow extends ComplexShape {
         this.type = "Arrow";
         this.isComponent = isComponent;
 
-        let rectangle = new simples.Rectangle(x, y + height / 4, width / 2, height / 2, this.angle, true);
-        let triangle = new simples.Triangle(x, y, height, width / 2, this.angle + 90, true);
+        let rectangle = new simples.Rectangle(x, y + height / 4, width / 2, height / 2, 0, true);
+        let triangle = new simples.Triangle(x + width / 4, y + height / 4, width, height / 2, 90, true);
         this.addShape(rectangle);
         this.addShape(triangle);
+
+        rectangle.rotate(this.angle, this.transformOrigin);
+        triangle.rotate(this.angle, this.transformOrigin);
     }
 
     draw(ctx) {
-        this.y++
         super.draw(ctx);
 
         if (!this.isComponent) ctx.beginPath();

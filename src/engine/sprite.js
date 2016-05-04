@@ -14,9 +14,10 @@ class Sprite {
         this._origin = new Point(this.x, this.y);
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
-        this._transformOrigin = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
-        this._angle = angle || 0
+        this._transformOrigin = this._center;
+        this._angle = angle;
         this.updatePoints();
+        this.rotate(this.angle, this.transformOrigin);
         this._lineWidth = 2;
         this._showBoundingBox = false;
         this._color = "transparent" //randomColor();
@@ -166,8 +167,20 @@ class Sprite {
         this.updatePoints();
     }
 
-    rotate(deg) {
-        this.angle = deg;
+    rotate(deg, transformOrigin) {
+        this.a = this.rotate_point(this.a, transformOrigin, deg);
+        this.b = this.rotate_point(this.b, transformOrigin, deg);
+        this.c = this.rotate_point(this.c, transformOrigin, deg);
+        this.d = this.rotate_point(this.d, transformOrigin, deg);
+
+        this.rotatedRect = {
+            a: this.a,
+            b: this.b,
+            c: this.c,
+            d: this.d
+        };
+
+        this.updateBoundaries();
     }
 
     get rect() {
@@ -208,8 +221,8 @@ class Sprite {
         return new Point(secondPointX, secondPointY);
     }
 
-    rotate_point(point, origin) {
-        let angle = this.angle * Math.PI / 180.0;
+    rotate_point(point, origin, deg) {
+        let angle = deg * Math.PI / 180.0;
         let x = Math.cos(angle) * (point.x - origin.x) - Math.sin(angle) * (point.y - origin.y) + origin.x;
         let y = Math.sin(angle) * (point.x - origin.x) + Math.cos(angle) * (point.y - origin.y) + origin.y;
         return new Point(x, y);
@@ -217,37 +230,15 @@ class Sprite {
 
     updatePoints() {
 
-        //we need to preserve the old origin to see how much it's changed
-        let oldOrigin = this.origin || new Point(this.x, this.y);
-
         this.origin = new Point(this.x, this.y);
         this.center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
 
-        //now that we have a new origin, find the change so we can apply it to the arbitrary point, transformOrigin.
-        //the user can set transformOrigin to anything, so we need to change it regardless of where it is.
-        let xDiff = this.origin.x - oldOrigin.x;
-        let yDiff = this.origin.y - oldOrigin.y;
-
-        this.transformOrigin = new Point(this.transformOrigin.x + xDiff, this.transformOrigin.y + yDiff);
-
-        let a = new Point(this.x, this.y);
-        let b = new Point(this.x + this.width, this.y);
-        let c = new Point(this.x + this.width, this.y + this.height);
-        let d = new Point(this.x, this.y + this.height);
+        this.a = this.a || new Point(this.x, this.y);
+        this.b = this.b || new Point(this.x + this.width, this.y);
+        this.c = this.c || new Point(this.x + this.width, this.y + this.height);
+        this.d = this.d || new Point(this.x, this.y + this.height);
 
         this.rect = {
-            a: a,
-            b: b,
-            c: c,
-            d: d
-        };
-
-        this.a = this.rotate_point(a, this.transformOrigin);
-        this.b = this.rotate_point(b, this.transformOrigin);
-        this.c = this.rotate_point(c, this.transformOrigin);
-        this.d = this.rotate_point(d, this.transformOrigin);
-
-        this.rotatedRect = {
             a: this.a,
             b: this.b,
             c: this.c,
@@ -298,7 +289,7 @@ class Sprite {
             ctx.stroke();
             ctx.closePath();
         }
-        
+
         ctx.lineJoin = 'miter';
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.lineColor;

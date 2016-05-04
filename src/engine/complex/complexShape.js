@@ -9,8 +9,6 @@ class ComplexShape extends Sprite {
 
     addShape(shape) {
         shape.color = this.color;
-        shape.transformOrigin = this.transformOrigin;
-        shape.updatePoints();
         this.shape.push(shape);
     }
 
@@ -20,17 +18,6 @@ class ComplexShape extends Sprite {
 
     set shape(shape) {
         this._shape = shape;
-    }
-
-    get showBoundingBox() {
-        return super.showBoundingBox;
-    }
-
-    set showBoundingBox(showBoundingBox) {
-        super.showBoundingBox = showBoundingBox;
-        this.shape.forEach(shape => {
-            shape.showBoundingBox = showBoundingBox;
-        })
     }
 
     get color() {
@@ -44,15 +31,10 @@ class ComplexShape extends Sprite {
         })
     }
 
-    get transformOrigin() {
-        return super.transformOrigin;
-    }
-
-    set transformOrigin(transformOrigin) {
-        super.transformOrigin = transformOrigin;
-        this.shape && this.shape.length && this.shape.forEach(shape => {
-            shape.transformOrigin = transformOrigin;
-            shape.updatePoints();
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.shape && this.shape.forEach(shape => {
+            shape.rotate(deg, transformOrigin);
         })
     }
 
