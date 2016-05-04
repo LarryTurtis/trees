@@ -26,9 +26,8 @@ class Door extends ComplexShape {
 
     animate() {
         this.height++;
-        this.x++;
-        this.y++;
         this.width++;
+        console.log(this.x);
         //this.rotate(1, this.transformOrigin);
     }
 
