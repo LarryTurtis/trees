@@ -11,6 +11,7 @@ class Sprite {
         this._height = height;
         this._x = x + scroll().x;
         this._y = y + scroll().y;
+        this._angle = angle || 0;
         this._origin = new Point(this.x, this.y);
         this._a = new Point(this.x, this.y);
         this._b = new Point(this.x + this.width, this.y);
@@ -19,7 +20,6 @@ class Sprite {
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
         this._transformOrigin = this._center;
-        this._angle = angle;
         this.updatePoints();
         this.rotate(this.angle, this.transformOrigin);
         this._lineWidth = 2;
@@ -121,13 +121,46 @@ class Sprite {
     }
 
     set width(width) {
+        let oldWidth = this.width;
         this._width = width;
-        this.updatePoints()
+        let widthDiff = this.width - oldWidth;
+
+        let angle = this.getAngle(this.a, this.b);
+        this.a = this.getPointOnLine(this.a, -widthDiff / 2, angle);
+        this.b = this.getPointOnLine(this.b, widthDiff / 2, angle);
+        this.c = this.getPointOnLine(this.c, widthDiff / 2, angle);
+        this.d = this.getPointOnLine(this.d, -widthDiff / 2, angle);
+
+        this.rect = {
+            a: this.a,
+            b: this.b,
+            c: this.c,
+            d: this.d
+        };
+
+        this.updateBoundaries();
+
     }
 
     set height(height) {
+        let oldHeight = this.height;
         this._height = height;
-        this.updatePoints()
+        let heightDiff = this.height - oldHeight;
+        let angle = this.getAngle(this.a, this.d);
+
+        this.a = this.getPointOnLine(this.a, -heightDiff / 2, angle);
+        this.b = this.getPointOnLine(this.b, -heightDiff / 2, angle);
+        this.c = this.getPointOnLine(this.c, heightDiff / 2, angle);
+        this.d = this.getPointOnLine(this.d, heightDiff / 2, angle);
+
+        this.rect = {
+            a: this.a,
+            b: this.b,
+            c: this.c,
+            d: this.d
+        };
+
+        this.updateBoundaries();
     }
 
     set showBoundingBox(bool) {
@@ -168,7 +201,6 @@ class Sprite {
 
     set angle(angle) {
         this._angle = angle;
-        this.updatePoints();
     }
 
     rotate(deg, transformOrigin) {
@@ -176,7 +208,7 @@ class Sprite {
         this.b = this.rotate_point(this.b, transformOrigin, deg);
         this.c = this.rotate_point(this.c, transformOrigin, deg);
         this.d = this.rotate_point(this.d, transformOrigin, deg);
-
+        this.center = this.rotate_point(this.center, transformOrigin, deg);
         this.rotatedRect = {
             a: this.a,
             b: this.b,
@@ -219,6 +251,10 @@ class Sprite {
         this._collidingWith = collidingWith;
     }
 
+    getAngle(p1, p2) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    }
+
     getPointOnLine(firstPoint, width, angle) {
         let secondPointX = firstPoint.x + width * Math.cos(angle * Math.PI / 180);
         let secondPointY = firstPoint.y + width * Math.sin(angle * Math.PI / 180);
@@ -238,7 +274,8 @@ class Sprite {
         this.origin = new Point(this.x, this.y);
         let xDiff = this.origin.x - oldOrigin.x;
         let yDiff = this.origin.y - oldOrigin.y;
-        this.center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
+
+        this.center = new Point(this.center.x + xDiff, this.center.y + yDiff);
         this.transformOrigin = new Point(this.transformOrigin.x + xDiff, this.transformOrigin.y + yDiff);
 
         this.a = new Point(this.a.x + xDiff, this.a.y + yDiff);

@@ -14,21 +14,22 @@ function load() {
 
     engine.gravity(true);
 
-    let platform1 = new engine.simples.Rectangle(10, 300, 600, 40, 10);
-    let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
-    let triangle = new engine.simples.Triangle(400, 300, 80, 80, 30)
-    let circle = new engine.simples.Circle(500, 300, 80, 80)
+     let platform1 = new engine.simples.Rectangle(300, 300, 50, 50, 40);
+    // let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
+    // let triangle = new engine.simples.Triangle(400, 300, 80, 80, 30)
+    // let circle = new engine.simples.Circle(500, 300, 80, 80)
 
-    let arrow = new engine.complex.DoubleArrow(600, 300, 150, 150, 30)
+    // let arrow = new engine.complex.DoubleArrow(600, 300, 150, 150, 30)
+    //let door = new engine.complex.Door(10, 10, 50, 200, 0)
 
     shapes.add(platform1);
-    shapes.add(platform2);
+    //shapes.add(platform2);
+    //shapes.add(door);
     // shapes.add(triangle);
     // shapes.add(circle);
-    // shapes.add(arrow);
 
     //interval = setInterval(addDrop, 1000);
-    addDrop();
+    //addDrop();
     
 
 }

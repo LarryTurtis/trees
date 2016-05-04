@@ -9,7 +9,7 @@ class ComplexShape extends Sprite {
 
     addShape(shape) {
         shape.color = this.color;
-        shape.rotate(this.angle, this.transformOrigin);
+        shape.rotate(this._angle, this.transformOrigin);
         this.shape.push(shape);
     }
 
@@ -64,6 +64,33 @@ class ComplexShape extends Sprite {
             shape.y += diffY;
         })
     }
+
+    get width() {
+        return super.width;
+    }
+
+    set width(width) {
+        let oldwidth = this.width;
+        let diffwidth = width - oldwidth;
+        super.width = width;
+        this.shape.forEach(shape => {
+            shape.width += diffwidth;
+        })
+    }
+
+    get height() {
+        return super.height;
+    }
+
+    set height(height) {
+        let oldheight = this.height;
+        let diffheight = height - oldheight;
+        super.height = height;
+        this.shape.forEach(shape => {
+            shape.height += diffheight;
+        })
+    }
+
 
     get angle() {
         return super.angle;
