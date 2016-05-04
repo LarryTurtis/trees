@@ -19,12 +19,11 @@ class Sprite {
         this._d = new Point(this.x, this.y + this.height);
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
-        this._transformOrigin = this._center;
         this.updatePoints();
-        this.rotate(this.angle, this.transformOrigin);
+        this.rotate(this.angle, this.center);
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = "grey" //randomColor();
+        this._color = "white" //randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;
@@ -54,14 +53,6 @@ class Sprite {
 
     set center(center) {
         this._center = center;
-    }
-
-    get transformOrigin() {
-        return this._transformOrigin;
-    }
-
-    set transformOrigin(transformOrigin) {
-        this._transformOrigin = transformOrigin;
     }
 
     get origin() {
@@ -126,10 +117,9 @@ class Sprite {
         let widthDiff = this.width - oldWidth;
 
         let angle = this.getAngle(this.a, this.b);
-        this.a = this.getPointOnLine(this.a, -widthDiff / 2, angle);
-        this.b = this.getPointOnLine(this.b, widthDiff / 2, angle);
-        this.c = this.getPointOnLine(this.c, widthDiff / 2, angle);
-        this.d = this.getPointOnLine(this.d, -widthDiff / 2, angle);
+        this.b = this.getPointOnLine(this.b, widthDiff, angle);
+        this.c = this.getPointOnLine(this.c, widthDiff, angle);
+        this.center = this.getPointOnLine(this.center, widthDiff / 2, angle);
 
         this.rect = {
             a: this.a,
@@ -148,10 +138,9 @@ class Sprite {
         let heightDiff = this.height - oldHeight;
         let angle = this.getAngle(this.a, this.d);
 
-        this.a = this.getPointOnLine(this.a, -heightDiff / 2, angle);
-        this.b = this.getPointOnLine(this.b, -heightDiff / 2, angle);
-        this.c = this.getPointOnLine(this.c, heightDiff / 2, angle);
-        this.d = this.getPointOnLine(this.d, heightDiff / 2, angle);
+        this.c = this.getPointOnLine(this.c, heightDiff, angle);
+        this.d = this.getPointOnLine(this.d, heightDiff, angle);
+        this.center = this.getPointOnLine(this.center, heightDiff / 2, angle);
 
         this.rect = {
             a: this.a,
@@ -276,7 +265,6 @@ class Sprite {
         let yDiff = this.origin.y - oldOrigin.y;
 
         this.center = new Point(this.center.x + xDiff, this.center.y + yDiff);
-        this.transformOrigin = new Point(this.transformOrigin.x + xDiff, this.transformOrigin.y + yDiff);
 
         this.a = new Point(this.a.x + xDiff, this.a.y + yDiff);
         this.b = new Point(this.b.x + xDiff, this.b.y + yDiff);

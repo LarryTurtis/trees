@@ -28,7 +28,7 @@ class Door extends ComplexShape {
         this.height++;
         this.width++;
         console.log(this.x);
-        //this.rotate(1, this.transformOrigin);
+        this.rotate(1, this.center);
     }
 
     draw(ctx) {
@@ -41,7 +41,7 @@ class Door extends ComplexShape {
 
         if (!this.isComponent) {
             ctx.fill();
-            //ctx.stroke();
+            ctx.stroke();
             ctx.closePath();
         }
     }

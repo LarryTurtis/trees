@@ -16,6 +16,12 @@ class Rectangle extends Sprite {
         ])];
     }
 
+    animate() {
+        this.x--;
+        this.width += 2;
+        this.rotate(1, this.center);
+    }
+
     draw(ctx) {
         super.draw(ctx);
         let rect = {
@@ -28,6 +34,7 @@ class Rectangle extends Sprite {
         if (!this.isComponent) ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
+        ctx.rect(this.center.x, this.center.y, 5, 5);
         if (!this.isComponent) {
             ctx.fill();
             ctx.stroke();
