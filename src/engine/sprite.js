@@ -24,7 +24,7 @@ class Sprite {
         this.rotate(this.angle, this.transformOrigin);
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = "transparent" //randomColor();
+        this._color = "grey" //randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;

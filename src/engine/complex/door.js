@@ -21,7 +21,15 @@ class Door extends ComplexShape {
 
     set height(height) {
         super.height = height;
-        rectangle.y = circle.center.y;
+        rectangle.y = circle.y + circle.height / 2;
+    }
+
+    animate() {
+        this.height++;
+        this.x++;
+        this.y++;
+        this.width++;
+        //this.rotate(1, this.transformOrigin);
     }
 
     draw(ctx) {

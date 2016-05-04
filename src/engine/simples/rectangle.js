@@ -16,12 +16,6 @@ class Rectangle extends Sprite {
         ])];
     }
 
-    animate() {
-        this.height++;
-        this.width++;
-        this.rotate(1, this.transformOrigin);
-    }
-
     draw(ctx) {
         super.draw(ctx);
         let rect = {
