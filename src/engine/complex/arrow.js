@@ -14,6 +14,7 @@ class Arrow extends ComplexShape {
 
         rectangle.rotate(this.angle, this.transformOrigin);
         triangle.rotate(this.angle, this.transformOrigin);
+
     }
 
     draw(ctx) {

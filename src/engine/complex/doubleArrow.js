@@ -15,6 +15,7 @@ class DoubleArrow extends ComplexShape {
     }
 
     draw(ctx) {
+        this.x++
         this.rotate(1, this.transformOrigin)
         super.draw(ctx);
         ctx.beginPath();

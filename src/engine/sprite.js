@@ -12,6 +12,10 @@ class Sprite {
         this._x = x + scroll().x;
         this._y = y + scroll().y;
         this._origin = new Point(this.x, this.y);
+        this._a = new Point(this.x, this.y);
+        this._b = new Point(this.x + this.width, this.y);
+        this._c = new Point(this.x + this.width, this.y + this.height);
+        this._d = new Point(this.x, this.y + this.height);
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
         this._transformOrigin = this._center;
@@ -230,13 +234,17 @@ class Sprite {
 
     updatePoints() {
 
+        let oldOrigin = this.origin;
         this.origin = new Point(this.x, this.y);
+        let xDiff = this.origin.x - oldOrigin.x;
+        let yDiff = this.origin.y - oldOrigin.y;
         this.center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
+        this.transformOrigin = new Point(this.transformOrigin.x + xDiff, this.transformOrigin.y + yDiff);
 
-        this.a = this.a || new Point(this.x, this.y);
-        this.b = this.b || new Point(this.x + this.width, this.y);
-        this.c = this.c || new Point(this.x + this.width, this.y + this.height);
-        this.d = this.d || new Point(this.x, this.y + this.height);
+        this.a = new Point(this.a.x + xDiff, this.a.y + yDiff);
+        this.b = new Point(this.b.x + xDiff, this.b.y + yDiff);
+        this.c = new Point(this.c.x + xDiff, this.c.y + yDiff);
+        this.d = new Point(this.d.x + xDiff, this.d.y + yDiff);
 
         this.rect = {
             a: this.a,
