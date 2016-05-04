@@ -5,8 +5,8 @@ let interval = null;
 
 function addDrop() {
     let size = 80;
-    let fallingDrop = new engine.FallingDrop(size, -size, size, size);
-    shapes.add(fallingDrop);
+    let arrow = new engine.complex.Arrow(size, -size, size, size, 0);
+    shapes.add(arrow);
 }
 
 
@@ -21,15 +21,15 @@ function load() {
 
     let arrow = new engine.complex.DoubleArrow(600, 300, 150, 150, 30)
 
-    //shapes.add(platform1);
-    //shapes.add(platform2);
-     shapes.add(triangle);
+    shapes.add(platform1);
+    shapes.add(platform2);
+    // shapes.add(triangle);
     // shapes.add(circle);
-    shapes.add(arrow);
+    // shapes.add(arrow);
 
-    // interval = setInterval(addDrop, 1000);
+    //interval = setInterval(addDrop, 1000);
+    addDrop();
     
-    // addDrop();
 
 }
 

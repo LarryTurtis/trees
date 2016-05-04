@@ -1,5 +1,7 @@
 import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
+import { fall } from '../fall.js';
+import { slide } from '../slide.js';
 
 class Arrow extends ComplexShape {
     constructor(x, y, width, height, angle, isComponent) {
@@ -11,10 +13,14 @@ class Arrow extends ComplexShape {
         let triangle = new simples.Triangle(x + width / 4, y + height / 4, width, height / 2, 90, true);
         this.addShape(rectangle);
         this.addShape(triangle);
+        this.fall = fall;
+        this.slide = slide;
+        this.ySpeed = 1;
+        this.xSpeed = 0;
+    }
 
-        rectangle.rotate(this.angle, this.transformOrigin);
-        triangle.rotate(this.angle, this.transformOrigin);
-
+    animate() {
+        if (!this.collidingWithPlatform) this.fall();
     }
 
     draw(ctx) {

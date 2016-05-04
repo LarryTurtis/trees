@@ -4,13 +4,11 @@ function collisionHandler(collision) {
             dropHandler(collision)
             break;
         case "Rectangle":
-            console.log("rectangle")
             break;
         case "Arrow":
-            console.log("arrow");
+            dropHandler(collision)
             break;
         case "Circle":
-            console.log("circle");
             break;
     }
 
@@ -26,7 +24,6 @@ function dropHandler(collision) {
             dropOnPlatform(drop, collision)
             break;
         case "Arrow":
-            console.log("arrow")
             break;
     }
 }
@@ -42,6 +39,7 @@ function dropOnPlatform(drop, collision) {
         drop.xSpeed = collision.o2.angle / 5;
         drop.ySpeed = 3;
         drop.y -= collision.overlap.y;
+        drop.x -= collision.overlap.x;
     }
     drop.slide(collision.o2)
 }

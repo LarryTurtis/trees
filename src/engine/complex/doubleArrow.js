@@ -10,12 +10,10 @@ class DoubleArrow extends ComplexShape {
         let arrow2 = new complex.Arrow(x + width / 2, y, width / 2, height / 2, 180, true);
         this.addShape(arrow1);
         this.addShape(arrow2);
-        arrow1.rotate(this.angle, this.transformOrigin);
-        arrow2.rotate(this.angle, this.transformOrigin);
     }
 
     draw(ctx) {
-        this.x++
+        this.x--
         this.rotate(1, this.transformOrigin)
         super.draw(ctx);
         ctx.beginPath();

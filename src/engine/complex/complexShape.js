@@ -9,6 +9,7 @@ class ComplexShape extends Sprite {
 
     addShape(shape) {
         shape.color = this.color;
+        shape.rotate(this.angle, this.transformOrigin);
         this.shape.push(shape);
     }
 
