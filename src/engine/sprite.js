@@ -119,7 +119,6 @@ class Sprite {
         let angle = this.getAngle(this.a, this.b);
         this.b = this.getPointOnLine(this.b, widthDiff, angle);
         this.c = this.getPointOnLine(this.c, widthDiff, angle);
-        this.center = this.getPointOnLine(this.center, widthDiff / 2, angle);
 
         this.rect = {
             a: this.a,
@@ -128,6 +127,7 @@ class Sprite {
             d: this.d
         };
 
+        this.center = this.getPointOnLine(this.a, this.distance(this.a, this.c) / 2, this.getAngle(this.a, this.c));
         this.updateBoundaries();
 
     }
@@ -140,7 +140,6 @@ class Sprite {
 
         this.c = this.getPointOnLine(this.c, heightDiff, angle);
         this.d = this.getPointOnLine(this.d, heightDiff, angle);
-        this.center = this.getPointOnLine(this.center, heightDiff / 2, angle);
 
         this.rect = {
             a: this.a,
@@ -149,6 +148,7 @@ class Sprite {
             d: this.d
         };
 
+        this.center = this.getPointOnLine(this.a, this.distance(this.a, this.c) / 2, this.getAngle(this.a, this.c));
         this.updateBoundaries();
     }
 
@@ -193,12 +193,14 @@ class Sprite {
     }
 
     rotate(deg, transformOrigin) {
+
         this.a = this.rotate_point(this.a, transformOrigin, deg);
         this.b = this.rotate_point(this.b, transformOrigin, deg);
         this.c = this.rotate_point(this.c, transformOrigin, deg);
         this.d = this.rotate_point(this.d, transformOrigin, deg);
         this.center = this.rotate_point(this.center, transformOrigin, deg);
-        this.rotatedRect = {
+
+        this.rect = {
             a: this.a,
             b: this.b,
             c: this.c,
@@ -238,6 +240,10 @@ class Sprite {
 
     set collidingWith(collidingWith) {
         this._collidingWith = collidingWith;
+    }
+
+    distance(p1, p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
     }
 
     getAngle(p1, p2) {
@@ -298,15 +304,17 @@ class Sprite {
     draw(ctx) {
 
         if (this.showBoundingBox) {
-            ctx.fillStyle = "transparent";
-            ctx.lineWidth = 1;
-
-            ctx.strokeStyle = "orange";
             ctx.beginPath();
-            ctx.yRect(this.rotatedRect);
+            ctx.fillStyle = "red";
+            ctx.lineWidth = 1;
+            let size = 5;
+            ctx.rect(this.x - size / 2, this.y - size / 2, size, size);
+            ctx.rect(this.a.x - size / 2, this.a.y - size / 2, size, size);
+            ctx.rect(this.center.x - size / 2, this.center.y - size / 2, size, size);
             ctx.fill();
-            ctx.stroke();
             ctx.closePath();
+
+            ctx.fillStyle = "transparent";
 
             ctx.strokeStyle = "blue";
             ctx.beginPath();
@@ -321,12 +329,14 @@ class Sprite {
             ctx.fill();
             ctx.stroke();
             ctx.closePath();
+        } else {
+
+            ctx.lineJoin = 'miter';
+            ctx.fillStyle = this.color;
+            ctx.strokeStyle = this.lineColor;
+            ctx.lineWidth = this.lineWidth;
         }
 
-        ctx.lineJoin = 'miter';
-        ctx.fillStyle = this.color;
-        ctx.strokeStyle = this.lineColor;
-        ctx.lineWidth = this.lineWidth;
     }
 }
 

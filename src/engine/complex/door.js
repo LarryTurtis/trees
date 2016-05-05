@@ -1,6 +1,6 @@
 import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
-
+let i = 0;
 let circle, rectangle;
 
 class Door extends ComplexShape {
@@ -25,10 +25,16 @@ class Door extends ComplexShape {
     }
 
     animate() {
-        this.height++;
-        this.width++;
-        console.log(this.x);
-        this.rotate(1, this.center);
+        if (i < 300 || i > 600) {
+            this.rotate(1, this.center);
+            this.width++
+            this.height++
+        } else {
+            this.width--
+            this.height--
+            this.x--;
+        }
+        i++;
     }
 
     draw(ctx) {

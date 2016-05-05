@@ -18,6 +18,26 @@ class Triangle extends Sprite {
         this.tc = this.rotate_point(this.tc, transformOrigin, deg);
     }
 
+    get width() {
+        return super.width;
+    }
+
+    set width(width) {
+        super.width = width;
+        this.tb = new Point(this.c.x, this.c.y);
+        this.tc = this.getPointOnLine(this.a, this.distance(this.a, this.b) / 2, this.getAngle(this.a, this.b));
+    }
+
+    get height() {
+        return super.height;
+    }
+
+    set height(height) {
+        super.height = height;
+        this.ta = new Point(this.d.x, this.d.y);
+        this.tb = new Point(this.c.x, this.c.y);
+    }
+
     updatePoints() {
         let oldOrigin = this.origin;
         super.updatePoints();
