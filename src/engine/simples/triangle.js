@@ -52,7 +52,7 @@ class Triangle extends Sprite {
         this.ta = new Point(this.ta.x + xDiff, this.ta.y + yDiff);
         this.tb = new Point(this.tb.x + xDiff, this.tb.y + yDiff);
         this.tc = new Point(this.tc.x + xDiff, this.tc.y + yDiff);
-
+        console.log()
     }
 
     createSATObject() {

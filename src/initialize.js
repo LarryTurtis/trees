@@ -16,10 +16,10 @@ function load() {
 
     let platform1 = new engine.simples.Rectangle(300, 300, 50, 50, 0);
     let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
-    let triangle = new engine.simples.Triangle(400, 300, 80, 80, 30)
+    let triangle = new engine.simples.Triangle(400, 300, 80, 80, 120)
     let circle = new engine.simples.Circle(500, 300, 80, 80)
 
-    let arrow = new engine.complex.Arrow(600, 300, 150, 150, 30)
+    let arrow = new engine.complex.Arrow(600, 300, 150, 150, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
 
     //shapes.add(platform1);
