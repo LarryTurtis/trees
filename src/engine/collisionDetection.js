@@ -15,19 +15,13 @@ function narrowPhase(o1, o2) {
     let collision = false;
     let p1 = o1.createSATObject();
     let p2 = o2.createSATObject();
-    let response = new SAT.Response();
-
-
-    //if (o1.type === "FallingDrop" && o2.type === "Arrow") debugger
-
+    let maxOverlap;
+    let response;
     for (let i = 0; i < p1.length; i++) {
 
-        //if we already have a collision, stop.
-        if (response.overlapV.x || response.overlapV.y) break;
-
-        //else search for a collision.
         for (let j = 0; j < p2.length; j++) {
 
+            response = new SAT.Response();
             //assume two polygons by default
             let test = SAT.testPolygonPolygon;
 
@@ -36,14 +30,14 @@ function narrowPhase(o1, o2) {
             if (p2[j].r) test = SAT.testPolygonCircle;
             if (p1[i].r && p2[j].r) test = SAT.testCircleCircle;
             if (test(p1[i], p2[j], response)) {
-                break;
+                if (!maxOverlap || maxOverlap.overlap < response.overlap) maxOverlap = response;
             }
         }
     }
 
     //return collision test results.
-    if (response.overlapV.x || response.overlapV.y) {
-        return response.overlapV;
+    if (maxOverlap) {
+        return maxOverlap.overlapV;
     } else {
         return false;
     }
