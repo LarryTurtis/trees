@@ -21,13 +21,13 @@ function load() {
 
     let arrow = new engine.complex.Arrow(10, 0, 80, 80, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
-    let tree = new engine.complex.Tree(400, 400, 50, 200, 0)
+    let tree = new engine.complex.Tree(10, 20, 20, 200, 0)
 
-    shapes.add(platform1);
+    //shapes.add(platform1);
     //shapes.add(platform2);
     shapes.add(arrow);
     //shapes.add(triangle);
-    shapes.add(tree);
+    //shapes.add(tree);
 
     // interval = setInterval(addDrop, 1000);
     // addDrop();

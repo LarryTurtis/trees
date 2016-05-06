@@ -1,6 +1,6 @@
 import { complex } from './complex.js';
 import { ComplexShape } from './complexShape.js';
-
+let i = 0;
 class DoubleArrow extends ComplexShape {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
@@ -10,6 +10,16 @@ class DoubleArrow extends ComplexShape {
         let arrow2 = new complex.Arrow(x + width / 2, y, width / 2, height / 2, 180, true);
         this.addShape(arrow1);
         this.addShape(arrow2);
+    }
+
+        animate() {
+        if (i < 300) {
+            this.width++;
+            this.height++;
+        } else {
+            this.rotate(1, this.center)
+        }
+        i++;
     }
 
     draw(ctx) {

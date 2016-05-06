@@ -10,6 +10,10 @@ class ComplexShape extends Sprite {
     addShape(shape) {
         shape.color = this.color;
         shape.rotate(this._angle, this.center);
+        shape.relativeX = (shape.x - this.x) / this.width;
+        shape.relativeY = (shape.y - this.y) / this.height;
+        shape.relativeWidth = shape.width / this.width;
+        shape.relativeHeight = shape.height / this.height;
         this.shape.push(shape);
     }
 
@@ -72,9 +76,20 @@ class ComplexShape extends Sprite {
     set width(width) {
         let oldwidth = this.width;
         let diffwidth = width - oldwidth;
+        let percentage = width / oldwidth;
         super.width = width;
         this.shape.forEach(shape => {
-            shape.width += diffwidth;
+            shape.width = width * shape.relativeWidth;
+
+            //for each point, get that point's position relative to the origin
+            //if the point shares an x with the origin, then its x should not change
+            //otherwise, the point's x should be changing in exactly the same way that the center and other points change
+
+            //starting with the x.
+            
+            
+            console.log(this.x, shape.x, this.width, width, diffwidth, shape.relativeX)
+            shape.x = shape.x + (diffwidth * shape.relativeX);
         })
     }
 
@@ -85,9 +100,11 @@ class ComplexShape extends Sprite {
     set height(height) {
         let oldheight = this.height;
         let diffheight = height - oldheight;
+        let percentage = height / oldheight;
         super.height = height;
         this.shape.forEach(shape => {
-            shape.height += diffheight;
+            shape.height = height * shape.relativeHeight;
+            shape.y = shape.y + (diffheight * shape.relativeY);
         })
     }
 
