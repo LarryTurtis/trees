@@ -1,11 +1,10 @@
 import { Sprite } from '../sprite.js';
 
 class Circle extends Sprite {
-    constructor(x, y, width, height, angle, isComponent) {
+    constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Circle";
-        this.isComponent = isComponent;
-        this._radius = Math.min(width, height) / 2;
+        this._radius = width / 2;
     }
 
     get radius() {
@@ -22,7 +21,7 @@ class Circle extends Sprite {
 
     set width(width) {
         super.width = width;
-        this.radius = Math.min(this.width, this.height) / 2;
+        this.radius = width / 2;
     }
 
     get height() {
@@ -31,7 +30,7 @@ class Circle extends Sprite {
 
     set height(height) {
         super.height = height;
-        this.radius = Math.min(this.width, this.height) / 2;
+        //this.radius = height/2;
     }
 
 
@@ -42,15 +41,13 @@ class Circle extends Sprite {
     draw(ctx) {
         super.draw(ctx);
 
-        if (!this.isComponent) ctx.beginPath();
+        ctx.beginPath();
 
         ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI)
 
         ctx.fill();
-        if (!this.isComponent) {
-            ctx.stroke();
-            ctx.closePath();
-        }
+        ctx.stroke();
+        ctx.closePath();
     }
 
 }

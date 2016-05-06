@@ -23,8 +23,8 @@ class Sprite {
         this.rotate(this.angle, this.center);
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = "white" //randomColor();
-        this._lineColor = "black";
+        this._color = randomColor();
+        this._lineColor = "transparent";
         this._id = null;
         this._collidingWith = null;
     }
@@ -194,6 +194,9 @@ class Sprite {
 
     rotate(deg, transformOrigin) {
 
+        this._origin = this.rotate_point(this.origin, transformOrigin, deg);
+        this._x = this.origin.x;
+        this._y = this.origin.y;
         this.a = this.rotate_point(this.a, transformOrigin, deg);
         this.b = this.rotate_point(this.b, transformOrigin, deg);
         this.c = this.rotate_point(this.c, transformOrigin, deg);

@@ -2,10 +2,9 @@ import { Sprite } from '../sprite.js'
 import { Point } from '../point.js'
 
 class Triangle extends Sprite {
-    constructor(x, y, width, height, angle, isComponent) {
+    constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Triangle";
-        this.isComponent = isComponent;
         this.ta = new Point(this.d.x, this.d.y);
         this.tb = new Point(this.c.x, this.c.y);
         this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
@@ -65,17 +64,14 @@ class Triangle extends Sprite {
 
     draw(ctx) {
         super.draw(ctx);
-        if (!this.isComponent) ctx.beginPath();
+        ctx.beginPath();
         ctx.moveTo(this.ta.x, this.ta.y)
         ctx.lineTo(this.tb.x, this.tb.y)
         ctx.lineTo(this.tc.x, this.tc.y)
         ctx.lineTo(this.ta.x, this.ta.y)
-        if (!this.isComponent) {
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
-
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     }
 
 }

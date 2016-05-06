@@ -76,19 +76,9 @@ class ComplexShape extends Sprite {
     set width(width) {
         let oldwidth = this.width;
         let diffwidth = width - oldwidth;
-        let percentage = width / oldwidth;
         super.width = width;
         this.shape.forEach(shape => {
             shape.width = width * shape.relativeWidth;
-
-            //for each point, get that point's position relative to the origin
-            //if the point shares an x with the origin, then its x should not change
-            //otherwise, the point's x should be changing in exactly the same way that the center and other points change
-
-            //starting with the x.
-            
-            
-            console.log(this.x, shape.x, this.width, width, diffwidth, shape.relativeX)
             shape.x = shape.x + (diffwidth * shape.relativeX);
         })
     }
@@ -100,14 +90,12 @@ class ComplexShape extends Sprite {
     set height(height) {
         let oldheight = this.height;
         let diffheight = height - oldheight;
-        let percentage = height / oldheight;
         super.height = height;
         this.shape.forEach(shape => {
             shape.height = height * shape.relativeHeight;
             shape.y = shape.y + (diffheight * shape.relativeY);
         })
     }
-
 
     get angle() {
         return super.angle;

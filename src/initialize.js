@@ -19,15 +19,15 @@ function load() {
     let triangle = new engine.simples.Triangle(400, 300, 80, 80, 30)
     let circle = new engine.simples.Circle(500, 300, 80, 80)
 
-    let arrow = new engine.complex.Arrow(10, 0, 80, 80, 0)
+    let arrow = new engine.complex.DoubleArrow(10, 100, 80, 80, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
     let tree = new engine.complex.Tree(10, 20, 20, 200, 0)
 
-    //shapes.add(platform1);
+    shapes.add(circle);
     //shapes.add(platform2);
     shapes.add(arrow);
-    //shapes.add(triangle);
-    //shapes.add(tree);
+    shapes.add(door);
+    shapes.add(tree);
 
     // interval = setInterval(addDrop, 1000);
     // addDrop();

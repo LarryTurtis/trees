@@ -1,10 +1,9 @@
 import { Sprite } from '../sprite.js'
 
 class Rectangle extends Sprite {
-    constructor(x, y, width, height, angle, isComponent) {
+    constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Rectangle";
-        this.isComponent = isComponent;
     }
 
     createSATObject() {
@@ -25,14 +24,12 @@ class Rectangle extends Sprite {
             d: this.d
         };
 
-        if (!this.isComponent) ctx.beginPath();
+        ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
-        if (!this.isComponent) {
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-        }
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     }
 
 }
