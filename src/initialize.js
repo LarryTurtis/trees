@@ -21,11 +21,15 @@ function load() {
 
     let arrow = new engine.complex.DoubleArrow(10, 100, 80, 80, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
-    let tree = new engine.complex.Tree(10, 20, 20, 200, 0)
+    let tree = new engine.complex.Tree(10, 20, 20, 200, 0);
+    let hose = new engine.complex.Hose(10, 100, 800, 20, 0, engine.simples.Rectangle);
 
     shapes.add(polygon);
     //shapes.add(platform2);
-    // shapes.add(arrow);
+    shapes.add(arrow);
+    shapes.add(hose);
+    hose.bend(10, 15, 100);
+    hose.bend(14, 23, -100);
     // shapes.add(door);
     // shapes.add(tree);
 
