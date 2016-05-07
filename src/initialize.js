@@ -17,17 +17,17 @@ function load() {
     let platform1 = new engine.simples.Rectangle(10, 400, 500, 50, 10);
     let platform2 = new engine.simples.Rectangle(250, 650, 600, 40, -10)
     let triangle = new engine.simples.Triangle(400, 300, 80, 80, 30)
-    let circle = new engine.simples.Circle(500, 300, 80, 80)
+    let polygon = new engine.simples.Polygon(10, 300, 100, 100, 0, 9)
 
     let arrow = new engine.complex.DoubleArrow(10, 100, 80, 80, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
     let tree = new engine.complex.Tree(10, 20, 20, 200, 0)
 
-    shapes.add(circle);
+    shapes.add(polygon);
     //shapes.add(platform2);
-    shapes.add(arrow);
-    shapes.add(door);
-    shapes.add(tree);
+    // shapes.add(arrow);
+    // shapes.add(door);
+    // shapes.add(tree);
 
     // interval = setInterval(addDrop, 1000);
     // addDrop();

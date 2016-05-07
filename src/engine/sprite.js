@@ -24,7 +24,7 @@ class Sprite {
         this._lineWidth = 2;
         this._showBoundingBox = false;
         this._color = randomColor();
-        this._lineColor = "transparent";
+        this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;
     }
