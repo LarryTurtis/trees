@@ -81,13 +81,11 @@ class Polygon extends Sprite {
     }
 
     createSATObject() {
-
-        return [new SAT.Polygon(new SAT.Vector(this.x, this.y), [
-            new SAT.Vector(this.a.x - this.x, this.a.y - this.y),
-            new SAT.Vector(this.b.x - this.x, this.b.y - this.y),
-            new SAT.Vector(this.c.x - this.x, this.c.y - this.y),
-            new SAT.Vector(this.d.x - this.x, this.d.y - this.y)
-        ])];
+        let result = [];
+        this.points.forEach(point => {
+            result.push(new SAT.Vector(point.x - this.x, point.y - this.y))
+        });
+        return [new SAT.Polygon(new SAT.Vector(this.x, this.y), result)];
     }
 
     draw(ctx) {

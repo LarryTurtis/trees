@@ -10,6 +10,10 @@ function collisionHandler(collision) {
             break;
         case "Circle":
             break;
+        case "Polygon":
+            console.log('polygon');
+            //dropHandler(collision);
+            break;
     }
 
 }
