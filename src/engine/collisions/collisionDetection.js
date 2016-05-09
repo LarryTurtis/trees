@@ -1,5 +1,5 @@
 import { GlobalCollisionRegistry } from './globalCollisionRegistry.js';
-import { ShapesRegistry } from './shapesregistry.js';
+import { ShapesRegistry } from '../shapesregistry.js';
 
 
 function broadPhase(o1, o2) {
@@ -54,7 +54,7 @@ function updateCollisions(shape) {
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
-                    if (otherShape.type === "Rectangle") shape.collidingWithPlatform = true;
+                    if (otherShape.type === "Hose") shape.collidingWithPlatform = true;
                     collisions.push(collision);
 
                 } else {

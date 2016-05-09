@@ -6,8 +6,8 @@ class Hose extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "Hose";
 
-        let links = Math.floor(width / height);
-        for (var i = 0; i < links; i++) {
+        this.length = Math.floor(width / height);
+        for (var i = 0; i < this.length; i++) {
             let link = new shape(x + (i * height), y, height, height);
             this.addShape(link);
         }

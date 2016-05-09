@@ -3,8 +3,8 @@ import { ShapesRegistry } from './shapesregistry.js'
 import { simples } from './simples/simples.js'
 import { complex } from './complex/complex.js'
 import { FallingDrop } from './fallingDrop.js'
-import { gravity } from './gravity.js';
-import { scroll } from './scroll.js';
+import { gravity } from './animations/gravity.js'
+import { scroll } from './animations/scroll.js'
 
 let shapesRegistry = new ShapesRegistry();
 let canvas = new Canvas();
@@ -40,7 +40,7 @@ function go(setup) {
 
     window.addEventListener("click", dragObject);
 
-    canvas.animate(callback);
+    canvas.animate(engine.callback);
 
 }
 

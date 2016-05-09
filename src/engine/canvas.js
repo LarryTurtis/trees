@@ -1,6 +1,6 @@
 import { ShapesRegistry } from './shapesregistry.js'
-import { updateCollisions } from './collisionDetection.js'
-import { collisionHandler } from './collisionHandler.js'
+import { updateCollisions } from './collisions/collisionDetection.js'
+import { collisionHandler } from './collisions/collisionHandler.js'
 
 let shapesRegistry = new ShapesRegistry();
 let now;

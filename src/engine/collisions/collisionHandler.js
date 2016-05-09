@@ -5,7 +5,7 @@ function collisionHandler(collision) {
             break;
         case "Rectangle":
             break;
-        case "Arrow":
+        case "Box":
             dropHandler(collision)
             break;
         case "Circle":
@@ -20,7 +20,7 @@ function dropHandler(collision) {
     let other = collision.o2;
 
     switch (other.type) {
-        case "Rectangle":
+        case "Hose":
             dropOnPlatform(drop, collision)
             break;
         case "Arrow":
@@ -34,6 +34,7 @@ function dropOnDrop(drop, collision) {
 }
 
 function dropOnPlatform(drop, collision) {
+    console.log('collision');
     if (!collision.resolved) {
         collision.resolved = true;
         drop.xSpeed = collision.o2.angle / 5;

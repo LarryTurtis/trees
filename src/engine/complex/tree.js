@@ -1,6 +1,6 @@
 import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
-let i = 0;
+
 class Tree extends ComplexShape {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
@@ -15,16 +15,6 @@ class Tree extends ComplexShape {
         this.addShape(triangle2);
         this.addShape(triangle3);
         this.addShape(rectangle);
-    }
-
-    animate() {
-        if (i < 300) {
-            this.width++;
-            this.height++;
-        } else {
-            this.rotate(1, this.center)
-        }
-        i++;
     }
 
     draw(ctx) {

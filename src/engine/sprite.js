@@ -1,5 +1,5 @@
 import { Point } from './point.js'
-import { scroll } from './scroll.js'
+import { scroll } from './animations/scroll.js'
 
 function randomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -23,7 +23,7 @@ class Sprite {
         this.rotate(this.angle, this.center);
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = randomColor();
+        this._color = "transparent"//randomColor();
         this._lineColor = "black";
         this._id = null;
         this._collidingWith = null;

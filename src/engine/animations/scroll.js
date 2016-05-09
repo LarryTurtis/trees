@@ -1,5 +1,5 @@
-import { ShapesRegistry } from './shapesregistry.js'
-import { Point } from './point.js';
+import { ShapesRegistry } from '../shapesregistry.js'
+import { Point } from '../point.js';
 
 let shapesRegistry = new ShapesRegistry();
 

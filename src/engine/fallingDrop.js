@@ -1,6 +1,6 @@
 import { Droplet } from './droplet.js';
 import { ShapesRegistry } from './shapesregistry.js'
-import { gravity } from './gravity.js'
+import { gravity } from './animations/gravity.js'
 
 let shapesRegistry = new ShapesRegistry();
 
