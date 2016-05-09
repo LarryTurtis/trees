@@ -8,8 +8,8 @@ class ComplexShape extends Sprite {
     }
 
     addShape(shape) {
-        shape.color = this.color;
-        shape.rotate(this._angle, this.center);
+        //shape.color = this.color;
+        shape.rotate(this.angle, this.center);
         shape.relativeX = (shape.x - this.x) / this.width;
         shape.relativeY = (shape.y - this.y) / this.height;
         shape.relativeWidth = shape.width / this.width;

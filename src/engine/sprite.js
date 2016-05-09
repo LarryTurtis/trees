@@ -23,10 +23,11 @@ class Sprite {
         this.rotate(this.angle, this.center);
         this._lineWidth = 2;
         this._showBoundingBox = false;
-        this._color = "transparent"//randomColor();
-        this._lineColor = "black";
+        this._color = "transparent" //randomColor();
+        this._lineColor = "transparent";
         this._id = null;
         this._collidingWith = null;
+        this._collidable = true;
     }
 
     set x(x) {
@@ -158,6 +159,14 @@ class Sprite {
 
     get showBoundingBox() {
         return this._showBoundingBox;
+    }
+
+    set collidable(collidable) {
+        this._collidable = collidable;
+    }
+
+    get collidable() {
+        return this._collidable;
     }
 
     set color(color) {
@@ -336,7 +345,7 @@ class Sprite {
 
             ctx.lineJoin = 'miter';
             ctx.fillStyle = this.color;
-            ctx.strokeStyle = this.lineColor;
+            ctx.strokeStyle = this.color;
             ctx.lineWidth = this.lineWidth;
         }
 

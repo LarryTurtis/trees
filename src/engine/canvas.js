@@ -124,9 +124,11 @@ class Canvas {
                         shape.animate();
                     }
 
-                    collisions = updateCollisions(shape);
-                    if (collisions.length) {
-                        collisions.forEach(collisionHandler);
+                    if (shape.collidable) {
+                        collisions = updateCollisions(shape);
+                        if (collisions.length) {
+                            collisions.forEach(collisionHandler);
+                        }
                     }
 
                     shape.draw(this.ctx);

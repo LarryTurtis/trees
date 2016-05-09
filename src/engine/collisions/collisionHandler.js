@@ -11,7 +11,6 @@ function collisionHandler(collision) {
         case "Circle":
             break;
         case "Polygon":
-            console.log('polygon');
             //dropHandler(collision);
             break;
     }

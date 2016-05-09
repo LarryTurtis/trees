@@ -16,7 +16,7 @@ class Box extends ComplexShape {
     }
 
     animate() {
-       if (!this.collidingWithPlatform) this.fall();
+      // if (!this.collidingWithPlatform) this.fall();
     }
 
     draw(ctx) {
