@@ -19,30 +19,32 @@ class Hose extends ComplexShape {
         let increment = degree / section.length;
         let i = 0;
         let anchor;
-        section.forEach((shape, index) => {
-            if (degree > 0) {
-                anchor = shape.d;
-            } else {
-                anchor = shape.b;
-            }
-            shape.rotate(i, shape.d)
-            if (index > 0) {
-                shape.x = section[index - 1].b.x;
-                shape.y = section[index - 1].b.y;
-            }
-            i += increment
-        });
-        let remainder = this.shape.slice(end);
-        remainder.forEach((shape, index) => {
-            shape.rotate(degree, section[0].origin);
-            if (index > 0) {
-                shape.x = remainder[index - 1].b.x;
-                shape.y = remainder[index - 1].b.y;
-            } else {
-                shape.x = section[section.length - 1].b.x;
-                shape.y = section[section.length - 1].b.y;
-            }
-        });
+        if (section.length) {
+            section.forEach((shape, index) => {
+                if (degree > 0) {
+                    anchor = shape.d;
+                } else {
+                    anchor = shape.b;
+                }
+                shape.rotate(i, shape.d)
+                if (index > 0) {
+                    shape.x = section[index - 1].b.x;
+                    shape.y = section[index - 1].b.y;
+                }
+                i += increment
+            });
+            let remainder = this.shape.slice(end);
+            remainder.forEach((shape, index) => {
+                shape.rotate(degree, section[0].origin);
+                if (index > 0) {
+                    shape.x = remainder[index - 1].b.x;
+                    shape.y = remainder[index - 1].b.y;
+                } else {
+                    shape.x = section[section.length - 1].b.x;
+                    shape.y = section[section.length - 1].b.y;
+                }
+            });
+        }
     }
 
     draw(ctx) {

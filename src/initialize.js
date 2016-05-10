@@ -38,12 +38,13 @@ function load() {
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
     let tree = new engine.complex.Tree(10, 20, 20, 200, 0);
     let mushroom = new engine.complex.Mushroom(10, 20, 100, 200, 0);
+    let octopus = new engine.complex.Octopus(300, 300, 300, 300, 0);
     hose = new engine.complex.Hose(300, 300, 800, 20, 0, engine.simples.Rectangle);
-
-    shapes.add(mushroom);
+    octopus.color = "black";
+    shapes.add(octopus);
     //shapes.add(platform2);
     shapes.add(box);
-    shapes.add(hose);
+    //shapes.add(hose);
     // shapes.add(door);
     // shapes.add(tree);
 

@@ -5,6 +5,7 @@ import { Tree } from './tree.js';
 import { Hose } from './hose.js';
 import { Box } from './box.js';
 import { Mushroom } from './mushroom.js';
+import { Octopus } from './octopus.js';
 
 let complex = {
     Arrow: Arrow,
@@ -13,7 +14,8 @@ let complex = {
     Tree: Tree,
     Hose: Hose,
     Box: Box,
-    Mushroom: Mushroom
+    Mushroom: Mushroom,
+    Octopus: Octopus
 };
 
 export { complex }
