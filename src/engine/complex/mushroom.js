@@ -24,15 +24,31 @@ class Mushroom extends ComplexShape {
         }
         this.addShape(rectangle);
 
+        let spots = [];
         //create 20 random spots.
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 20; i++) {
             let location = randomCirclePoint(cap.center, cap.radius);
             let radius = randomRadius(location, cap);
             let spot = new simples.Circle(location.x, location.y, radius, radius);
             spot.color = "#F8A068";
 
             //make sure it is above the semicircle.
-            if (spot.y + spot.height < rectangle.d.y) this.addShape(spot);
+            if (spot.y + spot.height < rectangle.d.y) {
+                let safe = true;
+                spots.forEach(s => {
+                    let spotLeft = spot.center.x - spot.radius;
+                    let spotRight = spot.center.x + spot.radius;
+                    let sLeft = s.center.x - s.radius;
+                    let sRight = s.center.x + s.radius;
+                    if (spotLeft < sRight && spotRight > sLeft) {
+                        safe = false;
+                    }
+                })
+                if (safe) {
+                    spots.push(spot);
+                    this.addShape(spot);
+                }
+            }
         }
     }
 
@@ -59,7 +75,7 @@ function randomRadius(location, container) {
     let angle = container.getAngle(container.center, location);
     let edge = container.getPointOnLine(container.center, container.radius, angle)
     let max = container.distance(location, edge) / 2;
-    let min = container.radius / 10 > max ? max : container.radius / 10;
+    let min = container.radius / 6 > max ? max : container.radius / 6;
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
