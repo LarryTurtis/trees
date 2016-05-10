@@ -28,6 +28,7 @@ class Mushroom extends ComplexShape {
             //make sure it is above the semicircle.
             if (spot.y + spot.height < rectangle.d.y) {
                 spot.color = "#F8A068";
+                spot.collidable = false;
                 this.addShape(spot);
             }
         });
