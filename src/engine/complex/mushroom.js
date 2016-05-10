@@ -1,5 +1,6 @@
 import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
+import { patterns } from '../patterns/patterns.js';
 
 class Mushroom extends ComplexShape {
     constructor(x, y, width, height, angle) {
@@ -23,33 +24,13 @@ class Mushroom extends ComplexShape {
             this.addShape(veil);
         }
         this.addShape(rectangle);
-
-        let spots = [];
-        //create 20 random spots.
-        for (let i = 0; i < 20; i++) {
-            let location = randomCirclePoint(cap.center, cap.radius);
-            let radius = randomRadius(location, cap);
-            let spot = new simples.Circle(location.x, location.y, radius, radius);
-            spot.color = "#F8A068";
-
+        patterns.randomSpots(cap).forEach(spot => {
             //make sure it is above the semicircle.
             if (spot.y + spot.height < rectangle.d.y) {
-                let safe = true;
-                spots.forEach(s => {
-                    let spotLeft = spot.center.x - spot.radius;
-                    let spotRight = spot.center.x + spot.radius;
-                    let sLeft = s.center.x - s.radius;
-                    let sRight = s.center.x + s.radius;
-                    if (spotLeft < sRight && spotRight > sLeft) {
-                        safe = false;
-                    }
-                })
-                if (safe) {
-                    spots.push(spot);
-                    this.addShape(spot);
-                }
+                spot.color = "#F8A068";
+                this.addShape(spot);
             }
-        }
+        });
     }
 
     draw(ctx) {
@@ -70,19 +51,3 @@ class Mushroom extends ComplexShape {
 }
 
 export { Mushroom }
-
-function randomRadius(location, container) {
-    let angle = container.getAngle(container.center, location);
-    let edge = container.getPointOnLine(container.center, container.radius, angle)
-    let max = container.distance(location, edge) / 2;
-    let min = container.radius / 6 > max ? max : container.radius / 6;
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function randomCirclePoint(center, radius) {
-    let a = 2 * Math.PI * Math.random();
-    let r = Math.sqrt(Math.random());
-    let x = (radius * r) * Math.cos(a) + center.x;
-    let y = (radius * r) * Math.sin(a) + center.y;
-    return { x: x, y: y }
-}
