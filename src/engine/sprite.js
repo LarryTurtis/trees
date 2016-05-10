@@ -21,10 +21,10 @@ class Sprite {
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
         this.updatePoints();
         this.rotate(this.angle, this.center);
-        this._lineWidth = 2;
+        this._lineWidth = 1;
         this._showBoundingBox = false;
         this._color = "transparent" //randomColor();
-        this._lineColor = "transparent";
+        this._lineColor = null;
         this._id = null;
         this._collidingWith = null;
         this._collidable = true;
@@ -345,7 +345,7 @@ class Sprite {
 
             ctx.lineJoin = 'miter';
             ctx.fillStyle = this.color;
-            ctx.strokeStyle = this.color;
+            ctx.strokeStyle = this.lineColor;
             ctx.lineWidth = this.lineWidth;
         }
 

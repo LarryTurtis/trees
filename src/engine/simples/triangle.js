@@ -70,7 +70,7 @@ class Triangle extends Sprite {
         ctx.lineTo(this.tc.x, this.tc.y)
         ctx.lineTo(this.ta.x, this.ta.y)
         ctx.fill();
-        ctx.stroke();
+        if (this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 

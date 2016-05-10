@@ -24,20 +24,16 @@ class Mushroom extends ComplexShape {
         }
         this.addShape(rectangle);
 
-        let spot_xlocation = cap.center.x
-        let spot_ylocation = cap.center.y - cap.height / 5;
+        //create 20 random spots.
+        for (let i = 0; i < 5; i++) {
+            let location = randomCirclePoint(cap.center, cap.radius);
+            let radius = randomRadius(location, cap);
+            let spot = new simples.Circle(location.x, location.y, radius, radius);
+            spot.color = "#F8A068";
 
-        let spot1 = new simples.Circle(spot_xlocation, spot_ylocation, cap.width / 3, cap.height / 3);
-        spot1.color = "#F8A068";
-        this.addShape(spot1);
-
-        spot_xlocation = cap.center.x - cap.width / 3;
-        spot_ylocation = cap.center.y - cap.height / 4;
-
-        let spot2 = new simples.Circle(spot_xlocation, spot_ylocation, cap.width / 4, cap.height / 4);
-        spot2.color = "#F8A068";
-        this.addShape(spot2);
-
+            //make sure it is above the semicircle.
+            if (spot.y + spot.height < rectangle.d.y) this.addShape(spot);
+        }
     }
 
     draw(ctx) {
@@ -50,7 +46,7 @@ class Mushroom extends ComplexShape {
         });
 
         ctx.fill();
-        ctx.stroke();
+        if (this.lineColor) ctx.stroke();
         ctx.closePath();
 
     }
@@ -58,3 +54,19 @@ class Mushroom extends ComplexShape {
 }
 
 export { Mushroom }
+
+function randomRadius(location, container) {
+    let angle = container.getAngle(container.center, location);
+    let edge = container.getPointOnLine(container.center, container.radius, angle)
+    let max = container.distance(location, edge) / 2;
+    let min = container.radius / 10 > max ? max : container.radius / 10;
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function randomCirclePoint(center, radius) {
+    let a = 2 * Math.PI * Math.random();
+    let r = Math.sqrt(Math.random());
+    let x = (radius * r) * Math.cos(a) + center.x;
+    let y = (radius * r) * Math.sin(a) + center.y;
+    return { x: x, y: y }
+}

@@ -23,7 +23,7 @@ class DoubleArrow extends ComplexShape {
             shape.draw(ctx);
         });
         ctx.fill();
-        ctx.stroke();
+        if (this.lineColor) ctx.stroke();
         ctx.closePath();
 
     }

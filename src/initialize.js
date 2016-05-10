@@ -37,9 +37,10 @@ function load() {
     let arrow = new engine.complex.DoubleArrow(10, 100, 80, 80, 0)
     let door = new engine.complex.Door(400, 400, 50, 200, 0)
     let tree = new engine.complex.Tree(10, 20, 20, 200, 0);
+    let mushroom = new engine.complex.Mushroom(10, 20, 100, 200, 0);
     hose = new engine.complex.Hose(300, 300, 800, 20, 0, engine.simples.Rectangle);
 
-    shapes.add(polygon);
+    shapes.add(mushroom);
     //shapes.add(platform2);
     shapes.add(box);
     shapes.add(hose);

@@ -47,7 +47,7 @@ class SemiCircle extends Sprite {
         ctx.arc(this.center.x, this.center.y, this.radius, 1 * Math.PI, 0)
 
         ctx.fill();
-        ctx.stroke();
+        if (this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 

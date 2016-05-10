@@ -21,7 +21,7 @@ class Door extends ComplexShape {
         });
 
         ctx.fill();
-        ctx.stroke();
+        if (this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 
