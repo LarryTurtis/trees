@@ -16,7 +16,6 @@ engine.callback = function() {
     shapes.forEach(shape => {
     	if (shape.type === "Cloud") {
     		shape.x += shape.xSpeed;
-    		shape.rotate(1, shape.center)
     	}
     })
 }
