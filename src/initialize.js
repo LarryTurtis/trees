@@ -4,7 +4,7 @@ import { scenes } from './scenes/scenes.js';
 function load() {
 
     scenes.clouds();
-    scenes.octopus();
+    //scenes.octopus();
 
 }
 

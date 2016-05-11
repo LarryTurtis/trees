@@ -9,6 +9,7 @@ function createCloud() {
     let cloud = new engine.complex.Cloud(-width, y, width, height, 0);
     cloud.color = "black";
     cloud.xSpeed = height / 50;
+    cloud.collidable = false;
     shapes.add(cloud);
 }
 
