@@ -14,14 +14,14 @@ class Octopus extends ComplexShape {
         let rect = new simples.Rectangle(main.x, main.center.y, width / 4, height / 8);
         this.addShape(main);
         this.addShape(rect);
-
+        let direction = 1;
         for (let i = 0; i < 8; i++) {
             let tentacle = new complex.Hose(rect.d.x + i * rect.width / 8, rect.d.y - rect.width / 8, this.width * 0.75, rect.width / 8, 0, simples.Rectangle);
-            let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-            tentacle.direction = plusOrMinus;
+            tentacle.direction = direction;
             tentacle.type = "Tentacle";
             this.addShape(tentacle);
             tentacle.rotate(90, tentacle.d);
+            direction = -direction;
         }
 
     }
