@@ -7,6 +7,7 @@ import { Box } from './box.js';
 import { Mushroom } from './mushroom.js';
 import { Octopus } from './octopus.js';
 import { Cloud } from './cloud.js';
+import { Mountains } from './mountains.js';
 
 let complex = {
     Arrow: Arrow,
@@ -17,7 +18,8 @@ let complex = {
     Box: Box,
     Mushroom: Mushroom,
     Octopus: Octopus,
-    Cloud: Cloud
+    Cloud: Cloud,
+    Mountains: Mountains
 };
 
 export { complex }

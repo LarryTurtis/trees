@@ -7,7 +7,8 @@ function createCloud() {
     let y = Math.floor(Math.random() * engine.canvas.height);
     let height = width / 4
     let cloud = new engine.complex.Cloud(-width, y, width, height, 0);
-    cloud.color = "black";
+    let opacity = 1 - width/300;
+    cloud.color = "rgba(0,0,0, " + opacity + ")";
     cloud.xSpeed = height / 50;
     cloud.collidable = false;
     shapes.add(cloud);

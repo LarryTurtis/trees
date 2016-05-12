@@ -23,8 +23,8 @@ class Cloud extends ComplexShape {
 
             //create the circle.
             let circle = new simples.SemiCircle(circleX, this.d.y - size / 2, size, size);
+            
             this.addShape(circle);
-
             previousCircle = circle;
 
             //if the circle's right edge exceeds the width of the cloud, move it over.

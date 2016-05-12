@@ -3,8 +3,8 @@ import { scenes } from './scenes/scenes.js';
 
 function load() {
 
+    scenes.mountains();
     scenes.clouds();
-    //scenes.octopus();
 
 }
 
