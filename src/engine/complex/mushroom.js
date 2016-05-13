@@ -11,7 +11,7 @@ class Mushroom extends ComplexShape {
         stem.color = "#F8A068";
         let cap = new simples.SemiCircle(x, y - height / 4, width, height, 0);
         cap.color = "#AF001E";
-        let rectangle = new simples.Rectangle(x, y + height / 4, width, height / 8, 0);
+        let rectangle = new simples.Rectangle(x, y + height / 4 - 1, width, height / 8, 0);
         rectangle.color = "#AF001E";
         this.addShape(stem);
         this.addShape(cap);
@@ -35,6 +35,8 @@ class Mushroom extends ComplexShape {
     }
 
     draw(ctx) {
+        this.width++;
+        this.height++;
         super.draw(ctx);
 
         ctx.beginPath();

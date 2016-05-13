@@ -23,7 +23,6 @@ class Cloud extends ComplexShape {
 
             //create the circle.
             let circle = new simples.SemiCircle(circleX, this.d.y - size / 2, size, size);
-            
             this.addShape(circle);
             previousCircle = circle;
 
@@ -45,8 +44,6 @@ class Cloud extends ComplexShape {
             shape.draw(ctx);
         });
 
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
         ctx.closePath();
 
     }

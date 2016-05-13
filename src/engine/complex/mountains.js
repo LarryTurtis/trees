@@ -8,7 +8,7 @@ class Mountains extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "Mountains";
 
-        let maxSize = this.width / 10;
+        let maxSize = height;
         let previoustriangle;
         let triangleX;
         let moretriangles = true;
