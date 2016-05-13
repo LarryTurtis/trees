@@ -42,7 +42,6 @@ class Mountains extends ComplexShape {
         super.draw(ctx);
 
         ctx.beginPath();
-
         this.shape.forEach(shape => {
             shape.draw(ctx);
         });

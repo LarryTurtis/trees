@@ -1,6 +1,7 @@
 import { ShapesRegistry } from './shapesregistry.js'
 import { updateCollisions } from './collisions/collisionDetection.js'
 import { collisionHandler } from './collisions/collisionHandler.js'
+import { Point } from './point.js'
 
 let shapesRegistry = new ShapesRegistry();
 let now;
@@ -36,25 +37,25 @@ class Canvas {
     constructor() {
         this.element = document.getElementById('main');
         this.ctx = this.element.getContext("2d");
-        this._centerX = this.element.width / 2;
-        this._centerY = this.element.height / 2;
+        this._center = new Point(this.element.width / 2, this.element.height / 2);
         this._width = this.element.width;
         this._height = this.element.height;
         this._fps = 60;
         this.interval = 1000 / this._fps;
+        this.blur = false;
 
     }
 
     set width(width) {
         this.element.width = width;
         this._width = width;
-        this._centerX = width / 2;
+        this._center = new Point(width / 2, this._center.y);
     }
 
     set height(height) {
         this.element.height = height;
         this._height = height;
-        this._centerY = height / 2;
+        this._center = new Point(this._center.x, height / 2);
     }
 
     get width() {
@@ -74,12 +75,8 @@ class Canvas {
         return this._height;
     }
 
-    get centerX() {
-        return this._centerX;
-    }
-
-    get centerY() {
-        return this._centerY;
+    get center() {
+        return this._center;
     }
 
     animate(callback) {
@@ -109,7 +106,7 @@ class Canvas {
 
             // ... Code for Drawing the Frame ...
             if (shapesRegistry.length) {
-                this.ctx.clearRect(0, 0, this.width, this.height);
+                if (!this.blur) this.ctx.clearRect(0, 0, this.width, this.height);
 
                 shapesRegistry.forEach(shape => {
                     let collisions = [];
