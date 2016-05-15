@@ -5,6 +5,7 @@ function load() {
     scenes.mountains();
     scenes.clouds();
     scenes.spiral();
+    //scenes.level1();
 }
 
 

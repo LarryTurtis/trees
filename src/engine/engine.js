@@ -3,8 +3,7 @@ import { ShapesRegistry } from './shapesregistry.js'
 import { simples } from './simples/simples.js'
 import { complex } from './complex/complex.js'
 import { FallingDrop } from './fallingDrop.js'
-import { gravity } from './animations/gravity.js'
-import { scroll } from './animations/scroll.js'
+import { animations } from './animations/animations.js';
 
 let shapesRegistry = new ShapesRegistry();
 let canvas = new Canvas();
@@ -13,8 +12,7 @@ let clickedShape = null;
 
 let engine = {
     canvas: canvas,
-    gravity: gravity,
-    scroll: scroll,
+    animations: animations,
     shapesRegistry: shapesRegistry,
     simples: simples,
     complex: complex,

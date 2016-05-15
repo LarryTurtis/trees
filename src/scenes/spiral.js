@@ -9,8 +9,8 @@ function rand() {
 function createSpiral(x) {
     let spiral = new engine.simples.Circle(engine.canvas.width / 2, engine.canvas.height / 2, 1, 1, 0);
     spiral.color = "black";
-    spiral.xSpeed = 6;
-    spiral.ySpeed = 6;
+    spiral.xSpeed = 16;
+    spiral.ySpeed = 16;
     spiral.collidable = false;
     spiral.callback = function() {
 
