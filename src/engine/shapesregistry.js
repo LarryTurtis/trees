@@ -16,6 +16,10 @@ class ShapesRegistry {
         return this._shapes;
     }
 
+    set shapes(shapes) {
+        this._shapes = shapes;
+    }
+
     get shapeId() {
         return this._shapeId;
     }
@@ -58,6 +62,10 @@ class ShapesRegistry {
         setTimeout(function() {
             delete shapesRegistry._shapes[shape.id];
         }, 0);
+    }
+
+    reset() {
+        this.shapes = {};
     }
 
 }

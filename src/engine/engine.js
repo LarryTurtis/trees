@@ -9,6 +9,7 @@ let shapesRegistry = new ShapesRegistry();
 let canvas = new Canvas();
 let boundingBoxes = false;
 let clickedShape = null;
+let level = 0;
 
 let engine = {
     canvas: canvas,
@@ -18,8 +19,9 @@ let engine = {
     complex: complex,
     FallingDrop: FallingDrop,
     mapKeys: mapKeys,
-    go: go
-}
+    go: go,
+    levels: []
+};
 
 export { engine };
 
@@ -68,10 +70,33 @@ function toggleBoundingBoxes() {
     })
 }
 
+function nextScene() {
+    if (level < engine.levels.length - 1) {
+        level++;
+        let nextLevel = engine.levels[level];
+        if (nextLevel) {
+            engine.shapesRegistry.reset();
+            nextLevel();
+        }
+    }
+}
+
+function previousScene() {
+    if (level > 0) {
+        level--;
+        let nextLevel = engine.levels[level];
+        if (nextLevel) {
+            engine.shapesRegistry.reset();
+            nextLevel();
+        }
+    }
+}
+
 function mapKeys(e) {
     e = e || window.event;
     switch (e.keyCode) {
         case 37: // left
+            previousScene();
             break;
 
         case 32: // up
@@ -83,6 +108,7 @@ function mapKeys(e) {
             break;
 
         case 39: // right
+            nextScene();
             break;
 
         case 40: // down

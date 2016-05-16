@@ -1,15 +1,13 @@
-import { clouds } from './clouds.js';
-import { octopus } from './octopus.js';
-import { mountains } from './mountains.js';
-import { spiral } from './spiral.js';
+import { level0 } from './level0.js';
 import { level1 } from './level1.js';
+import { octopus } from './octopus.js';
+import { dot } from './dot.js';
 
 let scenes = {
-	clouds: clouds,
+	level0: level0,
+	level1: level1,
 	octopus: octopus,
-	mountains: mountains,
-	spiral: spiral,
-	level1: level1
+	dot: dot
 }
 
 export { scenes };
