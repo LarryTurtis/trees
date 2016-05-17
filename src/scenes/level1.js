@@ -3,18 +3,19 @@ import { engine } from '../engine/engine.js';
 let shapes = engine.shapesRegistry;
 
 function level1() {
-    engine.canvas.element.style.backgroundColor = "black";
-    let width = engine.canvas.width / 20;
-    let height = width;
-    let x = engine.canvas.center.x - width/2;
-    let y = engine.canvas.center.y - height/2;
-    let box = new engine.simples.Rectangle(x, y, width, height, 0);
-    box.fall = engine.animations.fall;
-    box.color = "white";
+    let width = engine.canvas.width;
+    let height = engine.canvas.height;
+    let x = 0;
+    let y = 0;
+    let box = new engine.complex.Box(x, y, width, height, 0);
+    box.radius = width;
+    box.color = "black";
 
-    box.callback = function() {
-        this.fall();
-    }
+    engine.patterns.randomSpots(box).forEach(spot => {
+        spot.color = "#F8A068";
+        spot.collidable = false;
+        box.addShape(spot);
+    });
     shapes.add(box);
 }
 

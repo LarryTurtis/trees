@@ -4,6 +4,7 @@ import { simples } from './simples/simples.js'
 import { complex } from './complex/complex.js'
 import { FallingDrop } from './fallingDrop.js'
 import { animations } from './animations/animations.js';
+import { patterns } from './patterns/patterns.js';
 
 let shapesRegistry = new ShapesRegistry();
 let canvas = new Canvas();
@@ -14,6 +15,7 @@ let level = 0;
 let engine = {
     canvas: canvas,
     animations: animations,
+    patterns: patterns,
     shapesRegistry: shapesRegistry,
     simples: simples,
     complex: complex,

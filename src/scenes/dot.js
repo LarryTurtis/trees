@@ -4,7 +4,7 @@ let shapes = engine.shapesRegistry;
 
 function createDot(x) {
     let dot = new engine.simples.Circle(engine.canvas.width / 2, engine.canvas.height / 2, 1, 1, 0);
-    dot.color = "white";
+    dot.color = "black";
     dot.xSpeed = 16;
     dot.ySpeed = 16;
     dot.collidable = false;
