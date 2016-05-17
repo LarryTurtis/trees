@@ -11,11 +11,13 @@ function level1() {
     box.radius = width;
     box.color = "black";
 
-    engine.patterns.randomSpots(box).forEach(spot => {
-        spot.color = "#F8A068";
+    engine.patterns.randomSpotsOnCircle(box).forEach(spot => {
+        spot.color = "black";
         spot.collidable = false;
         box.addShape(spot);
     });
+
+    engine.patterns.polkaDots(box, engine.simples.Circle, 100,  1, 5, "white");
     shapes.add(box);
 }
 
