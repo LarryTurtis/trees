@@ -36,6 +36,28 @@ class ComplexShape extends Sprite {
         })
     }
 
+    get lineColor() {
+        return super.lineColor;
+    }
+
+    set lineColor(lineColor) {
+        super.lineColor = lineColor;
+        this.shape.forEach(shape => {
+            shape.lineColor = lineColor;
+        })
+    }
+
+    get collidable() {
+        return super.collidable;
+    }
+
+    set collidable(collidable) {
+        super.collidable = collidable;
+        this.shape.forEach(shape => {
+            shape.collidable = collidable;
+        })
+    }
+
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
         this.shape && this.shape.forEach(shape => {

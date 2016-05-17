@@ -9,7 +9,7 @@ class Mushroom extends ComplexShape {
 
         let stem = new simples.Rectangle(this.center.x - this.width / 10, y + height / 4, this.width / 5, this.height * 0.75, 0);
         stem.color = "#F8A068";
-        let cap = new simples.SemiCircle(x, y - height / 4, width, height, 0);
+        let cap = new complex.SemiCircle(x, y - height / 4, width, height, 0);
         cap.color = "#AF001E";
         let rectangle = new simples.Rectangle(x, y + height / 4 - 1, width, height / 8, 0);
         rectangle.color = "#AF001E";
@@ -19,7 +19,7 @@ class Mushroom extends ComplexShape {
         for (let i = 0; i < 5; i++) {
             let v_width = width / 5;
             let v_height = height / 10;
-            let veil = new simples.Circle(x + i * v_width, rectangle.d.y - v_height / 2, v_width, v_height);
+            let veil = new complex.SemiCircle(x + i * v_width, rectangle.d.y - v_height / 2, v_width, v_height, 180);
             veil.color = "#FFFCC4";
             this.addShape(veil);
         }

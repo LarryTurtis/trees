@@ -19,10 +19,10 @@ class Cloud extends ComplexShape {
             circleX = previousCircle ? previousCircle.b.x - previousCircle.width / 4 : this.x;
 
             //the max size of any circle should be 50% of the width. Min size is 25%
-            let size = Math.floor(Math.random() * (maxSize - maxSize / 4)) + maxSize / 4;
+            let size = trees.random(maxSize / 4, maxSize);
 
             //create the circle.
-            let circle = new simples.SemiCircle(circleX, this.d.y - size / 2, size, size);
+            let circle = new complex.SemiCircle(circleX, this.d.y - size / 2, size, size/2);
             this.addShape(circle);
             previousCircle = circle;
 

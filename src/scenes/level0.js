@@ -6,10 +6,10 @@ function rand() {
     return Math.floor(Math.random() * 255) + 1;
 }
 
-function createCloud(x) {
-    let width = Math.floor(Math.random() * 250) + 50;
-    x = x || -width;
-    let y = Math.floor(Math.random() * engine.canvas.height);
+function createCloud() {
+    let width = trees.random(50, 300);
+    let x = trees.random(1, engine.canvas.width);
+    let y = trees.random(1, engine.canvas.height);
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height, 0);
     let opacity = 1 - width / 300;
@@ -36,7 +36,7 @@ function createMountains() {
 function level0() {
     engine.canvas.element.style.backgroundColor = "transparent";
     for (let i = 0; i < 25; i++) {
-        createCloud(Math.random() * engine.canvas.width);
+        createCloud();
     }
     createMountains();
 }

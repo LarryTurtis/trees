@@ -201,6 +201,12 @@ class Sprite {
         this._angle = angle;
     }
 
+    resize(n) {
+        let ratio = this.height / this.width;
+        this.width = n;
+        this.height = n * ratio;
+    }
+
     rotate(deg, transformOrigin) {
 
         this._origin = this.rotate_point(this.origin, transformOrigin, deg);
@@ -281,7 +287,6 @@ class Sprite {
         this.origin = new Point(this.x, this.y);
         let xDiff = this.origin.x - oldOrigin.x;
         let yDiff = this.origin.y - oldOrigin.y;
-
         this.center = new Point(this.center.x + xDiff, this.center.y + yDiff);
 
         this.a = new Point(this.a.x + xDiff, this.a.y + yDiff);
