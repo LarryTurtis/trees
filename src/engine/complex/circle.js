@@ -8,10 +8,10 @@ class Circle extends ComplexShape {
 
         this._radius = this.width / 2;
 
-        this.topRight = new simples.Wedge(x + width / 2, y, width / 2, height / 2, angle);
-        this.topLeft = new simples.Wedge(x, y, width / 2, height / 2, angle + 270);
-        this.bottomRight = new simples.Wedge(x + width / 2, y + height / 2, width / 2, height / 2, angle + 90);
-        this.bottomLeft = new simples.Wedge(x, y + height / 2, width / 2, height / 2, angle + 180);
+        this.topRight = new simples.Wedge(x + width / 2, y, width / 2, height / 2, 0);
+        this.topLeft = new simples.Wedge(x, y, width / 2, height / 2, 270);
+        this.bottomRight = new simples.Wedge(x + width / 2, y + height / 2, width / 2, height / 2, 90);
+        this.bottomLeft = new simples.Wedge(x, y + height / 2, width / 2, height / 2, 180);
 
         this.addShape(this.topRight);
         this.addShape(this.topLeft);
@@ -54,7 +54,7 @@ class Circle extends ComplexShape {
         super.draw(ctx);
 
         ctx.beginPath();
-        ctx.moveTo(this.x, this.center.y);
+        ctx.moveTo(this.topLeft.a.x, this.topLeft.a.y);
         ctx.curve(this.topLeft.curve);
         ctx.curve(this.topRight.curve);
         ctx.curve(this.bottomRight.curve);

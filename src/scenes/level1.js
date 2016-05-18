@@ -20,20 +20,16 @@ function level1() {
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
-    let semiCircle = new engine.complex.SemiCircle(300, 300, 200, 100, 0, 5);
+    let semiCircle = new engine.complex.Donut(300, 300, 200, 200, 10, 10);
     semiCircle.color = "black";
     semiCircle.callback = function() {
-        this.x++;
+        //this.x++;
     }
     shapes.add(semiCircle);
 
-    let donut = new engine.complex.Donut(100, 100, 200, 200, 0, 50);
-    donut.color = "black";
-    donut.callback = function() {
-        this.rotate(1, this.center);
-        this.x++;
-    }
-    shapes.add(donut);
+    // let donut = new engine.complex.Donut(100, 100, 200, 200, 0, 50);
+    // donut.color = "black";
+    // shapes.add(donut);
 }
 
 export { level1 };

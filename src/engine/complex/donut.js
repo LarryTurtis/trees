@@ -8,8 +8,8 @@ class Donut extends ComplexShape {
 
         this._radius = this.width / 2;
 
-        let top = new complex.Arch(x, y, width, height / 2, angle, thickness);
-        let bottom = new complex.Arch(x, y + height / 2, width, height / 2, angle + 180, thickness);
+        let top = new complex.Arch(x, y, width, height / 2, 0, thickness);
+        let bottom = new complex.Arch(x, y + height / 2, width, height / 2, 180, thickness);
 
         this.addShape(top);
         this.addShape(bottom);

@@ -5,7 +5,7 @@ class Macaroni extends ComplexShape {
     constructor(x, y, width, height, angle, thickness) {
         super(x, y, width, height, angle);
         this.type = "Macaroni";
-
+        thickness = thickness || 1;
         this._radius = this.width / 2;
 
         this.outer = new simples.Wedge(x, y, width, height);
