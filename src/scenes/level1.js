@@ -16,20 +16,24 @@ function level1() {
         spot.collidable = false;
         box.addShape(spot);
     });
-
+    let i = 200;
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
-    let semiCircle = new engine.complex.Donut(300, 300, 200, 200, 10, 10);
-    semiCircle.color = "black";
-    semiCircle.callback = function() {
-        //this.x++;
-    }
-    shapes.add(semiCircle);
+    // let semiCircle = new engine.complex.Arch(300, 300, 200, 200, 0, 10);
+    // semiCircle.color = "blue";
+    // semiCircle.callback = function() {
+    //     this.resize(i);
+    // }
+    // shapes.add(semiCircle);
 
-    // let donut = new engine.complex.Donut(100, 100, 200, 200, 0, 50);
-    // donut.color = "black";
-    // shapes.add(donut);
+    let donut = new engine.complex.Macaroni(100, 100, 200, 200, 20, 10);
+    donut.color = "black";
+    donut.callback = function() {
+        // i++;
+        // this.resize(i);
+    }
+    shapes.add(donut);
 }
 
 export { level1 };

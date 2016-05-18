@@ -1,12 +1,10 @@
 import { simples } from '../simples/simples.js';
-import { ComplexShape } from './complexShape.js';
+import { ThickShape } from './ThickShape.js';
 
-class Macaroni extends ComplexShape {
+class Macaroni extends ThickShape {
     constructor(x, y, width, height, angle, thickness) {
-        super(x, y, width, height, angle);
+        super(x, y, width, height, angle, thickness);
         this.type = "Macaroni";
-        thickness = thickness || 1;
-        this._radius = this.width / 2;
 
         this.outer = new simples.Wedge(x, y, width, height);
         this.inner = new simples.Wedge(x, y + thickness, width - thickness, height - thickness);
@@ -15,45 +13,15 @@ class Macaroni extends ComplexShape {
         this.addShape(this.outer);
     }
 
-    get radius() {
-        return this._radius;
-    }
-
-    set radius(radius) {
-        this._radius = radius;
-    }
-
-    get width() {
-        return super.width;
-    }
-
-    set width(width) {
-        super.width = width;
-        this.radius = width / 2;
-    }
-
-    get height() {
-        return super.height;
-    }
-
-    set height(height) {
-        super.height = height;
-        //this.radius = height/2;
-    }
-
-    createSATObject() {
-        return [new SAT.Circle(new SAT.Vector(this.center.x, this.center.y), this.radius)];
-    }
-
     draw(ctx) {
         super.draw(ctx);
 
         ctx.beginPath();
-        ctx.yMove(this.origin);
+        ctx.yMove(this.a);
         ctx.curve(this.outer.curve);
         ctx.yLine(this.inner.c);
         ctx.curve(this.inner.getReverseCurve());
-        ctx.yLine(this.origin)
+        ctx.yLine(this.a)
         ctx.closePath();
         ctx.fill();
         if (this.lineColor) ctx.stroke();

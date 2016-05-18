@@ -1,47 +1,15 @@
 import { simples } from '../simples/simples.js';
-import { ComplexShape } from './complexShape.js';
+import { CircularShape } from './circularShape.js';
 
-class SemiCircle extends ComplexShape {
+class SemiCircle extends CircularShape {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "SemiCircle";
-
-        this._radius = this.width / 2;
-
+        
         this.right = new simples.Wedge(x + width / 2, y, width / 2, height);
         this.left = new simples.Wedge(x, y, width / 2, height, 270);
         this.addShape(this.left);
         this.addShape(this.right);
-    }
-
-    get radius() {
-        return this._radius;
-    }
-
-    set radius(radius) {
-        this._radius = radius;
-    }
-
-    get width() {
-        return super.width;
-    }
-
-    set width(width) {
-        super.width = width;
-        this.radius = width / 2;
-    }
-
-    get height() {
-        return super.height;
-    }
-
-    set height(height) {
-        super.height = height;
-        //this.radius = height/2;
-    }
-
-    createSATObject() {
-        return [new SAT.Circle(new SAT.Vector(this.center.x, this.center.y), this.radius)];
     }
 
     draw(ctx) {
