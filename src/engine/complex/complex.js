@@ -14,6 +14,8 @@ import { Octopus } from './octopus.js';
 import { Cloud } from './cloud.js';
 import { Mountains } from './mountains.js';
 import { Gear } from './gear.js';
+import { Eye } from './eye.js';
+
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -31,7 +33,8 @@ let complex = {
     Octopus: Octopus,
     Cloud: Cloud,
     Mountains: Mountains,
-    Gear: Gear
+    Gear: Gear,
+    Eye: Eye
 };
 
 export { complex }

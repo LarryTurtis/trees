@@ -20,20 +20,12 @@ function level1() {
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
-    // let semiCircle = new engine.complex.Arch(300, 300, 200, 200, 0, 10);
-    // semiCircle.color = "blue";
-    // semiCircle.callback = function() {
-    //     this.resize(i);
-    // }
-    // shapes.add(semiCircle);
-
-    let donut = new engine.complex.Macaroni(100, 100, 200, 200, 20, 10);
-    donut.color = "black";
-    donut.callback = function() {
-        // i++;
-        // this.resize(i);
+    let eye = new engine.complex.Eye(100, 100, 200, 200, 0);
+    eye.callback = function() {
+        this.lookLeft()
+        this.lookUp();
     }
-    shapes.add(donut);
+    shapes.add(eye);
 }
 
 export { level1 };
