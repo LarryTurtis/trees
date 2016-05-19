@@ -16,14 +16,18 @@ function level1() {
         spot.collidable = false;
         box.addShape(spot);
     });
-    let i = 100;
+    let i = 0;
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
-    let eye = new engine.complex.RoundedRectangle(100, 100, 100, 150, 0, 50, 2);
+    let eye = new engine.complex.Head(100, 100, 100, 200, 0, 50, 2);
     eye.color = "black";
     eye.callback = function() {
-        //this.resize(i);
+        if (i < 50) {
+            this.openMouth();
+        } else {
+            this.closeMouth();
+        }
         i++;
     }
     shapes.add(eye);

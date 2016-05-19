@@ -17,7 +17,7 @@ import { Mountains } from './mountains.js';
 import { Gear } from './gear.js';
 import { Eye } from './eye.js';
 import { Pupil } from './pupil.js';
-
+import { Head } from './head.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -38,7 +38,8 @@ let complex = {
     Mountains: Mountains,
     Gear: Gear,
     Eye: Eye,
-    Pupil: Pupil
+    Pupil: Pupil,
+    Head: Head
 };
 
 export { complex }

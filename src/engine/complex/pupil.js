@@ -23,13 +23,11 @@ class Pupil extends CircularShape {
     }
 
     set state(state) {
-        console.log(state);
         this._state = state;
         this[state]();
     }
 
     suspicious() {
-        console.log('rotate', this.pupilAngle);
         this.shape[0].topRight.color = "transparent";
         this.shape[0].topLeft.color = "transparent";
         if (this.pupilAngle < 30) {
