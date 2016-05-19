@@ -1,4 +1,5 @@
 import { SemiCircle } from './semiCircle.js';
+import { RoundedRectangle } from './roundedRectangle.js';
 import { Circle } from './circle.js';
 import { Macaroni } from './macaroni.js';
 import { Arch } from './arch.js';
@@ -20,6 +21,7 @@ import { Pupil } from './pupil.js';
 
 let complex = {
     SemiCircle: SemiCircle,
+    RoundedRectangle: RoundedRectangle,
     Circle: Circle,
     Macaroni: Macaroni,
     Arch: Arch,
