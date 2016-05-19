@@ -17,6 +17,10 @@ class ComplexShape extends Sprite {
         this.shape.push(shape);
     }
 
+    removeShape(shape) {
+        this.shape.splice(this.shape.indexOf(shape), 1);
+    }
+
     get shape() {
         return this._shape;
     }

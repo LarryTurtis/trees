@@ -15,6 +15,7 @@ import { Cloud } from './cloud.js';
 import { Mountains } from './mountains.js';
 import { Gear } from './gear.js';
 import { Eye } from './eye.js';
+import { Pupil } from './pupil.js';
 
 
 let complex = {
@@ -34,7 +35,8 @@ let complex = {
     Cloud: Cloud,
     Mountains: Mountains,
     Gear: Gear,
-    Eye: Eye
+    Eye: Eye,
+    Pupil: Pupil
 };
 
 export { complex }

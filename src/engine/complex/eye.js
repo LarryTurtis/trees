@@ -1,46 +1,75 @@
 import { complex } from './complex.js';
 import { CircularShape } from './circularShape.js';
 
+function isInside(c1, c2) {
+    let distance = c1.distance(c1.center, c2.center);
+    return distance + c1.radius <= c2.radius;
+}
+
+let keepGoingX = true;
+let keepGoingY = true;
+
 class Eye extends CircularShape {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Eye";
-
         this.eye = new complex.Circle(x, y, width, height);
-        this.eye.color = "white";
-        this.eye.lineColor = "black";
-        this.pupil = new complex.Circle(x + width / 4, y + height / 4, width / 2, height / 2);
-        this.pupil.color = "black";
-
+        this.eye.color = "transparent";
+        this.pupil = new complex.Pupil(x + width / 4, y + height / 4, width / 2, height / 2);
         this.addShape(this.eye);
         this.addShape(this.pupil);
     }
 
-    lookLeft() {
-        if (this.pupil.b.x < this.eye.b.x) {
-            this.pupil.x++;
-        }
+    get state() {
+        return this._state;
     }
 
-    lookRight() {
-        if (this.pupil.a.x > this.eye.a.x) {
+    set state(state) {
+        this._state = state;
+        this.shape.forEach(shape => {
+            shape.state = state;
+        })
+    }
+
+    lookLeft() {
+        if (keepGoingX) this.pupil.x++;
+        if (isInside(this.pupil, this.eye)) {
+            keepGoingX = true;
+        } else {
+            keepGoingX = false;
             this.pupil.x--;
         }
     }
 
-    lookUp() {
-        if (this.pupil.a.y > this.eye.a.y) {
-            this.pupil.y--;
+    lookRight() {
+        if (keepGoingX) this.pupil.x--;
+        if (isInside(this.pupil, this.eye)) {
+            keepGoingX = true;
+        } else {
+            keepGoingX = false;
+            this.pupil.x++;
         }
     }
 
-    lookDown() {
-        if (this.pupil.d.y < this.eye.d.y) {
+    lookUp() {
+        if (keepGoingY) this.pupil.y--;
+        if (isInside(this.pupil, this.eye)) {
+            keepGoingY = true;
+        } else {
+            keepGoingY = false;
             this.pupil.y++;
         }
     }
 
-
+    lookDown() {
+        if (keepGoingY) this.pupil.y++;
+        if (isInside(this.pupil, this.eye)) {
+            keepGoingY = true;
+        } else {
+            keepGoingY = false;
+            this.pupil.y--;
+        }
+    }
 
     draw(ctx) {
         super.draw(ctx);

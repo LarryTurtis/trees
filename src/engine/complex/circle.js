@@ -22,13 +22,11 @@ class Circle extends CircularShape {
         super.draw(ctx);
 
         ctx.beginPath();
-        ctx.moveTo(this.topLeft.a.x, this.topLeft.a.y);
-        ctx.curve(this.topLeft.curve);
-        ctx.curve(this.topRight.curve);
-        ctx.curve(this.bottomRight.curve);
-        ctx.curve(this.bottomLeft.curve);
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
+
+        this.shape.forEach(shape => {
+            shape.draw(ctx);
+        });
+
         ctx.closePath();
     }
 

@@ -16,14 +16,22 @@ function level1() {
         spot.collidable = false;
         box.addShape(spot);
     });
-    let i = 200;
+    let i = 0;
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
     let eye = new engine.complex.Eye(100, 100, 200, 200, 0);
     eye.callback = function() {
-        this.lookLeft()
-        this.lookUp();
+        if (i > 50 && i < 200) {
+            this.state = "dilate";
+            this.lookRight();
+            this.lookUp();
+        } else {
+            this.state = "normal";
+            this.lookLeft();
+            this.lookDown();
+        }
+        i++;
     }
     shapes.add(eye);
 }
