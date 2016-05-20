@@ -20,13 +20,17 @@ function level1() {
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
     // shapes.add(box);
 
-    let eye = new engine.complex.Head(100, 100, 100, 200, 0, 50, 2);
-    eye.color = "black";
+    let eye = new engine.complex.Head(100, 100, 100, 150, 0, 50, 2);
     eye.callback = function() {
         if (i < 50) {
             this.openMouth();
+            this.lookLeft();
+            this.state = "dilate";
         } else {
             this.closeMouth();
+            this.lookDown();
+            this.lookRight();
+            this.state = "normal";
         }
         i++;
     }

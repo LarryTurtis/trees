@@ -1,5 +1,5 @@
-import { simples } from '../simples/simples.js';
-import { ThickShape } from './ThickShape.js';
+import { Wedge } from '../simples/wedge.js';
+import { ThickShape } from './thickShape.js';
 
 class Macaroni extends ThickShape {
     constructor(x, y, width, height, angle, thickness) {

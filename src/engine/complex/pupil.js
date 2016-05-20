@@ -1,4 +1,4 @@
-import { complex } from './complex.js';
+import { Circle } from './circle.js';
 import { CircularShape } from './circularShape.js';
 
 class Pupil extends CircularShape {
@@ -8,14 +8,13 @@ class Pupil extends CircularShape {
         this.pupilAngle = 0;
         this._state = "normal";
 
-        let pupil = new complex.Circle(x, y, width, height);
+        let pupil = new Circle(x, y, width, height);
         this.addShape(pupil);
         //pupil.color = "black";
         pupil.bottomRight.color = "black";
         pupil.bottomLeft.color = "black";
         pupil.topRight.color = "transparent";
         pupil.topLeft.color = "transparent";
-        this.showBoundingBox = true;
     }
 
     get state() {

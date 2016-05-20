@@ -1,5 +1,5 @@
-import { Rectangle } from '../simples/Rectangle.js';
-import { Circle } from './Circle.js';
+import { Rectangle } from '../simples/rectangle.js';
+import { Circle } from './circle.js';
 import { ComplexShape } from './complexShape.js';
 
 class RoundedRectangle extends ComplexShape {
@@ -40,15 +40,9 @@ class RoundedRectangle extends ComplexShape {
 
     draw(ctx) {
         super.draw(ctx);
-
-        ctx.beginPath();
         this.shape.forEach(shape => {
             shape.draw(ctx);
         });
-
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
     }
 
 }
