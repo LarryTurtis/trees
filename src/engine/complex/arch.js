@@ -6,10 +6,10 @@ class Arch extends ThickShape {
         super(x, y, width, height, angle, thickness);
         this.type = "Arch";
 
-        let right = new complex.Macaroni(x + width / 2, y, width / 2, height, 0, thickness);
-        let left = new complex.Macaroni(x, y, width / 2, height, 270, thickness);
-        this.addShape(right);
-        this.addShape(left);
+        this.right = new complex.Macaroni(x + width / 2, y, width / 2, height, 0, thickness);
+        this.left = new complex.Macaroni(x, y, width / 2, height, 270, thickness);
+        this.addShape(this.right);
+        this.addShape(this.left);
     }
 
     draw(ctx) {

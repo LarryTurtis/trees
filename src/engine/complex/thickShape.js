@@ -8,6 +8,11 @@ class ThickShape extends CircularShape {
         this._thickness = thickness || 1;
     }
 
+    addShape(shape) {
+        super.addShape(shape);
+        this.relativeThickness = this.thickness / this.width;
+    }
+
     get thickness() {
         return this._thickness;
     }

@@ -6,11 +6,24 @@ class Macaroni extends ThickShape {
         super(x, y, width, height, angle, thickness);
         this.type = "Macaroni";
 
-        this.outer = new simples.Wedge(x, y, width, height);
-        this.inner = new simples.Wedge(x, y + thickness, width - thickness, height - thickness);
-
+        this.outer = new Wedge(x, y, width, height);
+        this.inner = new Wedge(x, y + thickness, width - thickness, height - thickness);
         this.addShape(this.inner);
         this.addShape(this.outer);
+    }
+
+    get width() {
+        return super.width;
+    }
+
+    set width(width) {
+        let oldWidth = this.width;
+        super.width = width;
+        let widthDiff = this.width - oldWidth;
+        this.thickness = this.thickness + (widthDiff * this.relativeThickness);
+
+        this.inner.y = this.getPointOnLine(this.outer.origin, this.thickness, this.getAngle(this.a, this.d)).y;
+        this.inner.x = this.getPointOnLine(this.outer.origin, this.thickness, this.getAngle(this.a, this.d)).x;
     }
 
     draw(ctx) {
