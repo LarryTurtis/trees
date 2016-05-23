@@ -5,7 +5,8 @@
 function trees() {
 
     return {
-        random: random
+        random: random,
+        randomColor: randomColor
     }
 
     /**
@@ -20,6 +21,14 @@ function trees() {
         }
         return min + Math.floor(Math.random() * (max - min + 1));
     };
+
+    /**
+     * Returns a random hex color
+     * @return {String} 
+     */
+    function randomColor() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    }
 
 }
 

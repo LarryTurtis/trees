@@ -1,10 +1,6 @@
 import { Point } from './point.js'
 import { scroll } from './animations/scroll.js'
 
-function randomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
-
 class Sprite {
     constructor(x, y, width, height, angle) {
         this._width = width;

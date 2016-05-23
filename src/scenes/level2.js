@@ -1,18 +1,24 @@
 import { engine } from '../engine/engine.js';
 
 let shapes = engine.shapesRegistry;
-let i = 200;
-function level2() {
-    let box = new engine.complex.Donut(200, 200, 200, 200, 0, 50);
-    box.color = "black"
-    // box.rotate(250, box.center);
-    // box.resize(300)
+
+function createBubble() {
+    let size = trees.random(10, 30);
+    let thickness = trees.random(1, 6);
+    let times = trees.random(-1,1);
+    let box = new engine.complex.Arch(trees.random(1, engine.canvas.width), -size, size, size/2, trees.random(0,360), thickness);
+    box.color = trees.randomColor();
+    box.ySpeed = size / 10;
     box.callback = function() {
-        i++;
-        this.resize(i)
-        //this.rotate(1, this.center);
+        this.y += this.ySpeed;
+        this.rotate(this.ySpeed * times, this.center);
     }
+    box.collidable = false;
     shapes.add(box);
+}
+
+function level2() {
+    engine.timer = setInterval(createBubble, 100)
 }
 
 export { level2 };

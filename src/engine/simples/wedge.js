@@ -39,6 +39,7 @@ class Wedge extends Sprite {
     set width(width) {
         super.width = width;
         this.cp1 = this.getPointOnLine(this.a, getBezierDistance(this.width * 2), this.getAngle(this.a, this.b));
+        this.cp2 = this.getPointOnLine(this.c, getBezierDistance(-this.height * 2), this.getAngle(this.b, this.c));
         this.end = new Point(this.c.x, this.c.y);
         this._curve = new Curve(this._cp1, this._cp2, this._end);
     }
@@ -49,6 +50,7 @@ class Wedge extends Sprite {
 
     set height(height) {
         super.height = height;
+        this.cp1 = this.getPointOnLine(this.a, getBezierDistance(this.width * 2), this.getAngle(this.a, this.b));
         this.cp2 = this.getPointOnLine(this.c, getBezierDistance(-this.height * 2), this.getAngle(this.b, this.c));
         this.end = new Point(this.c.x, this.c.y);
         this._curve = new Curve(this._cp1, this._cp2, this._end);

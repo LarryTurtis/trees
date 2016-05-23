@@ -18,6 +18,12 @@ function level3() {
     });
     let i = 0;
     engine.patterns.polkaDots(box, engine.simples.Circle, 100, 1, 5, "white");
+    box.callback = function() {
+        this.width++;
+        this.height++;
+        this.x -= 0.5;
+        this.y -= 0.5;
+    }
     shapes.add(box);
 }
 

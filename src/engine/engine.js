@@ -77,6 +77,7 @@ function nextScene() {
         level++;
         let nextLevel = engine.levels[level];
         if (nextLevel) {
+            clearInterval(engine.timer);
             engine.shapesRegistry.reset();
             nextLevel();
         }
@@ -88,6 +89,7 @@ function previousScene() {
         level--;
         let nextLevel = engine.levels[level];
         if (nextLevel) {
+            clearInterval(engine.timer);
             engine.shapesRegistry.reset();
             nextLevel();
         }
