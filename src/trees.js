@@ -30,6 +30,10 @@ function trees() {
         return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
+    function posNeg() {
+        if (random(0,1) === 0) return -1; else return 1;
+    }
+
 }
 
 export { trees };

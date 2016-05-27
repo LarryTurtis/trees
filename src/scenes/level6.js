@@ -4,7 +4,7 @@ function level6() {
     let shapes = engine.shapesRegistry;
 
     let width = 50;
-    let offsetFactor = -7;
+    let offsetFactor = width * -.12;
     let wOffset = 0;
     let hOffset = 0;
     let start = 0;
@@ -27,25 +27,25 @@ function level6() {
 
             let hex = new engine.simples.Polygon(i * width + wOffset - start, n * width + hOffset, width, width, 0, 6);
             hex.color = trees.randomColor();
-            hex.lineColor = "black";
+            //hex.lineColor = "black";
             hex.ySpeed = 3;
             shapes.add(hex);
         }
     }
 
     let length = shapes.length;
-
     engine.timer = setInterval(dropHex, 10)
 
     function dropHex() {
         let id = trees.random(0, length - 1);
         let shape = shapes.shapes[id];
-        if (shape) {
+        if (shape && !shape.called) {
             shape.callback = function() {
                 this.y -= this.ySpeed;
                 this.ySpeed *= 1.01;
-                this.rotate(1, this.center)
+                this.rotate(1, this.center);
             }
+            shape.called = true;
         }
     }
 }

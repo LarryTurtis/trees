@@ -79,9 +79,9 @@ class Canvas {
         return this._center;
     }
 
-    animate(callback) {
+    animate() {
         requestAnimationFrame(() => {
-            this.animate(callback);
+            this.animate();
         });
 
         now = Date.now();
@@ -109,16 +109,23 @@ class Canvas {
                 if (!this.blur) this.ctx.clearRect(0, 0, this.width, this.height);
 
                 shapesRegistry.forEach(shape => {
-                    let collisions = [];
                     if (shape.x > this.width || shape.x + shape.width < 0) {
                         shapesRegistry.remove(shape);
+                        return;
                     }
+
                     if (shape.y > this.height || shape.y + shape.height < 0) {
                         shapesRegistry.remove(shape);
+                        return;
                     }
+
+                    let collisions = [];
 
                     if (shape.animate) {
                         shape.animate();
+                    }
+                    if (shape.callback) {
+                        shape.callback();
                     }
 
                     if (shape.collidable) {
@@ -131,7 +138,6 @@ class Canvas {
                     shape.draw(this.ctx);
                 });
 
-                callback();
             }
 
 

@@ -65,6 +65,7 @@ class ShapesRegistry {
     }
 
     reset() {
+        this.shapeId = 0;
         this.shapes = {};
     }
 

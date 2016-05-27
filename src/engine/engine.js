@@ -36,15 +36,9 @@ function go(setup) {
     window.addEventListener('load', setup, false);
     document.onkeydown = mapKeys;
 
-    engine.callback = function() {
-        shapesRegistry.forEach(shape => {
-            if (shape.callback) shape.callback();
-        })
-    }
-
     window.addEventListener("click", dragObject);
 
-    canvas.animate(engine.callback);
+    canvas.animate();
 
 }
 
