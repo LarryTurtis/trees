@@ -33,9 +33,9 @@ function createDot(x) {
 }
 
 
-function dot() {
+function level5() {
     createDot();
 }
 
 
-export { dot };
+export { level5 };

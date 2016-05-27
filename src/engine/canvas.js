@@ -110,10 +110,10 @@ class Canvas {
 
                 shapesRegistry.forEach(shape => {
                     let collisions = [];
-                    if (shape.x > this.width) {
+                    if (shape.x > this.width || shape.x + shape.width < 0) {
                         shapesRegistry.remove(shape);
                     }
-                    if (shape.y > this.height) {
+                    if (shape.y > this.height || shape.y + shape.height < 0) {
                         shapesRegistry.remove(shape);
                     }
 

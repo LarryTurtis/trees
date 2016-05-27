@@ -29,7 +29,7 @@ export { engine };
 
 //set canvas height, maps keys, calls game setup function, and begins animation.
 function go(setup) {
-    shapesRegistry.maxShapes = 100;
+    shapesRegistry.maxShapes = 10000;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 

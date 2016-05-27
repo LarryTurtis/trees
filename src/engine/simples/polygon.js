@@ -106,9 +106,9 @@ class Polygon extends Sprite {
             })
             ctx.yLine(this.points[0]);
 
-            ctx.fill();
             if (this.lineColor) ctx.stroke();
             ctx.closePath();
+            ctx.fill();
         }
     }
 

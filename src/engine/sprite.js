@@ -23,7 +23,7 @@ class Sprite {
         this._lineColor = null;
         this._id = null;
         this._collidingWith = null;
-        this._collidable = true;
+        this._collidable = false;
     }
 
     set x(x) {
