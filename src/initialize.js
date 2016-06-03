@@ -9,7 +9,7 @@ function load() {
     engine.levels.push(scenes.level4);
     engine.levels.push(scenes.level5);
     engine.levels.push(scenes.level6);
-    scenes.level6();
+    scenes.level7();
 }
 
 

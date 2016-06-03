@@ -18,6 +18,7 @@ import { Gear } from './gear.js';
 import { Eye } from './eye.js';
 import { Pupil } from './pupil.js';
 import { Head } from './head.js';
+import { Wheel } from './wheel.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -39,7 +40,8 @@ let complex = {
     Gear: Gear,
     Eye: Eye,
     Pupil: Pupil,
-    Head: Head
+    Head: Head,
+    Wheel: Wheel
 };
 
 export { complex }
