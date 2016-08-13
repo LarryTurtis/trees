@@ -277,6 +277,13 @@ class Sprite {
         return new Point(x, y);
     }
 
+    wasClicked(mouseX, mouseY) {
+        return this.boundary.a.x <= mouseX &&
+            this.boundary.b.x >= mouseX &&
+            this.boundary.a.y <= mouseY &&
+            this.boundary.d.y >= mouseY
+    }
+
     updatePoints() {
 
         let oldOrigin = this.origin;

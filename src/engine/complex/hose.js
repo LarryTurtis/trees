@@ -1,3 +1,4 @@
+import { Point } from '../point.js';
 import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
 
@@ -13,8 +14,20 @@ class Hose extends ComplexShape {
         }
     }
 
-    bend(start, end, degree) {
+    selectSection(start, end) {
+        this.shape.forEach(shape => {
+            shape.color = this.color;
+        });
 
+        let section = this.shape.slice(start, end);
+        if (section.length) {
+            section.forEach(shape => {
+                shape.color = "red";
+            });
+        }
+    }
+
+    bend(start, end, degree) {
         let section = this.shape.slice(start, end);
         let increment = degree / section.length;
         let i = 0;
@@ -44,7 +57,39 @@ class Hose extends ComplexShape {
                     shape.y = section[section.length - 1].b.y;
                 }
             });
+            this.updateBoundaries();
         }
+    }
+
+    updateBoundaries() {
+        super.updateBoundaries();
+
+        let leftMostShape;
+        let rightMostShape;
+        let topMostShape;
+        let bottomMostShape;
+        if (this.shape) {
+            this.shape.forEach(shape => {
+                if (!leftMostShape || shape.a.x < leftMostShape.a.x) {
+                    leftMostShape = shape;
+                }
+                if (!topMostShape || shape.a.y < topMostShape.a.y) {
+                    topMostShape = shape;
+                }
+                if (!rightMostShape || shape.c.x > rightMostShape.c.x) {
+                    rightMostShape = shape;
+                }
+                if (!bottomMostShape || shape.c.y > bottomMostShape.c.y) {
+                    bottomMostShape = shape;
+                }
+            });
+
+            this.boundary.a = new Point(leftMostShape.a.x, topMostShape.a.y);
+            this.boundary.b = new Point(rightMostShape.c.x, topMostShape.a.y);
+            this.boundary.c = new Point(rightMostShape.c.x, bottomMostShape.c.y);
+            this.boundary.d = new Point(leftMostShape.a.x, bottomMostShape.c.y);
+        }
+
     }
 
     draw(ctx) {

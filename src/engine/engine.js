@@ -12,6 +12,14 @@ let boundingBoxes = false;
 let clickedShape = null;
 let level = 0;
 
+let upArrow = new Event('upArrow');
+let downArrow = new Event('downArrow');
+let leftArrow = new Event('leftArrow');
+let rightArrow = new Event('rightArrow');
+
+let mouseX;
+let mouseY;
+
 let engine = {
     canvas: canvas,
     animations: animations,
@@ -36,27 +44,23 @@ function go(setup) {
     window.addEventListener('load', setup, false);
     document.onkeydown = mapKeys;
 
-    window.addEventListener("click", dragObject);
+    window.addEventListener("mousedown", dragObject);
 
     canvas.animate();
 
 }
 
 function dragObject(e) {
-    if (!clickedShape) {
-        shapesRegistry.forEach(shape => {
-            if (shape.boundary.a.x <= e.clientX &&
-                shape.boundary.b.x >= e.clientX &&
-                shape.boundary.a.y <= e.clientY &&
-                shape.boundary.d.y >= e.clientY) {
-                clickedShape = shape;
-            }
-        });
-    } else {
-        clickedShape.x = e.clientX;
-        clickedShape.y = e.clientY;
-        clickedShape = null;
-    }
+    console.log('mouse', e.clientX, e.clientY)
+    var bRect = canvas.getBoundingClientRect();
+    mouseX = (e.clientX - bRect.left) * (canvas.width / bRect.width);
+    mouseY = (e.clientY - bRect.top) * (canvas.height / bRect.height);
+
+    shapesRegistry.forEach(shape => {
+        if (shape.wasClicked(mouseX, mouseY)) {
+            console.log(shape);
+        }
+    });
 }
 
 function toggleBoundingBoxes() {
@@ -92,25 +96,26 @@ function previousScene() {
 
 function mapKeys(e) {
     e = e || window.event;
+
     switch (e.keyCode) {
         case 37: // left
-            previousScene();
+            //previousScene();
+            canvas.dispatchEvent(leftArrow);
             break;
-
-        case 32: // up
+        case 32: // space
             toggleBoundingBoxes();
             break;
-
         case 38: // up
-            if (canvas.fps < 60) canvas.fps += 10;
+            //if (canvas.fps < 60) canvas.fps += 10;
+            canvas.dispatchEvent(upArrow);
             break;
-
         case 39: // right
-            nextScene();
+            //nextScene();
+            canvas.dispatchEvent(rightArrow);
             break;
-
         case 40: // down
-            if (canvas.fps > 0) canvas.fps -= 1;
+            //if (canvas.fps > 0) canvas.fps -= 1;
+            canvas.dispatchEvent(downArrow);
             break;
 
         default:

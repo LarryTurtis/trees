@@ -79,6 +79,18 @@ class Canvas {
         return this._center;
     }
 
+    addEventListener(event, func) {
+        this.element.addEventListener(event, func, false);
+    }
+
+    dispatchEvent(event) {
+        this.element.dispatchEvent(event);
+    }
+
+    getBoundingClientRect() {
+        return this.element.getBoundingClientRect();
+    }
+
     animate() {
         requestAnimationFrame(() => {
             this.animate();

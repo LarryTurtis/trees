@@ -145,6 +145,14 @@ class ComplexShape extends Sprite {
         return response;
     }
 
+    wasClicked(mouseX, mouseY) {
+        let clicked = false;
+        this.shape.forEach(shape => {
+            clicked = clicked || shape.wasClicked(mouseX, mouseY);
+        });
+        return clicked;
+    }
+
 }
 
 export { ComplexShape }

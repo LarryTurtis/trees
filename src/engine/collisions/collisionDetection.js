@@ -37,6 +37,7 @@ function narrowPhase(o1, o2) {
 
     //return collision test results.
     if (maxOverlap) {
+        console.log('collision')
         return maxOverlap.overlapV;
     } else {
         return false;
