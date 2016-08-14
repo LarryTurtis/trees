@@ -7,7 +7,7 @@ let shapesRegistry = new ShapesRegistry();
 let now;
 let then = Date.now();
 let delta;
-
+let instance = null;
 
 CanvasRenderingContext2D.prototype.curve = function(points) {
     if (points) {
@@ -35,6 +35,9 @@ CanvasRenderingContext2D.prototype.yArc = function(arc) {
 
 class Canvas {
     constructor() {
+        if (!instance) {
+            instance = this;
+        }
         this.element = document.getElementById('main');
         this.ctx = this.element.getContext("2d");
         this._center = new Point(this.element.width / 2, this.element.height / 2);
@@ -43,7 +46,7 @@ class Canvas {
         this._fps = 60;
         this.interval = 1000 / this._fps;
         this.blur = false;
-
+        return instance;
     }
 
     set width(width) {

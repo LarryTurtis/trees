@@ -3,16 +3,15 @@ import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
 
 class Hose extends ComplexShape {
-    constructor(x, y, width, height, angle, shape) {
+    constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Hose";
-
+        this.sectionAngle = 0;
         this.length = Math.floor(width / height);
         for (var i = 0; i < this.length; i++) {
-            let link = new shape(x + (i * height), y, height, height);
+            let link = new simples.Rectangle(x + (i * height), y, height, height);
 
             if (i < 9) {
-                link.color = "red";
                 link.selectedSection = true;
             }
 
@@ -29,18 +28,66 @@ class Hose extends ComplexShape {
         let index = this.shape.indexOf(shape);
         let length = 10;
 
+        if (index > this.shape.length - length) {
+            index = this.shape.length - length;
+        }
+
         let section = this.shape.slice(index, index + length);
         if (section.length) {
             section.forEach(shape => {
-                shape.color = "red";
                 shape.selectedSection = true;
             });
         }
     }
 
-    bend(degree) {
+    get selectedSection() {
+        let section = [];
+        this.shape.forEach(shape => {
+            if (shape.selectedSection) {
+                section.push(shape);
+            }
+        });
+        return section;
+    }
+
+    bend(direction) {
         let section = [];
         let end = 0;
+        let degree = 1;
+
+        if (direction.up) {
+            if (this.sectionAngle >= -90 || this.sectionAngle <= 90) {
+                degree = -1;
+            } else {
+                degree = 1;
+            }
+        }
+
+        if (direction.down) {
+            if (this.sectionAngle >= -90 || this.sectionAngle <= 90) {
+                degree = 1;
+            } else {
+                degree = -1;
+            }
+        }
+
+        if (direction.left) {
+            if (this.sectionAngle >= -90 || this.sectionAngle <= 90 ) {
+                degree = -1;
+            } else {
+                degree = 1;
+            }
+         }
+
+         if (direction.right) {
+            if (this.sectionAngle >= -90 || this.sectionAngle <= 90 ) {
+                degree = 1;
+            } else {
+                degree = -1;
+            }
+         }
+
+        this.sectionAngle += degree;
         this.shape.forEach(shape => {
             if (shape.selectedSection) {
                 section.push(shape);
@@ -50,14 +97,9 @@ class Hose extends ComplexShape {
 
         let increment = degree / section.length;
         let i = 0;
-        let anchor;
         if (section.length) {
             section.forEach((shape, index) => {
-                if (degree > 0) {
-                    anchor = shape.d;
-                } else {
-                    anchor = shape.b;
-                }
+
                 shape.rotate(i, shape.d)
                 if (index > 0) {
                     shape.x = section[index - 1].b.x;
@@ -77,6 +119,7 @@ class Hose extends ComplexShape {
                 }
             });
             this.updateBoundaries();
+            console.log(this.sectionAngle);
         }
     }
 
@@ -114,10 +157,34 @@ class Hose extends ComplexShape {
     draw(ctx) {
         super.draw(ctx);
 
+        ctx.fillStyle = this.color;
+        this.drawHose(ctx, this.shape);
+
+        ctx.fillStyle = "red";
+        this.drawHose(ctx, this.selectedSection);
+
+
+    }
+
+    drawHose(ctx, hose) {
         ctx.beginPath();
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
+        ctx.yMove(hose[0].a);
+
+        hose.forEach(shape => {
+            ctx.yLine(shape.a);
+            ctx.yLine(shape.b);
         });
+
+        hose.reverse();
+        ctx.yLine(hose[0].c);
+
+        hose.forEach(shape => {
+            ctx.yLine(shape.c);
+            ctx.yLine(shape.d);
+        });
+
+        hose.reverse();
+        ctx.yLine(hose[0].a);
 
         ctx.fill();
         if (this.lineColor) ctx.stroke();

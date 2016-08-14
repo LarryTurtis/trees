@@ -280,7 +280,7 @@ class Sprite {
     wasClicked(mouseX, mouseY) {
         if (this.boundary.a.x <= mouseX &&
             this.boundary.b.x >= mouseX &&
-            this.boundary.a.y * -1.1 <= mouseY &&
+            this.boundary.a.y * 0.9 <= mouseY &&
             this.boundary.d.y * 1.1 >= mouseY) {
             return this;
         }
