@@ -278,10 +278,13 @@ class Sprite {
     }
 
     wasClicked(mouseX, mouseY) {
-        return this.boundary.a.x <= mouseX &&
+        if (this.boundary.a.x <= mouseX &&
             this.boundary.b.x >= mouseX &&
-            this.boundary.a.y <= mouseY &&
-            this.boundary.d.y >= mouseY
+            this.boundary.a.y * -1.1 <= mouseY &&
+            this.boundary.d.y * 1.1 >= mouseY) {
+            return this;
+        }
+        return null;
     }
 
     updatePoints() {

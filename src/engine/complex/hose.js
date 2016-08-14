@@ -10,25 +10,44 @@ class Hose extends ComplexShape {
         this.length = Math.floor(width / height);
         for (var i = 0; i < this.length; i++) {
             let link = new shape(x + (i * height), y, height, height);
+
+            if (i < 9) {
+                link.color = "red";
+                link.selectedSection = true;
+            }
+
             this.addShape(link);
         }
     }
 
-    selectSection(start, end) {
+    selectSection(shape) {
         this.shape.forEach(shape => {
             shape.color = this.color;
+            shape.selectedSection = false;
         });
 
-        let section = this.shape.slice(start, end);
+        let index = this.shape.indexOf(shape);
+        let length = 10;
+
+        let section = this.shape.slice(index, index + length);
         if (section.length) {
             section.forEach(shape => {
                 shape.color = "red";
+                shape.selectedSection = true;
             });
         }
     }
 
-    bend(start, end, degree) {
-        let section = this.shape.slice(start, end);
+    bend(degree) {
+        let section = [];
+        let end = 0;
+        this.shape.forEach(shape => {
+            if (shape.selectedSection) {
+                section.push(shape);
+                end = this.shape.indexOf(shape) + 1;
+            }
+        });
+
         let increment = degree / section.length;
         let i = 0;
         let anchor;

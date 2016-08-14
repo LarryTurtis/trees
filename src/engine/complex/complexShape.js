@@ -146,7 +146,7 @@ class ComplexShape extends Sprite {
     }
 
     wasClicked(mouseX, mouseY) {
-        let clicked = false;
+        let clicked = null;
         this.shape.forEach(shape => {
             clicked = clicked || shape.wasClicked(mouseX, mouseY);
         });
