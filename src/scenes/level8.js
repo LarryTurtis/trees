@@ -12,7 +12,6 @@ function level8() {
 
     engine.canvas.addEventListener("mouseClick", function(e) {
         if (e.detail.shape.selectedSection) {
-            hose.selectSection(e.detail.shape);
             dragging = true;
         } else {
             dragging = false;
@@ -25,15 +24,33 @@ function level8() {
         if (dragging) {
             hose.selectSection(e.detail.shape);
         } else {
-            hose.bend(e.detail.direction);
+            if (!e.detail.shape || !e.detail.shape.wasClicked()) {
+                console.log(e.detail);
+                if (e.detail.mouse.y > e.detail.shape.y && hose.sectionAngle < 180) {
+                    hose.bend(1);
+                } else {
+                    hose.bend(-1);
+                }
+            }
         }
     });
 
     engine.canvas.addEventListener('upArrow', function(e) {
-        hose.bend(-1);
+        hose.bend(-3);
     });
     engine.canvas.addEventListener('downArrow', function(e) {
-        hose.bend(1);
+        hose.bend(3);
+    });
+
+    engine.canvas.addEventListener('leftArrow', function(e) {
+        // hose.sectionLength--;
+        // let selected = hose.selectedSection[0];
+        // hose.selectSection(selected);
+    });
+    engine.canvas.addEventListener('rightArrow', function(e) {
+        //hose.sectionLength++;
+        //let selected = hose.selectedSection[0];
+        // hose.selectSection(selected);
     });
 
 }

@@ -7,6 +7,7 @@ class Hose extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "Hose";
         this.sectionAngle = 0;
+        this.sectionLength = 10;
         this.length = Math.floor(width / height);
         for (var i = 0; i < this.length; i++) {
             let link = new simples.Rectangle(x + (i * height), y, height, height);
@@ -26,13 +27,12 @@ class Hose extends ComplexShape {
         });
 
         let index = this.shape.indexOf(shape);
-        let length = 10;
 
-        if (index > this.shape.length - length) {
-            index = this.shape.length - length;
+        if (index > this.shape.length - this.sectionLength) {
+            index = this.shape.length - this.sectionLength;
         }
 
-        let section = this.shape.slice(index, index + length);
+        let section = this.shape.slice(index, index + this.sectionLength);
         if (section.length) {
             section.forEach(shape => {
                 shape.selectedSection = true;
@@ -50,42 +50,9 @@ class Hose extends ComplexShape {
         return section;
     }
 
-    bend(direction) {
+    bend(degree) {
         let section = [];
         let end = 0;
-        let degree = 1;
-
-        if (direction.up) {
-            if (this.sectionAngle >= -90 || this.sectionAngle <= 90) {
-                degree = -1;
-            } else {
-                degree = 1;
-            }
-        }
-
-        if (direction.down) {
-            if (this.sectionAngle >= -90 || this.sectionAngle <= 90) {
-                degree = 1;
-            } else {
-                degree = -1;
-            }
-        }
-
-        if (direction.left) {
-            if (this.sectionAngle >= -90 || this.sectionAngle <= 90 ) {
-                degree = -1;
-            } else {
-                degree = 1;
-            }
-         }
-
-         if (direction.right) {
-            if (this.sectionAngle >= -90 || this.sectionAngle <= 90 ) {
-                degree = 1;
-            } else {
-                degree = -1;
-            }
-         }
 
         this.sectionAngle += degree;
         this.shape.forEach(shape => {
@@ -119,7 +86,6 @@ class Hose extends ComplexShape {
                 }
             });
             this.updateBoundaries();
-            console.log(this.sectionAngle);
         }
     }
 
