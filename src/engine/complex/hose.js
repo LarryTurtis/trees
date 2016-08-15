@@ -8,6 +8,7 @@ class Hose extends ComplexShape {
         this.type = "Hose";
         this.sectionAngle = 0;
         this.sectionLength = 10;
+        this.sectionColor = "black";
         this.length = Math.floor(width / height);
         for (var i = 0; i < this.length; i++) {
             let link = new simples.Rectangle(x + (i * height), y, height, height);
@@ -126,7 +127,7 @@ class Hose extends ComplexShape {
         ctx.fillStyle = this.color;
         this.drawHose(ctx, this.shape);
 
-        ctx.fillStyle = "red";
+        ctx.fillStyle = this.sectionColor;
         this.drawHose(ctx, this.selectedSection);
 
 

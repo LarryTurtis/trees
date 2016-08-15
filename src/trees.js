@@ -6,7 +6,8 @@ function trees() {
 
     return {
         random: random,
-        randomColor: randomColor
+        randomColor: randomColor,
+        posNeg: posNeg
     }
 
     /**
