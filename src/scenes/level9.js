@@ -59,7 +59,7 @@ function createContainer() {
     let counter = 1;
     container.color = "white";
     // container.lineColor = "black";
-    container.liquidColor = trees.setOpacity("blue", 0.3);
+    container.liquidColor = trees.setOpacity("orange", 0.9);
     container.fill(counter);
     container.callback = function() {
         counter -= 0.001;
@@ -73,8 +73,8 @@ function createHose() {
 
     hose = new engine.complex.Hose(200, 340, 500, 10, -85);
 
-    hose.color = "white" //trees.randomColor();
-    hose.sectionColor = "gray" //trees.randomColor();
+    hose.color = "lightPink" //trees.randomColor();
+    hose.sectionColor = "pink" //trees.randomColor();
 
     let randSection = trees.random(1, hose.length);
     let randBend = trees.posNeg() * trees.random(1, 180);

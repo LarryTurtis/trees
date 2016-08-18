@@ -5,7 +5,7 @@ class Container extends ComplexShape {
     constructor(x, y, width, height, angle, shape) {
         super(x, y, width, height, angle);
         this.type = "Container";
-        this.opacity = 0.5;
+        this.opacity = 0.2;
         this._liquid = null;
         this._liquidColor = "transparent";
         this._containerShape = new shape(x, y, width, height, angle);
