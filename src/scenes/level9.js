@@ -73,8 +73,8 @@ function createHose() {
 
     hose = new engine.complex.Hose(200, 340, 500, 10, -85);
 
-    hose.color = "lightPink" //trees.randomColor();
-    hose.sectionColor = "pink" //trees.randomColor();
+    hose.color = trees.setOpacity("lightPink", 0.3); //trees.randomColor();
+    hose.sectionColor = trees.setOpacity("pink", 0.3); //trees.randomColor();
 
     let randSection = trees.random(1, hose.length);
     let randBend = trees.posNeg() * trees.random(1, 180);
@@ -91,6 +91,7 @@ function createHose() {
     hose.bend(110)
 
     hose.callback = function() {
+        hose.fill();
     };
     return hose;
 }

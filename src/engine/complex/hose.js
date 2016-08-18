@@ -9,7 +9,12 @@ class Hose extends ComplexShape {
         this.sectionAngle = 0;
         this.sectionLength = 5;
         this.sectionColor = "black";
+        this.fullSectionColor = "orange";
         this.length = Math.floor(width / height);
+
+        this.currentFillSpeed = 0;
+        this.maxFillSpeed = 2;
+
         for (var i = 0; i < this.length; i++) {
             let link = new simples.Rectangle(x + (i * height), y, height, height);
 
@@ -39,6 +44,31 @@ class Hose extends ComplexShape {
                 shape.selectedSection = true;
             });
         }
+    }
+
+    fill() {
+        if (this.currentFillSpeed < this.maxFillSpeed) {
+            this.currentFillSpeed++;
+        } else {
+            for (let i = 0; i < this.shape.length; i++) {
+                if (!this.shape[i].isFull) {
+                    this.shape[i].isFull = true;
+                    this.shape[i].color = this.fullSectionColor;
+                    break;
+                }
+            }
+            this.currentFillSpeed = 0;
+        }
+    }
+
+    get fullSection() {
+        let section = [];
+        this.shape.forEach(shape => {
+            if (shape.isFull) {
+                section.push(shape);
+            }
+        });
+        return section;
     }
 
     get selectedSection() {
@@ -124,6 +154,9 @@ class Hose extends ComplexShape {
     draw(ctx) {
         super.draw(ctx);
 
+        ctx.fillStyle = this.fullSectionColor;
+        this.drawHose(ctx, this.fullSection);
+
         ctx.fillStyle = this.color;
         this.drawHose(ctx, this.shape);
 
@@ -134,28 +167,30 @@ class Hose extends ComplexShape {
     }
 
     drawHose(ctx, hose) {
-        ctx.beginPath();
-        ctx.yMove(hose[0].a);
+        if (hose.length) {
+            ctx.beginPath();
+            ctx.yMove(hose[0].a);
 
-        hose.forEach(shape => {
-            ctx.yLine(shape.a);
-            ctx.yLine(shape.b);
-        });
+            hose.forEach(shape => {
+                ctx.yLine(shape.a);
+                ctx.yLine(shape.b);
+            });
 
-        hose.reverse();
-        ctx.yLine(hose[0].c);
+            hose.reverse();
+            ctx.yLine(hose[0].c);
 
-        hose.forEach(shape => {
-            ctx.yLine(shape.c);
-            ctx.yLine(shape.d);
-        });
+            hose.forEach(shape => {
+                ctx.yLine(shape.c);
+                ctx.yLine(shape.d);
+            });
 
-        hose.reverse();
-        ctx.yLine(hose[0].a);
+            hose.reverse();
+            ctx.yLine(hose[0].a);
 
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
+            ctx.fill();
+            if (this.lineColor) ctx.stroke();
+            ctx.closePath();
+        }
     }
 
 }
