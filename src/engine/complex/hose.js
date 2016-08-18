@@ -12,9 +12,6 @@ class Hose extends ComplexShape {
         this.fullSectionColor = "orange";
         this.length = Math.floor(width / height);
 
-        this.currentFillSpeed = 0;
-        this.maxFillSpeed = 2;
-
         for (var i = 0; i < this.length; i++) {
             let link = new simples.Rectangle(x + (i * height), y, height, height);
 
@@ -47,18 +44,32 @@ class Hose extends ComplexShape {
     }
 
     fill() {
-        if (this.currentFillSpeed < this.maxFillSpeed) {
-            this.currentFillSpeed++;
-        } else {
-            for (let i = 0; i < this.shape.length; i++) {
-                if (!this.shape[i].isFull) {
-                    this.shape[i].isFull = true;
-                    this.shape[i].color = this.fullSectionColor;
-                    break;
-                }
+        for (let i = 0; i < this.shape.length; i++) {
+            if (!this.shape[i].isFull) {
+                this.shape[i].isFull = true;
+                this.shape[i].color = this.fullSectionColor;
+                break;
             }
-            this.currentFillSpeed = 0;
+            if (i === this.shape.length) this.full = true;
         }
+    }
+
+    drain() {
+        for (let i = this.shape.length - 1; i > 0; i--) {
+            if (this.shape[i].isFull) {
+                this.shape[i].isFull = false;
+                this.shape[i].color = this.color;
+                break;
+            }
+        }
+    }
+
+    get full() {
+        let result = true;
+        this.shape.forEach(shape => {
+            result = result && shape.isFull;
+        });
+        return result;
     }
 
     get fullSection() {

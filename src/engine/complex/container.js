@@ -10,6 +10,9 @@ class Container extends ComplexShape {
         this._liquid = {};
         this._containerShape = {};
 
+        this._full = false;
+        this._empty = false;
+
         this._liquidColor = "transparent";
     }
 
@@ -27,6 +30,22 @@ class Container extends ComplexShape {
 
     set liquid(liquid) {
         this._liquid = liquid;
+    }
+
+    get full() {
+        return this._full;
+    }
+
+    set full(full) {
+        this._full = full;
+    }
+
+    get empty() {
+        return this._empty;
+    }
+
+    set empty(empty) {
+        this._empty = empty;
     }
 
     get liquidColor() {

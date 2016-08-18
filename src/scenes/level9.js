@@ -1,12 +1,32 @@
 import { engine } from '../engine/engine.js';
 
 let hose;
+let cup;
 
 function level9() {
     let shapes = engine.shapesRegistry;
+    let counter = 1;
+    createHose();
+    createCup();
 
-    shapes.add(createHose());
-    shapes.add(createCup());
+    shapes.add(hose);
+    shapes.add(cup);
+
+
+    hose.callback = function() {
+        if (cup.empty) {
+            hose.drain();
+        } else {
+            hose.fill();
+        }
+    };
+
+    cup.callback = function() {
+        if (hose.full && !cup.empty) {
+            counter -= 0.001;
+            cup.fill(counter);
+        }
+    }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -55,18 +75,13 @@ function level9() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 0);
+    cup = new engine.complex.Cup(300, 300, 200, 300, 0);
     let counter = 1;
     cup.color = "white";
     // cup.lineColor = "black";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.fill(counter);
-    cup.callback = function() {
-        counter -= 0.001;
-        if (counter > 0) cup.fill(counter);
-    }
 
-    return cup;
 }
 
 function createHose() {
@@ -90,12 +105,7 @@ function createHose() {
     hose.selectSection(hose.shape[35]);
     hose.bend(110)
 
-    hose.callback = function() {
-        hose.fill();
-    };
-    return hose;
 }
-
 
 
 export { level9 };

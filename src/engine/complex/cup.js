@@ -39,6 +39,14 @@ class Cup extends Container {
         this.liquid.bottomLeft = this.containerShape.bottomLeft;
         this.liquid.bottomRight = this.containerShape.bottomRight;
 
+        if (height <= 0) {
+            this.empty = true;
+        }
+
+        if (height >= this.height) {
+            this.full = true;
+        }
+
     }
 
     draw(ctx) {
