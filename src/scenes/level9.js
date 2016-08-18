@@ -6,7 +6,7 @@ function level9() {
     let shapes = engine.shapesRegistry;
 
     shapes.add(createHose());
-    shapes.add(createContainer());
+    shapes.add(createCup());
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -54,19 +54,19 @@ function level9() {
 
 }
 
-function createContainer() {
-    let container = new engine.complex.Container(300, 300, 200, 300, 0, engine.complex.Cup);
+function createCup() {
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 0);
     let counter = 1;
-    container.color = "white";
-    // container.lineColor = "black";
-    container.liquidColor = trees.setOpacity("orange", 0.9);
-    container.fill(counter);
-    container.callback = function() {
+    cup.color = "white";
+    // cup.lineColor = "black";
+    cup.liquidColor = trees.setOpacity("orange", 0.9);
+    cup.fill(counter);
+    cup.callback = function() {
         counter -= 0.001;
-        if (counter > 0) container.fill(counter);
+        if (counter > 0) cup.fill(counter);
     }
 
-    return container;
+    return cup;
 }
 
 function createHose() {

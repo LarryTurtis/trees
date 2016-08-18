@@ -1,62 +1,47 @@
 import { simples } from '../simples/simples.js';
 import { Point } from '../point.js';
-import { ComplexShape } from './complexShape.js';
+import { Container } from './container.js';
+import { complex } from './complex.js';
 
-class Cup extends ComplexShape {
+class Cup extends Container {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Cup";
-        this._bottomLeft = new Point(this.d.x + this.width / 10, this.d.y);
-        this._bottomRight = new Point(this.c.x - this.width / 10, this.c.y);
+
+        let shape = new complex.CupShape(x, y, width, height, angle);
+        this.containerShape = shape;
+        this.addShape(shape);
+
+        let liquid = new complex.CupShape(x, y, width, height, angle);
+        this.liquid = liquid;
+        this.addShape(liquid);
+
     }
 
-    animate() {
-        // if (!this.collidingWithPlatform) this.fall();
-    }
+    fill(percentage) {
+        let height = this.height * percentage;
+        let y = this.y + this.height - height;
 
-    get area() {
-        return 0.5 * (this.b1 + this.b2) * this.height;
-    }
+        let baseTriangleWidth = this.containerShape.b1 - this.containerShape.b2;
+        let width = baseTriangleWidth * percentage + this.containerShape.b2;
 
-    get b1() {
-        return this.b.x - this.a.x;
-    }
+        let x = this.x + ((this.width - width) / 2);
 
-    get b2() {
-        return this.bottomRight.x - this.bottomLeft.x;
-    }
+        this.liquid.x = x;
+        this.liquid.y = y;
+        this.liquid.width = width;
+        this.liquid.height = height;
 
-    get bottomLeft() {
-        return this._bottomLeft;
-    }
+        this.liquid.bottomLeft = this.containerShape.bottomLeft;
+        this.liquid.bottomRight = this.containerShape.bottomRight;
 
-    set bottomLeft(bottomLeft) {
-        this._bottomLeft = bottomLeft;
-    }
-
-    get bottomRight() {
-        return this._bottomRight;
-    }
-
-    set bottomRight(bottomRight) {
-        this._bottomRight = bottomRight;
     }
 
     draw(ctx) {
         super.draw(ctx);
-
-        ctx.beginPath();
-
-        ctx.yMove(this.a);
-        ctx.yLine(this.bottomLeft);
-        ctx.yLine(this.bottomRight);
-        ctx.yLine(this.b);
-        ctx.yLine(this.a);
-
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
-
+        this.shape.forEach(shape => {
+            shape.draw(ctx);
+        });
     }
 
 }

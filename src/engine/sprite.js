@@ -325,7 +325,6 @@ class Sprite {
     }
 
     draw(ctx) {
-
         if (this.showBoundingBox) {
             ctx.beginPath();
             ctx.fillStyle = "red";
