@@ -7,7 +7,7 @@ class Hose extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "Hose";
         this.sectionAngle = 0;
-        this.sectionLength = 10;
+        this.sectionLength = 5;
         this.sectionColor = "black";
         this.length = Math.floor(width / height);
         for (var i = 0; i < this.length; i++) {

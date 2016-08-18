@@ -11,7 +11,7 @@ function load() {
     engine.levels.push(scenes.level5);
     engine.levels.push(scenes.level6);
     engine.levels.push(scenes.level7);
-    scenes.level8();
+    scenes.level9();
 }
 
 window.trees = trees();

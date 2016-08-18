@@ -7,6 +7,7 @@ import { level5 } from './level5.js';
 import { level6 } from './level6.js';
 import { level7 } from './level7.js';
 import { level8 } from './level8.js';
+import { level9 } from './level9.js';
 
 let scenes = {
 	level0: level0,
@@ -17,7 +18,8 @@ let scenes = {
 	level5: level5,
 	level6: level6,
 	level7: level7,
-	level8: level8
+	level8: level8,
+	level9: level9
 }
 
 export { scenes };

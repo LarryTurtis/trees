@@ -2,12 +2,17 @@
  * A SMALL utilities library using Underscore-like functions.
  * @return {Object}
  */
+
+let d;
+
 function trees() {
 
     return {
         random: random,
         randomColor: randomColor,
-        posNeg: posNeg
+        posNeg: posNeg,
+        getRGB: getRGB,
+        setOpacity: setOpacity
     }
 
     /**
@@ -32,7 +37,20 @@ function trees() {
     }
 
     function posNeg() {
-        if (random(0,1) === 0) return -1; else return 1;
+        if (random(0, 1) === 0) return -1;
+        else return 1;
+    }
+
+    function getRGB(color) {
+        d = document.createElement("div");
+        d.style.color = color;
+        document.body.appendChild(d)
+        return window.getComputedStyle(d).color
+    }
+
+    function setOpacity(color, opacity) {
+        let rgb = getRGB(color).replace("rgb", "rgba");
+        return [rgb.slice(0, rgb.length - 1), ", " + opacity.toString(), rgb.slice(rgb.length - 1)].join("");
     }
 
 }
