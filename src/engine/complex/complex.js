@@ -23,6 +23,7 @@ import { Container } from './container.js';
 import { Cup } from './cup.js';
 import { CupShape } from './cupShape.js';
 import { Liquid } from './liquid.js';
+import { Spray } from './spray.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -49,7 +50,8 @@ let complex = {
     Container: Container,
     Cup: Cup,
     Liquid: Liquid,
-    CupShape: CupShape
+    CupShape: CupShape,
+    Spray: Spray
 };
 
 export { complex }

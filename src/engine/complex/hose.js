@@ -55,12 +55,13 @@ class Hose extends ComplexShape {
     }
 
     drain() {
-        for (let i = this.shape.length - 1; i > 0; i--) {
+        for (let i = 0; i < this.shape.length; i++) {
             if (this.shape[i].isFull) {
                 this.shape[i].isFull = false;
                 this.shape[i].color = this.color;
                 break;
             }
+            if (i === this.shape.length) this.empty = true;
         }
     }
 

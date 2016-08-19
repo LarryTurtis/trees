@@ -11,7 +11,7 @@ function level9() {
 
     shapes.add(hose);
     shapes.add(cup);
-
+    shapes.add(createSpray());
 
     hose.callback = function() {
         if (cup.empty) {
@@ -74,6 +74,15 @@ function level9() {
 
 }
 
+function createSpray() {
+    let spray = new engine.complex.Spray(540, 283, 150, 150, 10, 25);
+    spray.color = trees.setOpacity("orange", 0.9);
+    spray.callback = function() {
+        if (hose.full) this.spray();
+    }
+    return spray;
+}
+
 function createCup() {
     cup = new engine.complex.Cup(300, 300, 200, 300, 0);
     let counter = 1;
@@ -86,7 +95,7 @@ function createCup() {
 
 function createHose() {
 
-    hose = new engine.complex.Hose(200, 340, 500, 10, -85);
+    hose = new engine.complex.Hose(200, 344, 500, 10, -85);
 
     hose.color = trees.setOpacity("lightPink", 0.3); //trees.randomColor();
     hose.sectionColor = trees.setOpacity("pink", 0.3); //trees.randomColor();

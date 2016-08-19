@@ -14,6 +14,28 @@ class CupShape extends ComplexShape {
         // if (!this.collidingWithPlatform) this.fall();
     }
 
+    set x(x) {
+        super.x = x;
+        this.bottomLeft = new Point(this.d.x + this.width / 10, this.d.y);
+        this.bottomRight = new Point(this.c.x - this.width / 10, this.c.y);
+
+    }
+
+    set y(y) {
+        super.y = y;
+        this.bottomLeft = new Point(this.d.x + this.width / 10, this.d.y);
+        this.bottomRight = new Point(this.c.x - this.width / 10, this.c.y);
+
+    }
+
+    get x() {
+        return super.x;
+    }
+
+    get y() {
+        return super.y;
+    }
+
     get area() {
         return 0.5 * (this.b1 + this.b2) * this.height;
     }
