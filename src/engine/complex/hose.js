@@ -93,6 +93,10 @@ class Hose extends ComplexShape {
         return section;
     }
 
+    get tip() {
+        return this.shape[this.shape.length - 1].center;
+    }
+
     bend(degree) {
         let section = [];
         let end = 0;

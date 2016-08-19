@@ -2,15 +2,18 @@ import { engine } from '../engine/engine.js';
 
 let hose;
 let cup;
+let erlenmeyer;
+let counter = 0.9;
 
 function level9() {
     let shapes = engine.shapesRegistry;
-    let counter = 1;
-    createHose();
-    createCup();
+    hose = createHose();
+    cup = createCup();
+    erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
     shapes.add(cup);
+    shapes.add(erlenmeyer);
     shapes.add(createSpray());
 
     hose.callback = function() {
@@ -75,7 +78,7 @@ function level9() {
 }
 
 function createSpray() {
-    let spray = new engine.complex.Spray(540, 283, 150, 150, 10, 25);
+    let spray = new engine.complex.Spray(hose.tip.x, hose.tip.y, 150, 150, 0, 25);
     spray.color = trees.setOpacity("orange", 0.9);
     spray.callback = function() {
         if (hose.full) this.spray();
@@ -84,18 +87,27 @@ function createSpray() {
 }
 
 function createCup() {
-    cup = new engine.complex.Cup(300, 300, 200, 300, 0);
-    let counter = 1;
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 0);
     cup.color = "white";
     // cup.lineColor = "black";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.fill(counter);
+    return cup;
+}
 
+function createErlenmeyer() {
+    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300, 0);
+    erlenmeyer.color = "white";
+    // erlenmeyer.lineColor = "black";
+    // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
+    
+    // erlenmeyer.fill(counter);
+    return erlenmeyer;
 }
 
 function createHose() {
 
-    hose = new engine.complex.Hose(200, 344, 500, 10, -85);
+    let hose = new engine.complex.Hose(200, 344, 500, 10, -85);
 
     hose.color = trees.setOpacity("lightPink", 0.3); //trees.randomColor();
     hose.sectionColor = trees.setOpacity("pink", 0.3); //trees.randomColor();
@@ -112,7 +124,9 @@ function createHose() {
     let sectionLengthInc = 1;
 
     hose.selectSection(hose.shape[35]);
-    hose.bend(110)
+    hose.bend(110);
+
+    return hose;
 
 }
 

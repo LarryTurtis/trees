@@ -30,8 +30,8 @@ class Spray extends ComplexShape {
     createParticle() {
         let size = trees.random(1, 5);
 
-        let particle = new simples.Rectangle(this.x, this.y, size, size);
-        particle.xspeed = trees.random(3, 5);
+        let particle = new simples.Circle(this.a.x, this.a.y, size, size);
+        particle.xspeed = trees.random(2, 4);
         particle.yspeed = trees.random(3, 5);
         particle.color = this.color;
         this.addShape(particle);

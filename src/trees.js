@@ -12,7 +12,9 @@ function trees() {
         randomColor: randomColor,
         posNeg: posNeg,
         getRGB: getRGB,
-        setOpacity: setOpacity
+        setOpacity: setOpacity,
+        getCenterX: getCenterX,
+        getBezierDistance: getBezierDistance
     }
 
     /**
@@ -51,6 +53,18 @@ function trees() {
     function setOpacity(color, opacity) {
         let rgb = getRGB(color).replace("rgb", "rgba");
         return [rgb.slice(0, rgb.length - 1), ", " + opacity.toString(), rgb.slice(rgb.length - 1)].join("");
+    }
+
+    function getCenterX(inner, outer) {
+        let outerCenter = outer.x + outer.width / 2;
+        let innerOffset = inner / 2;
+        let innerX = outerCenter - innerOffset;
+        console.log(innerX);
+        return innerX;
+    }
+
+    function getBezierDistance(n) {
+        return (n / 2) * 0.552284749831;
     }
 
 }
