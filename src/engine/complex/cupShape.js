@@ -11,6 +11,7 @@ class CupShape extends ComplexShape {
     }
 
     animate() {
+        
         // if (!this.collidingWithPlatform) this.fall();
     }
 

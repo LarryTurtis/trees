@@ -4,6 +4,7 @@ import { Circle } from './circle.js';
 import { Polygon } from './polygon.js';
 import { SemiCircle } from './semiCircle.js'
 import { Wedge } from './wedge.js'
+import { Trapezoid } from './trapezoid.js'
 
 let simples = {
     Rectangle: Rectangle,
@@ -11,7 +12,8 @@ let simples = {
     Circle: Circle,
     Polygon: Polygon,
     SemiCircle: SemiCircle,
-    Wedge: Wedge
+    Wedge: Wedge,
+    Trapezoid: Trapezoid
 };
 
 export { simples }

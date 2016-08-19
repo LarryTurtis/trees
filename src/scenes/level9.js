@@ -96,11 +96,11 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300, 0);
+    let erlenmeyer = new engine.simples.Trapezoid(600, 300, 200, 200, 0, 104, 90);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    
+
     // erlenmeyer.fill(counter);
     return erlenmeyer;
 }
