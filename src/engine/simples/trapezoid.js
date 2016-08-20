@@ -127,34 +127,17 @@ class Trapezoid extends Sprite {
     }
 
     trimTop(amount) {
-
-        //two cases depending on which is longer: b1 or b2. 
-        //In both cases b1 changes and b2 remains the same,
-        //but if b1 is longer we need to grab a snapshot for 
-        //use in later calculations, since once we apply trimTop
-        //the setAngles() function will change its value.
-
-        let bottomLeft = trees.copyPoint(this.bottomLeft);
-        let bottomRight = trees.copyPoint(this.bottomRight);
         let oldHeight = this.height;
         let oldb1 = this.b1;
 
-        let oldBaseWidthDiff = this.b2 - this.b1;
-
         super.trimTop(amount);
         let percentage = this.height / oldHeight;
-
-        let b1 = (this.b1 > this.b2) ? this.b1 : oldb1;
-
-        let baseWidthDiff = Math.abs(b1 - this.b2);
+        let baseWidthDiff = Math.abs(oldb1 - this.b2);
 
         let width = baseWidthDiff * percentage + Math.min(this.b1, this.b2);
 
         this.x = this.x + ((this.width - width) / 2);
         this.width = width;
-
-        this.bottomRight = bottomRight;
-        this.bottomLeft = bottomLeft;
     }
 
     setAngles() {
