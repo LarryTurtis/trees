@@ -14,7 +14,8 @@ function trees() {
         getRGB: getRGB,
         setOpacity: setOpacity,
         getCenterX: getCenterX,
-        getBezierDistance: getBezierDistance
+        getBezierDistance: getBezierDistance,
+        degToRad: degToRad
     }
 
     /**
@@ -65,6 +66,10 @@ function trees() {
 
     function getBezierDistance(n) {
         return (n / 2) * 0.552284749831;
+    }
+
+    function degToRad(deg) {
+        return deg * (Math.PI / 180);
     }
 
 }

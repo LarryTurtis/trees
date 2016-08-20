@@ -13,41 +13,29 @@ class Trapezoid extends Sprite {
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
 
-
         if (leftAngle < 90) {
 
-            let radians = (180 - leftAngle) * (Math.PI / 180);
-            let hypotenuse = this.height / Math.sin(radians);
-
             this._topLeft = this.a;
-            this._bottomLeft = this.getPointOnLine(this.a, hypotenuse, leftAngle);
+            this._bottomLeft = this.getPointOnLine(this.a, this.getSideLength(leftAngle), leftAngle);
 
         } else {
 
-            let radians = (180 - leftAngle) * (Math.PI / 180);
-            let hypotenuse = this.height / Math.sin(radians);
-            console.log(hypotenuse);
-            this._topLeft = this.getPointOnLine(this.d, -hypotenuse, leftAngle);
+            this._topLeft = this.getPointOnLine(this.d, -this.getSideLength(leftAngle), leftAngle);
             this._bottomLeft = this.d;
         }
 
         if (rightAngle < 90) {
 
-            let radians = (180 - rightAngle) * (Math.PI / 180);
-            let hypotenuse = this.height / Math.sin(radians);
-
             this._topRight = this.b;
-            this._bottomRight = this.getPointOnLine(this.b, this.height, rightAngle);
+            this._bottomRight = this.getPointOnLine(this.b, this.getSideLength(rightAngle), rightAngle);
+
         } else {
 
-            let radians = (180 - rightAngle) * (Math.PI / 180);
-            let hypotenuse = this.height / Math.sin(radians);
-
-            this._topRight = this.getPointOnLine(this.c, -hypotenuse, 180 - rightAngle);
+            this._topRight = this.getPointOnLine(this.c, -this.getSideLength(rightAngle), 180 - rightAngle);
             this._bottomRight = this.c;
         }
 
-        if (this.topLeft.x > this.topRight.x || 
+        if (this.topLeft.x > this.topRight.x ||
             this.bottomLeft.x > this.bottomRight.x ||
             this.topLeft.y > this.bottomLeft.y ||
             this.topRight.y > this.bottomRight.y) {
@@ -139,6 +127,11 @@ class Trapezoid extends Sprite {
 
     set rightAngle(rightAngle) {
         this._rightAngle = rightAngle;
+    }
+
+    getSideLength(angle) {
+        let radians = trees.degToRad(180 - angle);
+        return this.height / Math.sin(radians);
     }
 
     draw(ctx) {
