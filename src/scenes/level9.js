@@ -91,7 +91,7 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 86);
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 94);
     cup.color = "white";
     // cup.lineColor = "black";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
@@ -100,7 +100,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Trapezoid(600, 300, 300, 300, 0, 70, 70);
+    let erlenmeyer = new engine.simples.Trapezoid(300, 300, 200, 300, 0, 94, 94);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);

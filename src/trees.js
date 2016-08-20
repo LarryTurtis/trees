@@ -16,7 +16,8 @@ function trees() {
         getCenterX: getCenterX,
         getBezierDistance: getBezierDistance,
         degToRad: degToRad,
-        getAngle: getAngle
+        getAngle: getAngle,
+        copyPoint: copyPoint
     }
 
     /**
@@ -74,6 +75,10 @@ function trees() {
 
     function getAngle(p1, p2) {
         return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    }
+
+    function copyPoint(point) {
+        return new point.constructor(point.x, point.y);
     }
 }
 
