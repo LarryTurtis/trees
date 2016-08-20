@@ -12,8 +12,8 @@ function level9() {
     erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
-    shapes.add(cup);
     shapes.add(erlenmeyer);
+    shapes.add(cup);
     shapes.add(createSpray());
 
     hose.callback = function() {
@@ -87,7 +87,7 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 0);
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 86);
     cup.color = "white";
     // cup.lineColor = "black";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
@@ -96,7 +96,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Trapezoid(600, 300, 400, 300, 0, 100, 130);
+    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300, 0);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);

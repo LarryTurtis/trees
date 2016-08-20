@@ -4,11 +4,11 @@ import { Container } from './container.js';
 import { complex } from './complex.js';
 
 class Cup extends Container {
-    constructor(x, y, width, height, angle) {
+    constructor(x, y, width, height, angle, taper) {
         super(x, y, width, height, angle);
         this.type = "Cup";
-
-        let shape = new complex.CupShape(x, y, width, height, angle);
+        this.taper = taper;
+        let shape = new simples.Trapezoid(x, y, width, height, angle, taper, taper);
         this.containerShape = shape;
         this.addShape(shape);
 
@@ -25,7 +25,7 @@ class Cup extends Container {
         let x = this.x + ((this.width - width) / 2);
 
         if (!this.liquid.x) {
-            let liquid = new complex.CupShape(x, y, width, height);
+            let liquid = new simples.Trapezoid(x, y, width, height, 0, this.taper, this.taper);
             this.liquid = liquid;
             liquid.color = this.liquidColor;
             this.addShape(liquid);

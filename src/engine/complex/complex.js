@@ -21,11 +21,9 @@ import { Head } from './head.js';
 import { Wheel } from './wheel.js';
 import { Container } from './container.js';
 import { Cup } from './cup.js';
-import { CupShape } from './cupShape.js';
 import { Liquid } from './liquid.js';
 import { Spray } from './spray.js';
 import { Erlenmeyer } from './erlenmeyer.js';
-import { ErlenmeyerShape } from './erlenmeyerShape.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -52,10 +50,8 @@ let complex = {
     Container: Container,
     Cup: Cup,
     Liquid: Liquid,
-    CupShape: CupShape,
     Spray: Spray,
     Erlenmeyer: Erlenmeyer,
-    ErlenmeyerShape: ErlenmeyerShape
 };
 
 export { complex }

@@ -7,10 +7,26 @@ class Erlenmeyer extends Container {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Erlenmeyer";
+        this.lip = new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20);
 
-        let shape = new complex.ErlenmeyerShape(x, y, width, height, angle);
-        this.containerShape = shape;
-        this.addShape(shape);
+        let neckWidth = this.width / 2.5;
+
+        this.neck = new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + this.lip.height, neckWidth, this.height / 4);
+        this.bottom = new simples.Rectangle(this.x, this.y + this.height * 0.75, this.width, this.height / 4);
+
+        this.body = new simples.Trapezoid(
+            this.x,
+            this.y + this.lip.height + this.neck.height,
+            this.width,
+            this.height - this.lip.height - this.neck.height - this.bottom.height,
+            0,
+            trees.getAngle(this.neck.d, this.bottom.a),
+            trees.getAngle(this.neck.d, this.bottom.a));
+
+        this.addShape(this.lip);
+        this.addShape(this.neck);
+        this.addShape(this.body);
+        this.addShape(this.bottom);
 
     }
 

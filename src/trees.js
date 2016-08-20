@@ -15,7 +15,8 @@ function trees() {
         setOpacity: setOpacity,
         getCenterX: getCenterX,
         getBezierDistance: getBezierDistance,
-        degToRad: degToRad
+        degToRad: degToRad,
+        getAngle: getAngle
     }
 
     /**
@@ -60,7 +61,6 @@ function trees() {
         let outerCenter = outer.x + outer.width / 2;
         let innerOffset = inner / 2;
         let innerX = outerCenter - innerOffset;
-        console.log(innerX);
         return innerX;
     }
 
@@ -72,6 +72,9 @@ function trees() {
         return deg * (Math.PI / 180);
     }
 
+    function getAngle(p1, p2) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    }
 }
 
 export { trees };

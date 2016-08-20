@@ -13,34 +13,7 @@ class Trapezoid extends Sprite {
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
 
-        if (leftAngle < 90) {
-
-            this._topLeft = this.a;
-            this._bottomLeft = this.getPointOnLine(this.a, this.getSideLength(leftAngle), leftAngle);
-
-        } else {
-
-            this._topLeft = this.getPointOnLine(this.d, -this.getSideLength(leftAngle), leftAngle);
-            this._bottomLeft = this.d;
-        }
-
-        if (rightAngle < 90) {
-
-            this._topRight = this.b;
-            this._bottomRight = this.getPointOnLine(this.b, this.getSideLength(rightAngle), rightAngle);
-
-        } else {
-
-            this._topRight = this.getPointOnLine(this.c, -this.getSideLength(rightAngle), 180 - rightAngle);
-            this._bottomRight = this.c;
-        }
-
-        if (this.topLeft.x > this.topRight.x ||
-            this.bottomLeft.x > this.bottomRight.x ||
-            this.topLeft.y > this.bottomLeft.y ||
-            this.topRight.y > this.bottomRight.y) {
-            console.error("This trapezoid height/width ratio is incorrect.")
-        }
+        this.setAngles();
     }
 
     animate() {
@@ -49,16 +22,12 @@ class Trapezoid extends Sprite {
 
     set x(x) {
         super.x = x;
-        this.bottomLeft = new Point(this.d.x + this.width / 10, this.d.y);
-        this.bottomRight = new Point(this.c.x - this.width / 10, this.c.y);
-
+        this.setAngles();
     }
 
     set y(y) {
         super.y = y;
-        this.bottomLeft = new Point(this.d.x + this.width / 10, this.d.y);
-        this.bottomRight = new Point(this.c.x - this.width / 10, this.c.y);
-
+        this.setAngles();
     }
 
     get x() {
@@ -132,6 +101,37 @@ class Trapezoid extends Sprite {
     getSideLength(angle) {
         let radians = trees.degToRad(180 - angle);
         return this.height / Math.sin(radians);
+    }
+
+    setAngles() {
+        if (this.leftAngle < 90) {
+
+            this._topLeft = this.a;
+            this._bottomLeft = this.getPointOnLine(this.a, this.getSideLength(this.leftAngle), this.leftAngle);
+
+        } else {
+
+            this._topLeft = this.getPointOnLine(this.d, -this.getSideLength(this.leftAngle), this.leftAngle);
+            this._bottomLeft = this.d;
+        }
+
+        if (this.rightAngle < 90) {
+
+            this._topRight = this.b;
+            this._bottomRight = this.getPointOnLine(this.b, this.getSideLength(this.rightAngle), 180 - this.rightAngle);
+
+        } else {
+
+            this._topRight = this.getPointOnLine(this.c, -this.getSideLength(this.rightAngle), 180 - this.rightAngle);
+            this._bottomRight = this.c;
+        }
+
+        if (this.topLeft.x > this.topRight.x ||
+            this.bottomLeft.x > this.bottomRight.x ||
+            this.topLeft.y > this.bottomLeft.y ||
+            this.topRight.y > this.bottomRight.y) {
+            console.error("This trapezoid height/width ratio is incorrect.")
+        }
     }
 
     draw(ctx) {
