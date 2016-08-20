@@ -277,6 +277,14 @@ class Sprite {
         return new Point(x, y);
     }
 
+    trimTop(amount) {
+        let oldHeight = this.height;
+        if (oldHeight - amount >= 0) {
+            this.height -= amount;
+            this.y += oldHeight - this.height;
+        }
+    }
+
     wasClicked(mouseX, mouseY) {
         if (this.boundary.a.x <= mouseX &&
             this.boundary.b.x >= mouseX &&

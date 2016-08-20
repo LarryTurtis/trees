@@ -31,6 +31,10 @@ function level9() {
         }
     }
 
+    erlenmeyer.callback = function() {
+        this.trimTop(1);
+    }
+
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
         if (e.detail.shape.selectedSection) {
@@ -96,7 +100,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300, 0);
+    let erlenmeyer = new engine.simples.Trapezoid(600, 300, 300, 300, 0, 70, 70);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);

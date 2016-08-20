@@ -43,7 +43,7 @@ class Trapezoid extends Sprite {
     }
 
     get b1() {
-        return this.b.x - this.a.x;
+        return this.topRight.x - this.topLeft.x;
     }
 
     get b2() {
@@ -103,35 +103,46 @@ class Trapezoid extends Sprite {
         return this.height / Math.sin(radians);
     }
 
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.setAngles();
+    }
+
+    trimTop(amount) {
+        super.trimTop(amount);
+
+        if (this.b1 > this.b2) {
+            let baseTriangleWidth = this.b1 - this.b2;
+            let width = baseTriangleWidth - amount + this.b2;
+
+            this._x = this.x + ((this.width - width) / 2);
+            this.width = width;
+        }
+    }
+
     setAngles() {
         if (this.leftAngle < 90) {
 
             this._topLeft = this.a;
-            this._bottomLeft = this.getPointOnLine(this.a, this.getSideLength(this.leftAngle), this.leftAngle);
+            this._bottomLeft = this.getPointOnLine(this.a, this.getSideLength(this.leftAngle), this.leftAngle + this.angle);
 
         } else {
 
-            this._topLeft = this.getPointOnLine(this.d, -this.getSideLength(this.leftAngle), this.leftAngle);
+            this._topLeft = this.getPointOnLine(this.d, -this.getSideLength(this.leftAngle), this.leftAngle + this.angle);
             this._bottomLeft = this.d;
         }
 
         if (this.rightAngle < 90) {
 
             this._topRight = this.b;
-            this._bottomRight = this.getPointOnLine(this.b, this.getSideLength(this.rightAngle), 180 - this.rightAngle);
+            this._bottomRight = this.getPointOnLine(this.b, this.getSideLength(this.rightAngle), 180 - this.rightAngle + this.angle);
 
         } else {
 
-            this._topRight = this.getPointOnLine(this.c, -this.getSideLength(this.rightAngle), 180 - this.rightAngle);
+            this._topRight = this.getPointOnLine(this.c, -this.getSideLength(this.rightAngle), 180 - this.rightAngle + this.angle);
             this._bottomRight = this.c;
         }
 
-        if (this.topLeft.x > this.topRight.x ||
-            this.bottomLeft.x > this.bottomRight.x ||
-            this.topLeft.y > this.bottomLeft.y ||
-            this.topRight.y > this.bottomRight.y) {
-            console.error("This trapezoid height/width ratio is incorrect.")
-        }
     }
 
     draw(ctx) {
