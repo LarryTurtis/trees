@@ -7,26 +7,51 @@ class Trapezoid extends Sprite {
         super(x, y, width, height, angle);
         this.type = "Trapezoid";
 
-        //left angle is the degree of the bottom left corner.
-        //right angle is the degree of the bottom right corner.
+        //left angle is the degree of the top left corner.
+        //right angle is the degree of the top right corner.
 
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
 
-        if (leftAngle > 90) {
+
+        if (leftAngle < 90) {
+
+            let radians = (180 - leftAngle) * (Math.PI / 180);
+            let hypotenuse = this.height / Math.sin(radians);
+
             this._topLeft = this.a;
-            this._bottomLeft = this.getPointOnLine(this.a, this.height, 180 - leftAngle);
+            this._bottomLeft = this.getPointOnLine(this.a, hypotenuse, leftAngle);
+
         } else {
-            this._topLeft = this.getPointOnLine(this.d, -this.height, 180 - leftAngle);
+
+            let radians = (180 - leftAngle) * (Math.PI / 180);
+            let hypotenuse = this.height / Math.sin(radians);
+            console.log(hypotenuse);
+            this._topLeft = this.getPointOnLine(this.d, -hypotenuse, leftAngle);
             this._bottomLeft = this.d;
         }
 
-        if (rightAngle > 90) {
+        if (rightAngle < 90) {
+
+            let radians = (180 - rightAngle) * (Math.PI / 180);
+            let hypotenuse = this.height / Math.sin(radians);
+
             this._topRight = this.b;
             this._bottomRight = this.getPointOnLine(this.b, this.height, rightAngle);
         } else {
-            this._topRight = this.getPointOnLine(this.c, -this.height, rightAngle);
+
+            let radians = (180 - rightAngle) * (Math.PI / 180);
+            let hypotenuse = this.height / Math.sin(radians);
+
+            this._topRight = this.getPointOnLine(this.c, -hypotenuse, 180 - rightAngle);
             this._bottomRight = this.c;
+        }
+
+        if (this.topLeft.x > this.topRight.x || 
+            this.bottomLeft.x > this.bottomRight.x ||
+            this.topLeft.y > this.bottomLeft.y ||
+            this.topRight.y > this.bottomRight.y) {
+            console.error("This trapezoid height/width ratio is incorrect.")
         }
     }
 
