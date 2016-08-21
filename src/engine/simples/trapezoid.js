@@ -127,6 +127,17 @@ class Trapezoid extends Sprite {
     }
 
     trimTop(amount) {
+
+        //currently only works if trapezoid is isoceles.
+        //we need to determine whether leftAngle is acute or obtuse
+        //and then handle the repositioning of x by finding the difference between old
+        //hypotenuse and new hypotenuse, accordingly.
+
+        //we may also need to determine the width differently when one angle is acute
+        //and the other obtuse. 
+
+        //this should be broken up in to several functions
+
         let oldHeight = this.height;
         let oldb1 = this.b1;
 

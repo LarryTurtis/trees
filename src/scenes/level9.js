@@ -100,7 +100,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Trapezoid(300, 300, 200, 300, 0, 94, 94);
+    let erlenmeyer = new engine.simples.Trapezoid(300, 300, 200, 300, 0, 104, 104);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
