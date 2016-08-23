@@ -7,33 +7,49 @@ var watchify = require('watchify');
 var babel = require('babelify');
 
 function compile(watch) {
-  var bundler = watchify(browserify('./src/app.js', { debug: true }).transform(babel, {presets: ["es2015"]}));
+  var bundler = browserify('./src/app.js', {
+          debug: false,
+          packageCache: {},
+          cache: {},
+          plugin: [watchify]
+      })
+      .transform(babel, { presets: ["es2015"] });
+  bundler.on("log", function(msg) {
+      console.log(msg);
+  })
 
   function rebundle() {
-    bundler.bundle()
-      .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('build.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./build'));
+      bundler.bundle()
+          .on('error', function(err) {
+              console.error(err);
+              this.emit('end');
+          })
+          .pipe(source('build.js'))
+          .pipe(buffer())
+          .pipe(sourcemaps.init({ loadMaps: true }))
+          .pipe(sourcemaps.write('./'))
+          .pipe(gulp.dest('./build'));
   }
 
   if (watch) {
-    bundler.on('update', function() {
-      console.log('-> bundling...');
-      rebundle();
-    });
+      bundler.on('update', function() {
+          rebundle();
+          console.log('-> bundling...');
+      });
   }
 
   rebundle();
 }
 
 function watch() {
-  return compile(true);
+    return compile(true);
 };
 
-gulp.task('build', function() { return compile(); });
-gulp.task('watch', function() { return watch(); });
+gulp.task('build', function() {
+    return compile();
+});
+gulp.task('watch', function() {
+    return watch();
+});
 
 gulp.task('default', ['watch']);

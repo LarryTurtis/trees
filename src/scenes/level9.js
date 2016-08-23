@@ -32,7 +32,7 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.trimTop(-1);
+        this.trimTop(1);
     }
 
     let dragging = false;
