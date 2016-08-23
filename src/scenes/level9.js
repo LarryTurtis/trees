@@ -32,7 +32,7 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.trimTop(1);
+        this.trimTop(-1);
     }
 
     let dragging = false;
@@ -100,7 +100,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Trapezoid(300, 300, 200, 300, 0, 105, 85);
+    let erlenmeyer = new engine.simples.Trapezoid(300, 300, 200, 300, 10, 95, 95);
     erlenmeyer.color = "white";
     // erlenmeyer.lineColor = "black";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);

@@ -8,7 +8,7 @@ class Cup extends Container {
         super(x, y, width, height, angle);
         this.type = "Cup";
         this.taper = taper;
-        let shape = new simples.Trapezoid(x, y, width, height, angle, 105, 85);
+        let shape = new simples.Trapezoid(x, y, width, height, 10, 95, 95);
         this.containerShape = shape;
         this.addShape(shape);
 

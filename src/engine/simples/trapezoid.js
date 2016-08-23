@@ -14,8 +14,6 @@ class Trapezoid extends Sprite {
         this._rightAngle = rightAngle;
         this.originalHeight = height;
         this.setAngles();
-        this.originalB1 = this.b1;
-        this.originalB2 = this.b2;
     }
 
     animate() {
@@ -130,40 +128,28 @@ class Trapezoid extends Sprite {
 
     trimTop(amount) {
 
-        //currently only works if trapezoid is isoceles.
-        //we need to determine whether leftAngle is acute or obtuse
-        //and then handle the repositioning of x by finding the difference between old
-        //hypotenuse and new hypotenuse, accordingly.
-
-        //we may also need to determine the width differently when one angle is acute
-        //and the other obtuse. 
-
-        //this should be broken up in to several functions
+        //main concern with this function is it does not adjust the width as trapezoid scales
+        //therefore, we should be careful when collision testing, if that becomes necessary.
 
         let oldHeight = this.height;
-        let oldHypotenuse = this.getSideLength(this.leftAngle, oldHeight);
+        let oldLeftHypotenuse = this.getSideLength(this.leftAngle, oldHeight);
+        let oldRightHypotenuse = this.getSideLength(this.rightAngle, oldHeight);
+
         let bottomLeft = trees.copyPoint(this.bottomLeft);
         let bottomRight = trees.copyPoint(this.bottomRight);
-        let b1 = this.b1;
-        let b2 = this.b2;
-        let smallerBase = Math.min(this.b1, this.b2);
+        let topRight = trees.copyPoint(this.topRight);
+        let topLeft = trees.copyPoint(this.topLeft);
 
         super.trimTop(amount);
-        let oldBaseWidth = Math.abs(this.b2 - this.b1);
 
-        let newHypotenuse = this.getSideLength(this.leftAngle, this.height);
+        let newLeftHypotenuse = this.getSideLength(this.leftAngle, this.height);
+        let newRightHypotenuse = this.getSideLength(this.rightAngle, this.height);
 
-        if (this.leftAngle < 90) {
-            this.x = this.getPointOnLine(this.topLeft, oldHypotenuse - newHypotenuse, this.leftAngle).x;
-        }
-        if (this.rightAngle < 90 && this.originalB1 <= this.originalB2) {
-        
-            this.width = ((this.height / this.originalHeight) * this.originalB1) +
-            (((this.originalHeight - this.height) / this.originalHeight) * this.originalB2);
-            //this.x += 1;
-            //this.bottomLeft = bottomLeft;
-            //this.bottomRight = bottomRight;
-        }
+        this.topLeft = this.getPointOnLine(topLeft, oldLeftHypotenuse - newLeftHypotenuse, this.leftAngle + this.angle);
+        this.topRight = this.getPointOnLine(topRight, oldRightHypotenuse - newRightHypotenuse, 180 - this.rightAngle + this.angle);
+
+        this.bottomLeft = bottomLeft;
+        this.bottomRight = bottomRight;
     }
 
     setAngles() {
