@@ -7,7 +7,7 @@ class Triangle extends Sprite {
         this.type = "Triangle";
         this.ta = new Point(this.d.x, this.d.y);
         this.tb = new Point(this.c.x, this.c.y);
-        this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
+        this.tc = trees.getPointOnLine(this.a, this.width / 2, this.angle);
     }
 
     rotate(deg, transformOrigin) {
@@ -24,7 +24,7 @@ class Triangle extends Sprite {
     set width(width) {
         super.width = width;
         this.tb = new Point(this.c.x, this.c.y);
-        this.tc = this.getPointOnLine(this.a, this.distance(this.a, this.b) / 2, this.getAngle(this.a, this.b));
+        this.tc = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.b) / 2, trees.getAngle(this.a, this.b));
     }
 
     get height() {
@@ -46,7 +46,7 @@ class Triangle extends Sprite {
         if (!this.ta) {
             this.ta = new Point(this.d.x, this.d.y);
             this.tb = new Point(this.c.x, this.c.y);
-            this.tc = this.getPointOnLine(this.a, this.width / 2, this.angle);
+            this.tc = trees.getPointOnLine(this.a, this.width / 2, this.angle);
         }
         this.ta = new Point(this.ta.x + xDiff, this.ta.y + yDiff);
         this.tb = new Point(this.tb.x + xDiff, this.tb.y + yDiff);

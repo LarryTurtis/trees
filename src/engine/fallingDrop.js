@@ -64,35 +64,35 @@ class FallingDrop extends Droplet {
     }
 
     updateX() {
-        this.startingPoint.x = this.getPointOnLine(this.d, this.width / 2, this.angle).x;
-        this.rightTop.cp1.x = this.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).x;
-        this.rightTop.cp2.x = this.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).x;
-        this.rightTop.end.x = this.getPointOnLine(this.b, this.height / 2, this.angle + 90).x;
-        this.leftTop.cp1.x = this.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).x;
-        this.leftTop.cp2.x = this.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).x;
-        this.leftTop.end.x = this.getPointOnLine(this.a, this.width / 2, this.angle).x;
-        this.rightBottom.cp1.x = this.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).x;
-        this.rightBottom.cp2.x = this.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).x;
-        this.rightBottom.end.x = this.getPointOnLine(this.d, this.width / 2, this.angle).x;
-        this.leftBottom.cp1.x = this.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).x;
-        this.leftBottom.cp2.x = this.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).x;
-        this.leftBottom.end.x = this.getPointOnLine(this.d, this.height / 2, this.angle - 90).x;
+        this.startingPoint.x = trees.getPointOnLine(this.d, this.width / 2, this.angle).x;
+        this.rightTop.cp1.x = trees.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).x;
+        this.rightTop.cp2.x = trees.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).x;
+        this.rightTop.end.x = trees.getPointOnLine(this.b, this.height / 2, this.angle + 90).x;
+        this.leftTop.cp1.x = trees.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).x;
+        this.leftTop.cp2.x = trees.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).x;
+        this.leftTop.end.x = trees.getPointOnLine(this.a, this.width / 2, this.angle).x;
+        this.rightBottom.cp1.x = trees.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).x;
+        this.rightBottom.cp2.x = trees.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).x;
+        this.rightBottom.end.x = trees.getPointOnLine(this.d, this.width / 2, this.angle).x;
+        this.leftBottom.cp1.x = trees.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).x;
+        this.leftBottom.cp2.x = trees.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).x;
+        this.leftBottom.end.x = trees.getPointOnLine(this.d, this.height / 2, this.angle - 90).x;
     }
 
     updateY() {
-        this.startingPoint.y = this.getPointOnLine(this.d, this.width / 2, this.angle).y;
-        this.rightTop.cp1.y = this.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).y;
-        this.rightTop.cp2.y = this.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).y;
-        this.rightTop.end.y = this.getPointOnLine(this.b, this.height / 2, this.angle + 90).y;
-        this.leftTop.cp1.y = this.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).y;
-        this.leftTop.cp2.y = this.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).y;
-        this.leftTop.end.y = this.getPointOnLine(this.a, this.width / 2, this.angle).y;
-        this.rightBottom.cp1.y = this.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).y;
-        this.rightBottom.cp2.y = this.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).y;
-        this.rightBottom.end.y = this.getPointOnLine(this.d, this.width / 2, this.angle).y;
-        this.leftBottom.cp1.y = this.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).y;
-        this.leftBottom.cp2.y = this.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).y;
-        this.leftBottom.end.y = this.getPointOnLine(this.d, this.height / 2, this.angle - 90).y;
+        this.startingPoint.y = trees.getPointOnLine(this.d, this.width / 2, this.angle).y;
+        this.rightTop.cp1.y = trees.getPointOnLine(this.a, this.width / 2 + this.xBezierDistance, this.angle).y;
+        this.rightTop.cp2.y = trees.getPointOnLine(this.b, this.height / 2 - this.yBezierDistance, this.angle + 90).y;
+        this.rightTop.end.y = trees.getPointOnLine(this.b, this.height / 2, this.angle + 90).y;
+        this.leftTop.cp1.y = trees.getPointOnLine(this.d, this.height / 2 + this.yBezierDistance, this.angle - 90).y;
+        this.leftTop.cp2.y = trees.getPointOnLine(this.a, this.width / 2 - this.xBezierDistance, this.angle).y;
+        this.leftTop.end.y = trees.getPointOnLine(this.a, this.width / 2, this.angle).y;
+        this.rightBottom.cp1.y = trees.getPointOnLine(this.b, this.height / 2 + this.yBezierDistance, this.angle + 90).y;
+        this.rightBottom.cp2.y = trees.getPointOnLine(this.d, this.width / 2 + this.xBezierDistance, this.angle).y;
+        this.rightBottom.end.y = trees.getPointOnLine(this.d, this.width / 2, this.angle).y;
+        this.leftBottom.cp1.y = trees.getPointOnLine(this.d, this.width / 2 - this.xBezierDistance, this.angle).y;
+        this.leftBottom.cp2.y = trees.getPointOnLine(this.d, this.height / 2 - this.yBezierDistance, this.angle - 90).y;
+        this.leftBottom.end.y = trees.getPointOnLine(this.d, this.height / 2, this.angle - 90).y;
     }
 
     fall() {
@@ -119,7 +119,7 @@ class FallingDrop extends Droplet {
         if (platform.angle !== 0) {
             if (platform.angle < 0) this.xSpeed = -Math.abs(this.xSpeed);
             this.xSpeed *= 1.01
-            var next = this.getPointOnLine(this.origin, this.xSpeed, platform.angle);
+            var next = trees.getPointOnLine(this.origin, this.xSpeed, platform.angle);
             this.x = next.x;
             this.y = next.y;
         }

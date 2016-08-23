@@ -17,6 +17,8 @@ function trees() {
         getBezierDistance: getBezierDistance,
         degToRad: degToRad,
         getAngle: getAngle,
+        getDistance: getDistance,
+        getPointOnLine: getPointOnLine,
         copyPoint: copyPoint
     }
 
@@ -75,6 +77,16 @@ function trees() {
 
     function getAngle(p1, p2) {
         return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    }
+
+    function getDistance(p1, p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+    }
+
+    function getPointOnLine(firstPoint, width, angle) {
+        let secondPointX = firstPoint.x + width * Math.cos(degToRad(angle));
+        let secondPointY = firstPoint.y + width * Math.sin(degToRad(angle));
+        return new firstPoint.constructor(secondPointX, secondPointY);
     }
 
     function copyPoint(point) {

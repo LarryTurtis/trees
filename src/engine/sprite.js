@@ -113,9 +113,9 @@ class Sprite {
         this._width = width;
         let widthDiff = this.width - oldWidth;
 
-        let angle = this.getAngle(this.a, this.b);
-        this.b = this.getPointOnLine(this.b, widthDiff, angle);
-        this.c = this.getPointOnLine(this.c, widthDiff, angle);
+        let angle = trees.getAngle(this.a, this.b);
+        this.b = trees.getPointOnLine(this.b, widthDiff, angle);
+        this.c = trees.getPointOnLine(this.c, widthDiff, angle);
 
         this.rect = {
             a: this.a,
@@ -124,7 +124,7 @@ class Sprite {
             d: this.d
         };
 
-        this.center = this.getPointOnLine(this.a, this.distance(this.a, this.c) / 2, this.getAngle(this.a, this.c));
+        this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
         this.updateBoundaries();
 
     }
@@ -133,10 +133,10 @@ class Sprite {
         let oldHeight = this.height;
         this._height = height;
         let heightDiff = this.height - oldHeight;
-        let angle = this.getAngle(this.a, this.d);
+        let angle = trees.getAngle(this.a, this.d);
 
-        this.c = this.getPointOnLine(this.c, heightDiff, angle);
-        this.d = this.getPointOnLine(this.d, heightDiff, angle);
+        this.c = trees.getPointOnLine(this.c, heightDiff, angle);
+        this.d = trees.getPointOnLine(this.d, heightDiff, angle);
 
         this.rect = {
             a: this.a,
@@ -145,7 +145,7 @@ class Sprite {
             d: this.d
         };
 
-        this.center = this.getPointOnLine(this.a, this.distance(this.a, this.c) / 2, this.getAngle(this.a, this.c));
+        this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
         this.updateBoundaries();
     }
 
@@ -254,20 +254,6 @@ class Sprite {
 
     set collidingWith(collidingWith) {
         this._collidingWith = collidingWith;
-    }
-
-    distance(p1, p2) {
-        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
-    }
-
-    getAngle(p1, p2) {
-        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-    }
-
-    getPointOnLine(firstPoint, width, angle) {
-        let secondPointX = firstPoint.x + width * Math.cos(angle * Math.PI / 180);
-        let secondPointY = firstPoint.y + width * Math.sin(angle * Math.PI / 180);
-        return new Point(secondPointX, secondPointY);
     }
 
     rotate_point(point, origin, deg) {

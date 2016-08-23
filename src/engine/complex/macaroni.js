@@ -22,8 +22,8 @@ class Macaroni extends ThickShape {
         let widthDiff = this.width - oldWidth;
         this.thickness = this.thickness + (widthDiff * this.relativeThickness);
 
-        this.inner.y = this.getPointOnLine(this.outer.origin, this.thickness, this.getAngle(this.a, this.d)).y;
-        this.inner.x = this.getPointOnLine(this.outer.origin, this.thickness, this.getAngle(this.a, this.d)).x;
+        this.inner.y = trees.getPointOnLine(this.outer.origin, this.thickness, trees.getAngle(this.a, this.d)).y;
+        this.inner.x = trees.getPointOnLine(this.outer.origin, this.thickness, trees.getAngle(this.a, this.d)).x;
     }
 
     draw(ctx) {

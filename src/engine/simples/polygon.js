@@ -69,7 +69,7 @@ class Polygon extends Sprite {
     updatePolygon() {
         this._points = [];
 
-        let startingPoint = this.getPointOnLine(this.a, this.width / 2, this.getAngle(this.a, this.b));
+        let startingPoint = trees.getPointOnLine(this.a, this.width / 2, trees.getAngle(this.a, this.b));
         let a = Math.acos((startingPoint.x - this.center.x) / this.radius);
 
         for (let i = 0; i < this.sides; i++) {
