@@ -65,6 +65,19 @@ class Container extends ComplexShape {
         this._containerShape = containerShape;
     }
 
+    fill(amount) {
+
+        if (this.liquid.height <= 0) {
+            this.empty = true;
+        }
+
+        if (this.liquid.height >= this.height) {
+            this.full = true;
+        }
+
+    }
+
+
     animate() {
         // if (!this.collidingWithPlatform) this.fall();
     }

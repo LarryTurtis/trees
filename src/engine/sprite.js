@@ -281,8 +281,10 @@ class Sprite {
         let oldHeight = this.height;
         if (oldHeight - amount >= 0) {
             this.height -= amount;
-            this.y += oldHeight - this.height;
+        } else {
+            this.height = 0;
         }
+        this.y += oldHeight - this.height;
     }
 
     trimBottom(amount) {

@@ -30,38 +30,36 @@ class Erlenmeyer extends Container {
 
     }
 
-    fill(percentage) {
+    fill(amount) {
 
-        // let height = this.height * percentage;
-        // let y = this.y + this.height - height;
+        super.fill(amount);
 
-        // let baseTriangleWidth = this.containerShape.b1 - this.containerShape.b2;
-        // let width = baseTriangleWidth * percentage + this.containerShape.b2;
+        let previousShape;
 
-        // let x = this.x + ((this.width - width) / 2);
+        this.shape.forEach(shape => {
 
-        // if (!this.liquid.x) {
-        //     let liquid = new complex.ErlenmeyerShape(x, y, width, height);
-        //     this.liquid = liquid;
-        //     liquid.color = this.liquidColor;
-        //     this.addShape(liquid);
-        // }
+            if (!shape.liquid) {
+                let liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
+                shape.liquid = liquid;
+                shape.liquid.color = this.liquidColor;
+                this.addShape(shape.liquid);
+            }
 
-        // this.liquid.x = x;
-        // this.liquid.y = y;
-        // this.liquid.width = width;
-        // this.liquid.height = height;
+            if (shape.liquid.height <= 0) {
+                shape.empty = true;
+            }
 
-        // this.liquid.bottomLeft = this.containerShape.bottomLeft;
-        // this.liquid.bottomRight = this.containerShape.bottomRight;
+            if (shape.liquid.height >= shape.height) {
+                shape.full = true;
+            }
 
-        // if (height <= 0) {
-        //     this.empty = true;
-        // }
+            if (!previousShape || !previousShape.empty) {
+                shape.liquid.trimTop(amount);
+            }
 
-        // if (height >= this.height) {
-        //     this.full = true;
-        // }
+            previousShape = shape;
+
+        });
 
     }
 

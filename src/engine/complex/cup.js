@@ -8,44 +8,25 @@ class Cup extends Container {
         super(x, y, width, height, angle);
         this.type = "Cup";
         this.taper = taper;
-        let shape = new simples.Trapezoid(x, y, width, height, 10, 95, 95);
+        let shape = new simples.Trapezoid(x, y, width, height, angle, taper, taper);
         this.containerShape = shape;
         this.addShape(shape);
 
     }
 
-    fill(percentage) {
+    fill(amount) {
 
-        // let height = this.height * percentage;
-        // let y = this.y + this.height - height;
+        super.fill(amount);
 
-        // let baseTriangleWidth = this.containerShape.b1 - this.containerShape.b2;
-        // let width = baseTriangleWidth * percentage + this.containerShape.b2;
+        if (!this.liquid.x) {
+            let liquid = new simples.Trapezoid(this.x, this.y, this.width, this.height, this.angle, this.taper, this.taper);
+            this.liquid = liquid;
+            liquid.color = this.liquidColor;
+            this.addShape(liquid);
+        }
 
-        // let x = this.x + ((this.width - width) / 2);
+        this.liquid.trimTop(amount);
 
-        // if (!this.liquid.x) {
-        //     let liquid = new simples.Trapezoid(x, y, width, height, 0, this.taper, this.taper);
-        //     this.liquid = liquid;
-        //     liquid.color = this.liquidColor;
-        //     this.addShape(liquid);
-        // }
-
-        // this.liquid.x = x;
-        // this.liquid.y = y;
-        // this.liquid.width = width;
-        // this.liquid.height = height;
-
-        // this.liquid.bottomLeft = this.containerShape.bottomLeft;
-        // this.liquid.bottomRight = this.containerShape.bottomRight;
-
-        // if (height <= 0) {
-        //     this.empty = true;
-        // }
-
-        // if (height >= this.height) {
-        //     this.full = true;
-        // }
 
     }
 
