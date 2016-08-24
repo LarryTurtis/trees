@@ -2,26 +2,26 @@ import { simples } from '../simples/simples.js';
 import { Point } from '../point.js';
 import { Container } from './container.js';
 import { complex } from './complex.js';
+import { ComplexShape } from './complexShape.js';
 
-class Erlenmeyer extends Container {
+class Erlenmeyer extends ComplexShape {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Erlenmeyer";
-        this.lip = new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20);
+        this.lip = new Container(new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20));
 
         let neckWidth = this.width / 2.5;
 
-        this.neck = new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + this.lip.height, neckWidth, this.height / 4);
-        this.bottom = new simples.Rectangle(this.x, this.y + this.height * 0.75, this.width, this.height / 4);
-
-        this.body = new simples.Trapezoid(
+        this.neck = new Container(new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + this.lip.height, neckWidth, this.height / 4));
+        this.bottom = new Container(new simples.Rectangle(this.x, this.y + this.height * 0.75, this.width, this.height / 4));
+        this.body = new Container(new simples.Trapezoid(
             this.x,
             this.y + this.lip.height + this.neck.height,
             this.width,
             this.height - this.lip.height - this.neck.height - this.bottom.height,
             0,
             trees.getAngle(this.neck.d, this.bottom.a),
-            trees.getAngle(this.neck.d, this.bottom.a));
+            trees.getAngle(this.neck.d, this.bottom.a)));
 
         this.addShape(this.lip);
         this.addShape(this.neck);

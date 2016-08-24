@@ -168,7 +168,7 @@ class Hose extends ComplexShape {
     }
 
     draw(ctx) {
-        super.draw(ctx);
+        //super.draw(ctx);
 
         ctx.fillStyle = this.fullSectionColor;
         this.drawHose(ctx, this.fullSection);

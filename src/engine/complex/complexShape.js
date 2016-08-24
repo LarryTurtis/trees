@@ -152,6 +152,18 @@ class ComplexShape extends Sprite {
         return clicked;
     }
 
+    draw(ctx) {
+        super.draw(ctx);
+
+        ctx.beginPath();
+
+        this.shape.forEach(shape => {
+            shape.draw(ctx);
+        });
+
+        ctx.closePath();
+    }
+
 }
 
 export { ComplexShape }

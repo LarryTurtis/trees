@@ -12,18 +12,6 @@ class Arch extends ThickShape {
         this.addShape(this.left);
     }
 
-    draw(ctx) {
-        super.draw(ctx);
-
-        ctx.beginPath();
-
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
-        });
-
-        ctx.closePath();
-    }
-
 }
 
 export { Arch }

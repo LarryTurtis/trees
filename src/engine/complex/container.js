@@ -2,18 +2,18 @@ import { ComplexShape } from './complexShape.js';
 import { complex } from './complex.js';
 
 class Container extends ComplexShape {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
-        this.type = "Container";
+    constructor(shape) {
+        super(shape.x, shape.y, shape.width, shape.height, shape.angle);
+        this.type = shape.type + "Container";
         this.opacity = 0.2;
 
-        this._liquid = {};
-        this._containerShape = {};
-
+        this._containerShape = shape;
+        this._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
         this._full = false;
         this._empty = false;
 
-        this._liquidColor = "transparent";
+        this.addShape(this._containerShape);
+        this.addShape(this._liquid);
     }
 
     set color(color) {
@@ -74,6 +74,8 @@ class Container extends ComplexShape {
         if (this.liquid.height >= this.height) {
             this.full = true;
         }
+
+        this.liquid.trimTop(amount);
 
     }
 
