@@ -1,6 +1,8 @@
 import { ComplexShape } from './complexShape.js';
 import { complex } from './complex.js';
 
+//This is considered a decorator class.
+
 class Container extends ComplexShape {
     constructor(shape) {
         super(shape.x, shape.y, shape.width, shape.height, shape.angle);

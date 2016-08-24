@@ -25,17 +25,6 @@ class Erlenmeyer extends ContainerComposite {
         this.addShape(body);
         this.addShape(bottom);
 
-        this.liquidLevelShape = this.shape[0];
-
-    }
-
-    fill(amount) {
-        if (this.liquidLevelShape.empty) {
-            let newIndex = this.shape.indexOf(this.liquidLevelShape) + 1;
-            if (newIndex <= this.shape.length - 1) this.liquidLevelShape = this.shape[newIndex];
-        }
-        this.liquidLevelShape.fill(amount);
-
     }
 
 }
