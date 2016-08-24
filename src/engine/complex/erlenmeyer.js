@@ -1,73 +1,41 @@
 import { simples } from '../simples/simples.js';
-import { Point } from '../point.js';
-import { Container } from './container.js';
-import { complex } from './complex.js';
-import { ComplexShape } from './complexShape.js';
+import { ContainerComposite } from './containerComposite.js';
 
-class Erlenmeyer extends ComplexShape {
+class Erlenmeyer extends ContainerComposite {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Erlenmeyer";
-        this.lip = new Container(new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20));
 
+        let lip = new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20);
         let neckWidth = this.width / 2.5;
 
-        this.neck = new Container(new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + this.lip.height, neckWidth, this.height / 4));
-        this.bottom = new Container(new simples.Rectangle(this.x, this.y + this.height * 0.75, this.width, this.height / 4));
-        this.body = new Container(new simples.Trapezoid(
+        let neck = new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + lip.height, neckWidth, this.height / 4);
+        let bottom = new simples.Rectangle(this.x, this.y + this.height * 0.75, this.width, this.height / 4);
+        let body = new simples.Trapezoid(
             this.x,
-            this.y + this.lip.height + this.neck.height,
+            this.y + lip.height + neck.height,
             this.width,
-            this.height - this.lip.height - this.neck.height - this.bottom.height,
+            this.height - lip.height - neck.height - bottom.height,
             0,
-            trees.getAngle(this.neck.d, this.bottom.a),
-            trees.getAngle(this.neck.d, this.bottom.a)));
+            trees.getAngle(neck.d, bottom.a),
+            trees.getAngle(neck.d, bottom.a));
 
-        this.addShape(this.lip);
-        this.addShape(this.neck);
-        this.addShape(this.body);
-        this.addShape(this.bottom);
+        this.addShape(lip);
+        this.addShape(neck);
+        this.addShape(body);
+        this.addShape(bottom);
+
+        this.liquidLevelShape = this.shape[0];
 
     }
 
     fill(amount) {
+        if (this.liquidLevelShape.empty) {
+            let newIndex = this.shape.indexOf(this.liquidLevelShape) + 1;
+            if (newIndex <= this.shape.length - 1) this.liquidLevelShape = this.shape[newIndex];
+        }
+        this.liquidLevelShape.fill(amount);
 
-        super.fill(amount);
-
-        let previousShape;
-
-        this.shape.forEach(shape => {
-
-            if (!shape.liquid) {
-                let liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
-                shape.liquid = liquid;
-                shape.liquid.color = this.liquidColor;
-                this.addShape(shape.liquid);
-            }
-
-            if (shape.liquid.height <= 0) {
-                shape.empty = true;
-            }
-
-            if (shape.liquid.height >= shape.height) {
-                shape.full = true;
-            }
-
-            if (!previousShape || !previousShape.empty) {
-                shape.liquid.trimTop(amount);
-            }
-
-            previousShape = shape;
-
-        });
-
-    }
-
-    draw(ctx) {
-        super.draw(ctx);
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
-        });
     }
 
 }
