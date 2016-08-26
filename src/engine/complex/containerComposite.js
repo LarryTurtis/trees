@@ -30,6 +30,14 @@ class ContainerComposite extends ComplexShape {
         });
     }
 
+    get empty() {
+        let result = true;
+        this.shape.forEach(shape => {
+            result = result && shape.type === "Liquid" || shape.empty
+        });
+        return result;
+    }
+
     addShape(shape) {
         let containerShape = decorateContainer(shape);
         super.addShape(containerShape);
