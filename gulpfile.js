@@ -5,6 +5,8 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babel = require('babelify');
+var Server = require('karma').Server;
+
 
 function compile(watch) {
     var bundler = browserify('./src/app.js', {
@@ -53,6 +55,12 @@ gulp.task('build', function() {
 });
 gulp.task('watch', function() {
     return watch();
+});
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 gulp.task('default', ['watch']);
