@@ -7,7 +7,7 @@ function decorateContainer(shape) {
     shape.opacity = 0.2;
 
     shape._liquid = new shape.constructor(shape.a.x, shape.a.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
-    shape._liquid.type = shape.type + "Liquid";
+    shape._liquid.type = "Liquid";
     shape._full = false;
     shape._empty = false;
 
@@ -57,15 +57,7 @@ function decorateContainer(shape) {
         }
     });
 
-    let oldDraw = shape.draw;
-
-    shape.draw = function(ctx) {
-        oldDraw.call(shape, ctx);
-        shape.liquid.draw(ctx);
-    }
-
     shape.fill = function(amount) {
-
         if (shape.liquid.height <= 0) {
             shape.empty = true;
         }

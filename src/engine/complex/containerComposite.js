@@ -33,6 +33,7 @@ class ContainerComposite extends ComplexShape {
     addShape(shape) {
         let containerShape = decorateContainer(shape);
         super.addShape(containerShape);
+        super.addShape(containerShape.liquid);
         if (!this.liquidLevelShape) {
             this.liquidLevelShape = containerShape;
         }
@@ -40,9 +41,13 @@ class ContainerComposite extends ComplexShape {
 
     fill(amount) {
         if (this.liquidLevelShape.empty) {
-            let newIndex = this.shape.indexOf(this.liquidLevelShape) + 1;
-            if (newIndex <= this.shape.length - 1) this.liquidLevelShape = this.shape[newIndex];
+            let currentIndex = this.shape.indexOf(this.liquidLevelShape);
+            let newIndex = Math.min(currentIndex + 2, this.shape.length - 1);
+            if (this.shape[newIndex].type !== "Liquid") {
+                this.liquidLevelShape = this.shape[newIndex];
+            }
         }
+
         this.liquidLevelShape.fill(amount);
 
     }

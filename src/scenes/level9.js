@@ -9,10 +9,10 @@ function level9() {
     let shapes = engine.shapesRegistry;
     hose = createHose();
     cup = createCup();
-   // erlenmeyer = createErlenmeyer();
+    erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
-   // shapes.add(erlenmeyer);
+    shapes.add(erlenmeyer);
     shapes.add(cup);
     shapes.add(createSpray());
 
@@ -29,7 +29,6 @@ function level9() {
             counter -= 0.001;
             cup.fill(counter);
         }
-        //cup.rotate(1, cup.center)
     }
 
     erlenmeyer.callback = function() {
@@ -86,30 +85,26 @@ function createSpray() {
     let spray = new engine.complex.Spray(hose.tip.x, hose.tip.y, 150, 150, 0, 25);
     spray.color = trees.setOpacity("orange", 0.9);
     spray.callback = function() {
-        //if (hose.full) this.spray();
+        if (hose.full) this.spray();
     }
     return spray;
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 25, 86);
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 86);
     cup.color = "white";
-    // cup.lineColor = "black";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.fill(counter);
+    cup.angle += 25;
     cup.rotate(25, cup.center)
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300, 10);
+    let erlenmeyer = new engine.complex.Erlenmeyer(600, 300, 200, 300);
     erlenmeyer.color = "white";
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.fill(counter);
-    // erlenmeyer.lineColor = "black";
-    // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-
-    // erlenmeyer.fill(counter);
     return erlenmeyer;
 }
 

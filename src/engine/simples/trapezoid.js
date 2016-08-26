@@ -115,10 +115,6 @@ class Trapezoid extends Sprite {
         return height / Math.sin(radians);
     }
 
-    rotate(deg, transformOrigin) {
-        super.rotate(deg, transformOrigin);
-    }
-
     updateBoundaries() {
         super.updateBoundaries();
         this.setAngles();
@@ -129,10 +125,9 @@ class Trapezoid extends Sprite {
 
         //main concern with this function is it does not adjust the width as trapezoid scales
         //therefore, we should be careful when collision testing, if that becomes necessary.
-
         let oldHeight = this.height;
-        let oldLeftHypotenuse = this.getSideLength(this.leftAngle, oldHeight);
-        let oldRightHypotenuse = this.getSideLength(this.rightAngle, oldHeight);
+        let oldLeftHypotenuse = this.getSideLength(this.leftAngle + this.angle, oldHeight);
+        let oldRightHypotenuse = this.getSideLength(this.rightAngle + this.angle, oldHeight);
 
         let bottomLeft = trees.copyPoint(this.bottomLeft);
         let bottomRight = trees.copyPoint(this.bottomRight);
@@ -141,8 +136,8 @@ class Trapezoid extends Sprite {
 
         super.trimTop(amount);
 
-        let newLeftHypotenuse = this.getSideLength(this.leftAngle, this.height);
-        let newRightHypotenuse = this.getSideLength(this.rightAngle, this.height);
+        let newLeftHypotenuse = this.getSideLength(this.leftAngle + this.angle, this.height);
+        let newRightHypotenuse = this.getSideLength(this.rightAngle + this.angle, this.height);
 
         this.topLeft = trees.getPointOnLine(topLeft, oldLeftHypotenuse - newLeftHypotenuse, this.leftAngle + this.angle);
         this.topRight = trees.getPointOnLine(topRight, oldRightHypotenuse - newRightHypotenuse, 180 - this.rightAngle + this.angle);
