@@ -1,91 +1,84 @@
 import { ComplexShape } from './complexShape.js';
 import { complex } from './complex.js';
 
-//This is considered a decorator class.
+function decorateContainer(shape) {
 
-class Container extends ComplexShape {
-    constructor(shape) {
-        super(shape.x, shape.y, shape.width, shape.height, shape.angle);
-        this.type = shape.type + "Container";
-        this.opacity = 0.2;
+    shape.type = shape.type + "Container";
+    shape.opacity = 0.2;
 
-        this._containerShape = shape;
-        this._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
-        this._full = false;
-        this._empty = false;
+    shape._liquid = new shape.constructor(shape.a.x, shape.a.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
+    shape._liquid.type = shape.type + "Liquid";
+    shape._full = false;
+    shape._empty = false;
 
-        this.addShape(this._containerShape);
-        this.addShape(this._liquid);
+    Object.defineProperty(shape, 'liquid', {
+        get: function() {
+            return this._liquid;
+        },
+        set: function(liquid) {
+            this._liquid = liquid;
+        }
+    });
+
+    Object.defineProperty(shape, 'liquidColor', {
+        get: function() {
+            return this._liquidColor;
+        },
+        set: function(liquidColor) {
+            this._liquidColor = liquidColor;
+            shape.liquid.color = liquidColor;
+        }
+    });
+
+    Object.defineProperty(shape, 'color', {
+        get: function() {
+            return this._color;
+        },
+        set: function(color) {
+            this._color = trees.setOpacity(color, shape.opacity);
+        }
+    });
+
+    Object.defineProperty(shape, 'full', {
+        get: function() {
+            return this._full;
+        },
+        set: function(full) {
+            this._full = full;
+        }
+    });
+
+    Object.defineProperty(shape, 'empty', {
+        get: function() {
+            return this._empty;
+        },
+        set: function(empty) {
+            this._empty = empty;
+        }
+    });
+
+    let oldDraw = shape.draw;
+
+    shape.draw = function(ctx) {
+        oldDraw.call(shape, ctx);
+        shape.liquid.draw(ctx);
     }
 
-    set color(color) {
-        super.color = trees.setOpacity(color, this.opacity);
-    }
+    shape.fill = function(amount) {
 
-    get color() {
-        return super.color
-    }
-
-    get liquid() {
-        return this._liquid;
-    }
-
-    set liquid(liquid) {
-        this._liquid = liquid;
-    }
-
-    get full() {
-        return this._full;
-    }
-
-    set full(full) {
-        this._full = full;
-    }
-
-    get empty() {
-        return this._empty;
-    }
-
-    set empty(empty) {
-        this._empty = empty;
-    }
-
-    get liquidColor() {
-        return this._liquidColor;
-    }
-
-    set liquidColor(liquidColor) {
-        this._liquid.color = liquidColor;
-        this._liquidColor = liquidColor;
-    }
-
-    get containerShape() {
-        return this._containerShape;
-    }
-
-    set containerShape(containerShape) {
-        this._containerShape = containerShape;
-    }
-
-    fill(amount) {
-
-        if (this.liquid.height <= 0) {
-            this.empty = true;
+        if (shape.liquid.height <= 0) {
+            shape.empty = true;
         }
 
-        if (this.liquid.height >= this.height) {
-            this.full = true;
+        if (shape.liquid.height >= shape.height) {
+            shape.full = true;
         }
 
-        this.liquid.trimTop(amount);
-
+        shape.liquid.trimTop(amount);
     }
 
-
-    animate() {
-        // if (!this.collidingWithPlatform) this.fall();
-    }
-
+    return shape;
 }
 
-export { Container }
+
+export { decorateContainer }

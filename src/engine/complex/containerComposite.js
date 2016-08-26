@@ -1,4 +1,4 @@
-import { Container } from './container.js';
+import { decorateContainer } from './container.js';
 import { ComplexShape } from './complexShape.js';
 
 class ContainerComposite extends ComplexShape {
@@ -19,6 +19,10 @@ class ContainerComposite extends ComplexShape {
         return this._liquidColor;
     }
 
+    get liquid() {
+        return this.shape[0].liquid;
+    }
+
     set liquidColor(liquidColor) {
         this._liquidColor = liquidColor;
         this.shape.forEach(shape => {
@@ -27,7 +31,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     addShape(shape) {
-        let containerShape = new Container(shape);
+        let containerShape = decorateContainer(shape);
         super.addShape(containerShape);
         if (!this.liquidLevelShape) {
             this.liquidLevelShape = containerShape;

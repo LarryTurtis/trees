@@ -204,7 +204,6 @@ class Sprite {
     }
 
     rotate(deg, transformOrigin) {
-
         this._origin = this.rotate_point(this.origin, transformOrigin, deg);
         this._x = this.origin.x;
         this._y = this.origin.y;

@@ -1,4 +1,3 @@
-import { simples } from '../simples/simples.js';
 import { Point } from '../point.js';
 import { Sprite } from '../sprite.js';
 
@@ -12,7 +11,6 @@ class Trapezoid extends Sprite {
 
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
-        this.originalHeight = height;
         this.setAngles();
     }
 
@@ -22,12 +20,10 @@ class Trapezoid extends Sprite {
 
     set x(x) {
         super.x = x;
-        this.setAngles();
     }
 
     set y(y) {
         super.y = y;
-        this.setAngles();
     }
 
     get x() {
@@ -48,12 +44,10 @@ class Trapezoid extends Sprite {
 
     set width(width) {
         super.width = width;
-        this.setAngles();
     }
 
     set height(height) {
         super.height = height;
-        this.setAngles();
     }
 
     get area() {
@@ -123,8 +117,13 @@ class Trapezoid extends Sprite {
 
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
+    }
+
+    updateBoundaries() {
+        super.updateBoundaries();
         this.setAngles();
     }
+
 
     trimTop(amount) {
 
