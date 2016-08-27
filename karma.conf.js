@@ -2,6 +2,7 @@ module.exports = function(config) {
     config.set({
         basePath: './',
         frameworks: ['browserify', 'mocha', 'chai'],
+        reporters: ['mocha'],
         browsers: ['PhantomJS'],
         files: ['src/**/*.js', 'test/*.js'],
         preprocessors: {

@@ -6,7 +6,7 @@
     "bower": "1.7.2",
     "browserify": "13.0.0",
     "vinyl-source-stream": "1.1.0",
-    "sat-js": "git://github.com/jriecken/sat-js.git#4995381"
+    "sat-js": "git://github.com/jriecken/sat-js.git"
   },
   "devDependencies": {
     "babel-plugin-transform-decorators-legacy": "~1.3.4",
@@ -20,6 +20,7 @@
     "karma-browserify": "^5.1.0",
     "karma-chai": "~0.1.0",
     "karma-mocha": "~1.1.1",
+    "karma-mocha-reporter": "^2.1.0",
     "karma-phantomjs-launcher": "~1.0.1",
     "vinyl-buffer": "~1.0.0",
     "watchify": "~3.7.0"

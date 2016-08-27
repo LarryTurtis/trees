@@ -53,9 +53,9 @@ class Polygon extends Sprite {
         })
     }
 
-    updatePoints() {
+    _updatePoints() {
         let oldOrigin = this.origin;
-        super.updatePoints();
+        super._updatePoints();
         if (!this.points) this.updatePolygon();
 
         let xDiff = this.origin.x - oldOrigin.x;

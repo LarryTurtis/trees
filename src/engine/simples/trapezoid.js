@@ -11,7 +11,7 @@ class Trapezoid extends Sprite {
 
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
-        this.setAngles();
+        this._setAngles();
     }
 
     animate() {
@@ -115,9 +115,9 @@ class Trapezoid extends Sprite {
         return height / Math.sin(radians);
     }
 
-    updateBoundaries() {
-        super.updateBoundaries();
-        this.setAngles();
+    _updateBoundaries() {
+        super._updateBoundaries();
+        this._setAngles();
     }
 
 
@@ -146,7 +146,7 @@ class Trapezoid extends Sprite {
         this.bottomRight = bottomRight;
     }
 
-    setAngles() {
+    _setAngles() {
         if (this.leftAngle < 90) {
 
             this._topLeft = this.a;

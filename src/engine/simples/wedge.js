@@ -14,9 +14,9 @@ class Wedge extends Sprite {
 
     }
 
-    updatePoints() {
+    _updatePoints() {
         let oldOrigin = this.origin;
-        super.updatePoints();
+        super._updatePoints();
 
         let xDiff = this.origin.x - oldOrigin.x;
         let yDiff = this.origin.y - oldOrigin.y;

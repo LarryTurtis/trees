@@ -132,12 +132,12 @@ class Hose extends ComplexShape {
                     shape.y = section[section.length - 1].b.y;
                 }
             });
-            this.updateBoundaries();
+            this._updateBoundaries();
         }
     }
 
-    updateBoundaries() {
-        super.updateBoundaries();
+    _updateBoundaries() {
+        super._updateBoundaries();
 
         let leftMostShape;
         let rightMostShape;

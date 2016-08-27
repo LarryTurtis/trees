@@ -15,11 +15,11 @@ class Sprite {
         this._d = new Point(this.x, this.y + this.height);
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
-        this.updatePoints();
+        this._updatePoints();
         this.rotate(this.angle, this.center);
         this._lineWidth = 1;
         this._showBoundingBox = false;
-        this._color = "transparent" //randomColor();
+        this._color = "transparent";
         this._lineColor = null;
         this._id = null;
         this._collidingWith = null;
@@ -28,12 +28,12 @@ class Sprite {
 
     set x(x) {
         this._x = x;
-        this.updatePoints()
+        this._updatePoints()
     }
 
     set y(y) {
         this._y = y;
-        this.updatePoints()
+        this._updatePoints()
     }
 
     get x() {
@@ -117,15 +117,8 @@ class Sprite {
         this.b = trees.getPointOnLine(this.b, widthDiff, angle);
         this.c = trees.getPointOnLine(this.c, widthDiff, angle);
 
-        this.rect = {
-            a: this.a,
-            b: this.b,
-            c: this.c,
-            d: this.d
-        };
-
         this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
-        this.updateBoundaries();
+        this._updateBoundaries();
 
     }
 
@@ -138,15 +131,8 @@ class Sprite {
         this.c = trees.getPointOnLine(this.c, heightDiff, angle);
         this.d = trees.getPointOnLine(this.d, heightDiff, angle);
 
-        this.rect = {
-            a: this.a,
-            b: this.b,
-            c: this.c,
-            d: this.d
-        };
-
         this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
-        this.updateBoundaries();
+        this._updateBoundaries();
     }
 
     set showBoundingBox(bool) {
@@ -197,12 +183,6 @@ class Sprite {
         this._angle = angle;
     }
 
-    resize(n) {
-        let ratio = this.height / this.width;
-        this.width = n;
-        this.height = n * ratio;
-    }
-
     rotate(deg, transformOrigin) {
         this._origin = this.rotate_point(this.origin, transformOrigin, deg);
         this._x = this.origin.x;
@@ -213,30 +193,7 @@ class Sprite {
         this.d = this.rotate_point(this.d, transformOrigin, deg);
         this.center = this.rotate_point(this.center, transformOrigin, deg);
 
-        this.rect = {
-            a: this.a,
-            b: this.b,
-            c: this.c,
-            d: this.d
-        };
-
-        this.updateBoundaries();
-    }
-
-    get rect() {
-        return this._rect;
-    }
-
-    set rect(rect) {
-        this._rect = rect;
-    }
-
-    get rotatedRect() {
-        return this._rotatedRect;
-    }
-
-    set rotatedRect(rotatedRect) {
-        this._rotatedRect = rotatedRect;
+        this._updateBoundaries();
     }
 
     get boundary() {
@@ -290,7 +247,7 @@ class Sprite {
         return null;
     }
 
-    updatePoints() {
+    _updatePoints() {
 
         let oldOrigin = this.origin;
         this.origin = new Point(this.x, this.y);
@@ -303,17 +260,10 @@ class Sprite {
         this.c = new Point(this.c.x + xDiff, this.c.y + yDiff);
         this.d = new Point(this.d.x + xDiff, this.d.y + yDiff);
 
-        this.rect = {
-            a: this.a,
-            b: this.b,
-            c: this.c,
-            d: this.d
-        };
-
-        this.updateBoundaries();
+        this._updateBoundaries();
     }
 
-    updateBoundaries() {
+    _updateBoundaries() {
         var lowestX = Math.min(this.a.x, this.b.x, this.c.x, this.d.x);
         var highestX = Math.max(this.a.x, this.b.x, this.c.x, this.d.x);
         var lowestY = Math.min(this.a.y, this.b.y, this.c.y, this.d.y);
@@ -350,7 +300,12 @@ class Sprite {
 
             ctx.strokeStyle = "green";
             ctx.beginPath();
-            ctx.yRect(this.rect);
+            ctx.yRect({
+                a: this.a,
+                b: this.b,
+                c: this.c,
+                d: this.d
+            });
             ctx.fill();
             ctx.stroke();
             ctx.closePath();

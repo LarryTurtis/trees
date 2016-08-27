@@ -37,9 +37,9 @@ class Triangle extends Sprite {
         this.tb = new Point(this.c.x, this.c.y);
     }
 
-    updatePoints() {
+    _updatePoints() {
         let oldOrigin = this.origin;
-        super.updatePoints();
+        super._updatePoints();
 
         let xDiff = this.origin.x - oldOrigin.x;
         let yDiff = this.origin.y - oldOrigin.y;

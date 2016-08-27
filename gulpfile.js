@@ -50,18 +50,19 @@ function watch() {
     return compile(true);
 };
 
+function test(done) {
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        autoWatch: true
+    }, done).start();
+}
+
 gulp.task('build', function() {
     return compile();
 });
 gulp.task('watch', function() {
     return watch();
 });
-gulp.task('test', function (done) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true,
-    autoWatch: true
-  }, done).start();
-});
+gulp.task('test', test);
 
 gulp.task('default', ['watch']);
