@@ -38,7 +38,7 @@ class Canvas {
         if (!instance) {
             instance = this;
         }
-        this.element = document.getElementById('main');
+        this.element = document.getElementById('main') || document.createElement('canvas');
         this.ctx = this.element.getContext("2d");
         this._center = new Point(this.element.width / 2, this.element.height / 2);
         this._width = this.element.width;
