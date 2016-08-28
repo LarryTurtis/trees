@@ -809,6 +809,33 @@ describe("Sprite", function() {
                 checkPoint(sprite, "d", { x: oldX, y: oldY });
             });
         });
+        describe("wasClicked", () => {
+            let aX;
+            let aY;
+            beforeEach(() => {
+                aX = sprite.a.x + 1;
+                aY = sprite.a.y + 1;
+            });
+            it("should return the sprite if mouseX is within a and b and mouseY is within a and d", () => {
+                expect(sprite.wasClicked(aX, aY)).to.equal(sprite);
+            })
+            it("should return null if point a.x is less than mouse x", () => {
+                aX = sprite.a.x - 1;
+                expect(sprite.wasClicked(aX, aY)).to.be.null;
+            });
+            it("should return null if point b.x is greater than mouse x", () => {
+                aX = sprite.b.x + 1;
+                expect(sprite.wasClicked(aX, 0)).to.be.null;
+            });
+            it("should return null if point a.y is less than mouse y", () => {
+                aY = sprite.a.y - 1;
+                expect(sprite.wasClicked(aX, aY)).to.be.null;
+            });
+            it("should return null if point b.x is greater than mouse x", () => {
+                aY = sprite.d.y + 1;
+                expect(sprite.wasClicked(aX, 0)).to.be.null;
+            });
+        });
     });
     describe("Points", () => {
         it("should have an 'a' point", () => {

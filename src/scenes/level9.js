@@ -12,7 +12,7 @@ function level9() {
     erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
-    shapes.add(erlenmeyer);
+    //shapes.add(erlenmeyer);
     shapes.add(cup);
     shapes.add(createSpray());
 
@@ -95,7 +95,7 @@ function createCup() {
     cup.color = "white";
     // cup.liquidColor = trees.setOpacity("orange", 0.9);
     // cup.fill(counter);
-    // cup.angle += 25;
+    cup.angle += 25;
     cup.rotate(25, cup.center)
     return cup;
 }
