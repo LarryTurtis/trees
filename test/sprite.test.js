@@ -329,6 +329,486 @@ describe("Sprite", function() {
                 checkPoint(sprite, "center", { x: oldX + addedWidth / 2, y: oldY });
             })
         });
+        describe("change width on rotated sprite", () => {
+            let addedWidth = 10;
+            beforeEach(() => {
+                sprite.rotate(90, sprite.center);
+            })
+            it("should correctly change the width", () => {
+                sprite.width += addedWidth;
+                expect(sprite.width).to.equal(width + addedWidth);
+            });
+            it("should not change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.width += addedWidth;
+                checkPoint(sprite, "a", { x: oldX, y: oldY });
+            });
+            it("should not change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.width += addedWidth;
+                checkPoint(sprite, "d", { x: oldX, y: oldY });
+            });
+            it("should change point b", () => {
+                sprite.width += addedWidth;
+                checkPoint(sprite, "b", { x: 4.5, y: 15.5 });
+            });
+            it("should change point c", () => {
+                sprite.width += addedWidth;
+                checkPoint(sprite, "c", { x: 0.5, y: 15.5 });
+            });
+            it("should change boundary a", () => {
+                sprite.width += addedWidth;
+                checkPoint(sprite.boundary, "a", { x: 0.5, y: 2.5 });
+            });
+            it("should change boundary d", () => {
+                sprite.width += addedWidth;
+                checkPoint(sprite.boundary, "d", { x: 0.5, y: 15.5 });
+            });
+            it("should change boundary b", () => {
+                let oldY = sprite.boundary.b.y;
+                sprite.width += addedWidth;
+                checkPoint(sprite.boundary, "b", { x: 4.5, y: oldY });
+            });
+            it("should change boundary c", () => {
+                sprite.width += addedWidth;
+                checkPoint(sprite.boundary, "c", { x: 4.5, y: 15.5 });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.width += addedWidth;
+                checkPoint(sprite, "center", { x: 2.5, y: 9 });
+            })
+        });
+        describe("change height on non-rotated sprite", () => {
+            let addedHeight = 10;
+            it("should correctly change the height", () => {
+                sprite.height += addedHeight;
+                expect(sprite.height).to.equal(height + addedHeight);
+            });
+            it("should not change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "a", { x: oldX, y: oldY });
+            });
+            it("should change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "d", { x: oldX, y: oldY + addedHeight });
+            });
+            it("should not change point b", () => {
+                let oldX = sprite.b.x;
+                let oldY = sprite.b.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "b", { x: oldX, y: oldY });
+            });
+            it("should change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "c", { x: oldX, y: oldY + addedHeight });
+            });
+            it("should not change boundary a", () => {
+                let oldX = sprite.boundary.a.x;
+                let oldY = sprite.boundary.a.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "a", { x: oldX, y: oldY });
+            });
+            it("should change boundary d", () => {
+                let oldX = sprite.boundary.d.x;
+                let oldY = sprite.boundary.d.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "d", { x: oldX, y: oldY + addedHeight });
+            });
+            it("should not change boundary b", () => {
+                let oldX = sprite.boundary.b.x;
+                let oldY = sprite.boundary.b.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "b", { x: oldX, y: oldY });
+            });
+            it("should change boundary c", () => {
+                let oldX = sprite.boundary.c.x;
+                let oldY = sprite.boundary.c.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "c", { x: oldX, y: oldY + addedHeight });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "center", { x: oldX, y: oldY + addedHeight / 2 });
+            })
+        });
+        describe("change height on rotated sprite", () => {
+            let addedHeight = 10;
+            beforeEach(() => {
+                sprite.rotate(90, sprite.center);
+            })
+            it("should correctly change the height", () => {
+                sprite.height += addedHeight;
+                expect(sprite.height).to.equal(height + addedHeight);
+            });
+            it("should not change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "a", { x: oldX, y: oldY });
+            });
+            it("should change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "d", { x: -9.5, y: oldY });
+            });
+            it("should change point b", () => {
+                sprite.height += addedHeight;
+                checkPoint(sprite, "b", { x: 4.5, y: 5.5 });
+            });
+            it("should change point c", () => {
+                sprite.height += addedHeight;
+                checkPoint(sprite, "c", { x: -9.5, y: 5.5 });
+            });
+            it("should change boundary a", () => {
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "a", { x: -9.5, y: 2.5 });
+            });
+            it("should change boundary d", () => {
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "d", { x: -9.5, y: 5.5 });
+            });
+            it("should change boundary b", () => {
+                let oldY = sprite.boundary.b.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "b", { x: 4.5, y: oldY });
+            });
+            it("should change boundary c", () => {
+                sprite.height += addedHeight;
+                checkPoint(sprite.boundary, "c", { x: 4.5, y: 5.5 });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.height += addedHeight;
+                checkPoint(sprite, "center", { x: -2.5, y: 4 });
+            })
+        });
+        describe("change x on non-rotated sprite", () => {
+            let addedX = 10;
+            it("should correctly change the x", () => {
+                sprite.x += addedX;
+                expect(sprite.x).to.equal(x + addedX);
+            });
+            it("should change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "a", { x: oldX + addedX, y: oldY });
+            });
+            it("should change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "d", { x: oldX + addedX, y: oldY });
+            });
+            it("should change point b", () => {
+                let oldX = sprite.b.x;
+                let oldY = sprite.b.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "b", { x: oldX + addedX, y: oldY });
+            });
+            it("should change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "c", { x: oldX + addedX, y: oldY });
+            });
+            it("should change boundary a", () => {
+                let oldX = sprite.boundary.a.x;
+                let oldY = sprite.boundary.a.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "a", { x: oldX + addedX, y: oldY });
+            });
+            it("should change boundary d", () => {
+                let oldX = sprite.boundary.d.x;
+                let oldY = sprite.boundary.d.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "d", { x: oldX + addedX, y: oldY });
+            });
+            it("should change boundary b", () => {
+                let oldX = sprite.boundary.b.x;
+                let oldY = sprite.boundary.b.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "b", { x: oldX + addedX, y: oldY });
+            });
+            it("should change boundary c", () => {
+                let oldX = sprite.boundary.c.x;
+                let oldY = sprite.boundary.c.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "c", { x: oldX + addedX, y: oldY });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "center", { x: oldX + addedX, y: oldY });
+            })
+        });
+        describe("change x on rotated sprite", () => {
+            let addedX = 10;
+            beforeEach(() => {
+                sprite.rotate(90, sprite.center);
+            })
+            it("should correctly change the x", () => {
+                sprite.x += addedX;
+                expect(sprite.x).to.equal(14.5);
+            });
+            it("should not change the y", () => {
+                let oldY = sprite.y;
+                sprite.x += addedX;
+                expect(sprite.y).to.equal(oldY);
+            });
+            it("should change point a", () => {
+                let oldY = sprite.a.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "a", { x: 14.5, y: oldY });
+            });
+            it("should change point d", () => {
+                let oldY = sprite.d.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "d", { x: 10.5, y: oldY });
+            });
+            it("should change point b", () => {
+                let oldY = sprite.b.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "b", { x: 14.5, y: oldY });
+            });
+            it("should change point c", () => {
+                let oldY = sprite.c.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "c", { x: 10.5, y: oldY });
+            });
+            it("should change boundary a", () => {
+                let oldY = sprite.boundary.a.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "a", { x: 10.5, y: oldY });
+            });
+            it("should change boundary d", () => {
+                let oldY = sprite.boundary.d.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "d", { x: 10.5, y: oldY });
+            });
+            it("should change boundary b", () => {
+                let oldY = sprite.boundary.b.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "b", { x: 14.5, y: oldY });
+            });
+            it("should change boundary c", () => {
+                let oldY = sprite.boundary.c.y;
+                sprite.x += addedX;
+                checkPoint(sprite.boundary, "c", { x: 14.5, y: oldY });
+            });
+            it("should update the sprite's center", () => {
+                let oldY = sprite.center.y;
+                sprite.x += addedX;
+                checkPoint(sprite, "center", { x: 12.5, y: oldY });
+            })
+        });
+        describe("change y on non-rotated sprite", () => {
+            let addedY = 10;
+            it("should correctly change the y", () => {
+                sprite.y += addedY;
+                expect(sprite.y).to.equal(y + addedY);
+            });
+            it("should change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "a", { x: oldX, y: oldY + addedY });
+            });
+            it("should change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "d", { x: oldX, y: oldY + addedY });
+            });
+            it("should not change point b", () => {
+                let oldX = sprite.b.x;
+                let oldY = sprite.b.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "b", { x: oldX, y: oldY + addedY });
+            });
+            it("should change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "c", { x: oldX, y: oldY + addedY });
+            });
+            it("should change boundary a", () => {
+                let oldX = sprite.boundary.a.x;
+                let oldY = sprite.boundary.a.y;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "a", { x: oldX, y: oldY + addedY });
+            });
+            it("should change boundary d", () => {
+                let oldX = sprite.boundary.d.x;
+                let oldY = sprite.boundary.d.y;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "d", { x: oldX, y: oldY + addedY });
+            });
+            it("should change boundary b", () => {
+                let oldX = sprite.boundary.b.x;
+                let oldY = sprite.boundary.b.y;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "b", { x: oldX, y: oldY + addedY });
+            });
+            it("should change boundary c", () => {
+                let oldX = sprite.boundary.c.x;
+                let oldY = sprite.boundary.c.y;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "c", { x: oldX, y: oldY + addedY });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "center", { x: oldX, y: oldY + addedY });
+            })
+        });
+        describe("change y on rotated sprite", () => {
+            let addedY = 10;
+            beforeEach(() => {
+                sprite.rotate(90, sprite.center);
+            })
+            it("should correctly change the y", () => {
+                sprite.y += addedY;
+                expect(sprite.y).to.equal(12.5);
+            });
+            it("should change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "a", { x: oldX, y: 12.5 });
+            });
+            it("should change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "d", { x: oldX, y: 12.5 });
+            });
+            it("should change point b", () => {
+                let oldX = sprite.b.x;
+                sprite.y += addedY;
+                checkPoint(sprite, "b", { x: oldX, y: 15.5 });
+            });
+            it("should change point c", () => {
+                let oldX = sprite.c.x;
+                sprite.y += addedY;
+                checkPoint(sprite, "c", { x: oldX, y: 15.5 });
+            });
+            it("should change boundary a", () => {
+                let oldX = sprite.boundary.a.x;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "a", { x: oldX, y: 12.5 });
+            });
+            it("should change boundary d", () => {
+                let oldX = sprite.boundary.d.x;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "d", { x: oldX, y: 15.5 });
+            });
+            it("should change boundary b", () => {
+                let oldX = sprite.boundary.b.x;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "b", { x: oldX, y: 12.5 });
+            });
+            it("should change boundary c", () => {
+                let oldX = sprite.boundary.c.x;
+                sprite.y += addedY;
+                checkPoint(sprite.boundary, "c", { x: oldX, y: 15.5 });
+            });
+            it("should update the sprite's center", () => {
+                let oldX = sprite.center.x;
+                let oldY = sprite.center.y;
+                sprite.y += addedY;
+                checkPoint(sprite, "center", { x: oldX, y: 14 });
+            })
+        });
+        describe("trimTop on non-rotated sprite", () => {
+            let amount = 2;
+            it("should remove the specified amount from the height", () => {
+                sprite.trimTop(amount);
+                expect(sprite.height).to.equal(height - amount);
+            });
+            it("should not change the x", () => {
+                let oldX = sprite.x;
+                sprite.trimTop(amount);
+                expect(sprite.x).to.equal(oldX);
+            });
+            it("should offset the Y coordinate", () => {
+                let oldY = sprite.y;
+                sprite.trimTop(amount);
+                expect(sprite.y).to.equal(oldY + amount);
+            });
+            it("should change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "a", { x: oldX, y: oldY + amount });
+            });
+            it("should change point b", () => {
+                let oldX = sprite.b.x;
+                let oldY = sprite.b.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "b", { x: oldX, y: oldY + amount });
+            });
+            it("should not change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "c", { x: oldX, y: oldY });
+            });
+            it("should not change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "d", { x: oldX, y: oldY });
+            });
+        });
+        describe("trimTop on rotated sprite", () => {
+            let amount = 2;
+            beforeEach(() => {
+                sprite.rotate(10, sprite.center)
+            })
+            it("should remove the specified amount from the height", () => {
+                sprite.trimTop(amount);
+                expect(sprite.height).to.equal(height - amount);
+            });
+            it("should not change the x", () => {
+                let oldX = sprite.x;
+                sprite.trimTop(amount);
+                expect(sprite.x).to.equal(oldX);
+            });
+            it("should offset the Y coordinate", () => {
+                let oldY = sprite.y;
+                sprite.trimTop(amount);
+                expect(sprite.y).to.equal(oldY + amount);
+            });
+            it("should not change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "c", { x: oldX, y: oldY });
+            });
+            it("should not change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.trimTop(amount);
+                checkPoint(sprite, "d", { x: oldX, y: oldY });
+            });
+        });
     });
     describe("Points", () => {
         it("should have an 'a' point", () => {
@@ -370,6 +850,6 @@ describe("Sprite", function() {
 });
 
 function checkPoint(obj, key, value) {
-    expect(obj[key].x).to.be.closeTo(value.x, 0.001);
-    expect(obj[key].y).to.be.closeTo(value.y, 0.001);
+    expect(obj[key].x).to.be.closeTo(value.x, 0.00001);
+    expect(obj[key].y).to.be.closeTo(value.y, 0.00001);
 }

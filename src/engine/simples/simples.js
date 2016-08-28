@@ -13,7 +13,7 @@ let simples = {
     Polygon: Polygon,
     SemiCircle: SemiCircle,
     Wedge: Wedge,
-    Trapezoid: Trapezoid
+    Trapezoid: Trapezoid,
 };
 
 export { simples }

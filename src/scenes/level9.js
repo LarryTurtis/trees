@@ -27,7 +27,7 @@ function level9() {
     cup.callback = function() {
         if (hose.full && !cup.empty) {
             counter -= 0.001;
-            cup.fill(counter);
+            cup.trimTop(counter);
         }
     }
 
@@ -91,11 +91,11 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 86);
+    let cup = new engine.simples.Rectangle(300, 300, 200, 300, 0, 86);
     cup.color = "white";
-    cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.fill(counter);
-    cup.angle += 25;
+    // cup.liquidColor = trees.setOpacity("orange", 0.9);
+    // cup.fill(counter);
+    // cup.angle += 25;
     cup.rotate(25, cup.center)
     return cup;
 }
