@@ -94,9 +94,7 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 0, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.fill(counter);
-    cup.angle += 25;
-    cup.rotate(25, cup.center)
+    cup.fill(10);
     return cup;
 }
 

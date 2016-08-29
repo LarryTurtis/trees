@@ -19,11 +19,7 @@ function trees() {
         getAngle: getAngle,
         getDistance: getDistance,
         getPointOnLine: getPointOnLine,
-        copyPoint: copyPoint,
-        getMinX: getMinX,
-        getMaxX: getMaxX,
-        getMinY: getMinY,
-        getMaxY: getMaxY
+        copyPoint: copyPoint
     }
 
     /**
@@ -96,49 +92,6 @@ function trees() {
     function copyPoint(point) {
         return new point.constructor(point.x, point.y);
     }
-
-    function getMinX(arr) {
-        let result = arr[0];
-        arr.forEach(point => {
-            if (point.x < result.x) {
-                result = point;
-            }
-        });
-        return result;
-    }
-
-    function getMinY(arr) {
-        let result = arr[0];
-        arr.forEach(point => {
-            if (point.y < result.y) {
-                result = point;
-            }
-        });
-        return result;
-    }
-
-    function getMaxX(arr) {
-        let result = arr[0];
-        arr.forEach(point => {
-            if (point.x > result.x) {
-                result = point;
-            }
-        });
-        return result;
-    }
-
-    function getMaxY(arr) {
-        let result = arr[0];
-        arr.forEach(point => {
-            if (point.y > result.y) {
-                result = point;
-            }
-        });
-        return result;
-    }
-
-
-
 }
 
 export { trees };
