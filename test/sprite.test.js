@@ -745,12 +745,12 @@ describe("Sprite", function() {
             it("should not change the x", () => {
                 let oldX = sprite.x;
                 sprite.trimTop(amount);
-                expect(sprite.x).to.equal(oldX);
+                expect(sprite.x).to.be.closeTo(oldX, 0.00001);
             });
             it("should offset the Y coordinate", () => {
                 let oldY = sprite.y;
                 sprite.trimTop(amount);
-                expect(sprite.y).to.equal(oldY + amount);
+                expect(sprite.y).to.be.closeTo(oldY + amount, 0.00001);
             });
             it("should change point a", () => {
                 let oldX = sprite.a.x;
@@ -786,15 +786,15 @@ describe("Sprite", function() {
                 sprite.trimTop(amount);
                 expect(sprite.height).to.equal(height - amount);
             });
-            it("should not change the x", () => {
+            it("should change the x", () => {
                 let oldX = sprite.x;
                 sprite.trimTop(amount);
-                expect(sprite.x).to.equal(oldX);
+                expect(sprite.x).to.not.equal(oldX);
             });
-            it("should offset the Y coordinate", () => {
+            it("should change the y", () => {
                 let oldY = sprite.y;
                 sprite.trimTop(amount);
-                expect(sprite.y).to.equal(oldY + amount);
+                expect(sprite.y).to.not.equal(oldY);
             });
             it("should not change point c", () => {
                 let oldX = sprite.c.x;
