@@ -2,7 +2,6 @@ import { Canvas } from './canvas.js';
 import { ShapesRegistry } from './shapesregistry.js'
 import { simples } from './simples/simples.js'
 import { complex } from './complex/complex.js'
-import { FallingDrop } from './fallingDrop.js'
 import { animations } from './animations/animations.js';
 import { patterns } from './patterns/patterns.js';
 import { mouseEvents } from './userInput/mouseEvents.js';
@@ -20,7 +19,6 @@ let engine = {
     shapesRegistry: shapesRegistry,
     simples: simples,
     complex: complex,
-    FallingDrop: FallingDrop,
     go: go,
     levels: []
 };
