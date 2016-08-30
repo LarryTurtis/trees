@@ -65,7 +65,6 @@ function decorateContainer(shape) {
         if (shape.liquid.height >= shape.height) {
             shape.full = true;
         }
-
         shape.liquid.trimTop(amount);
     }
 

@@ -2,6 +2,7 @@ import { engine } from '../engine/engine.js';
 
 let hose;
 let cup;
+let spray;
 let erlenmeyer;
 let counter = 0.9;
 
@@ -28,11 +29,19 @@ function level9() {
         if (hose.full && !cup.empty) {
             counter -= 0.001;
             cup.fill(counter);
+            // cup.angle++;
+            // cup.rotate(1, cup.center);
+            // hose.angle++;
+            // hose.rotate(1, cup.center);
+            // spray.angle++;
+            // spray.rotate(1, cup.center);
         }
     }
 
     erlenmeyer.callback = function() {
         this.fill(counter);
+        erlenmeyer.angle++;
+        this.rotate(1, this.center)
     }
 
     let dragging = false;
@@ -82,7 +91,7 @@ function level9() {
 }
 
 function createSpray() {
-    let spray = new engine.complex.Spray(hose.tip.x, hose.tip.y, 150, 150, 0, 25);
+    spray = new engine.complex.Spray(hose.tip.x, hose.tip.y, 150, 150, 0, 25);
     spray.color = trees.setOpacity("orange", 0.9);
     spray.callback = function() {
         if (hose.full) this.spray();

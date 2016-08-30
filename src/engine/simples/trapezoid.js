@@ -115,19 +115,22 @@ class Trapezoid extends Sprite {
         return height / Math.sin(radians);
     }
 
-    _updateBoundaries() {
-        super._updateBoundaries();
-        this._setAngles();
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        if (this.topLeft) {
+            this.topLeft = this.rotate_point(this.topLeft, transformOrigin, deg);
+            this.topRight = this.rotate_point(this.topRight, transformOrigin, deg);
+            this.bottomLeft = this.rotate_point(this.bottomLeft, transformOrigin, deg);
+            this.bottomRight = this.rotate_point(this.bottomRight, transformOrigin, deg);
+        }
     }
 
-
     trimTop(amount) {
-
         //main concern with this function is it does not adjust the width as trapezoid scales
         //therefore, we should be careful when collision testing, if that becomes necessary.
         let oldHeight = this.height;
-        let oldLeftHypotenuse = this.getSideLength(this.leftAngle + this.angle, oldHeight);
-        let oldRightHypotenuse = this.getSideLength(this.rightAngle + this.angle, oldHeight);
+        let oldLeftHypotenuse = this.getSideLength(this.leftAngle, oldHeight);
+        let oldRightHypotenuse = this.getSideLength(this.rightAngle, oldHeight);
 
         let bottomLeft = trees.copyPoint(this.bottomLeft);
         let bottomRight = trees.copyPoint(this.bottomRight);
@@ -136,8 +139,8 @@ class Trapezoid extends Sprite {
 
         super.trimTop(amount);
 
-        let newLeftHypotenuse = this.getSideLength(this.leftAngle + this.angle, this.height);
-        let newRightHypotenuse = this.getSideLength(this.rightAngle + this.angle, this.height);
+        let newLeftHypotenuse = this.getSideLength(this.leftAngle, this.height);
+        let newRightHypotenuse = this.getSideLength(this.rightAngle, this.height);
 
         this.topLeft = trees.getPointOnLine(topLeft, oldLeftHypotenuse - newLeftHypotenuse, this.leftAngle + this.angle);
         this.topRight = trees.getPointOnLine(topRight, oldRightHypotenuse - newRightHypotenuse, 180 - this.rightAngle + this.angle);
