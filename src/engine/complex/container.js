@@ -6,7 +6,8 @@ function decorateContainer(shape) {
     shape.type = shape.type + "Container";
     shape.opacity = 0.2;
 
-    shape._liquid = new shape.constructor(shape.a.x, shape.a.y, shape.width, shape.height, shape.angle, shape.leftAngle, shape.rightAngle);
+    shape._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, 0, shape.leftAngle, shape.rightAngle);
+    shape._liquid.angle = shape.angle;
     shape._liquid.type = "Liquid";
     shape._full = false;
     shape._empty = false;
