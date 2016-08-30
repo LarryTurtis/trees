@@ -1,4 +1,4 @@
-import { Trapezoid } from '../src/engine/simples/Trapezoid.js';
+import { Trapezoid } from '../src/engine/simples/trapezoid.js';
 
 describe('Trapezoid', () => {
     
