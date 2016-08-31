@@ -42,6 +42,13 @@ describe("Sprite", function() {
         });
     });
     describe("construction", () => {
+        it("should initialize to zero if any arguments are missing", () => {
+            sprite = new Sprite();
+            expect(sprite.width).to.equal(0);
+            expect(sprite.height).to.equal(0);
+            expect(sprite.x).to.equal(0);
+            expect(sprite.y).to.equal(0);
+        });
         it("should have a color", () => {
             expect(sprite.color).to.exist;
             expect(sprite.color).to.equal("transparent");

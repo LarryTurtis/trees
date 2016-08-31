@@ -1,4 +1,4 @@
-import { Sprite } from '../sprite.js' 
+import { Sprite } from '../sprite.js'
 
 class ComplexShape extends Sprite {
     constructor(x, y, width, height) {
@@ -8,6 +8,9 @@ class ComplexShape extends Sprite {
     }
 
     addShape(shape) {
+        if (this.shape.indexOf(shape) >= 0) {
+            throw new Error("Attempted to add same shape twice.");
+        }
         shape.relativeX = (shape.x - this.x) / this.width;
         shape.relativeY = (shape.y - this.y) / this.height;
         shape.relativeWidth = shape.width / this.width;
@@ -54,6 +57,9 @@ class ComplexShape extends Sprite {
     }
 
     set collidable(collidable) {
+        if (typeof(collidable) !== "boolean") {
+            throw new Error("Property collidable expects boolean value");
+        }
         super.collidable = collidable;
         this.shape.forEach(shape => {
             shape.collidable = collidable;

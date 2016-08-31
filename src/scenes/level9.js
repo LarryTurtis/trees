@@ -91,6 +91,8 @@ function createSpray() {
     spray.color = trees.setOpacity("orange", 0.9);
     spray.callback = function() {
         if (hose.full) this.spray();
+        spray.x++;
+        spray.y++;
     }
     return spray;
 }

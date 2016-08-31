@@ -3,10 +3,10 @@ import { scroll } from './animations/scroll.js'
 
 class Sprite {
     constructor(x, y, width, height) {
-        this._width = width;
-        this._height = height;
-        this._x = x + scroll().x;
-        this._y = y + scroll().y;
+        this._width = width || 0;
+        this._height = height || 0;
+        this._x = x || 0;
+        this._y = y || 0;
         this._origin = new Point(this.x, this.y);
         this._a = new Point(this.x, this.y);
         this._b = new Point(this.x + this.width, this.y);
@@ -25,11 +25,17 @@ class Sprite {
     }
 
     set x(x) {
+        if (typeof(x) !== "number") {
+            throw new Error("x must be a number.");
+        };
         this._x = x;
         this._updatePoints()
     }
 
     set y(y) {
+        if (typeof(y) !== "number") {
+            throw new Error("y must be a number.");
+        };
         this._y = y;
         this._updatePoints()
     }
@@ -107,6 +113,9 @@ class Sprite {
     }
 
     set width(width) {
+        if (typeof(width) !== "number") {
+            throw new Error("width must be a number.");
+        };
         let oldWidth = this.width;
         this._width = width;
         let widthDiff = this.width - oldWidth;
@@ -121,6 +130,9 @@ class Sprite {
     }
 
     set height(height) {
+        if (typeof(height) !== "number") {
+            throw new Error("height must be a number.");
+        };
         let oldHeight = this.height;
         this._height = height;
         let heightDiff = this.height - oldHeight;
@@ -174,6 +186,11 @@ class Sprite {
     }
 
     rotate(deg, transformOrigin) {
+        if (typeof(deg) !== "number" ||
+            typeof(transformOrigin.x) !== "number" ||
+            typeof(transformOrigin.y) !== "number") {
+            throw new Error('Attempted to rotate using non-numeric value');
+        }
         this._origin = this.rotate_point(this.origin, transformOrigin, deg);
         this._x = this.origin.x;
         this._y = this.origin.y;
