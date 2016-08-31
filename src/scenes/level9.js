@@ -29,18 +29,14 @@ function level9() {
         if (hose.full && !cup.empty) {
             counter -= 0.001;
             cup.fill(counter);
-            cup.angle++;
             cup.rotate(1, cup.center);
-            hose.angle++;
             hose.rotate(1, cup.center);
-            spray.angle++;
             spray.rotate(1, cup.center);
         }
     }
 
     erlenmeyer.callback = function() {
         this.fill(counter);
-        erlenmeyer.angle++;
         this.rotate(1, this.center)
     }
 
@@ -100,7 +96,7 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 20, 86);
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.fill(10);
@@ -117,8 +113,8 @@ function createErlenmeyer() {
 
 function createHose() {
 
-    let hose = new engine.complex.Hose(200, 344, 500, 10, -85);
-
+    let hose = new engine.complex.Hose(200, 344, 500, 10);
+    hose.rotate(-85, hose.center);
     hose.color = trees.setOpacity("lightPink", 0.3); //trees.randomColor();
     hose.sectionColor = trees.setOpacity("pink", 0.3); //trees.randomColor();
 

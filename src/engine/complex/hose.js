@@ -3,8 +3,8 @@ import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
 
 class Hose extends ComplexShape {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Hose";
         this.sectionAngle = 0;
         this.sectionLength = 5;

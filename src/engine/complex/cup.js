@@ -3,12 +3,11 @@ import { ContainerComposite } from './containerComposite.js';
 import { Container } from './container.js';
 
 class Cup extends ContainerComposite {
-    constructor(x, y, width, height, angle, taper) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height, taper) {
+        super(x, y, width, height);
         this.type = "Cup";
         this.taper = taper;
-        let shape = new simples.Trapezoid(x, y, width, height, 0, taper, taper);
-        shape.angle = angle;
+        let shape = new simples.Trapezoid(x, y, width, height, taper, taper);
         this.addShape(shape);
     }
 }

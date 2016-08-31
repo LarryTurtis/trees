@@ -2,8 +2,8 @@ import { Point } from '../point.js';
 import { Sprite } from '../sprite.js';
 
 class Trapezoid extends Sprite {
-    constructor(x, y, width, height, angle, leftAngle, rightAngle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height, leftAngle, rightAngle) {
+        super(x, y, width, height);
         this.type = "Trapezoid";
 
         //left angle is the degree of the top left corner.
@@ -142,8 +142,8 @@ class Trapezoid extends Sprite {
         let newLeftHypotenuse = this.getSideLength(this.leftAngle, this.height);
         let newRightHypotenuse = this.getSideLength(this.rightAngle, this.height);
 
-        this.topLeft = trees.getPointOnLine(topLeft, oldLeftHypotenuse - newLeftHypotenuse, this.leftAngle + this.angle);
-        this.topRight = trees.getPointOnLine(topRight, oldRightHypotenuse - newRightHypotenuse, 180 - this.rightAngle + this.angle);
+        this.topLeft = trees.getPointOnLine(topLeft, oldLeftHypotenuse - newLeftHypotenuse, trees.getAngle(this.topLeft, this.bottomLeft));
+        this.topRight = trees.getPointOnLine(topRight, oldRightHypotenuse - newRightHypotenuse, trees.getAngle(this.topRight, this.bottomRight));
 
         this.bottomLeft = bottomLeft;
         this.bottomRight = bottomRight;
@@ -153,22 +153,22 @@ class Trapezoid extends Sprite {
         if (this.leftAngle < 90) {
 
             this._topLeft = this.a;
-            this._bottomLeft = trees.getPointOnLine(this.a, this.getSideLength(this.leftAngle, this.height), this.leftAngle + this.angle);
+            this._bottomLeft = trees.getPointOnLine(this.a, this.getSideLength(this.leftAngle, this.height), this.leftAngle);
 
         } else {
 
-            this._topLeft = trees.getPointOnLine(this.d, -this.getSideLength(this.leftAngle, this.height), this.leftAngle + this.angle);
+            this._topLeft = trees.getPointOnLine(this.d, -this.getSideLength(this.leftAngle, this.height), this.leftAngle);
             this._bottomLeft = this.d;
         }
 
         if (this.rightAngle < 90) {
 
             this._topRight = this.b;
-            this._bottomRight = trees.getPointOnLine(this.b, this.getSideLength(this.rightAngle, this.height), 180 - this.rightAngle + this.angle);
+            this._bottomRight = trees.getPointOnLine(this.b, this.getSideLength(this.rightAngle, this.height), 180 - this.rightAngle);
 
         } else {
 
-            this._topRight = trees.getPointOnLine(this.c, -this.getSideLength(this.rightAngle, this.height), 180 - this.rightAngle + this.angle);
+            this._topRight = trees.getPointOnLine(this.c, -this.getSideLength(this.rightAngle, this.height), 180 - this.rightAngle);
             this._bottomRight = this.c;
         }
 

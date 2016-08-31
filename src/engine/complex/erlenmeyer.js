@@ -2,8 +2,8 @@ import { simples } from '../simples/simples.js';
 import { ContainerComposite } from './containerComposite.js';
 
 class Erlenmeyer extends ContainerComposite {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Erlenmeyer";
 
         let lip = new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20);
@@ -16,7 +16,6 @@ class Erlenmeyer extends ContainerComposite {
             this.y + lip.height + neck.height,
             this.width,
             this.height - lip.height - neck.height - bottom.height,
-            0,
             trees.getAngle(neck.d, bottom.a),
             trees.getAngle(neck.d, bottom.a));
 

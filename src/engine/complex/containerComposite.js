@@ -2,8 +2,8 @@ import { decorateContainer } from './container.js';
 import { ComplexShape } from './complexShape.js';
 
 class ContainerComposite extends ComplexShape {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "ContainerComposite";
     }
 

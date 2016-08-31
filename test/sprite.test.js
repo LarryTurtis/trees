@@ -40,14 +40,6 @@ describe("Sprite", function() {
             expect(sprite.height).to.exist;
             expect(sprite.height).to.equal(4);
         });
-        it("should have an angle of zero when no angle is supplied", () => {
-            expect(sprite.angle).to.exist;
-            expect(sprite.angle).to.equal(0);
-        });
-        it("should have the correct angle when supplied", () => {
-            sprite = new Sprite(x, y, width, height, 10);
-            expect(sprite.angle).to.equal(10);
-        })
     });
     describe("construction", () => {
         it("should have a color", () => {

@@ -1,14 +1,13 @@
 import { Sprite } from '../sprite.js' 
 
 class ComplexShape extends Sprite {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "ComplexShape";
         this._shape = [];
     }
 
     addShape(shape) {
-        shape.rotate(this.angle, this.center);
         shape.relativeX = (shape.x - this.x) / this.width;
         shape.relativeY = (shape.y - this.y) / this.height;
         shape.relativeWidth = shape.width / this.width;
@@ -119,19 +118,6 @@ class ComplexShape extends Sprite {
         this.shape.forEach(shape => {
             shape.height = height * shape.relativeHeight;
             shape.y = shape.y + (diffheight * shape.relativeY);
-        })
-    }
-
-    get angle() {
-        return super.angle;
-    }
-
-    set angle(angle) {
-        let oldAngle = this.angle;
-        let diffAngle = angle - this.angle;
-        super.angle = angle;
-        this.shape && this.shape.length && this.shape.forEach(shape => {
-            shape.angle += diffAngle;
         })
     }
 

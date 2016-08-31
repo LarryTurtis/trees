@@ -2,12 +2,11 @@ import { Point } from './point.js'
 import { scroll } from './animations/scroll.js'
 
 class Sprite {
-    constructor(x, y, width, height, angle) {
+    constructor(x, y, width, height) {
         this._width = width;
         this._height = height;
         this._x = x + scroll().x;
         this._y = y + scroll().y;
-        this._angle = angle || 0;
         this._origin = new Point(this.x, this.y);
         this._a = new Point(this.x, this.y);
         this._b = new Point(this.x + this.width, this.y);
@@ -16,7 +15,6 @@ class Sprite {
         this._boundary = {};
         this._center = new Point(this.x + (this.width / 2), this.y + (this.height / 2));
         this._updatePoints();
-        this.rotate(this.angle, this.center);
         this._lineWidth = 1;
         this._showBoundingBox = false;
         this._color = "transparent";
@@ -173,14 +171,6 @@ class Sprite {
 
     get lineWidth() {
         return this._lineWidth;
-    }
-
-    get angle() {
-        return this._angle;
-    }
-
-    set angle(angle) {
-        this._angle = angle;
     }
 
     rotate(deg, transformOrigin) {
