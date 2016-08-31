@@ -1,7 +1,7 @@
 import { Sprite } from '../src/engine/sprite.js';
 import { ComplexShape } from '../src/engine/complex/complexShape.js';
 
-describe('ComplexShape', () => {
+describe.only('ComplexShape', () => {
 
     let x = 1;
     let y = 2;
@@ -162,6 +162,28 @@ describe('ComplexShape', () => {
                     expect(childShape1.collidable).to.equal(true);
                     expect(childShape2.collidable).to.equal(true);
                     expect(childShape3.collidable).to.equal(true);
+                });
+            });
+            describe("wasClicked", () => {
+                it("should call wasClicked on all child shapes", () => {
+                    childShape1.wasClicked = sinon.spy();
+                    childShape2.wasClicked = sinon.spy();
+                    childShape3.wasClicked = sinon.spy();
+                    complexShape.wasClicked();
+                    expect(childShape1.wasClicked.called).to.equal(true);
+                    expect(childShape2.wasClicked.called).to.equal(true);
+                    expect(childShape3.wasClicked.called).to.equal(true);
+                });
+                it("should call wasClicked with mouse params", () => {
+                    let x = 3;
+                    let y = 4;
+                    childShape1.wasClicked = sinon.spy();
+                    childShape2.wasClicked = sinon.spy();
+                    childShape3.wasClicked = sinon.spy();
+                    complexShape.wasClicked(x, y);
+                    expect(childShape1.wasClicked.calledWith(x, y)).to.equal(true);
+                    expect(childShape2.wasClicked.calledWith(x, y)).to.equal(true);
+                    expect(childShape3.wasClicked.calledWith(x, y)).to.equal(true);
                 });
             });
             describe("rotate", () => {
