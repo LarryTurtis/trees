@@ -14,6 +14,6 @@ function load() {
     scenes.level9();
 }
 
-window.trees = trees();
+window.trees = trees;
 
 engine.go(load);

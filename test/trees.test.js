@@ -1,21 +1,20 @@
 import { trees } from '../src/trees.js';
 
 describe('Trees', () => {
-    let library = trees();
     describe('interface', () => {
         it('should have the right methods', () => {
-            expect(library.random).to.exist;
-            expect(library.randomColor).to.exist;
-            expect(library.posNeg).to.exist;
-            expect(library.getRGB).to.exist;
-            expect(library.setOpacity).to.exist;
-            expect(library.getCenterX).to.exist;
-            expect(library.getBezierDistance).to.exist;
-            expect(library.degToRad).to.exist;
-            expect(library.getAngle).to.exist;
-            expect(library.getDistance).to.exist;
-            expect(library.getPointOnLine).to.exist;
-            expect(library.copyPoint).to.exist;
+            expect(trees.random).to.exist;
+            expect(trees.randomColor).to.exist;
+            expect(trees.posNeg).to.exist;
+            expect(trees.getRGB).to.exist;
+            expect(trees.setOpacity).to.exist;
+            expect(trees.getCenterX).to.exist;
+            expect(trees.getBezierDistance).to.exist;
+            expect(trees.degToRad).to.exist;
+            expect(trees.getAngle).to.exist;
+            expect(trees.getDistance).to.exist;
+            expect(trees.getPointOnLine).to.exist;
+            expect(trees.copyPoint).to.exist;
         });
     });
 });

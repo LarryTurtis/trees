@@ -7,6 +7,7 @@ describe('ComplexShape', () => {
     let y = 2;
     let width = 3;
     let height = 4;
+    let tolerance = 0.01;
 
     let complexShape;
 
@@ -106,14 +107,17 @@ describe('ComplexShape', () => {
             let childShape2;
             let childShape3;
 
+            let cs1Size = 12;
+            let cs2Size = 8;
+            let cs3Size = 5;
+
             beforeEach(() => {
-                childShape1 = new Sprite();
-                childShape2 = new Sprite();
-                childShape3 = new Sprite(5, 5, 5, 5);
+                childShape1 = new Sprite(cs1Size, cs1Size, cs1Size, cs1Size);
+                childShape2 = new Sprite(cs2Size, cs2Size, cs2Size, cs2Size);
+                childShape3 = new Sprite(cs3Size, cs3Size, cs3Size, cs3Size);
                 complexShape.addShape(childShape1);
                 complexShape.addShape(childShape2);
                 complexShape.addShape(childShape3);
-
             });
 
             describe("removeShape", () => {
@@ -177,9 +181,10 @@ describe('ComplexShape', () => {
                     childShape2.x = 20;
                     childShape3.x = 30;
                     complexShape.x = 25;
-                    expect(childShape1.x).to.equal(34);
-                    expect(childShape2.x).to.equal(44);
-                    expect(childShape3.x).to.equal(54);
+                    expect(complexShape.x).to.be.closeTo(25, tolerance);
+                    expect(childShape1.x).to.be.closeTo(34, tolerance);
+                    expect(childShape2.x).to.be.closeTo(44, tolerance);
+                    expect(childShape3.x).to.be.closeTo(54, tolerance);
                 });
             });
             describe("change y", () => {
@@ -188,12 +193,40 @@ describe('ComplexShape', () => {
                     childShape2.y = 20;
                     childShape3.y = 30;
                     complexShape.y = 25;
-                    expect(childShape1.y).to.equal(33);
-                    expect(childShape2.y).to.equal(43);
-                    expect(childShape3.y).to.equal(53);
+                    expect(complexShape.y).to.be.closeTo(25, tolerance);
+                    expect(childShape1.y).to.be.closeTo(33, tolerance);
+                    expect(childShape2.y).to.be.closeTo(43, tolerance);
+                    expect(childShape3.y).to.be.closeTo(53, tolerance);
                 });
             });
-
+            describe("change width", () => {
+                it("should adjust width correctly for all child shapes", () => {
+                    complexShape.width = 25;
+                    expect(childShape1.width).to.be.closeTo(100, tolerance);
+                    expect(childShape2.width).to.be.closeTo(66.66, tolerance);
+                    expect(childShape3.width).to.be.closeTo(41.66, tolerance);
+                });
+                it("should adjust x correctly for all child shapes", () => {
+                    complexShape.width = 25;
+                    expect(childShape1.x).to.be.closeTo(92.66, tolerance);
+                    expect(childShape2.x).to.be.closeTo(59.33, tolerance);
+                    expect(childShape3.x).to.be.closeTo(34.33, tolerance);
+                });
+            });
+            describe("change height", () => {
+                it("should adjust height correctly for all child shapes", () => {
+                    complexShape.height = 25;
+                    expect(childShape1.height).to.be.closeTo(75, tolerance);
+                    expect(childShape2.height).to.be.closeTo(50, tolerance);
+                    expect(childShape3.height).to.be.closeTo(31.25, tolerance);
+                });
+                it("should adjust y correctly for all child shapes", () => {
+                    complexShape.height = 25;
+                    expect(childShape1.y).to.be.closeTo(64.5, tolerance);
+                    expect(childShape2.y).to.be.closeTo(39.5, tolerance);
+                    expect(childShape3.y).to.be.closeTo(20.75, tolerance);
+                });
+            });
         });
     });
 });
