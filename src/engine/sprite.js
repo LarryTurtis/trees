@@ -287,6 +287,9 @@ class Sprite {
     }
 
     draw(ctx) {
+        if (!ctx || !ctx.beginPath || !ctx.closePath) {
+            throw new Error("Attempted to draw without supplying context");
+        }
         if (this.showBoundingBox) {
             ctx.beginPath();
             ctx.fillStyle = "red";

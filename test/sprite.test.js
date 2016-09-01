@@ -80,7 +80,7 @@ describe("Sprite", function() {
     });
     describe("member functions", () => {
         describe("draw", () => {
-            let ctx = {};
+            let ctx = { beginPath: () => {}, closePath: () => {} };
 
             it("should exist", () => {
                 expect(sprite.draw).to.exist;
@@ -88,7 +88,10 @@ describe("Sprite", function() {
             });
             beforeEach(() => {
                 sprite.draw(ctx);
-            })
+            });
+            it("should throw an error if ctx is not supplied", () => {
+                expect(() => {sprite.draw()}).throws(Error);
+            });
             it("should set fillStyle by default", () => {
                 expect(ctx.fillStyle).to.exist;
                 expect(ctx.fillStyle).to.equal(sprite.color);

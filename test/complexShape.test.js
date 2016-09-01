@@ -1,7 +1,7 @@
 import { Sprite } from '../src/engine/sprite.js';
 import { ComplexShape } from '../src/engine/complex/complexShape.js';
 
-describe.only('ComplexShape', () => {
+describe('ComplexShape', () => {
 
     let x = 1;
     let y = 2;
@@ -184,6 +184,40 @@ describe.only('ComplexShape', () => {
                     expect(childShape1.wasClicked.calledWith(x, y)).to.equal(true);
                     expect(childShape2.wasClicked.calledWith(x, y)).to.equal(true);
                     expect(childShape3.wasClicked.calledWith(x, y)).to.equal(true);
+                });
+                it("should return true if any shape was clicked", () => {
+                    childShape1.wasClicked = sinon.stub().returns(false);
+                    childShape2.wasClicked = sinon.stub().returns(true);
+                    childShape3.wasClicked = sinon.stub().returns(false);
+                    expect(complexShape.wasClicked(x, y)).to.equal(true);
+                });
+                it("should return false if no shape was clicked", () => {
+                    childShape1.wasClicked = sinon.stub().returns(false);
+                    childShape2.wasClicked = sinon.stub().returns(false);
+                    childShape3.wasClicked = sinon.stub().returns(false);
+                    expect(complexShape.wasClicked(x, y)).to.equal(false);
+                });
+            });
+            describe("draw", () => {
+                it("should call draw on all child shapes", () => {
+                    let ctx = { beginPath: () => {}, closePath: () => {} };
+                    childShape1.draw = sinon.spy();
+                    childShape2.draw = sinon.spy();
+                    childShape3.draw = sinon.spy();
+                    complexShape.draw(ctx);
+                    expect(childShape1.draw.called).to.equal(true);
+                    expect(childShape2.draw.called).to.equal(true);
+                    expect(childShape3.draw.called).to.equal(true);
+                });
+                it("should call draw with context", () => {
+                    let ctx = { beginPath: () => {}, closePath: () => {} };
+                    childShape1.draw = sinon.spy();
+                    childShape2.draw = sinon.spy();
+                    childShape3.draw = sinon.spy();
+                    complexShape.draw(ctx);
+                    expect(childShape1.draw.calledWith(ctx)).to.equal(true);
+                    expect(childShape2.draw.calledWith(ctx)).to.equal(true);
+                    expect(childShape3.draw.calledWith(ctx)).to.equal(true);
                 });
             });
             describe("rotate", () => {
