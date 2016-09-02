@@ -12,6 +12,14 @@ class Trapezoid extends Sprite {
         this._leftAngle = leftAngle;
         this._rightAngle = rightAngle;
         this._setAngles();
+
+        if (this.topLeft.x > this.topRight.x ||
+            this.bottomLeft.x > this.bottomRight.x ||
+            this.topLeft.y > this.bottomLeft.y ||
+            this.topRight.y > this.bottomRight.y) {
+            throw new Error("Parameters do not define trapezoid.");
+        }
+
     }
 
     animate() {
@@ -171,7 +179,6 @@ class Trapezoid extends Sprite {
             this._topRight = trees.getPointOnLine(this.c, -this.getSideLength(this.rightAngle, this.height), 180 - this.rightAngle);
             this._bottomRight = this.c;
         }
-
     }
 
     draw(ctx) {
