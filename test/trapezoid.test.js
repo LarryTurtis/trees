@@ -82,10 +82,101 @@ describe('Trapezoid', () => {
         });
         describe("When angles are too sharp or not sharp enough to make trapezoid", () => {
             it("should throw an error", () => {
-                expect(() => {trapezoid = new Trapezoid(x, y, width, height, 60, 60);}).to.throw(Error);
-                expect(() => {trapezoid = new Trapezoid(x, y, width, height, 160, 160);}).to.throw(Error);
+                expect(() => { trapezoid = new Trapezoid(x, y, width, height, 60, 60); }).to.throw(Error);
+                expect(() => { trapezoid = new Trapezoid(x, y, width, height, 160, 160); }).to.throw(Error);
             });
         });
+    });
 
+    describe("rotation", () => {
+        describe("positive rotation around center", () => {
+            beforeEach(() => {
+                trapezoid.rotate(90, trapezoid.center);
+            })
+            it("should rotate the topLeft", () => {
+                let point = { x: 350, y: 50 };
+                checkPoint(trapezoid, "topLeft", point);
+            });
+            it("should rotate the topRight", () => {
+                let point = { x: 350, y: 350 };
+                checkPoint(trapezoid, "topRight", point);
+            });
+            it("should rotate the bottomLeft", () => {
+                let point = { x: -50, y: 157.17967 };
+                checkPoint(trapezoid, "bottomLeft", point);
+            });
+            it("should rotate the bottomRight", () => {
+                let point = { x: -50, y: 242.82032 };
+                checkPoint(trapezoid, "bottomRight", point);
+            });
+        });
+        describe("negative rotation around center", () => {
+            beforeEach(() => {
+                trapezoid.rotate(-90, trapezoid.center);
+            })
+            it("should rotate the topLeft", () => {
+                let point = { x: -50, y: 350 };
+                checkPoint(trapezoid, "topLeft", point);
+            });
+            it("should rotate the topRight", () => {
+                let point = { x: -50, y: 50 };
+                checkPoint(trapezoid, "topRight", point);
+            });
+            it("should rotate the bottomLeft", () => {
+                let point = { x: 350, y: 242.82032 };
+                checkPoint(trapezoid, "bottomLeft", point);
+            });
+            it("should rotate the bottomRight", () => {
+                let point = { x: 350, y: 157.17967 };
+                checkPoint(trapezoid, "bottomRight", point);
+            });
+        });
+        describe("positive rotation around arbitrary point", () => {
+            beforeEach(() => {
+                trapezoid.rotate(90, trapezoid.d);
+            })
+            it("should rotate the topLeft", () => {
+                let point = { x: 400, y: 400 };
+                checkPoint(trapezoid, "topLeft", point);
+            });
+            it("should rotate the topRight", () => {
+                let point = { x: 400, y: 700 };
+                checkPoint(trapezoid, "topRight", point);
+            });
+            it("should rotate the bottomLeft", () => {
+                let point = { x: 0, y: 507.17967 };
+                checkPoint(trapezoid, "bottomLeft", point);
+            });
+            it("should rotate the bottomRight", () => {
+                let point = { x: 0, y: 592.82032 };
+                checkPoint(trapezoid, "bottomRight", point);
+            });
+        });
+        describe("negative rotation around arbitrary point", () => {
+            beforeEach(() => {
+                trapezoid.rotate(-90, trapezoid.d);
+            })
+            it("should rotate the topLeft", () => {
+                let point = { x: -400, y: 400 };
+                checkPoint(trapezoid, "topLeft", point);
+            });
+            it("should rotate the topRight", () => {
+                let point = { x: -400, y: 100 };
+                checkPoint(trapezoid, "topRight", point);
+            });
+            it("should rotate the bottomLeft", () => {
+                let point = { x: 0, y: 292.82032 };
+                checkPoint(trapezoid, "bottomLeft", point);
+            });
+            it("should rotate the bottomRight", () => {
+                let point = { x: 0, y: 207.17967 };
+                checkPoint(trapezoid, "bottomRight", point);
+            });
+        });
     });
 });
+
+function checkPoint(obj, key, value) {
+    expect(obj[key].x).to.be.closeTo(value.x, 0.001);
+    expect(obj[key].y).to.be.closeTo(value.y, 0.001);
+}
