@@ -109,7 +109,7 @@ function createErlenmeyer() {
     let erlenmeyer = new engine.simples.Trapezoid(0, 0, 200, 300, 75, 75);
     erlenmeyer.color = "white";
     // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.rotate(90, erlenmeyer.d);
+    erlenmeyer.trimTop(50);
     return erlenmeyer;
 }
 

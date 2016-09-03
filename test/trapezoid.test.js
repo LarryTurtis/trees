@@ -1,4 +1,5 @@
 import { Trapezoid } from '../src/engine/simples/trapezoid.js';
+import { Trees } from '../src/trees.js';
 
 describe('Trapezoid', () => {
 
@@ -171,6 +172,104 @@ describe('Trapezoid', () => {
             it("should rotate the bottomRight", () => {
                 let point = { x: 0, y: 207.17967 };
                 checkPoint(trapezoid, "bottomRight", point);
+            });
+        });
+    });
+
+    describe("trimTop", () => {
+        describe("when left angle is acute and right angle is obtuse", () => {
+            beforeEach(() => {
+                let leftAngle = 75;
+                let rightAngle = 125;
+                trapezoid = new Trapezoid(x, y, width, height, leftAngle, rightAngle);
+            });
+            it("should not change bottomLeft or bottomRight", () => {
+                let oldBottomLeft = trees.copyPoint(trapezoid.bottomLeft);
+                let oldBottomRight = trees.copyPoint(trapezoid.bottomRight);
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "bottomLeft", oldBottomLeft);
+                checkPoint(trapezoid, "bottomRight", oldBottomRight);
+            });
+            it("should correctly adjust topLeft and topRight", () => {
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "topLeft", { x: 2.67949, y: 10 });
+                checkPoint(trapezoid, "topRight", { x: 26.91906, y: 10 });
+            });
+        });
+        describe("when both angles are equally obtuse", () => {
+            beforeEach(() => {
+                let leftAngle = 105;
+                let rightAngle = 105;
+                trapezoid = new Trapezoid(x, y, width, height, leftAngle, rightAngle);
+            });
+            it("should not change bottomLeft or bottomRight", () => {
+                let oldBottomLeft = trees.copyPoint(trapezoid.bottomLeft);
+                let oldBottomRight = trees.copyPoint(trapezoid.bottomRight);
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "bottomLeft", oldBottomLeft);
+                checkPoint(trapezoid, "bottomRight", oldBottomRight);
+            });
+            it("should correctly adjust topLeft and topRight", () => {
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "topLeft", { x: 104.5, y: 10 });
+                checkPoint(trapezoid, "topRight", { x: 195.49981, y: 10 });
+            });
+        });
+        describe("when both angles are unequally obtuse", () => {
+            beforeEach(() => {
+                let leftAngle = 95;
+                let rightAngle = 110;
+                trapezoid = new Trapezoid(x, y, width, height, leftAngle, rightAngle);
+            });
+            it("should not change bottomLeft or bottomRight", () => {
+                let oldBottomLeft = trees.copyPoint(trapezoid.bottomLeft);
+                let oldBottomRight = trees.copyPoint(trapezoid.bottomRight);
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "bottomLeft", oldBottomLeft);
+                checkPoint(trapezoid, "bottomRight", oldBottomRight);
+            });
+            it("should correctly adjust topLeft and topRight", () => {
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "topLeft", { x: 34.1205, y: 10 });
+                checkPoint(trapezoid, "topRight", { x: 158.0516, y: 10 });
+            });
+        });
+        describe("when both angles are equally acute", () => {
+            beforeEach(() => {
+                let leftAngle = 75;
+                let rightAngle = 75;
+                trapezoid = new Trapezoid(x, y, width, height, leftAngle, rightAngle);
+            });
+            it("should not change bottomLeft or bottomRight", () => {
+                let oldBottomLeft = trees.copyPoint(trapezoid.bottomLeft);
+                let oldBottomRight = trees.copyPoint(trapezoid.bottomRight);
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "bottomLeft", oldBottomLeft);
+                checkPoint(trapezoid, "bottomRight", oldBottomRight);
+            });
+            it("should correctly adjust topLeft and topRight", () => {
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "topLeft", { x: 2.67949, y: 10 });
+                checkPoint(trapezoid, "topRight", { x: 297.32050, y: 10 });
+            });
+        });
+        describe("when both angles are unequally acute", () => {
+            beforeEach(() => {
+                let leftAngle = 70;
+                let rightAngle = 80;
+                trapezoid = new Trapezoid(x, y, width, height, leftAngle, rightAngle);
+            });
+            it("should not change bottomLeft or bottomRight", () => {
+                let oldBottomLeft = trees.copyPoint(trapezoid.bottomLeft);
+                let oldBottomRight = trees.copyPoint(trapezoid.bottomRight);
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "bottomLeft", oldBottomLeft);
+                checkPoint(trapezoid, "bottomRight", oldBottomRight);
+            });
+            it("should correctly adjust topLeft and topRight", () => {
+                trapezoid.trimTop(10);
+                checkPoint(trapezoid, "topLeft", { x: 3.6397, y: 10 });
+                checkPoint(trapezoid, "topRight", { x: 298.2367, y: 10 });
             });
         });
     });
