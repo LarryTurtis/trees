@@ -273,6 +273,38 @@ describe('Trapezoid', () => {
             });
         });
     });
+
+    describe("draw", () => {
+        it("should perform the draw operation", () => {
+            let ctx = {
+                beginPath: () => {},
+                yMove: (obj) => {},
+                yLine: (obj) => {},
+                fill: () => {},
+                closePath: () => {}
+            };
+
+            let beginPath = sinon.spy(ctx, "beginPath");
+            let yMove = sinon.spy(ctx, "yMove");
+            let yLine = sinon.spy(ctx, "yLine");
+            let fill = sinon.spy(ctx, "fill");
+            let closePath = sinon.spy(ctx, "closePath");
+
+            trapezoid.draw(ctx);
+
+            expect(beginPath.called).to.be.true;
+            expect(yMove.called).to.be.true;
+            expect(yMove.calledWith(trapezoid.topLeft)).to.be.true;
+            expect(yLine.called).to.be.true;
+            expect(yLine.calledWith(trapezoid.topRight)).to.be.true;
+            expect(yLine.calledWith(trapezoid.bottomRight)).to.be.true;
+            expect(yLine.calledWith(trapezoid.bottomLeft)).to.be.true;
+            expect(yLine.calledWith(trapezoid.topLeft)).to.be.true;
+            expect(yLine.callCount).to.equal(4);
+            expect(fill.called).to.be.true;
+            expect(closePath.called).to.be.true;
+        });
+    });
 });
 
 function checkPoint(obj, key, value) {
