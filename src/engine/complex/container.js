@@ -3,7 +3,7 @@ import { complex } from './complex.js';
 
 function decorateContainer(shape) {
 
-    shape.type = shape.type + "Container";
+    shape.type = (shape.type || "") + "Container";
     shape.opacity = 0.2;
 
     shape._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.leftAngle, shape.rightAngle);

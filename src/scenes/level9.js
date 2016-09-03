@@ -36,8 +36,8 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        // this.fill(counter);
-        //this.rotate(1, this.d)
+        this.fill(counter);
+        this.rotate(1, this.center)
     }
 
     let dragging = false;
@@ -101,14 +101,15 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
+    cup.fill(10);
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Trapezoid(0, 0, 200, 300, 75, 75);
+    let erlenmeyer = new engine.complex.Erlenmeyer(0, 0, 200, 300, 75, 75);
     erlenmeyer.color = "white";
-    // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.trimTop(50);
+    erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
+    erlenmeyer.fill(10);
     return erlenmeyer;
 }
 

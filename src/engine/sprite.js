@@ -230,9 +230,7 @@ class Sprite {
         if (this.height > 0) {
 
             amount = this.height - amount > 0 ? amount : this.height;
-
             this._height -= amount;
-
             let angle = trees.getAngle(this.a, this.d);
             let newOrigin = trees.getPointOnLine(this.a, amount, angle);
 
