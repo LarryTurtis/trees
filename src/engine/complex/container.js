@@ -8,8 +8,9 @@ function decorateContainer(shape) {
 
     shape._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.leftAngle, shape.rightAngle);
     shape._liquid.type = "Liquid";
-    shape._full = false;
+    shape._full = true;
     shape._empty = false;
+    shape._liquidColor = "transparent";
 
     Object.defineProperty(shape, 'liquid', {
         get: function() {
@@ -58,14 +59,13 @@ function decorateContainer(shape) {
     });
 
     shape.fill = function(amount) {
-        if (shape.liquid.height <= 0) {
-            shape.empty = true;
-        }
-
-        if (shape.liquid.height >= shape.height) {
-            shape.full = true;
+        if (typeof amount !== 'number') {
+            throw new Error('Tried to use fill function with invalid amount.')
         }
         shape.liquid.trimTop(amount);
+        shape.empty = shape.liquid.height <= 0;
+        shape.full = shape.liquid.height >= shape.height;
+
     }
 
     return shape;

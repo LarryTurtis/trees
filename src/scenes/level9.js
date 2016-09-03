@@ -101,7 +101,6 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.fill(10);
     return cup;
 }
 
