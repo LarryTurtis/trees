@@ -59,7 +59,7 @@ function decorateContainer(shape) {
     });
 
     shape.drain = function(amount) {
-        if (typeof amount !== 'number') {
+        if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')
         }
         let remainder = amount - shape.liquid.height;
@@ -73,7 +73,18 @@ function decorateContainer(shape) {
     }
 
     shape.fill = function(amount) {
-        return this.drain(-amount);
+        if (typeof amount !== 'number' || amount < 0) {
+            throw new Error('Tried to use drain function with invalid amount.')
+        }
+
+        let unfilled = shape.height - shape.liquid.height;
+        let remainder = amount - unfilled;
+        shape.liquid.trimTop(-amount);
+        shape.empty = shape.liquid.height <= 0;
+        shape.full = shape.liquid.height >= shape.height;
+
+        //return unused portion, if any, of amount
+        return remainder > 0 ? remainder : 0;
     }
 
     return shape;

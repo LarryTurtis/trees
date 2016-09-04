@@ -35,6 +35,9 @@ describe('Container', () => {
         it("should not have property drain", () => {
             expect(sprite.drain).not.to.exist;
         });
+        it("should have not property fill", () => {
+            expect(sprite.fill).not.to.exist;
+        });
     });
     describe('after decoration', () => {
 
@@ -65,6 +68,9 @@ describe('Container', () => {
         it("should have property drain", () => {
             expect(sprite.drain).to.exist;
         });
+        it("should have property fill", () => {
+            expect(sprite.fill).to.exist;
+        });
 
         describe("drain method", () => {
             it("should start out full", () => {
@@ -74,13 +80,11 @@ describe('Container', () => {
             it("should throw an error if drain amount is not a number", () => {
                 expect(() => { sprite.drain("abc") }).to.throw(Error);
             });
+            it("should throw an error if drain method is called with a negative number", () => {
+                expect(() => { sprite.drain(-1) }).to.throw(Error);
+            });
             it("should still be full if drain method is called with 0", () => {
                 sprite.drain(0);
-                expect(sprite.full).to.be.true;
-                expect(sprite.empty).to.be.false;
-            });
-            it("should still be full if drain method is called with a negative number", () => {
-                sprite.drain(-1);
                 expect(sprite.full).to.be.true;
                 expect(sprite.empty).to.be.false;
             });
@@ -108,6 +112,52 @@ describe('Container', () => {
             it("should return correct remainder if amount is greater than height", () => {
                 let height = sprite.liquid.height + 10;
                 let remainder = sprite.drain(height);
+                expect(remainder).to.equal(10);
+            });
+        });
+        describe("fill method", () => {
+            beforeEach(() => {
+                sprite.drain(sprite.liquid.height);
+            });
+            it("should start out empty", () => {
+                expect(sprite.empty).to.be.true;
+                expect(sprite.full).to.be.false;
+            });
+            it("should throw an error if fill amount is not a number", () => {
+                expect(() => { sprite.fill("abc") }).to.throw(Error);
+            });
+            it("should throw an error if fill method is called with a negative number", () => {
+                expect(() => { sprite.fill(-1) }).to.throw(Error);
+            });
+            it("should still be empty if fill method is called with 0", () => {
+                sprite.fill(0);
+                expect(sprite.full).to.be.false;
+                expect(sprite.empty).to.be.true;
+            });
+            it("should not be empty if fill method is called with a positive number", () => {
+                sprite.fill(1);
+                expect(sprite.full).to.be.false;
+                expect(sprite.empty).to.be.false;
+            });
+            it("should be full if fill method is called with a positive number greater than container height", () => {
+                let height = sprite.height + 1;
+                sprite.fill(height);
+                expect(sprite.full).to.be.true;
+                expect(sprite.empty).to.be.false;
+            });
+            it("should return remainder of zero if amount is less than height", () => {
+                let height = 10;
+                let remainder = sprite.fill(height);
+                expect(remainder).to.equal(0);
+            });
+            it("should return remainder of zero if amount is same as container height", () => {
+                let height = sprite.height;
+                let remainder = sprite.fill(height);
+                expect(remainder).to.equal(0);
+            });
+            it("should return correct remainder if amount is greater than height", () => {
+                let height = sprite.height + 10;
+                let remainder = sprite.fill(height);
                 expect(remainder).to.equal(10);
             });
         });
