@@ -90,7 +90,7 @@ describe("Sprite", function() {
                 sprite.draw(ctx);
             });
             it("should throw an error if ctx is not supplied", () => {
-                expect(() => {sprite.draw()}).throws(Error);
+                expect(() => { sprite.draw() }).throws(Error);
             });
             it("should set fillStyle by default", () => {
                 expect(ctx.fillStyle).to.exist;
@@ -811,6 +811,80 @@ describe("Sprite", function() {
                 checkPoint(sprite, "d", { x: oldX, y: oldY });
             });
         });
+        describe("growTop on non-rotated sprite", () => {
+            let amount = 2;
+            it("should add the specified amount from the height", () => {
+                sprite.growTop(amount);
+                expect(sprite.height).to.equal(height + amount);
+            });
+            it("should not change the x", () => {
+                let oldX = sprite.x;
+                sprite.growTop(amount);
+                expect(sprite.x).to.be.closeTo(oldX, 0.00001);
+            });
+            it("should offset the Y coordinate", () => {
+                let oldY = sprite.y;
+                sprite.growTop(amount);
+                expect(sprite.y).to.be.closeTo(oldY - amount, 0.00001);
+            });
+            it("should change point a", () => {
+                let oldX = sprite.a.x;
+                let oldY = sprite.a.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "a", { x: oldX, y: oldY - amount });
+            });
+            it("should change point b", () => {
+                let oldX = sprite.b.x;
+                let oldY = sprite.b.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "b", { x: oldX, y: oldY - amount });
+            });
+            it("should not change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "c", { x: oldX, y: oldY });
+            });
+            it("should not change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "d", { x: oldX, y: oldY });
+            });
+        });
+        describe("growTop on rotated sprite", () => {
+            let amount = 2;
+            beforeEach(() => {
+                sprite.rotate(10, sprite.center)
+            })
+            it("should add the specified amount to the height", () => {
+                sprite.growTop(amount);
+                expect(sprite.height).to.equal(height + amount);
+            });
+            it("should change the x", () => {
+                let oldX = sprite.x;
+                sprite.growTop(amount);
+                expect(sprite.x).to.not.equal(oldX);
+            });
+            it("should change the y", () => {
+                let oldY = sprite.y;
+                sprite.growTop(amount);
+                expect(sprite.y).to.not.equal(oldY);
+            });
+            it("should not change point c", () => {
+                let oldX = sprite.c.x;
+                let oldY = sprite.c.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "c", { x: oldX, y: oldY });
+            });
+            it("should not change point d", () => {
+                let oldX = sprite.d.x;
+                let oldY = sprite.d.y;
+                sprite.growTop(amount);
+                checkPoint(sprite, "d", { x: oldX, y: oldY });
+            });
+        });
+
         describe("wasClicked", () => {
             let aX;
             let aY;

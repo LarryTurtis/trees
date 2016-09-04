@@ -241,6 +241,18 @@ class Sprite {
         this._updateBoundaries();
     }
 
+    growTop(amount) {
+        this._height += amount;
+        let angle = trees.getAngle(this.a, this.d);
+        let newOrigin = trees.getPointOnLine(this.a, -amount, angle);
+        this.x = newOrigin.x;
+        this.y = newOrigin.y;
+        this.c = trees.getPointOnLine(this.c, amount, angle);
+        this.d = trees.getPointOnLine(this.d, amount, angle);
+        this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
+        this._updateBoundaries();
+    }
+
     wasClicked(mouseX, mouseY) {
         if (this.boundary.a.x <= mouseX &&
             this.boundary.b.x >= mouseX &&

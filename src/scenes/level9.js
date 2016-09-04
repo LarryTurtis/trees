@@ -36,8 +36,8 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.fill(counter);
-        //this.rotate(-1, this.center)
+        this.growTop(counter);
+       // this.rotate(-1, this.c)
     }
 
     let dragging = false;
@@ -106,10 +106,11 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(0, 0, 200, 300, 75, 75);
+    let erlenmeyer = new engine.simples.Rectangle(100, 100, 200, 300, 75, 75);
     erlenmeyer.color = "white";
-    erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.drain(100);
+    erlenmeyer.rotate(10, erlenmeyer.center)
+   // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
+    //erlenmeyer.drain(100);
     return erlenmeyer;
 }
 
