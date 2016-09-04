@@ -4,7 +4,7 @@ let hose;
 let cup;
 let spray;
 let erlenmeyer;
-let counter = 0.9;
+let counter = 1;
 
 function level9() {
     let shapes = engine.shapesRegistry;
@@ -36,8 +36,8 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.growTop(counter);
-       // this.rotate(-1, this.c)
+        this.fill(counter);
+        // this.rotate(-1, this.c)
     }
 
     let dragging = false;
@@ -106,11 +106,10 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.simples.Rectangle(100, 100, 200, 300, 75, 75);
+    let erlenmeyer = new engine.complex.Erlenmeyer(100, 100, 200, 300, 110, 83);
     erlenmeyer.color = "white";
-    erlenmeyer.rotate(10, erlenmeyer.center)
-   // erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    //erlenmeyer.drain(100);
+    erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
+    erlenmeyer.drain(300);
     return erlenmeyer;
 }
 

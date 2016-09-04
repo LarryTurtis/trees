@@ -76,10 +76,10 @@ function decorateContainer(shape) {
         if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')
         }
-
         let unfilled = shape.height - shape.liquid.height;
         let remainder = amount - unfilled;
-        shape.liquid.trimTop(-amount);
+        amount = remainder > 0 ? unfilled : amount;
+        shape.liquid.growTop(amount);
         shape.empty = shape.liquid.height <= 0;
         shape.full = shape.liquid.height >= shape.height;
 

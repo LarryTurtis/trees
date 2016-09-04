@@ -157,6 +157,10 @@ class Trapezoid extends Sprite {
         this.bottomRight = bottomRight;
     }
 
+    growTop(amount) {
+        this.trimTop(-amount);
+    }
+
     _setAngles() {
         if (this.leftAngle < 90) {
 

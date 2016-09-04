@@ -145,6 +145,11 @@ describe('Container', () => {
                 expect(sprite.full).to.be.true;
                 expect(sprite.empty).to.be.false;
             });
+            it("should not be able to fill more than the container height", () => {
+                let height = sprite.height + 10;
+                sprite.fill(height);
+                expect(sprite.liquid.height).to.equal(sprite.height);
+            });
             it("should return remainder of zero if amount is less than height", () => {
                 let height = 10;
                 let remainder = sprite.fill(height);

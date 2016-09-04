@@ -63,30 +63,26 @@ class ContainerComposite extends ComplexShape {
 
     drain(amount) {
 
-        let remainder = 1;
-
-        while (remainder > 0 && !this.empty) {
+        while (amount > 0 && !this.empty) {
             if (this.liquidLevelShape.empty) {
                 let currentIndex = this.containers.indexOf(this.liquidLevelShape);
                 let newIndex = Math.min(currentIndex + 1, this.containers.length - 1);
                 this.liquidLevelShape = this.containers[newIndex];
             }
 
-            remainder = this.liquidLevelShape.drain(amount);
+            amount = this.liquidLevelShape.drain(amount);
         }
 
     }
 
     fill(amount) {
-        let remainder = 1;
-        while (remainder > 0 && !this.full) {
+        while (amount > 0 && !this.full) {
             if (this.liquidLevelShape.full) {
                 let currentIndex = this.containers.indexOf(this.liquidLevelShape);
                 let newIndex = Math.max(currentIndex - 1, 0);
                 this.liquidLevelShape = this.containers[newIndex];
             }
-
-            remainder = this.liquidLevelShape.fill(amount);
+            amount = this.liquidLevelShape.fill(amount);
         }
     }
 

@@ -86,12 +86,6 @@ describe('Container Composite', () => {
             it("container should be full by default", () => {
                 expect(container.full).to.equal(true);
             });
-            it("should throw an error if drain is called with the wrong parameter", () => {
-                expect(() => { container.drain(-1) }).to.throw(Error);
-                expect(() => { container.drain("abc") }).to.throw(Error);
-                expect(() => { container.drain() }).to.throw(Error);
-                expect(() => { container.drain([]) }).to.throw(Error);
-            });
             it("should no longer be full after drain is called with positive number", () => {
                 container.drain(1);
                 expect(container.full).to.be.false;
@@ -123,12 +117,6 @@ describe('Container Composite', () => {
             it("container should be empty to start", () => {
                 expect(container.empty).to.equal(true);
                 expect(container.full).to.equal(false);
-            });
-            it("should throw an error if fill is called with the wrong parameter", () => {
-                expect(() => { container.fill(-1) }).to.throw(Error);
-                expect(() => { container.fill("abc") }).to.throw(Error);
-                expect(() => { container.fill() }).to.throw(Error);
-                expect(() => { container.fill([]) }).to.throw(Error);
             });
             it("should no longer be empty after fill is called with positive number", () => {
                 container.fill(1);
