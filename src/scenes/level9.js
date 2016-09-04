@@ -14,7 +14,7 @@ function level9() {
 
     shapes.add(hose);
     shapes.add(erlenmeyer);
-    shapes.add(cup);
+    //shapes.add(cup);
     shapes.add(createSpray());
 
     hose.callback = function() {
@@ -27,7 +27,6 @@ function level9() {
 
     cup.callback = function() {
         if (hose.full && !cup.empty) {
-            counter -= 0.001;
             cup.drain(counter);
             cup.rotate(1, cup.center);
             hose.rotate(1, cup.center);
@@ -36,8 +35,8 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.drain(counter);
-        this.rotate(-1, this.center)
+        this.fill(counter);
+        //this.rotate(-1, this.center)
     }
 
     let dragging = false;
@@ -109,7 +108,7 @@ function createErlenmeyer() {
     let erlenmeyer = new engine.complex.Erlenmeyer(0, 0, 200, 300, 75, 75);
     erlenmeyer.color = "white";
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.drain(100);
+    erlenmeyer.drain(150);
     return erlenmeyer;
 }
 
