@@ -22,8 +22,8 @@ describe('Container Composite', () => {
         it("should have property liquidColor", () => {
             expect(container.liquidColor).to.exist;
         });
-        it("should have property fill", () => {
-            expect(container.fill).to.exist;
+        it("should have property drain", () => {
+            expect(container.drain).to.exist;
         });
         it("should have property addShape", () => {
             expect(container.addShape).to.exist;
@@ -71,42 +71,40 @@ describe('Container Composite', () => {
             });
         });
 
-        describe("fill", () => {
+        describe("drain", () => {
 
             let spy1;
             let spy2;
 
             beforeEach(() => {
-                spy1 = sinon.spy(sprite1, "fill");
-                spy2 = sinon.spy(sprite2, "fill");
+                spy1 = sinon.spy(sprite1, "drain");
+                spy2 = sinon.spy(sprite2, "drain");
             });
             it("container should be full by default", () => {
                 expect(container.full).to.equal(true);
             });
-            it("should throw an error if fill is called without a number", () => {
-                expect(() => { container.fill("abc") }).to.throw(Error);
-                expect(() => { container.fill() }).to.throw(Error);
-                expect(() => { container.fill([]) }).to.throw(Error);
+            it("should throw an error if drain is called without a number", () => {
+                expect(() => { container.drain("abc") }).to.throw(Error);
+                expect(() => { container.drain() }).to.throw(Error);
+                expect(() => { container.drain([]) }).to.throw(Error);
             });
-            it("should no longer be full after fill is called with positive number", () => {
-                container.fill(1);
+            it("should no longer be full after drain is called with positive number", () => {
+                container.drain(1);
                 expect(container.full).to.be.false;
                 expect(container.empty).to.be.false;
             });
-            it("should call fill only on the first container when amount is less than first container height", () => {
+            it("should call drain only on the first container when amount is less than first container height", () => {
                 let amount = sprite1.height / 2;
-                container.fill(amount);
+                container.drain(amount);
                 expect(spy1.called).to.be.true;
                 expect(spy2.called).to.be.false;
             });
-            it("should call fill on both containers when amount is greater than first container height", () => {
+            it("should call drain on both containers when amount is greater than first container height", () => {
                 let amount = sprite1.height * 2;
-                container.fill(amount);
+                container.drain(amount);
                 expect(spy1.called).to.be.true;
                 expect(spy2.called).to.be.true;
             });
-
-
         });
     });
 });

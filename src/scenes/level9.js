@@ -28,7 +28,7 @@ function level9() {
     cup.callback = function() {
         if (hose.full && !cup.empty) {
             counter -= 0.001;
-            cup.fill(counter);
+            cup.drain(counter);
             cup.rotate(1, cup.center);
             hose.rotate(1, cup.center);
             spray.rotate(1, cup.center);
@@ -36,8 +36,8 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
-        this.fill(counter);
-        this.rotate(1, this.center)
+        this.drain(counter);
+        this.rotate(-1, this.center)
     }
 
     let dragging = false;
@@ -101,7 +101,7 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.fill(10);
+    cup.drain(10);
     return cup;
 }
 
@@ -109,7 +109,7 @@ function createErlenmeyer() {
     let erlenmeyer = new engine.complex.Erlenmeyer(0, 0, 200, 300, 75, 75);
     erlenmeyer.color = "white";
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.fill(10);
+    erlenmeyer.drain(100);
     return erlenmeyer;
 }
 
