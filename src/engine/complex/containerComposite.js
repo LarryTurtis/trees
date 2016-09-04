@@ -80,7 +80,6 @@ class ContainerComposite extends ComplexShape {
     fill(amount) {
         let remainder = 1;
         while (remainder > 0 && !this.full) {
-            console.log(this.liquidLevelShape);
             if (this.liquidLevelShape.full) {
                 let currentIndex = this.containers.indexOf(this.liquidLevelShape);
                 let newIndex = Math.max(currentIndex - 1, 0);
