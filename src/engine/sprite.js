@@ -22,6 +22,8 @@ class Sprite {
         this._id = null;
         this._collidingWith = null;
         this._collidable = false;
+        this._minHeight = 1;
+
     }
 
     set x(x) {
@@ -227,10 +229,10 @@ class Sprite {
     }
 
     trimTop(amount) {
-        amount = this.height - amount > 1 ? amount : this.height;
+        amount = this.height - amount > this._minHeight ? amount : this.height - this._minHeight;
         this._height -= amount;
         let angle = trees.getAngle(this.a, this.d);
-        let newOrigin = trees.getPointOnLine(this.a, amount, angle) || 90;
+        let newOrigin = trees.getPointOnLine(this.a, amount, angle);
 
         this.x = newOrigin.x;
         this.y = newOrigin.y;
@@ -243,7 +245,7 @@ class Sprite {
 
     growTop(amount) {
         this._height += amount;
-        let angle = trees.getAngle(this.a, this.d) || 90;
+        let angle = trees.getAngle(this.a, this.d);
         let newOrigin = trees.getPointOnLine(this.a, -amount, angle);
         this.x = newOrigin.x;
         this.y = newOrigin.y;

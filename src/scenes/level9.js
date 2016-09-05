@@ -36,8 +36,9 @@ function level9() {
     }
 
     erlenmeyer.callback = function() {
+        //this.drain(counter);
         this.fill(counter);
-        // this.rotate(-1, this.c)
+        //this.rotate(-1, this.center)
     }
 
     let dragging = false;

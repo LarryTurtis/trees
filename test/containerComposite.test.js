@@ -82,6 +82,7 @@ describe('Container Composite', () => {
             beforeEach(() => {
                 spy1 = sinon.spy(sprite1, "drain");
                 spy2 = sinon.spy(sprite2, "drain");
+                container.liquidColor = "orange";
             });
             it("container should be full by default", () => {
                 expect(container.full).to.equal(true);
@@ -102,6 +103,12 @@ describe('Container Composite', () => {
                 container.drain(amount);
                 expect(spy1.called).to.be.true;
                 expect(spy2.called).to.be.true;
+            });
+            it("should set the liquid color to transparent when a container is emptied", () => {
+                let amount = sprite1.height + 1;
+                container.drain(amount);
+                expect(sprite1.liquid.color).to.equal("transparent");
+                expect(sprite2.liquid.color).to.equal(container.liquidColor);
             });
         });
         describe("fill", () => {

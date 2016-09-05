@@ -99,6 +99,12 @@ describe('Container', () => {
                 expect(sprite.full).to.be.false;
                 expect(sprite.empty).to.be.true;
             });
+            it("should be empty if drain method is called with a positive number equal to liquid height", () => {
+                let height = sprite.liquid.height;
+                sprite.drain(height);
+                expect(sprite.full).to.be.false;
+                expect(sprite.empty).to.be.true;
+            });
             it("should return remainder of zero if amount is less than height", () => {
                 let height = 10;
                 let remainder = sprite.drain(height);
@@ -113,6 +119,11 @@ describe('Container', () => {
                 let height = sprite.liquid.height + 10;
                 let remainder = sprite.drain(height);
                 expect(remainder).to.equal(10);
+            });
+            it("should never set height below minimum height", () => {
+                let height = sprite.liquid.height + 10;
+                let remainder = sprite.drain(height);
+                expect(sprite.liquid.height).to.be.at.least(sprite.liquid._minHeight);
             });
         });
         describe("fill method", () => {
@@ -163,7 +174,7 @@ describe('Container', () => {
             it("should return correct remainder if amount is greater than height", () => {
                 let height = sprite.height + 10;
                 let remainder = sprite.fill(height);
-                expect(remainder).to.equal(10);
+                expect(remainder).to.be.closeTo(10, tolerance);
             });
         });
     });

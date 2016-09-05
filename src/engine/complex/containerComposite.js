@@ -62,9 +62,9 @@ class ContainerComposite extends ComplexShape {
     }
 
     drain(amount) {
-
         while (amount > 0 && !this.empty) {
             if (this.liquidLevelShape.empty) {
+                this.liquidLevelShape.liquid.color = "transparent";
                 let currentIndex = this.containers.indexOf(this.liquidLevelShape);
                 let newIndex = Math.min(currentIndex + 1, this.containers.length - 1);
                 this.liquidLevelShape = this.containers[newIndex];
@@ -82,6 +82,7 @@ class ContainerComposite extends ComplexShape {
                 let newIndex = Math.max(currentIndex - 1, 0);
                 this.liquidLevelShape = this.containers[newIndex];
             }
+            this.liquidLevelShape.liquid.color = this.liquidColor;
             amount = this.liquidLevelShape.fill(amount);
         }
     }

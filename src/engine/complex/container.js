@@ -65,7 +65,7 @@ function decorateContainer(shape) {
         let remainder = amount - shape.liquid.height;
 
         shape.liquid.trimTop(amount);
-        shape.empty = shape.liquid.height <= 0;
+        shape.empty = shape.liquid.height <= shape._minHeight;
         shape.full = shape.liquid.height >= shape.height;
 
         //return unused portion, if any, of amount
@@ -80,11 +80,11 @@ function decorateContainer(shape) {
         let remainder = amount - unfilled;
         amount = remainder > 0 ? unfilled : amount;
         shape.liquid.growTop(amount);
-        shape.empty = shape.liquid.height <= 0;
+        shape.empty = shape.liquid.height <= shape._minHeight;
         shape.full = shape.liquid.height >= shape.height;
 
         //return unused portion, if any, of amount
-        return remainder > 0 ? remainder : 0;
+        return remainder > 0 ? remainder - shape._minHeight : 0;
     }
 
     return shape;
