@@ -21,7 +21,6 @@ import { Head } from './head.js';
 import { Wheel } from './wheel.js';
 import { Container } from './container.js';
 import { Cup } from './cup.js';
-import { Liquid } from './liquid.js';
 import { Spray } from './spray.js';
 import { Erlenmeyer } from './erlenmeyer.js';
 
@@ -49,7 +48,6 @@ let complex = {
     Wheel: Wheel,
     Container: Container,
     Cup: Cup,
-    Liquid: Liquid,
     Spray: Spray,
     Erlenmeyer: Erlenmeyer,
 };

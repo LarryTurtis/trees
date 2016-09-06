@@ -1,33 +1,20 @@
-import { ComplexShape } from './complexShape.js';
-
-class Liquid extends ComplexShape {
-    constructor(x, y, width, height, angle, Shape) {
-        super(x, y, width, height, angle);
-        this.type = "Liquid";
-        let shape = new Shape(x, y, width, height, angle);
-        this.addShape(shape);
-    }
 
 
-    animate() {
-        // if (!this.collidingWithPlatform) this.fall();
-    }
+    /*
+    approach:
+    for each complex object, it should specify an array of "lines" to be drawn in order.
 
-    draw(ctx) {
-        super.draw(ctx);
+    (note that it may be important to distinguish a contiguous object as 'complex' and an object 
+    which contains non-contiguous portions as 'composite' in the future.)
 
-        ctx.beginPath();
+    a liquid class is created which has access to this array.
 
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
-        });
+    once we have this array, we can draw a line across the entire sprite and check for intersections across 
+    each line. Wherever an intersection is found, the intersection becomes the new endpoint for the intersecting
+    line. The liquid class is drawn using this new, improved set of instructions.
 
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
+    whenever the liquid level is raised or lowered or the container is moved or rotated, 
+    this intersection algorithm is re-calculated.
 
-    }
-
-}
-
-export { Liquid }
+    this should achieve the desired result.
+    */
