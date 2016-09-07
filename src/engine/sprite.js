@@ -58,6 +58,14 @@ class Sprite {
         this._center = center;
     }
 
+    get lines() {
+        return this._lines;
+    }
+
+    set lines(lines) {
+        this._lines = lines;
+    }
+
     get origin() {
         return this._origin;
     }

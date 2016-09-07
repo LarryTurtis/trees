@@ -77,6 +77,46 @@ class trees {
     static copyPoint(point) {
         return new point.constructor(point.x, point.y);
     }
+
+    static intersection(line1, line2) {
+        // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
+        var denominator, a, b, numerator1, numerator2, result = {
+            x: null,
+            y: null,
+            onLine1: false,
+            onLine2: false
+        };
+        denominator = ((line2.end.y - line2.start.y) * (line1.end.x - line1.start.x)) - ((line2.end.x - line2.start.x) * (line1.end.y - line1.start.y));
+        if (denominator == 0) {
+            return result;
+        }
+        a = line1.start.y - line2.start.y;
+        b = line1.start.x - line2.start.x;
+        numerator1 = ((line2.end.x - line2.start.x) * a) - ((line2.end.y - line2.start.y) * b);
+        numerator2 = ((line1.end.x - line1.start.x) * a) - ((line1.end.y - line1.start.y) * b);
+        a = numerator1 / denominator;
+        b = numerator2 / denominator;
+
+        // if we cast these lines infinitely in both directions, they intersect here:
+        result.x = line1.start.x + (a * (line1.end.x - line1.start.x));
+        result.y = line1.start.y + (a * (line1.end.y - line1.start.y));
+        /*
+                // it is worth noting that this should be the same as:
+                x = line2.start.x + (b * (line2.end.x - line2.start.x));
+                y = line2.start.x + (b * (line2.end.y - line2.start.y));
+                */
+        // if line1 is a segment and line2 is infinite, they intersect if:
+        if (a > 0 && a < 1) {
+            result.onLine1 = true;
+        }
+        // if line2 is a segment and line1 is infinite, they intersect if:
+        if (b > 0 && b < 1) {
+            result.onLine2 = true;
+        }
+        // if line1 and line2 are segments, they intersect if both of the above are true
+        return result;
+    };
+
 }
 
 export { trees };

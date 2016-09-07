@@ -26,13 +26,16 @@ function level9() {
     };
 
     cup.callback = function() {
-        // if (hose.full && !cup.empty) {
+         if (hose.full && !cup.empty) {
         //     counter -= 0.001;
         //     // cup.drain(counter);
-        //     // cup.rotate(1, cup.center);
+        // cup.rotate(1, cup.center);
+         cup.shape[1].lineHeight++;
+         cup.shape[1].level();
+
         //     // hose.rotate(1, cup.center);
         //     // spray.rotate(1, cup.center);
-        // }
+         }
     }
 
     // erlenmeyer.callback = function() {
@@ -103,6 +106,7 @@ function createCup() {
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.rotate(10, cup.center);
+    cup.shape[1].level();
     return cup;
 }
 

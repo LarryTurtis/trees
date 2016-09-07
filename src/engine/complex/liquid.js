@@ -18,12 +18,16 @@ this should achieve the desired result.
 */
 
 import { Sprite } from '../sprite.js'
+import { Line } from '../line.js'
 
 class Liquid extends Sprite {
     constructor(container) {
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
         this._container = container;
+        this._lineHeight = -280;
+        console.log(container);
+        this.lines = container.lines();
     }
 
     get container() {
@@ -34,16 +38,59 @@ class Liquid extends Sprite {
         this._container = container;
     }
 
+    get lineHeight() {
+        return this._lineHeight;
+    }
+
+    set lineHeight(lineHeight) {
+        this._lineHeight = lineHeight;
+    }
+
+
+    level() {
+        let p1 = trees.getPointOnLine(this.boundary.d, this.lineHeight, 90);
+        let p2 = trees.getPointOnLine(this.boundary.c, this.lineHeight, 90);
+        let levelLine = new Line(p1, p2);
+        let start = null;
+        let end = null;
+
+        this.lines = this.container.lines();
+        this.lines.forEach(line => {
+            let intersection = trees.intersection(line, levelLine);
+            if (intersection.onLine1 && intersection.onLine2) {
+                if (!start) {
+                    line.start = start = intersection;
+                    
+                } else {
+                    line.end = end = intersection;
+                }
+                
+            } 
+        });
+        if (start && end) {
+            this.lines[0].start = start;
+            this.lines[0].end = end;
+        }
+    }
+
     draw(ctx) {
         super.draw(ctx);
-        let lines = this.container.lines();
         ctx.beginPath();
-        ctx.yMove(lines[0].start);
-        lines.forEach(line => {
+        //ctx.yMove(this.lines[0].start);
+        this.lines.forEach(line => {
+            ctx.yLine(line.start)
             ctx.yLine(line.end);
         });
         ctx.fill();
         ctx.closePath();
+
+        let p1 = trees.getPointOnLine(this.boundary.d, this.lineHeight, 90);
+        let p2 = trees.getPointOnLine(this.boundary.c, this.lineHeight, 90);
+        let levelLine = new Line(p1, p2);
+        ctx.lineColor = "black";
+        // ctx.yMove(levelLine.start);
+        // ctx.yLine(levelLine.end);
+        //ctx.stroke();
     }
 
 }
