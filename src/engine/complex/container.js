@@ -1,13 +1,13 @@
 import { ComplexShape } from './complexShape.js';
 import { complex } from './complex.js';
+import { Liquid } from './liquid.js';
 
 function decorateContainer(shape) {
 
     shape.type = (shape.type || "") + "Container";
     shape.opacity = 0.2;
 
-    shape._liquid = new shape.constructor(shape.x, shape.y, shape.width, shape.height, shape.leftAngle, shape.rightAngle);
-    shape._liquid.type = "Liquid";
+    shape._liquid = new Liquid(shape);
     shape._full = true;
     shape._empty = false;
     shape._liquidColor = "transparent";

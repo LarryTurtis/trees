@@ -10,10 +10,10 @@ function level9() {
     let shapes = engine.shapesRegistry;
     hose = createHose();
     cup = createCup();
-    erlenmeyer = createErlenmeyer();
+    //erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
-    shapes.add(erlenmeyer);
+    //shapes.add(erlenmeyer);
     shapes.add(cup);
     shapes.add(createSpray());
 
@@ -26,20 +26,20 @@ function level9() {
     };
 
     cup.callback = function() {
-        if (hose.full && !cup.empty) {
-            counter -= 0.001;
-            cup.drain(counter);
-            cup.rotate(1, cup.center);
-            hose.rotate(1, cup.center);
-            spray.rotate(1, cup.center);
-        }
+        // if (hose.full && !cup.empty) {
+        //     counter -= 0.001;
+        //     // cup.drain(counter);
+        //     // cup.rotate(1, cup.center);
+        //     // hose.rotate(1, cup.center);
+        //     // spray.rotate(1, cup.center);
+        // }
     }
 
-    erlenmeyer.callback = function() {
-        //this.drain(counter);
-        this.fill(counter);
-        //this.rotate(-1, this.center)
-    }
+    // erlenmeyer.callback = function() {
+    //     //this.drain(counter);
+    //     this.fill(counter);
+    //     //this.rotate(-1, this.center)
+    // }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -102,7 +102,7 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.drain(10);
+    cup.rotate(10, cup.center);
     return cup;
 }
 

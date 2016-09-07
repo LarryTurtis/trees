@@ -1,6 +1,7 @@
 import { simples } from '../simples/simples.js';
 import { ContainerComposite } from './containerComposite.js';
 import { Container } from './container.js';
+import { Line } from '../line.js';
 
 class Cup extends ContainerComposite {
     constructor(x, y, width, height, taper) {
@@ -9,6 +10,15 @@ class Cup extends ContainerComposite {
         this.taper = taper;
         let shape = new simples.Trapezoid(x, y, width, height, taper, taper);
         this.addShape(shape);
+
+        shape.lines = () => {
+            return [
+                new Line(shape.topLeft, shape.topRight),
+                new Line(shape.topRight, shape.bottomRight),
+                new Line(shape.bottomRight, shape.bottomLeft),
+                new Line(shape.bottomLeft, shape.topLeft)
+            ];
+        };
     }
 }
 
