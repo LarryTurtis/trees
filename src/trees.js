@@ -28,6 +28,12 @@ class trees {
         return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
+    static moveToEnd(arr, numElements) {
+        for (let i = 0; i < numElements; i++) {
+            arr.push(arr.shift());
+        }
+    }
+
     static posNeg() {
         if (this.random(0, 1) === 0) return -1;
         else return 1;

@@ -11,9 +11,6 @@ function decorateContainer(shape) {
     shape._full = true;
     shape._empty = false;
     shape._liquidColor = "transparent";
-    if (!shape.lines) shape.lines = function() {
-        return [];
-    }
 
     Object.defineProperty(shape, 'liquid', {
         get: function() {

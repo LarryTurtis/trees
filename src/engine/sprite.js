@@ -1,4 +1,5 @@
-import { Point } from './point.js'
+import { Point } from './point.js';
+import { Line } from './line.js';
 import { scroll } from './animations/scroll.js'
 
 class Sprite {
@@ -23,10 +24,6 @@ class Sprite {
         this._collidingWith = null;
         this._collidable = false;
         this._minHeight = 1;
-        this._lines = () => {
-            return []
-        };
-
     }
 
     set x(x) {
@@ -59,14 +56,6 @@ class Sprite {
 
     set center(center) {
         this._center = center;
-    }
-
-    get lines() {
-        return this._lines;
-    }
-
-    set lines(lines) {
-        this._lines = lines;
     }
 
     get origin() {
@@ -265,6 +254,15 @@ class Sprite {
         this.center = trees.getPointOnLine(this.a, trees.getDistance(this.a, this.c) / 2, trees.getAngle(this.a, this.c));
         this._updateBoundaries();
     }
+
+    lines() {
+        return [
+            new Line(this.a, this.b),
+            new Line(this.b, this.c),
+            new Line(this.c, this.d),
+            new Line(this.d, this.a)
+        ];
+    };
 
     wasClicked(mouseX, mouseY) {
         if (this.boundary.a.x <= mouseX &&

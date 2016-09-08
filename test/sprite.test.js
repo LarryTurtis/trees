@@ -108,6 +108,38 @@ describe("Sprite", function() {
                 expect(ctx.lineJoin).to.equal("miter");
             });
         });
+        describe("lines", () => {
+            it("should have the lines function", () => {
+                expect(sprite.lines()).to.be.an.instanceOf(Array);
+                expect(sprite.lines().length).to.equal(4);
+                sprite.lines().forEach(line => {
+                    expect(line.constructor.name).to.equal('Line');
+                });
+            });
+            it("should return up-to-date points after rotate", () => {
+                let oldX = sprite.lines()[0].start.x;
+                let oldY = sprite.lines()[0].start.y;
+                sprite.rotate(10, sprite.center);
+                expect(sprite.lines()[0].start.x).not.to.equal(oldX);
+                expect(sprite.lines()[0].start.y).not.to.equal(oldY);
+            });
+            it("should return up-to-date points after move", () => {
+                let oldX = sprite.lines()[0].start.x;
+                let oldY = sprite.lines()[0].start.y;
+                sprite.x++;
+                sprite.y++;
+                expect(sprite.lines()[0].start.x).not.to.equal(oldX);
+                expect(sprite.lines()[0].start.y).not.to.equal(oldY);
+            });
+            it("should return up-to-date points after resize", () => {
+                let oldX = sprite.lines()[2].start.x;
+                let oldY = sprite.lines()[2].start.y;
+                sprite.width++;
+                sprite.height++;
+                expect(sprite.lines()[2].start.x).not.to.equal(oldX);
+                expect(sprite.lines()[2].start.y).not.to.equal(oldY);
+            });
+        });
         describe("rotate", () => {
             it("should exist", () => {
                 expect(sprite.rotate).to.exist;

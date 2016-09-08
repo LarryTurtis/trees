@@ -30,8 +30,8 @@ function level9() {
             //     counter -= 0.001;
             //     // cup.drain(counter);
             //cup.shape[1].lineHeight++;
-            cup.rotate(0.5, cup.center);
-            cup.shape[1].level();
+            // cup.rotate(0.5, cup.center);
+            // cup.shape[1].level();
 
             //     // hose.rotate(1, cup.center);
             //     // spray.rotate(1, cup.center);
@@ -105,7 +105,7 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.rotate(-50, cup.center);
+    cup.rotate(85, cup.center);
     cup.shape[1].level();
     return cup;
 }

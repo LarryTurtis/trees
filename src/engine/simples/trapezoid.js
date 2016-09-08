@@ -1,4 +1,5 @@
 import { Point } from '../point.js';
+import { Line } from '../line.js';
 import { Sprite } from '../sprite.js';
 
 class Trapezoid extends Sprite {
@@ -117,6 +118,15 @@ class Trapezoid extends Sprite {
     set rightAngle(rightAngle) {
         this._rightAngle = rightAngle;
     }
+
+    lines() {
+        return [
+            new Line(this.topLeft, this.topRight),
+            new Line(this.topRight, this.bottomRight),
+            new Line(this.bottomRight, this.bottomLeft),
+            new Line(this.bottomLeft, this.topLeft)
+        ];
+    };
 
     getSideLength(angle, height) {
         let radians = trees.degToRad(180 - angle);

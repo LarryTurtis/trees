@@ -8,16 +8,7 @@ class Cup extends ContainerComposite {
         super(x, y, width, height);
         this.type = "Cup";
         this.taper = taper;
-        let shape = new simples.Trapezoid(x, y, width, height, taper, taper);
-
-        shape._lines = function() {
-            return [
-                new Line(shape.topLeft, shape.topRight),
-                new Line(shape.topRight, shape.bottomRight),
-                new Line(shape.bottomRight, shape.bottomLeft),
-                new Line(shape.bottomLeft, shape.topLeft)
-            ];
-        };
+        let shape = new simples.Trapezoid(x, y, width, height, 100, 70);
         this.addShape(shape);
     }
 }
