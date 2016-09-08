@@ -30,10 +30,11 @@ class Liquid extends Sprite {
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
         this._container = container;
-        this._lineHeight = -180;
-        let p1 = { x: 0, y: 500 }
-        let p2 = { x: 1000, y: 500 };
-        this.levelLine = new Line(p1, p2);
+        this._liquidLevel = container.liquidLevel;
+        let p1 = { x: 0, y: this._liquidLevel }
+        let p2 = { x: 1000, y: this._liquidLevel };
+        this._levelLine = new Line(p1, p2);
+        this.lines = [];
     }
 
     get container() {
@@ -44,21 +45,24 @@ class Liquid extends Sprite {
         this._container = container;
     }
 
-    get lineHeight() {
-        return this._lineHeight;
+    get liquidLevel() {
+        return this._liquidLevel;
     }
 
-    set lineHeight(lineHeight) {
-        this._lineHeight = lineHeight;
+    set liquidLevel(liquidLevel) {
+        this._liquidLevel = liquidLevel;
+        let p1 = { x: 0, y: this._liquidLevel }
+        let p2 = { x: 1000, y: this._liquidLevel };
+        this._levelLine = new Line(p1, p2);
     }
-
 
     level() {
 
         let orientation = trees.getAngle(this.a, this.d);
-        console.log(orientation);
-        let start = null;
-        let end = null;
+        let rightIntersect = null;
+        let leftIntersect = null;
+        let rightIndex = 0;
+        let leftIndex = 0;
         this.lines = this.container.lines();
 
         if (orientation > 0 && orientation <= 90) {
@@ -81,50 +85,50 @@ class Liquid extends Sprite {
         }
 
         this.lines.forEach((line, index) => {
-            if (end) {
-                this.lines.splice(this.lines.indexOf(line), 1);
-            }
-
-            let intersection = trees.intersection(line, this.levelLine);
-            if ((intersection.onLine1 && intersection.onLine2) &&
-                intersection.x >= this.boundary.a.x &&
-                intersection.x <= this.boundary.b.x &&
-                intersection.y >= this.boundary.a.y &&
-                intersection.y <= this.boundary.d.y) {
-                if (!start) {
-                    start = intersection;
+            let intersection = trees.intersection(line, this._levelLine);
+            if (intersection.onLine1 && intersection.onLine2) {
+                if (!rightIntersect) {
+                    rightIndex = index;
+                    rightIntersect = intersection;
                 } else {
-                    end = intersection;
+                    leftIndex = index;
+                    leftIntersect = intersection;
                 }
-                if (!start) {
-                    this.lines.splice(this.lines.indexOf(line), 1);
-                }
-
             }
+
         });
 
+        this.lines.splice(0, rightIndex);
+        this.lines.splice(leftIndex, this.lines.length);
+
         //if intersections were found, assign to first line.
-        if (start && end) {
-            this.lines[0].start = end;
-            this.lines[0].end = start;
+        if (rightIntersect && leftIntersect) {
+            this.lines[0].start = leftIntersect;
+            this.lines[0].end = rightIntersect;
         } else {
-            this.lines = this.container.lines();
+            //no intersection was found.
+            //if container is below liquid line, draw filled container
+            if (this.container.y > this._levelLine.start.y) {
+                this.lines = this.container.lines();
+            }
         }
     }
 
     draw(ctx) {
         super.draw(ctx);
-        ctx.beginPath();
-        ctx.yMove(this.lines[0].start);
-        this.lines.forEach((line, index) => {
-            ctx.yLine(line.start)
-            ctx.yLine(line.end);
-        });
-        ctx.fill();
-        ctx.closePath();
-        ctx.yMove(this.levelLine.start);
-        ctx.yLine(this.levelLine.end);
-        ctx.stroke();
+        if (this.lines.length) {
+            ctx.beginPath();
+            ctx.yMove(this.lines[0].start);
+            this.lines.forEach((line, index) => {
+                ctx.yLine(line.start)
+                ctx.yLine(line.end);
+            });
+            ctx.fill();
+            ctx.closePath();
+            // ctx.yMove(this._levelLine.start);
+            // ctx.yLine(this._levelLine.end);
+            // ctx.stroke();
+        }
     }
 
 }

@@ -7,7 +7,7 @@ describe.only('Liquid', () => {
     beforeEach(() => {
         container = new Sprite(100, 100, 100, 100);
         liquid = new Liquid(container);
-
+        liquid.liquidLevel = 110;
     });
     describe('interface', () => {
         it('should exist', () => {
@@ -26,7 +26,6 @@ describe.only('Liquid', () => {
         beforeEach(() => {
             oldLines = container.lines();
             container.rotate(10, container.center);
-            liquid.level();
         });
         it("should update lines on container rotate", () => {
             expect(liquid.lines[0].start.x).not.to.equal(oldLines[0].start.x);

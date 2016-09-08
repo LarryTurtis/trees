@@ -10,10 +10,10 @@ function level9() {
     let shapes = engine.shapesRegistry;
     hose = createHose();
     cup = createCup();
-    //erlenmeyer = createErlenmeyer();
+    erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
-    //shapes.add(erlenmeyer);
+    shapes.add(erlenmeyer);
     shapes.add(cup);
     shapes.add(createSpray());
 
@@ -30,19 +30,18 @@ function level9() {
             //     counter -= 0.001;
             //     // cup.drain(counter);
             //cup.shape[1].lineHeight++;
-            // cup.rotate(0.5, cup.center);
-            // cup.shape[1].level();
+            //cup.rotate(0.5, cup.center);
 
             //     // hose.rotate(1, cup.center);
             //     // spray.rotate(1, cup.center);
         }
     }
 
-    // erlenmeyer.callback = function() {
-    //     //this.drain(counter);
-    //     this.fill(counter);
-    //     //this.rotate(-1, this.center)
-    // }
+    erlenmeyer.callback = function() {
+        //this.drain(counter);
+        //this.fill(counter);
+         //this.rotate(1, this.center)
+    }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -102,19 +101,21 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 86);
+    let cup = new engine.complex.Cup(300, 300, 200, 300, 75);
     cup.color = "white";
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.rotate(85, cup.center);
-    cup.shape[1].level();
+    cup.liquidLevel = 400;
+    cup.rotate(-90, cup.center);
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(100, 100, 200, 300, 110, 83);
+    let erlenmeyer = new engine.complex.Erlenmeyer(100, 200, 200, 300, 110, 83);
     erlenmeyer.color = "white";
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.drain(300);
+    erlenmeyer.liquidLevel = 300;
+    erlenmeyer.rotate(80, erlenmeyer.center)
+    // erlenmeyer.drain(300);
     return erlenmeyer;
 }
 

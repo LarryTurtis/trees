@@ -58,6 +58,15 @@ function decorateContainer(shape) {
         }
     });
 
+    Object.defineProperty(shape, 'liquidLevel', {
+        get: function() {
+            return this._liquidLevel;
+        },
+        set: function(liquidLevel) {
+            this._liquidLevel = liquidLevel;
+        }
+    });
+
     shape.drain = function(amount) {
         if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')

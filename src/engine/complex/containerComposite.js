@@ -7,6 +7,7 @@ class ContainerComposite extends ComplexShape {
         this.type = "ContainerComposite";
         this._liquidColor = "transparent";
         this._containers = [];
+        this._liquids = [];
     }
 
     get liquidLevelShape() {
@@ -28,8 +29,23 @@ class ContainerComposite extends ComplexShape {
         });
     }
 
+    get liquidLevel() {
+        return this._liquidLevel;
+    }
+
+    set liquidLevel(liquidLevel) {
+        this._liquidLevel = liquidLevel;
+        this.shape.forEach(shape => {
+            shape.liquidLevel = liquidLevel;
+        });
+    }
+
     get containers() {
         return this._containers;
+    }
+
+    get liquids() {
+        return this._liquids;
     }
 
     get full() {
@@ -48,6 +64,13 @@ class ContainerComposite extends ComplexShape {
         return result;
     }
 
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.liquids.forEach(liquid => {
+            liquid.level();
+        });
+    }
+
     addShape(shape) {
         let containerShape = decorateContainer(shape);
 
@@ -55,6 +78,7 @@ class ContainerComposite extends ComplexShape {
         super.addShape(containerShape.liquid);
 
         this.containers.push(containerShape);
+        this.liquids.push(containerShape.liquid);
 
         if (!this.liquidLevelShape) {
             this.liquidLevelShape = containerShape;

@@ -84,6 +84,17 @@ class trees {
         return new point.constructor(point.x, point.y);
     }
 
+    //returns array index of upper left point
+    static getUpperLeftPoint(points) {
+        let upperLeftPoint = 0;
+        points.forEach((point, index) => {
+            if (point.x < upperLeftPoint.x && point.y < upperLeftPoint.y) {
+                upperLeftPoint = index;
+            }
+        });
+        return upperLeftPoint;
+    }
+
     static intersection(line1, line2) {
         // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
         var denominator, a, b, numerator1, numerator2, result = {
