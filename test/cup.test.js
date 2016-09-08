@@ -20,10 +20,10 @@ describe('Cup', () => {
             expect(cup.shape).to.exist;
             expect(cup.shape.length).to.equal(2);
         });
-        it("should have a lines array", () => {
+        it("should have a lines function", () => {
             expect(cup.shape[0].lines).to.exist;
-            expect(cup.shape[0].lines).to.be.instanceOf(Array);
-            expect(cup.shape[0].lines.length).to.equal(4);
+            expect(cup.shape[0].lines).to.be.a.function;
+            expect(cup.shape[0].lines().length).to.equal(4);
         });
     });
 });

@@ -25,8 +25,7 @@ class Liquid extends Sprite {
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
         this._container = container;
-        this._lineHeight = -280;
-        console.log(container);
+        this._lineHeight = -180;
         this.lines = container.lines();
     }
 
@@ -48,36 +47,70 @@ class Liquid extends Sprite {
 
 
     level() {
+
+        let orientation = trees.getAngle(this.a, this.d);
+
         let p1 = trees.getPointOnLine(this.boundary.d, this.lineHeight, 90);
         let p2 = trees.getPointOnLine(this.boundary.c, this.lineHeight, 90);
         let levelLine = new Line(p1, p2);
         let start = null;
         let end = null;
-
         this.lines = this.container.lines();
-        this.lines.forEach(line => {
-            let intersection = trees.intersection(line, levelLine);
-            if (intersection.onLine1 && intersection.onLine2) {
-                if (!start) {
-                    line.start = start = intersection;
-                    
-                } else {
-                    line.end = end = intersection;
-                }
-                
-            } 
-        });
-        if (start && end) {
-            this.lines[0].start = start;
-            this.lines[0].end = end;
+
+        if (orientation > 0 && orientation <= 90) {
+            //bcda
+            this.lines.push(this.lines.shift());
         }
+
+        if (orientation > 90 && orientation <= 180) {
+            //abcd
+        }
+
+        if (orientation > -180 && orientation <= -90) {
+            //dabc
+            this.lines.push(this.lines.shift());
+            this.lines.push(this.lines.shift());
+            this.lines.push(this.lines.shift());
+        }
+
+        if (orientation > -90 && orientation <= 0) {
+            //cdab
+            this.lines.push(this.lines.shift());
+            this.lines.push(this.lines.shift());
+        }
+
+        this.lines.forEach((line, index) => {
+
+            if (end) {
+                this.lines.splice(this.lines.indexOf(line), 1);
+            }
+
+            let intersection = trees.intersection(line, levelLine);
+            if ((intersection.onLine1 && intersection.onLine2) &&
+                intersection.x >= this.boundary.a.x &&
+                intersection.x <= this.boundary.b.x &&
+                intersection.y >= this.boundary.a.y &&
+                intersection.y <= this.boundary.d.y) {
+                if (!start) {
+                    start = intersection;
+                } else {
+                    end = intersection;
+                }
+                if (!start) {
+                    this.lines.splice(this.lines.indexOf(line), 1);
+                }
+
+            }
+        });
+        this.lines[0].start = end;
+        this.lines[0].end = start;
     }
 
     draw(ctx) {
         super.draw(ctx);
         ctx.beginPath();
-        //ctx.yMove(this.lines[0].start);
-        this.lines.forEach(line => {
+        // ctx.yMove(this.lines[0].start);
+        this.lines.forEach((line, index) => {
             ctx.yLine(line.start)
             ctx.yLine(line.end);
         });
@@ -87,10 +120,9 @@ class Liquid extends Sprite {
         let p1 = trees.getPointOnLine(this.boundary.d, this.lineHeight, 90);
         let p2 = trees.getPointOnLine(this.boundary.c, this.lineHeight, 90);
         let levelLine = new Line(p1, p2);
-        ctx.lineColor = "black";
         // ctx.yMove(levelLine.start);
         // ctx.yLine(levelLine.end);
-        //ctx.stroke();
+        // ctx.stroke();
     }
 
 }

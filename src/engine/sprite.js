@@ -23,6 +23,9 @@ class Sprite {
         this._collidingWith = null;
         this._collidable = false;
         this._minHeight = 1;
+        this._lines = () => {
+            return []
+        };
 
     }
 
