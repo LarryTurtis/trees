@@ -150,7 +150,7 @@ class Canvas {
                         }
                     }
 
-                    shape.draw(this.ctx);
+                    if (shape.visible) shape.draw(this.ctx);
                 });
 
             }

@@ -23,6 +23,12 @@ class Hose extends ComplexShape {
         }
     }
 
+    addLink() {
+        let lastLink = this.shape[this.shape.length - 1];
+        let link = new simples.Rectangle(lastLink.b.x, lastLink.b.y, this.height, this.height);
+        this.addShape(link);
+    }
+
     selectSection(shape) {
         this.shape.forEach(shape => {
             shape.color = this.color;
@@ -143,7 +149,7 @@ class Hose extends ComplexShape {
         let rightMostShape;
         let topMostShape;
         let bottomMostShape;
-        if (this.shape) {
+        if (this.shape && this.shape.length > 0) {
             this.shape.forEach(shape => {
                 if (!leftMostShape || shape.a.x < leftMostShape.a.x) {
                     leftMostShape = shape;

@@ -150,7 +150,7 @@ class ComplexShape extends Sprite {
         ctx.beginPath();
 
         this.shape.forEach(shape => {
-            shape.draw(ctx);
+            if (shape.visible) shape.draw(ctx);
         });
 
         ctx.closePath();

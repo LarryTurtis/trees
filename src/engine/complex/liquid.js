@@ -60,12 +60,13 @@ class Liquid extends Sprite {
         let rightIntersection;
         this.lines = [];
 
+        this.container.pouring = false;
+        
         this.container.lines().forEach((line, index) => {
             let intersection = trees.intersection(line, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
-                console.log(index, this.container.opening);
-                if (index === this.container.opening) {
-                    console.log("pour!");
+                if (index === this.container.openingIndex) {
+                    this.container.pouring = true;
                 }
 
                 line.intersection = intersection;
@@ -77,6 +78,11 @@ class Liquid extends Sprite {
                 this.lines.push(line);
             } else {
                 if (line.start.y > this._levelLine.start.y) {
+
+                    if (index === this.container.openingIndex) {
+                        this.container.pouring = true;
+                    }
+
                     this.lines.push(line);
                 }
             }

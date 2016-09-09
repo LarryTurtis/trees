@@ -1,12 +1,14 @@
 import { simples } from '../simples/simples.js';
-import { Container } from './container.js';
+import { ContainerComposite } from './containerComposite.js';
+import { Hose } from './hose.js';
 
-class Erlenmeyer extends Container {
+class Erlenmeyer extends ContainerComposite {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Erlenmeyer";
 
         let lip = new simples.Rectangle(this.x + this.width / 4, this.y, this.width / 2, this.height / 20);
+
         let neckWidth = this.width / 2.5;
 
         let neck = new simples.Rectangle(trees.getCenterX(neckWidth, this), this.y + lip.height, neckWidth, this.height / 4);
@@ -19,11 +21,16 @@ class Erlenmeyer extends Container {
             trees.getAngle(neck.d, bottom.a),
             trees.getAngle(neck.d, bottom.a));
 
-        this.opening = lip.lines()[0]
+
+        //this.pour = new Hose(lip.x, lip.y - lip.width, lip.width, lip.width);
+
         this.addShape(lip);
+        lip.openingIndex = 0;
+
         this.addShape(neck);
         this.addShape(body);
         this.addShape(bottom);
+        // this.addShape(this.pour);
 
     }
 

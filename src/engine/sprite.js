@@ -24,6 +24,7 @@ class Sprite {
         this._collidingWith = null;
         this._collidable = false;
         this._minHeight = 1;
+        this._visible = true;
     }
 
     set x(x) {
@@ -219,6 +220,14 @@ class Sprite {
 
     set collidingWith(collidingWith) {
         this._collidingWith = collidingWith;
+    }
+
+    get visible() {
+        return this._visible;
+    }
+
+    set visible(visible) {
+        this._visible = visible;
     }
 
     rotate_point(point, origin, deg) {

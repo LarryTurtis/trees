@@ -53,6 +53,10 @@ describe("Sprite", function() {
             expect(sprite.color).to.exist;
             expect(sprite.color).to.equal("transparent");
         });
+        it("should have visibility", () => {
+            expect(sprite.visible).to.exist;
+            expect(sprite.visible).to.be.true;
+        });
         it("should not have a line color if not supplied", () => {
             expect(sprite.lineColor).to.be.null;
         });
