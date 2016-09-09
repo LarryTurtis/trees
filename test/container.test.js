@@ -1,180 +1,102 @@
 import { Sprite } from '../src/engine/sprite.js';
-import { decorateContainer } from '../src/engine/complex/container.js';
+import { Container } from '../src/engine/complex/container.js';
 
-describe('Container', () => {
+describe('Container Composite', () => {
 
-    let x = 1;
-    let y = 2;
-    let width = 3;
-    let height = 40;
+    let x = 100;
+    let y = 200;
+    let width = 300;
+    let height = 400;
     let tolerance = 0.01;
 
-    let sprite;
     let container;
 
     beforeEach(() => {
-        sprite = new Sprite(x, y, width, height);
+        container = new Container(x, y, width, height);
     });
 
-    describe('before decoration', () => {
+    describe('construction', () => {
         it('should exist', () => {
-            expect(sprite).to.exist;
-        });
-        it("should not have property liquid", () => {
-            expect(sprite.liquid).not.to.exist;
-        });
-        it("should not have property full", () => {
-            expect(sprite.full).not.to.exist;
-        });
-        it("should not have property empty", () => {
-            expect(sprite.empty).not.to.exist;
-        });
-        it("should not have property liquidColor", () => {
-            expect(sprite.liquidColor).not.to.exist;
-        });
-        it("should not have property drain", () => {
-            expect(sprite.drain).not.to.exist;
-        });
-        it("should have not property fill", () => {
-            expect(sprite.fill).not.to.exist;
-        });
-    });
-    describe('after decoration', () => {
-
-        beforeEach(() => {
-            decorateContainer(sprite);
-        });
-
-        it('should exist', () => {
-            expect(sprite).to.exist;
-        });
-        it("should have property liquid", () => {
-            expect(sprite.liquid).to.exist;
-        });
-        it("should have property full", () => {
-            expect(sprite.full).to.exist;
-        });
-        it("should have property empty", () => {
-            expect(sprite.empty).to.exist;
+            expect(container).to.exist;
         });
         it("should have property liquidColor", () => {
-            expect(sprite.liquidColor).to.exist;
-        });
-        it("should allow client to set liquid color correctly", () => {
-            sprite.liquidColor = "orange";
-            expect(sprite.liquidColor).to.equal("orange");
-            expect(sprite.liquid.color).to.equal("orange");
+            expect(container.liquidColor).to.exist;
         });
         it("should have property drain", () => {
-            expect(sprite.drain).to.exist;
+            expect(container.drain).to.exist;
         });
         it("should have property fill", () => {
-            expect(sprite.fill).to.exist;
+            expect(container.fill).to.exist;
+        });
+        it("should have property addShape", () => {
+            expect(container.addShape).to.exist;
+        });
+        it("should have property full", () => {
+            expect(container.full).to.exist;
+        });
+        it("should have property empty", () => {
+            expect(container.empty).to.exist;
+        });
+        it("should have property containers", () => {
+            expect(container.containers).to.exist;
+            expect(container.containers.length).to.equal(0);
+        });
+    });
+    describe("methods", () => {
+
+        let sprite1;
+        let sprite2;
+
+        beforeEach(() => {
+            sprite1 = new Sprite(0, 0, 100, 100);
+            sprite2 = new Sprite(0, 0, 100, 200);
+            container.addShape(sprite1);
+            container.addShape(sprite2);
         });
 
-        describe("drain method", () => {
-            it("should start out full", () => {
-                expect(sprite.empty).to.be.false;
-                expect(sprite.full).to.be.true;
+        describe("addShape", () => {
+            it("should allow the client to add a shape to the composite", () => {
+                expect(container.shape[0]).to.equal(sprite1);
             });
-            it("should throw an error if drain amount is not a number", () => {
-                expect(() => { sprite.drain("abc") }).to.throw(Error);
-            });
-            it("should throw an error if drain method is called with a negative number", () => {
-                expect(() => { sprite.drain(-1) }).to.throw(Error);
-            });
-            it("should still be full if drain method is called with 0", () => {
-                sprite.drain(0);
-                expect(sprite.full).to.be.true;
-                expect(sprite.empty).to.be.false;
-            });
-            it("should not be full if drain method is called with a positive number", () => {
-                sprite.drain(1);
-                expect(sprite.full).to.be.false;
-                expect(sprite.empty).to.be.false;
-            });
-            it("should be empty if drain method is called with a positive number greater than liquid height", () => {
-                let height = sprite.liquid.height + 1;
-                sprite.drain(height);
-                expect(sprite.full).to.be.false;
-                expect(sprite.empty).to.be.true;
-            });
-            it("should be empty if drain method is called with a positive number equal to liquid height", () => {
-                let height = sprite.liquid.height;
-                sprite.drain(height);
-                expect(sprite.full).to.be.false;
-                expect(sprite.empty).to.be.true;
-            });
-            it("should return remainder of zero if amount is less than height", () => {
-                let height = 10;
-                let remainder = sprite.drain(height);
-                expect(remainder).to.equal(0);
-            });
-            it("should return remainder of zero if amount is same as height", () => {
-                let height = sprite.liquid.height;
-                let remainder = sprite.drain(height);
-                expect(remainder).to.equal(0);
-            });
-            it("should return correct remainder if amount is greater than height", () => {
-                let height = sprite.liquid.height + 10;
-                let remainder = sprite.drain(height);
-                expect(remainder).to.equal(10);
-            });
-            it("should never set height below minimum height", () => {
-                let height = sprite.liquid.height + 10;
-                let remainder = sprite.drain(height);
-                expect(sprite.liquid.height).to.be.at.least(sprite.liquid._minHeight);
+
+            it("should add the containers to the containers array", () => {
+                expect(container.containers.length).to.equal(2);
+                expect(container.containers[0]).to.equal(sprite1);
+                expect(container.containers[1]).to.equal(sprite2);
             });
         });
-        describe("fill method", () => {
+
+        describe("drain", () => {
+
+            let spy1;
+            let spy2;
+
+            it("should be full by default", () => {
+                expect(container.full).to.be.true;
+                expect(container.empty).to.be.false;
+            });
+            it("should no longer be full after drain is called with positive number", () => {
+                container.drain(10);
+                expect(container.full).to.be.false;
+                expect(container.empty).to.be.false;
+            });
+        });
+        describe("fill", () => {
+
+            let spy1;
+            let spy2;
+
             beforeEach(() => {
-                sprite.drain(sprite.liquid.height);
+                container.liquidLevel = container.y + container.height;
             });
-            it("should start out empty", () => {
-                expect(sprite.empty).to.be.true;
-                expect(sprite.full).to.be.false;
+            it("should be empty by default", () => {
+                expect(container.empty).to.be.true;
+                expect(container.full).to.be.false;
             });
-            it("should throw an error if fill amount is not a number", () => {
-                expect(() => { sprite.fill("abc") }).to.throw(Error);
-            });
-            it("should throw an error if fill method is called with a negative number", () => {
-                expect(() => { sprite.fill(-1) }).to.throw(Error);
-            });
-            it("should still be empty if fill method is called with 0", () => {
-                sprite.fill(0);
-                expect(sprite.full).to.be.false;
-                expect(sprite.empty).to.be.true;
-            });
-            it("should not be empty if fill method is called with a positive number", () => {
-                sprite.fill(1);
-                expect(sprite.full).to.be.false;
-                expect(sprite.empty).to.be.false;
-            });
-            it("should be full if fill method is called with a positive number greater than container height", () => {
-                let height = sprite.height + 1;
-                sprite.fill(height);
-                expect(sprite.full).to.be.true;
-                expect(sprite.empty).to.be.false;
-            });
-            it("should not be able to fill more than the container height", () => {
-                let height = sprite.height + 10;
-                sprite.fill(height);
-                expect(sprite.liquid.height).to.equal(sprite.height);
-            });
-            it("should return remainder of zero if amount is less than height", () => {
-                let height = 10;
-                let remainder = sprite.fill(height);
-                expect(remainder).to.equal(0);
-            });
-            it("should return remainder of zero if amount is same as container height", () => {
-                let height = sprite.height;
-                let remainder = sprite.fill(height);
-                expect(remainder).to.equal(0);
-            });
-            it("should return correct remainder if amount is greater than height", () => {
-                let height = sprite.height + 10;
-                let remainder = sprite.fill(height);
-                expect(remainder).to.be.closeTo(10, tolerance);
+            it("should no longer be empty after fill is called with positive number", () => {
+                container.fill(10);
+                expect(container.empty).to.be.false;
+                expect(container.full).to.be.false;
             });
         });
     });

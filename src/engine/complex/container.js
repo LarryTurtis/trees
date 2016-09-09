@@ -1,105 +1,114 @@
 import { ComplexShape } from './complexShape.js';
-import { complex } from './complex.js';
-import { Liquid } from './liquid.js';
+import { Liquid } from './Liquid.js';
 
-function decorateContainer(shape) {
+class Container extends ComplexShape {
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
+        this.type = "Container";
+        this._liquidColor = "transparent";
+        this._containers = [];
+        this._liquids = [];
+        this._liquidLevel = y;
+        this._empty = false;
+        this._full = true;
+    }
 
-    shape.type = (shape.type || "") + "Container";
-    shape.opacity = 0.2;
+    get liquidColor() {
+        return this._liquidColor;
+    }
 
-    shape._liquid = new Liquid(shape);
-    shape._full = true;
-    shape._empty = false;
-    shape._liquidColor = "transparent";
+    set liquidColor(liquidColor) {
+        this._liquidColor = liquidColor;
+        this.liquids.forEach(shape => {
+            shape.color = liquidColor;
+        });
+    }
 
-    Object.defineProperty(shape, 'liquid', {
-        get: function() {
-            return this._liquid;
-        },
-        set: function(liquid) {
-            this._liquid = liquid;
-        }
-    });
+    get liquidLevel() {
+        return this._liquidLevel;
+    }
 
-    Object.defineProperty(shape, 'liquidColor', {
-        get: function() {
-            return this._liquidColor;
-        },
-        set: function(liquidColor) {
-            this._liquidColor = liquidColor;
-            shape.liquid.color = liquidColor;
-        }
-    });
+    set liquidLevel(liquidLevel) {
+        this._liquidLevel = liquidLevel;
+        
+        this.empty = this.liquidLevel >= this.boundary.d.y;
+        this.full = this.liquidLevel <= this.boundary.a.y;
+        this.liquids.forEach(shape => {
+            shape.liquidLevel = liquidLevel;
+        });
+    }
 
-    Object.defineProperty(shape, 'color', {
-        get: function() {
-            return this._color;
-        },
-        set: function(color) {
-            this._color = trees.setOpacity(color, shape.opacity);
-        }
-    });
+    get containers() {
+        return this._containers;
+    }
 
-    Object.defineProperty(shape, 'full', {
-        get: function() {
-            return this._full;
-        },
-        set: function(full) {
-            this._full = full;
-        }
-    });
+    get liquids() {
+        return this._liquids;
+    }
 
-    Object.defineProperty(shape, 'empty', {
-        get: function() {
-            return this._empty;
-        },
-        set: function(empty) {
-            this._empty = empty;
-        }
-    });
+    get full() {
+        return this._full;
+    }
 
-    Object.defineProperty(shape, 'liquidLevel', {
-        get: function() {
-            return this._liquidLevel;
-        },
-        set: function(liquidLevel) {
-            this._liquidLevel = liquidLevel;
-            this._liquid.liquidLevel = liquidLevel;
-            this._liquid.level();
-        }
-    });
+    set full(full) {
+        this._full = full;
+    }
 
-    shape.drain = function(amount) {
+    get empty() {
+        return this._empty;
+    }
+
+    set empty(empty) {
+        this._empty = empty;
+    }
+
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.liquids.forEach(liquid => {
+            liquid.level();
+        });
+    }
+
+    addShape(shape) {
+
+        let liquid = new Liquid(shape);
+
+        liquid.color = this.liquidColor;
+        liquid.liquidLevel = this.liquidLevel;
+
+        super.addShape(shape);
+        super.addShape(liquid);
+
+        this.containers.push(shape);
+        this.liquids.push(liquid);
+
+    }
+
+    drain(amount) {
         if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')
         }
-        let remainder = amount - shape.liquid.height;
+        if (!this.empty) {
+            this.liquidLevel += amount;
+        }
 
-        shape.liquid.trimTop(amount);
-        shape.empty = shape.liquid.height <= shape._minHeight;
-        shape.full = shape.liquid.height >= shape.height;
+        this.empty = this.liquidLevel >= this.boundary.d.y;
+        this.full = this.liquidLevel <= this.boundary.a.y;
 
-        //return unused portion, if any, of amount
-        return remainder > 0 ? remainder : 0;
     }
 
-    shape.fill = function(amount) {
+    fill(amount) {
         if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')
         }
-        let unfilled = shape.height - shape.liquid.height;
-        let remainder = amount - unfilled;
-        amount = remainder > 0 ? unfilled : amount;
-        shape.liquid.growTop(amount);
-        shape.empty = shape.liquid.height <= shape._minHeight;
-        shape.full = shape.liquid.height >= shape.height;
+        if (!this.full) {
+            this.liquidLevel -= amount;
+        }
 
-        //return unused portion, if any, of amount
-        return remainder > 0 ? remainder - shape._minHeight : 0;
+        this.empty = this.liquidLevel >= this.boundary.d.y;
+        this.full = this.liquidLevel <= this.boundary.a.y;
     }
 
-    return shape;
 }
 
-
-export { decorateContainer }
+export { Container }

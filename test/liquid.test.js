@@ -1,7 +1,7 @@
 import { Sprite } from '../src/engine/sprite.js';
 import { Liquid } from '../src/engine/complex/liquid.js';
 
-describe.only('Liquid', () => {
+describe('Liquid', () => {
     let liquid;
     let container;
     beforeEach(() => {
@@ -26,9 +26,10 @@ describe.only('Liquid', () => {
         beforeEach(() => {
             oldLines = container.lines();
             container.rotate(10, container.center);
+            liquid.level();
         });
         it("should update lines on container rotate", () => {
-            expect(liquid.lines[0].start.x).not.to.equal(oldLines[0].start.x);
+            expect(liquid.lines[0].end.x).not.to.equal(oldLines[0].end.x);
         });
     });
 });

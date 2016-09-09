@@ -50,13 +50,14 @@ class Liquid extends Sprite {
         let p1 = { x: 0, y: this._liquidLevel }
         let p2 = { x: 1000, y: this._liquidLevel };
         this._levelLine = new Line(p1, p2);
+        this.level();
     }
 
     level() {
         let intersect1 = null;
         let intersect2 = null;
-        let left;
-        let right;
+        let leftIntersection;
+        let rightIntersection;
         this.lines = [];
 
         this.container.lines().forEach((line, index) => {
@@ -77,13 +78,13 @@ class Liquid extends Sprite {
         });
 
         if (intersect1 && intersect2) {
-            left = intersect1.x < intersect2.x ? intersect1 : intersect2;
-            right = intersect1.x > intersect2.x ? intersect1 : intersect2;
+            leftIntersection = intersect1.x < intersect2.x ? intersect1 : intersect2;
+            rightIntersection = intersect1.x > intersect2.x ? intersect1 : intersect2;
         }
 
         this.lines.forEach(line => {
-            if (line.intersection) {
-                if (line.intersection.x === left.x && line.intersection.y === left.y) {
+            if (line.intersection && leftIntersection) {
+                if (line.intersection.x === leftIntersection.x && line.intersection.y === leftIntersection.y) {
                     line.end = line.intersection;
                 } else {
                     line.start = line.intersection;

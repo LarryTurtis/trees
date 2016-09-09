@@ -1,7 +1,7 @@
 import { simples } from '../simples/simples.js';
-import { ContainerComposite } from './containerComposite.js';
+import { Container } from './container.js';
 
-class Erlenmeyer extends ContainerComposite {
+class Erlenmeyer extends Container {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Erlenmeyer";
