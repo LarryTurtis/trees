@@ -19,6 +19,7 @@ class Erlenmeyer extends Container {
             trees.getAngle(neck.d, bottom.a),
             trees.getAngle(neck.d, bottom.a));
 
+        this.opening = lip.lines()[0]
         this.addShape(lip);
         this.addShape(neck);
         this.addShape(body);

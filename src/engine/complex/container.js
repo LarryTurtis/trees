@@ -30,7 +30,7 @@ class Container extends ComplexShape {
 
     set liquidLevel(liquidLevel) {
         this._liquidLevel = liquidLevel;
-        
+
         this.empty = this.liquidLevel >= this.boundary.d.y;
         this.full = this.liquidLevel <= this.boundary.a.y;
         this.liquids.forEach(shape => {
@@ -44,6 +44,14 @@ class Container extends ComplexShape {
 
     get liquids() {
         return this._liquids;
+    }
+
+    get opening() {
+        return this._opening;
+    }
+
+    set opening(opening) {
+        this._opening = opening;
     }
 
     get full() {

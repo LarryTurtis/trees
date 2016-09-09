@@ -63,6 +63,11 @@ class Liquid extends Sprite {
         this.container.lines().forEach((line, index) => {
             let intersection = trees.intersection(line, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
+                console.log(index, this.container.opening);
+                if (index === this.container.opening) {
+                    console.log("pour!");
+                }
+
                 line.intersection = intersection;
                 if (!intersect1) {
                     intersect1 = intersection;
