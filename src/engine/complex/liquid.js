@@ -30,11 +30,7 @@ class Liquid extends Sprite {
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
         this._container = container;
-        this._liquidLevel = container.liquidLevel;
-        let p1 = { x: 0, y: this._liquidLevel }
-        let p2 = { x: 1000, y: this._liquidLevel };
-        this._levelLine = new Line(p1, p2);
-        this.lines = [];
+        this.lines = this.container.lines();
     }
 
     get container() {
@@ -57,61 +53,44 @@ class Liquid extends Sprite {
     }
 
     level() {
+        let intersect1 = null;
+        let intersect2 = null;
+        let left;
+        let right;
+        this.lines = [];
 
-        let orientation = trees.getAngle(this.a, this.d);
-        let rightIntersect = null;
-        let leftIntersect = null;
-        let rightIndex = 0;
-        let leftIndex = 0;
-        this.lines = this.container.lines();
-
-        if (orientation > 0 && orientation <= 90) {
-            //bcda
-            trees.moveToEnd(this.lines, 1);
-        }
-
-        if (orientation > 90 && orientation <= 180) {
-            //abcd
-        }
-
-        if (orientation > -180 && orientation <= -90) {
-            //dabc
-            trees.moveToEnd(this.lines, 3);
-        }
-
-        if (orientation > -90 && orientation <= 0) {
-            //cdab
-            trees.moveToEnd(this.lines, 2);
-        }
-
-        this.lines.forEach((line, index) => {
+        this.container.lines().forEach((line, index) => {
             let intersection = trees.intersection(line, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
-                if (!rightIntersect) {
-                    rightIndex = index;
-                    rightIntersect = intersection;
+                line.intersection = intersection;
+                if (!intersect1) {
+                    intersect1 = intersection;
                 } else {
-                    leftIndex = index;
-                    leftIntersect = intersection;
+                    intersect2 = intersection;
+                }
+                this.lines.push(line);
+            } else {
+                if (line.start.y > this._levelLine.start.y) {
+                    this.lines.push(line);
                 }
             }
-
         });
 
-        this.lines.splice(0, rightIndex);
-        this.lines.splice(leftIndex, this.lines.length);
-
-        //if intersections were found, assign to first line.
-        if (rightIntersect && leftIntersect) {
-            this.lines[0].start = leftIntersect;
-            this.lines[0].end = rightIntersect;
-        } else {
-            //no intersection was found.
-            //if container is below liquid line, draw filled container
-            if (this.container.y > this._levelLine.start.y) {
-                this.lines = this.container.lines();
-            }
+        if (intersect1 && intersect2) {
+            left = intersect1.x < intersect2.x ? intersect1 : intersect2;
+            right = intersect1.x > intersect2.x ? intersect1 : intersect2;
         }
+
+        this.lines.forEach(line => {
+            if (line.intersection) {
+                if (line.intersection.x === left.x && line.intersection.y === left.y) {
+                    line.end = line.intersection;
+                } else {
+                    line.start = line.intersection;
+                }
+            }
+        });
+
     }
 
     draw(ctx) {

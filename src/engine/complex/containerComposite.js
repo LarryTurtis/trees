@@ -35,7 +35,7 @@ class ContainerComposite extends ComplexShape {
 
     set liquidLevel(liquidLevel) {
         this._liquidLevel = liquidLevel;
-        this.shape.forEach(shape => {
+        this.containers.forEach(shape => {
             shape.liquidLevel = liquidLevel;
         });
     }

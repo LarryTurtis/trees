@@ -64,6 +64,8 @@ function decorateContainer(shape) {
         },
         set: function(liquidLevel) {
             this._liquidLevel = liquidLevel;
+            this._liquid.liquidLevel = liquidLevel;
+            this._liquid.level();
         }
     });
 
