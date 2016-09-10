@@ -21,17 +21,12 @@ class Erlenmeyer extends ContainerComposite {
             trees.getAngle(neck.d, bottom.a),
             trees.getAngle(neck.d, bottom.a));
 
-
-        //this.pour = new Hose(lip.x, lip.y - lip.width, lip.width, lip.width);
-
         this.addShape(lip);
         lip.openingIndex = 0;
 
         this.addShape(neck);
         this.addShape(body);
         this.addShape(bottom);
-        // this.addShape(this.pour);
-
     }
 
 }

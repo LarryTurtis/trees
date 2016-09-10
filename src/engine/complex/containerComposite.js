@@ -1,5 +1,6 @@
 import { ComplexShape } from './complexShape.js';
 import { Liquid } from './liquid.js';
+import { Stream } from './stream.js';
 import { Container } from './container.js';
 
 class ContainerComposite extends ComplexShape {
@@ -47,6 +48,14 @@ class ContainerComposite extends ComplexShape {
         return this._liquids;
     }
 
+    get pouringFromPoint() {
+        let pouringFromPoint = null;
+        this.liquids.forEach(liquid => {
+            pouringFromPoint = pouringFromPoint || liquid.pouringFromPoint;
+        });
+        return pouringFromPoint;
+    }
+
     get pouring() {
         let result = false;
         this.containers.forEach(container => {
@@ -76,6 +85,23 @@ class ContainerComposite extends ComplexShape {
         this.liquids.forEach(liquid => {
             liquid.level();
         });
+
+        if (this.pouring) {
+            if (!this.stream) {
+                let start = this.pouringFromPoint;
+                this.stream = new Stream(start.x, start.y, window.innerHeight - start.y, 10);
+                this.stream.rotate(90, this.stream.origin)
+                super.addShape(this.stream);
+            } else {
+                console.log("start");
+                this.stream.pour();
+            }
+        } else {
+            if (this.stream) {
+                console.log("stop");
+                this.stream.stopPour();
+            }
+        }
     }
 
     addShape(shape) {

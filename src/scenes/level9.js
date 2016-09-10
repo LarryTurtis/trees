@@ -12,12 +12,12 @@ function level9() {
     cup = createCup();
     erlenmeyer = createErlenmeyer();
 
-    shapes.add(hose);
+   // shapes.add(hose);
    // hose.addLink();
 
     shapes.add(erlenmeyer);
-    //shapes.add(cup);
-    shapes.add(createSpray());
+   // shapes.add(cup);
+   // shapes.add(createSpray());
 
     hose.callback = function() {
         if (cup.empty) {
@@ -25,8 +25,6 @@ function level9() {
         } else {
             hose.fill();
         }
-        hose.addLink();
-        //hose.height += 0.1;
     };
 
     cup.callback = function() {
@@ -41,7 +39,7 @@ function level9() {
     erlenmeyer.callback = function() {
         //this.drain(counter);
         //this.fill(counter);
-        this.rotate(1, this.center)
+        //this.rotate(1, this.center)
         if (this.pouring) {}
     }
 
@@ -73,9 +71,11 @@ function level9() {
 
     engine.canvas.addEventListener('upArrow', function(e) {
         hose.bend(-3);
+        erlenmeyer.rotate(-3, erlenmeyer.center)
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(3);
+        erlenmeyer.rotate(3, erlenmeyer.center)
     });
 
     engine.canvas.addEventListener('leftArrow', function(e) {
