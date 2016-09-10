@@ -26,6 +26,8 @@ class Hose extends ComplexShape {
     addLink() {
         let lastLink = this.shape[this.shape.length - 1];
         let link = new simples.Rectangle(lastLink.b.x, lastLink.b.y, this.height, this.height);
+        let angle = trees.getAngle(lastLink.a, lastLink.b);
+        link.rotate(angle, lastLink.b);
         this.addShape(link);
     }
 

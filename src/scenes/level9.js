@@ -13,6 +13,8 @@ function level9() {
     erlenmeyer = createErlenmeyer();
 
     shapes.add(hose);
+   // hose.addLink();
+
     shapes.add(erlenmeyer);
     //shapes.add(cup);
     shapes.add(createSpray());
@@ -23,6 +25,8 @@ function level9() {
         } else {
             hose.fill();
         }
+        hose.addLink();
+        //hose.height += 0.1;
     };
 
     cup.callback = function() {
@@ -38,8 +42,7 @@ function level9() {
         //this.drain(counter);
         //this.fill(counter);
         this.rotate(1, this.center)
-        if (this.pouring) {
-        }
+        if (this.pouring) {}
     }
 
     let dragging = false;
