@@ -6,6 +6,10 @@ class Stream extends ComplexShape {
         super(x, y, width, height);
         this.type = "Stream";
         let stream = new Hose(x, y, width, height);
+        stream.sectionColor = this.color;
+        stream.sectionLength = 2;
+        stream.selectSection(stream.shape[0]);
+        stream.bend(90);
         this.addShape(stream);
         this.pourTimer;
         this.stopTimer;
@@ -23,21 +27,17 @@ class Stream extends ComplexShape {
         })
     }
 
-    pour() {
-
-        clearInterval(this.stopTimer);
-        this.stopTimer = null;
+    startPour() {
 
         if (!this.pourTimer) {
             this.pourTimer = setInterval(() => {
-                console.log("pouring");
                 if (!this.full) {
                     this.fill(1);
                 } else {
                     clearInterval(this.pourTimer);
                     this.pourTimer = null;
                 }
-            }, 50);
+            }, 10);
         }
     }
 
@@ -48,14 +48,13 @@ class Stream extends ComplexShape {
 
         if (!this.stopTimer) {
             this.stopTimer = setInterval(() => {
-                console.log("not pouring");
                 if (!this.empty) {
                     this.drain(1);
                 } else {
                     clearInterval(this.stopTimer);
                     this.stopTimer = null;
                 }
-            }, 50);
+            }, 10);
         }
     }
 
@@ -71,7 +70,6 @@ class Stream extends ComplexShape {
         let empty = true;
         this.shape.forEach(shape => {
             empty = empty && shape.empty;
-            console.log(empty);
         });
         return empty;
     }

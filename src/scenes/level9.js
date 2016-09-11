@@ -13,10 +13,9 @@ function level9() {
     erlenmeyer = createErlenmeyer();
 
    // shapes.add(hose);
-   // hose.addLink();
 
-    shapes.add(erlenmeyer);
-   // shapes.add(cup);
+    //shapes.add(erlenmeyer);
+    shapes.add(cup);
    // shapes.add(createSpray());
 
     hose.callback = function() {
@@ -28,19 +27,18 @@ function level9() {
     };
 
     cup.callback = function() {
-        if (hose.full && !cup.empty) {
-            cup.drain(1);
-            cup.rotate(1, cup.center);
-            hose.rotate(1, cup.center);
-            spray.rotate(1, cup.center);
-        }
+        //    cup.rotate(1, cup.center);
+        // if (hose.full && !cup.empty) {
+        //     cup.drain(1);
+        //     hose.rotate(1, cup.center);
+        //     spray.rotate(1, cup.center);
+        // }
     }
 
     erlenmeyer.callback = function() {
         //this.drain(counter);
         //this.fill(counter);
         //this.rotate(1, this.center)
-        if (this.pouring) {}
     }
 
     let dragging = false;
@@ -72,10 +70,12 @@ function level9() {
     engine.canvas.addEventListener('upArrow', function(e) {
         hose.bend(-3);
         erlenmeyer.rotate(-3, erlenmeyer.center)
+        cup.rotate(-3, cup.center)
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(3);
         erlenmeyer.rotate(3, erlenmeyer.center)
+        cup.rotate(3, cup.center)
     });
 
     engine.canvas.addEventListener('leftArrow', function(e) {
@@ -111,7 +111,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(100, 200, 200, 300, 110, 83);
+    let erlenmeyer = new engine.complex.Erlenmeyer(100, 200, 200, 300);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.liquidLevel = 400;
@@ -124,17 +124,6 @@ function createHose() {
     hose.rotate(-85, hose.center);
     hose.color = trees.setOpacity("lightPink", 0.3); //trees.randomColor();
     hose.sectionColor = trees.setOpacity("pink", 0.3); //trees.randomColor();
-
-    let randSection = trees.random(1, hose.length);
-    let randBend = trees.posNeg() * trees.random(1, 180);
-    let randSectionLength = trees.random(5, hose.length - randSection);
-    let sectionLengthCounter = 1;
-
-    let sectionCounter = 0;
-    let bendCounter = 0;
-    let bendCounterInc = randBend < 0 ? -1 : 1;
-    let sectionCounterInc = 1;
-    let sectionLengthInc = 1;
 
     hose.selectSection(hose.shape[35]);
     hose.bend(110);

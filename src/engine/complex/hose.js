@@ -48,6 +48,9 @@ class Hose extends ComplexShape {
     }
 
     fill(counter) {
+
+        this.empty = false;
+
         let next = this.shape[this.fullCounter];
         next.isFull = true;
         next.color = this.fullSectionColor;
@@ -60,10 +63,18 @@ class Hose extends ComplexShape {
     }
 
     drain(counter) {
-        console.log(this.fullCounter);
-        let next = this.shape[this.fullCounter];
-        next.isFull = false;
-        next.color = this.color;
+
+        this.full = false;
+
+        for (let i = 0; i < this.shape.length; i++) {
+            let next = this.shape[i];
+            if (next.isFull) {
+                next.isFull = false;
+                next.color = this.color;
+                break;
+            }
+        }
+
         if (this.fullCounter === 0) {
             this.empty = true;
         } else {
@@ -81,7 +92,7 @@ class Hose extends ComplexShape {
     }
 
     get empty() {
-        this._empty;
+        return this._empty;
     }
 
     set empty(empty) {
