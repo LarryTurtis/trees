@@ -88,15 +88,14 @@ class ContainerComposite extends ComplexShape {
         if (this.pouring) {
             let start = this.pouringFromPoint;
             if (!this.stream) {
-                this.stream = new Stream(start.x, start.y, window.innerHeight - start.y, 5);
+                this.stream = new Stream(start.x, start.y, 5, 5);
+                this.stream.color = this.liquidColor;
                 super.addShape(this.stream);
             }
             this.stream.startPour();
+
             let timer = setInterval(() => {
                 if (this.pouring && !this.empty) {
-                    this.stream.shape[0].bend(-.1)
-                    this.stream.x = this.pouringFromPoint.x;
-                    this.stream.y = this.pouringFromPoint.y;
                     this.drain(.1);
                 } else {
                     this.stream.stopPour();

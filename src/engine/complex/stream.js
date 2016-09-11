@@ -1,85 +1,83 @@
-import { ComplexShape } from './complexShape.js'
-import { Hose } from './hose.js'
+import { Sprite } from '../sprite.js'
 
-class Stream extends ComplexShape {
+class Stream extends Sprite {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Stream";
-        let stream = new Hose(x, y, width, height);
-        stream.sectionColor = this.color;
-        stream.sectionLength = 2;
-        stream.selectSection(stream.shape[0]);
-        stream.bend(90);
-        this.addShape(stream);
+        this.drops = [];
         this.pourTimer;
-        this.stopTimer;
+        this._pouring = false;
+
     }
 
-    fill(amount) {
-        this.shape.forEach(shape => {
-            shape.fill(amount);
-        })
+    pour() {
+        if (this.drops.length) {
+            this.drops.forEach(drop => {
+                drop.y += 3;
+                if (drop.y + drop.height > window.innerHeight) {
+                    this.removeDrop(drop)
+                }
+            });
+        } else {
+            clearInterval(this.pourTimer);
+            this.pourTimer = null;
+        }
     }
 
-    drain(amount) {
-        this.shape.forEach(shape => {
-            shape.drain(amount);
-        })
+    get pouring() {
+        return this._pouring;
+    }
+
+    set pouring(pouring) {
+        this._pouring = pouring;
+    }
+
+    addDrop() {
+
+        let x = trees.random(this.x, this.x + this.width);
+        let y = trees.random(this.y, this.y + this.height);
+        let size = trees.random(1, 5);
+        let color = trees.setOpacity("orange", Math.random())
+        let drop = {
+            x: x,
+            y: y,
+            width: size,
+            height: size,
+            color: color
+        };
+
+        this.drops.push(drop);
+    }
+
+    removeDrop(drop) {
+        this.drops.splice(this.drops.indexOf(drop), 1);
     }
 
     startPour() {
-
+        this.pouring = true;
         if (!this.pourTimer) {
             this.pourTimer = setInterval(() => {
-                if (!this.full) {
-                    this.fill(1);
-                } else {
-                    clearInterval(this.pourTimer);
-                    this.pourTimer = null;
-                }
+                if (this.pouring) this.addDrop();
+                this.pour();
             }, 10);
         }
     }
 
     stopPour() {
-
-        clearInterval(this.pourTimer);
-        this.pourTimer = null;
-
-        if (!this.stopTimer) {
-            this.stopTimer = setInterval(() => {
-                if (!this.empty) {
-                    this.drain(1);
-                } else {
-                    clearInterval(this.stopTimer);
-                    this.stopTimer = null;
-                }
-            }, 10);
-        }
+        this.pouring = false;
     }
 
-    get full() {
-        let full = true;
-        this.shape.forEach(shape => {
-            full = full && shape.full;
+    draw(ctx) {
+        super.draw(ctx);
+        this.drops.forEach(drop => {
+            ctx.beginPath();
+            ctx.fillStyle = drop.color;
+            ctx.rect(drop.x, drop.y, drop.width, drop.height);
+            ctx.fill();
+            ctx.closePath();
         });
-        return full;
     }
 
-    get empty() {
-        let empty = true;
-        this.shape.forEach(shape => {
-            empty = empty && shape.empty;
-        });
-        return empty;
-    }
-
-
-    addStream() {
-        let stream = new Hose(this.lines[0].start.x, this.lines[0].start.y, this.distanceToBottom, 10);
-        stream.rotate(90, stream.center);
-        this.addShape(stream);
-    }
 }
 
 export { Stream }
