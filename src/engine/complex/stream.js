@@ -1,13 +1,18 @@
 import { Sprite } from '../sprite.js'
 
+const POURSPEED = 5;
+const DRIPSPEED = 5;
+
 class Stream extends Sprite {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Stream";
         this.drops = [];
         this.pourTimer;
+        this.dripTimer;
+        this._pourSpeed = POURSPEED;
+        this._dripSpeed = DRIPSPEED;
         this._pouring = false;
-
     }
 
     pour() {
@@ -18,9 +23,6 @@ class Stream extends Sprite {
                     this.removeDrop(drop)
                 }
             });
-        } else {
-            clearInterval(this.pourTimer);
-            this.pourTimer = null;
         }
     }
 
@@ -32,21 +34,47 @@ class Stream extends Sprite {
         this._pouring = pouring;
     }
 
+    get pourSpeed() {
+        return this._pourSpeed;
+    }
+
+    set pourSpeed(pourSpeed) {
+        this._pourSpeed = pourSpeed;
+        if (this.pourTimer) {
+            clearInterval(this.pourTimer);
+            this.pourTimer = setInterval(() => {this.pour()}, pourSpeed);
+        }
+    }
+
+    get dripSpeed() {
+        return this._dripSpeed;
+    }
+
+    set dripSpeed(dripSpeed) {
+        this._dripSpeed = dripSpeed;
+        if (this.dripTimer) {
+            clearInterval(this.dripTimer)
+            this.dripTimer = setInterval(() => {this.addDrop()}, dripSpeed)
+        }
+    }
+
     addDrop() {
+        console.log(this.dripSpeed);
+        if (this.pouring) {
+            let x = this.x//trees.random(this.x, this.x + this.width);
+            let y = trees.random(this.y, this.y + this.height);
+            let size = trees.random(2, 3);
+            let color = this.color//trees.setOpacity("orange", Math.random())
+            let drop = {
+                x: x,
+                y: y,
+                width: size,
+                height: size,
+                color: color
+            };
 
-        let x = trees.random(this.x, this.x + this.width);
-        let y = trees.random(this.y, this.y + this.height);
-        let size = trees.random(1, 5);
-        let color = trees.setOpacity("orange", Math.random())
-        let drop = {
-            x: x,
-            y: y,
-            width: size,
-            height: size,
-            color: color
-        };
-
-        this.drops.push(drop);
+            this.drops.push(drop);
+        }
     }
 
     removeDrop(drop) {
@@ -56,15 +84,19 @@ class Stream extends Sprite {
     startPour() {
         this.pouring = true;
         if (!this.pourTimer) {
-            this.pourTimer = setInterval(() => {
-                if (this.pouring) this.addDrop();
-                this.pour();
-            }, 10);
+            this.pourTimer = setInterval(() => {this.pour()}, POURSPEED);
+        }
+        if (!this.dripTimer) {
+            this.dripTimer = setInterval(() => {this.addDrop()}, DRIPSPEED);
         }
     }
 
     stopPour() {
         this.pouring = false;
+
+        clearInterval(this.dripTimer);
+        this.dripTimer = null;
+        this.dripSpeed = DRIPSPEED;
     }
 
     draw(ctx) {

@@ -85,29 +85,7 @@ class ContainerComposite extends ComplexShape {
         this.liquids.forEach(liquid => {
             liquid.level();
         });
-        if (this.pouring) {
-            let start = this.pouringFromPoint;
-            if (!this.stream) {
-                this.stream = new Stream(start.x, start.y, 5, 5);
-                this.stream.color = this.liquidColor;
-                super.addShape(this.stream);
-            }
-            this.stream.startPour();
-
-            let timer = setInterval(() => {
-                if (this.pouring && !this.empty) {
-                    this.drain(.1);
-                } else {
-                    this.stream.stopPour();
-                    clearInterval(timer);
-                }
-            }, 10);
-
-        } else {
-            if (this.stream) {
-                this.stream.stopPour();
-            }
-        }
+        this.pour();
     }
 
     addShape(shape) {
@@ -149,6 +127,40 @@ class ContainerComposite extends ComplexShape {
 
         this.empty = this.liquidLevel >= this.boundary.d.y;
         this.full = this.liquidLevel <= this.boundary.a.y;
+    }
+
+    pour() {
+        if (this.pouring) {
+            let start = this.pouringFromPoint;
+            if (!this.stream) {
+                this.stream = new Stream(start.x, start.y, 5, 5);
+                this.stream.color = this.liquidColor;
+                super.addShape(this.stream);
+            }
+            this.stream.startPour();
+            if (!this.timer) {
+                console.log('new this.timer');
+                this.timer = setInterval(() => {
+                    if (this.pouring && !this.empty) {
+                        this.drain(.1);
+                        this.stream.dripSpeed += .5;
+                    } else {
+                        this.stream.stopPour();
+                        clearInterval(this.timer);
+                        this.timer = null;
+                    }
+                }, 100);
+            }
+
+        } else {
+            if (this.stream) {
+                this.stream.stopPour();
+            }
+            if (this.timer) {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+        }
     }
 
 }
