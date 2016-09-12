@@ -1,6 +1,9 @@
 import { ComplexShape } from './complexShape.js';
 import { Liquid } from './liquid.js';
+import { Pour } from './pour.js';
 import { Container } from './container.js';
+
+let pour = null;
 
 class ContainerComposite extends ComplexShape {
     constructor(x, y, width, height) {
@@ -47,6 +50,35 @@ class ContainerComposite extends ComplexShape {
         return this._liquids;
     }
 
+    get pouringFromPoint() {
+        let pouringFromPoint = null;
+        this.liquids.forEach(liquid => {
+            pouringFromPoint = pouringFromPoint || liquid.pouringFromPoint;
+        });
+        return pouringFromPoint;
+    }
+
+    get activeOpeningEdge() {
+        let edge = null;
+        this.containers.forEach(container => {
+            if (container.openingIndex >= 0) {
+                let opening = container.lines()[container.openingIndex];
+                if (opening) {
+                    edge = opening.start.y > opening.end.y ? opening.start : opening.end;
+                }
+            }
+        });
+        return edge;
+    }
+
+    get pourWidth() {
+        let result = null;
+        if (this.pouringFromPoint && this.activeOpeningEdge) {
+            result = Math.abs(trees.getDistance(this.pouringFromPoint, this.activeOpeningEdge));
+        }
+        return result;
+    }
+
     get pouring() {
         let result = false;
         this.containers.forEach(container => {
@@ -76,6 +108,7 @@ class ContainerComposite extends ComplexShape {
         this.liquids.forEach(liquid => {
             liquid.level();
         });
+        this.pour();
     }
 
     addShape(shape) {
@@ -117,6 +150,40 @@ class ContainerComposite extends ComplexShape {
 
         this.empty = this.liquidLevel >= this.boundary.d.y;
         this.full = this.liquidLevel <= this.boundary.a.y;
+    }
+
+    pour() {
+
+        if (this.pouring) {
+            let start = this.pouringFromPoint;
+            if (!pour) {
+                pour = new Pour(start.x, start.y, 5, 5);
+                pour.color = this.liquidColor;
+                super.addShape(pour);
+            }
+            pour.startPour();
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                    if (this.pouring && !this.empty) {
+                        this.drain(.1);
+                        pour.dripSpeed += .5;
+                    } else {
+                        pour.stopPour();
+                        clearInterval(this.timer);
+                        this.timer = null;
+                    }
+                }, 100);
+            }
+
+        } else {
+            if (pour) {
+                pour.stopPour();
+            }
+            if (this.timer) {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+        }
     }
 
 }

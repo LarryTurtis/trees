@@ -11,14 +11,10 @@ class Hose extends ComplexShape {
         this.sectionColor = "black";
         this.fullSectionColor = "orange";
         this.length = Math.floor(width / height);
+        this.fullCounter = 0;
 
         for (var i = 0; i < this.length; i++) {
             let link = new simples.Rectangle(x + (i * height), y, height, height);
-
-            if (i < 9) {
-                link.selectedSection = true;
-            }
-
             this.addShape(link);
         }
     }
@@ -51,34 +47,56 @@ class Hose extends ComplexShape {
         }
     }
 
-    fill() {
-        for (let i = 0; i < this.shape.length; i++) {
-            if (!this.shape[i].isFull) {
-                this.shape[i].isFull = true;
-                this.shape[i].color = this.fullSectionColor;
-                break;
-            }
-            if (i === this.shape.length) this.full = true;
+    fill(counter) {
+
+        this.empty = false;
+
+        let next = this.shape[this.fullCounter];
+        next.isFull = true;
+        next.color = this.fullSectionColor;
+        if (this.fullCounter === this.shape.length - 1) {
+            this.full = true;
+        } else {
+            this.full = false;
+            this.fullCounter += counter;
         }
     }
 
-    drain() {
+    drain(counter) {
+
+        this.full = false;
+
         for (let i = 0; i < this.shape.length; i++) {
-            if (this.shape[i].isFull) {
-                this.shape[i].isFull = false;
-                this.shape[i].color = this.color;
+            let next = this.shape[i];
+            if (next.isFull) {
+                next.isFull = false;
+                next.color = this.color;
                 break;
             }
-            if (i === this.shape.length) this.empty = true;
+        }
+
+        if (this.fullCounter === 0) {
+            this.empty = true;
+        } else {
+            this.empty = false;
+            this.fullCounter -= counter;
         }
     }
 
     get full() {
-        let result = true;
-        this.shape.forEach(shape => {
-            result = result && shape.isFull;
-        });
-        return result;
+        return this._full;
+    }
+
+    set full(full) {
+        this._full = full;
+    }
+
+    get empty() {
+        return this._empty;
+    }
+
+    set empty(empty) {
+        this._empty = empty;
     }
 
     get fullSection() {

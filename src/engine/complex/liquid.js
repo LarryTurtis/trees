@@ -31,6 +31,7 @@ class Liquid extends Sprite {
         this.type = "Liquid";
         this._container = container;
         this.lines = this.container.lines();
+        this._pouringFromPoint = null;
     }
 
     get container() {
@@ -43,6 +44,14 @@ class Liquid extends Sprite {
 
     get liquidLevel() {
         return this._liquidLevel;
+    }
+
+    get pouringFromPoint() {
+        return this._pouringFromPoint;
+    }
+
+    set pouringFromPoint(pouringFromPoint) {
+        this._pouringFromPoint = pouringFromPoint;
     }
 
     set liquidLevel(liquidLevel) {
@@ -67,6 +76,7 @@ class Liquid extends Sprite {
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
                     this.container.pouring = true;
+                    this.pouringFromPoint = intersection;
                 }
 
                 line.intersection = intersection;
