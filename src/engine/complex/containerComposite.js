@@ -1,7 +1,9 @@
 import { ComplexShape } from './complexShape.js';
 import { Liquid } from './liquid.js';
-import { Stream } from './stream.js';
+import { Pour } from './pour.js';
 import { Container } from './container.js';
+
+let pour = null;
 
 class ContainerComposite extends ComplexShape {
     constructor(x, y, width, height) {
@@ -54,6 +56,27 @@ class ContainerComposite extends ComplexShape {
             pouringFromPoint = pouringFromPoint || liquid.pouringFromPoint;
         });
         return pouringFromPoint;
+    }
+
+    get activeOpeningEdge() {
+        let edge = null;
+        this.containers.forEach(container => {
+            if (container.openingIndex >= 0) {
+                let opening = container.lines()[container.openingIndex];
+                if (opening) {
+                    edge = opening.start.y > opening.end.y ? opening.start : opening.end;
+                }
+            }
+        });
+        return edge;
+    }
+
+    get pourWidth() {
+        let result = null;
+        if (this.pouringFromPoint && this.activeOpeningEdge) {
+            result = Math.abs(trees.getDistance(this.pouringFromPoint, this.activeOpeningEdge));
+        }
+        return result;
     }
 
     get pouring() {
@@ -130,22 +153,22 @@ class ContainerComposite extends ComplexShape {
     }
 
     pour() {
+
         if (this.pouring) {
             let start = this.pouringFromPoint;
-            if (!this.stream) {
-                this.stream = new Stream(start.x, start.y, 5, 5);
-                this.stream.color = this.liquidColor;
-                super.addShape(this.stream);
+            if (!pour) {
+                pour = new Pour(start.x, start.y, 5, 5);
+                pour.color = this.liquidColor;
+                super.addShape(pour);
             }
-            this.stream.startPour();
+            pour.startPour();
             if (!this.timer) {
-                console.log('new this.timer');
                 this.timer = setInterval(() => {
                     if (this.pouring && !this.empty) {
                         this.drain(.1);
-                        this.stream.dripSpeed += .5;
+                        pour.dripSpeed += .5;
                     } else {
-                        this.stream.stopPour();
+                        pour.stopPour();
                         clearInterval(this.timer);
                         this.timer = null;
                     }
@@ -153,8 +176,8 @@ class ContainerComposite extends ComplexShape {
             }
 
         } else {
-            if (this.stream) {
-                this.stream.stopPour();
+            if (pour) {
+                pour.stopPour();
             }
             if (this.timer) {
                 clearInterval(this.timer);

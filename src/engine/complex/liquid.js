@@ -31,6 +31,7 @@ class Liquid extends Sprite {
         this.type = "Liquid";
         this._container = container;
         this.lines = this.container.lines();
+        this._pouringFromPoint = null;
     }
 
     get container() {

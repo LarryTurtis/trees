@@ -1,12 +1,12 @@
-import { Sprite } from '../sprite.js'
+import { ComplexShape } from './complexShape.js'
 
 const POURSPEED = 5;
 const DRIPSPEED = 5;
 
-class Stream extends Sprite {
+class Pour extends ComplexShape {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.type = "Stream";
+        this.type = "Pour";
         this.drops = [];
         this.pourTimer;
         this.dripTimer;
@@ -59,7 +59,6 @@ class Stream extends Sprite {
     }
 
     addDrop() {
-        console.log(this.dripSpeed);
         if (this.pouring) {
             let x = this.x//trees.random(this.x, this.x + this.width);
             let y = trees.random(this.y, this.y + this.height);
@@ -112,4 +111,4 @@ class Stream extends Sprite {
 
 }
 
-export { Stream }
+export { Pour }

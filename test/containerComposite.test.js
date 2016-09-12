@@ -3,8 +3,8 @@ import { ContainerComposite } from '../src/engine/complex/containerComposite.js'
 
 describe('Container Composite', () => {
 
-    let x = 100;
-    let y = 200;
+    let x = 0;
+    let y = 0;
     let width = 300;
     let height = 400;
     let tolerance = 0.01;
@@ -20,26 +20,40 @@ describe('Container Composite', () => {
             expect(container).to.exist;
         });
         it("should have property liquidColor", () => {
-            expect(container.liquidColor).to.exist;
+            expect(container.liquidColor).not.to.be.undefined;
+            expect(container.liquidColor).not.to.be.undefined;
         });
         it("should have property drain", () => {
-            expect(container.drain).to.exist;
+            expect(container.drain).not.to.be.undefined;
         });
         it("should have property fill", () => {
-            expect(container.fill).to.exist;
+            expect(container.fill).not.to.be.undefined;
         });
         it("should have property addShape", () => {
-            expect(container.addShape).to.exist;
+            expect(container.addShape).not.to.be.undefined;
         });
         it("should have property full", () => {
-            expect(container.full).to.exist;
+            expect(container.full).not.to.be.undefined;
         });
         it("should have property empty", () => {
-            expect(container.empty).to.exist;
+            expect(container.empty).not.to.be.undefined;
+        });
+        it("should have property liquids", () => {
+            expect(container.liquids).not.to.be.undefined;
+            expect(container.liquids.length).to.equal(0);
         });
         it("should have property containers", () => {
-            expect(container.containers).to.exist;
+            expect(container.containers).not.to.be.undefined;
             expect(container.containers.length).to.equal(0);
+        });
+        it("should have property pouringFromPoint", () => {
+            expect(container.pouringFromPoint).not.to.be.undefined;
+        });
+        it("should have property activeOpeningEdge", () => {
+            expect(container.activeOpeningEdge).not.to.be.undefined;
+        });
+        it("should have property pourWidth", () => {
+            expect(container.pourWidth).not.to.be.undefined;
         });
     });
     describe("methods", () => {
@@ -49,7 +63,7 @@ describe('Container Composite', () => {
 
         beforeEach(() => {
             sprite1 = new Sprite(0, 0, 100, 100);
-            sprite2 = new Sprite(0, 0, 100, 200);
+            sprite2 = new Sprite(0, 100, 100, 100);
             container.addShape(sprite1);
             container.addShape(sprite2);
         });
@@ -98,6 +112,107 @@ describe('Container Composite', () => {
                 expect(container.empty).to.be.false;
                 expect(container.full).to.be.false;
             });
+        });
+
+        describe("rotate", () => {
+
+            let liquids;
+            let spy1;
+            let spy2;
+
+            beforeEach(() => {
+                liquids = container.liquids;
+                spy1 = sinon.spy(liquids[0], "level");
+                spy2 = sinon.spy(liquids[1], "level");
+                container.rotate(1, container.center);
+            });
+            it("should should level the liquids on rotate", () => {
+                expect(spy1.called).to.be.true;
+                expect(spy2.called).to.be.true;
+            });
+        });
+
+        describe("activeOpeningEdge", () => {
+
+            it("should be null by default", () => {
+                expect(container.activeOpeningEdge).to.be.null;
+            });
+
+            it("should be defined if openingIndex is defined on a container", () => {
+                sprite1.openingIndex = 1;
+                expect(container.activeOpeningEdge).not.to.be.null;
+                expect(typeof container.activeOpeningEdge.x).to.equal("number");
+                expect(typeof container.activeOpeningEdge.y).to.equal("number");
+
+            });
+
+            it("should be null if invalid openingIndex is defined on a container", () => {
+                sprite1.openingIndex = 100;
+                expect(container.activeOpeningEdge).to.be.null;
+            });
+
+        });
+
+        describe("pouringFromPoint", () => {
+
+            it("should be null by default", () => {
+                expect(container.pouringFromPoint).to.be.null;
+            });
+
+            it("should be defined if liquid is pouring", () => {
+                sprite1.openingIndex = 0;
+                container.liquidLevel = container.y + container.height / 4;
+                container.rotate(95, container.center);
+                expect(container.pouringFromPoint).not.to.be.null;
+                expect(typeof container.pouringFromPoint.x).to.equal("number");
+                expect(typeof container.pouringFromPoint.y).to.equal("number");
+            });
+
+            it("should be null if invalid openingIndex is defined on a container", () => {
+                sprite1.openingIndex = 100;
+                container.liquidLevel = container.y + container.height / 4;
+                container.rotate(95, container.center);
+                expect(container.pouringFromPoint).to.be.null;
+            });
+
+            it("should be null if invalid liquidLevel is defined on a container", () => {
+                sprite1.openingIndex = 100;
+                container.liquidLevel = "abc";
+                container.rotate(95, container.center);
+                expect(container.pouringFromPoint).to.be.null;
+            });
+
+        });
+
+        describe("pourWidth", () => {
+
+            it("should be null by default", () => {
+                expect(container.pourWidth).to.be.null;
+            });
+
+            it("should be defined if liquid is pouring", () => {
+                sprite1.openingIndex = 0;
+                container.liquidLevel = container.y + container.height / 4;
+                container.rotate(95, container.center);
+                expect(container.pourWidth).not.to.be.null;
+                expect(typeof container.pourWidth).to.equal("number");
+
+            });
+
+            it("should be null if invalid openingIndex is defined on a container", () => {
+                sprite1.openingIndex = 100;
+                container.liquidLevel = container.y + container.height / 4;
+                container.rotate(95, container.center);
+                expect(container.pourWidth).to.be.null;
+            });
+
+            it("should be null if invalid liquidLevel is defined on a container", () => {
+                sprite1.openingIndex = 100;
+                container.liquidLevel = "abc";
+                container.rotate(95, container.center);
+                expect(container.pourWidth).to.be.null;
+            });
+
         });
     });
 });
