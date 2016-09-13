@@ -14,7 +14,7 @@ function level9() {
 
    // shapes.add(hose);
 
-    //shapes.add(erlenmeyer);
+   // shapes.add(erlenmeyer);
     shapes.add(cup);
    // shapes.add(createSpray());
 
@@ -38,7 +38,7 @@ function level9() {
     erlenmeyer.callback = function() {
         //this.drain(counter);
         //this.fill(counter);
-        //this.rotate(1, this.center)
+        this.rotate(1, this.center)
     }
 
     let dragging = false;
