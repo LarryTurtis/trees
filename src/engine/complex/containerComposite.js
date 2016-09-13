@@ -52,6 +52,11 @@ class ContainerComposite extends ComplexShape {
         return this._liquids;
     }
 
+    /**
+    * Represents the highest point of overflow against the container's opening
+    * i.e., the size of the overflow
+    */
+
     get overflowStart() {
         let overflowStart = null;
         this.liquids.forEach(liquid => {
@@ -59,6 +64,11 @@ class ContainerComposite extends ComplexShape {
         });
         return overflowStart;
     }
+
+    /**
+    * .activeOpeningEdge
+    * represents the 'spout' of the container. point at which liquid exits.
+    */
 
     get activeOpeningEdge() {
         let edge = null;
@@ -73,6 +83,11 @@ class ContainerComposite extends ComplexShape {
         return edge;
     }
 
+    /**
+    * .pourWidth
+    * Distance between the container opening and point of overflow
+    */
+
     get pourWidth() {
         let result = null;
         if (this.overflowStart && this.activeOpeningEdge) {
@@ -80,6 +95,12 @@ class ContainerComposite extends ComplexShape {
         }
         return result;
     }
+
+    /**
+    * .overflowing
+    * Boolean 
+    * Returns true if any opening of the composite is overflowing
+    */
 
     get overflowing() {
         let result = false;
@@ -159,23 +180,39 @@ class ContainerComposite extends ComplexShape {
     }
 
     removeMeniscus() {
-        console.log(this.shape);
         this.removeShape(this.meniscus);
-        console.log(this.shape, "after");
-    }
-
-    hideMeniscus() {
-        if (this.meniscus) this.meniscus.visible = false;
     }
 
     handleOverflow() {
         if (this.overflowing) {
             this.startPour();
             this.addMeniscus();
+            this.startDraining();
         } else {
             this.stopPour();
-            this.hideMeniscus();
+            this.removeMeniscus();
+            this.stopDraining();
         }
+    }
+
+    startDraining() {
+        let drainVolume = 1;
+        let drainSpeed = 10;
+
+        if (!this.drainTimer) {
+            this.drainTimer = setInterval(() => {
+                if (!this.empty) {
+                    this.drain(drainVolume);
+                } else {
+                    this.stopDraining();
+                }
+            }, drainSpeed);
+        }
+    }
+
+    stopDraining() {
+        clearInterval(this.drainTimer);
+        this.drainTimer = null;
     }
 
     startPour() {
@@ -190,14 +227,9 @@ class ContainerComposite extends ComplexShape {
 
         pour.start();
 
-        if (!this.timer) {
-            this.timer = setInterval(() => {
-                if (this.overflowing && !this.empty) {
-                    this.drain(1);
-                    pour.dripSpeed += .5;
-                } else {
-                    this.stopPour();
-                }
+        if (!this.dripTimer) {
+            this.dripTimer = setInterval(() => {
+                pour.dripSpeed += .5;
             }, 10);
         }
 
@@ -207,9 +239,9 @@ class ContainerComposite extends ComplexShape {
         if (pour) {
             pour.stop();
         }
-        if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = null;
+        if (this.dripTimer) {
+            clearInterval(this.dripTimer);
+            this.dripTimer = null;
         }
     }
 

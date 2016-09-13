@@ -14,7 +14,7 @@ function level9() {
 
    // shapes.add(hose);
 
-    shapes.add(erlenmeyer);
+    //shapes.add(erlenmeyer);
     shapes.add(cup);
    // shapes.add(createSpray());
 
