@@ -42,7 +42,7 @@ class Pour extends ComplexShape {
         this._pourSpeed = pourSpeed;
         if (this.pourTimer) {
             clearInterval(this.pourTimer);
-            this.pourTimer = setInterval(() => {this.pour()}, pourSpeed);
+            this.pourTimer = setInterval(() => { this.pour() }, pourSpeed);
         }
     }
 
@@ -54,16 +54,16 @@ class Pour extends ComplexShape {
         this._dripSpeed = dripSpeed;
         if (this.dripTimer) {
             clearInterval(this.dripTimer)
-            this.dripTimer = setInterval(() => {this.addDrop()}, dripSpeed)
+            this.dripTimer = setInterval(() => { this.addDrop() }, dripSpeed)
         }
     }
 
     addDrop() {
         if (this.pouring) {
-            let x = this.x//trees.random(this.x, this.x + this.width);
+            let x = trees.random(this.x, this.x + this.width);
             let y = trees.random(this.y, this.y + this.height);
             let size = trees.random(2, 3);
-            let color = this.color//trees.setOpacity("orange", Math.random())
+            let color = this.color //trees.setOpacity("orange", Math.random())
             let drop = {
                 x: x,
                 y: y,
@@ -77,20 +77,23 @@ class Pour extends ComplexShape {
     }
 
     removeDrop(drop) {
-        this.drops.splice(this.drops.indexOf(drop), 1);
+        let index = this.drops.indexOf(drop);
+        if (index >= 0) {
+            this.drops.splice(index, 1);
+        }
     }
 
-    startPour() {
+    start() {
         this.pouring = true;
         if (!this.pourTimer) {
-            this.pourTimer = setInterval(() => {this.pour()}, POURSPEED);
+            this.pourTimer = setInterval(() => { this.pour() }, POURSPEED);
         }
         if (!this.dripTimer) {
-            this.dripTimer = setInterval(() => {this.addDrop()}, DRIPSPEED);
+            this.dripTimer = setInterval(() => { this.addDrop() }, DRIPSPEED);
         }
     }
 
-    stopPour() {
+    stop() {
         this.pouring = false;
 
         clearInterval(this.dripTimer);

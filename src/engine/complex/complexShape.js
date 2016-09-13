@@ -19,7 +19,10 @@ class ComplexShape extends Sprite {
     }
 
     removeShape(shape) {
-        this.shape.splice(this.shape.indexOf(shape), 1);
+        let index = this.shape.indexOf(shape);
+        if (index >= 0) {
+            this.shape.splice(index, 1);
+        }
     }
 
     get shape() {

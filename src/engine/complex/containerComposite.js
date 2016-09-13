@@ -41,6 +41,7 @@ class ContainerComposite extends ComplexShape {
         this.liquids.forEach(shape => {
             shape.liquidLevel = liquidLevel;
         });
+        this.handleOverflow();
     }
 
     get containers() {
@@ -51,12 +52,12 @@ class ContainerComposite extends ComplexShape {
         return this._liquids;
     }
 
-    get pouringFromPoint() {
-        let pouringFromPoint = null;
+    get overflowStart() {
+        let overflowStart = null;
         this.liquids.forEach(liquid => {
-            pouringFromPoint = pouringFromPoint || liquid.pouringFromPoint;
+            overflowStart = overflowStart || liquid.overflowStart;
         });
-        return pouringFromPoint;
+        return overflowStart;
     }
 
     get activeOpeningEdge() {
@@ -74,16 +75,16 @@ class ContainerComposite extends ComplexShape {
 
     get pourWidth() {
         let result = null;
-        if (this.pouringFromPoint && this.activeOpeningEdge) {
-            result = Math.abs(trees.getDistance(this.pouringFromPoint, this.activeOpeningEdge));
+        if (this.overflowStart && this.activeOpeningEdge) {
+            result = Math.abs(trees.getDistance(this.overflowStart, this.activeOpeningEdge));
         }
         return result;
     }
 
-    get pouring() {
+    get overflowing() {
         let result = false;
         this.containers.forEach(container => {
-            result = result || container.pouring;
+            result = result || container.overflowing;
         });
         return result;
     }
@@ -106,10 +107,7 @@ class ContainerComposite extends ComplexShape {
 
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
-        this.liquids.forEach(liquid => {
-            liquid.level();
-        });
-        this.pour();
+        this.handleOverflow();
     }
 
     addShape(shape) {
@@ -153,60 +151,65 @@ class ContainerComposite extends ComplexShape {
         this.full = this.liquidLevel <= this.boundary.a.y;
     }
 
-    addMeniscus(factor) {
+    addMeniscus() {
         this.removeMeniscus();
-        this.meniscus = new Meniscus(this.pouringFromPoint.x, this.pouringFromPoint.y, this.pourWidth, 5, this.activeOpeningEdge);
+        this.meniscus = new Meniscus(this.overflowStart.x, this.overflowStart.y, this.pourWidth, 5, this.activeOpeningEdge);
         this.meniscus.color = this.liquidColor;
-        this.meniscus.factor = factor;
         super.addShape(this.meniscus);
     }
 
     removeMeniscus() {
-        this.removeShape(this.meniscus)
+        console.log(this.shape);
+        this.removeShape(this.meniscus);
+        console.log(this.shape, "after");
     }
 
     hideMeniscus() {
         if (this.meniscus) this.meniscus.visible = false;
     }
 
-    pour() {
-        if (this.pouring) {
-            let start = this.pouringFromPoint;
-            if (!pour) {
-                pour = new Pour(start.x, start.y, 5, 5);
-                pour.color = this.liquidColor;
-                super.addShape(pour);
-            }
-
-            this.addMeniscus(1);
-
-            pour.startPour();
-            if (!this.timer) {
-                let overhangFactor = 1;
-                this.timer = setInterval(() => {
-                    if (this.pouring && !this.empty) {
-                        overhangFactor -= 0.1
-                        this.drain(1);
-                        pour.dripSpeed += .5;
-                        this.addMeniscus(overhangFactor)
-                    } else {
-                        pour.stopPour();
-                        this.hideMeniscus();
-                        clearInterval(this.timer);
-                        this.timer = null;
-                    }
-                }, 10);
-            }
-
+    handleOverflow() {
+        if (this.overflowing) {
+            this.startPour();
+            this.addMeniscus();
         } else {
-            if (pour) {
-                pour.stopPour();
-                this.hideMeniscus();
-            }
-            if (this.timer) {
-                clearInterval(this.timer);
-                this.timer = null;
-            }
+            this.stopPour();
+            this.hideMeniscus();
+        }
+    }
+
+    startPour() {
+
+        let start = this.overflowStart;
+
+        if (!pour) {
+            pour = new Pour(start.x, start.y, this.pourWidth, 5);
+            pour.color = this.liquidColor;
+            super.addShape(pour);
+        }
+
+        pour.start();
+
+        if (!this.timer) {
+            this.timer = setInterval(() => {
+                if (this.overflowing && !this.empty) {
+                    this.drain(1);
+                    pour.dripSpeed += .5;
+                } else {
+                    this.stopPour();
+                }
+            }, 10);
+        }
+
+    }
+
+    stopPour() {
+        if (pour) {
+            pour.stop();
+        }
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
         }
     }
 

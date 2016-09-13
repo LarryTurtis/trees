@@ -8,12 +8,12 @@ function Container(shape) {
 
 
     /**
-     * .pouring
+     * .overflowing
      * returns true if the container has a liquid
      * which is currently intersecting with the container's
      * opening, if it has one.
      */
-    shape._pouring = false;
+    shape._overflowing = false;
 
     /**
      * .openingIndex
@@ -25,12 +25,12 @@ function Container(shape) {
      */
     shape._openingIndex = -1;
 
-    Object.defineProperty(shape, 'pouring', {
+    Object.defineProperty(shape, 'overflowing', {
         get: function() {
-            return this._pouring;
+            return this._overflowing;
         },
-        set: function(pouring) {
-            this._pouring = pouring;
+        set: function(overflowing) {
+            this._overflowing = overflowing;
         }
     });
 

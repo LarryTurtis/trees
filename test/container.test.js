@@ -17,9 +17,9 @@ describe('Container', () => {
             expect(container).to.exist;
             expect(container.type).to.equal("Container");
         });
-        it("should have property 'pouring'", () => {
-            expect(container.pouring).to.exist;
-            expect(container.pouring).to.be.false;
+        it("should have property 'overflowing'", () => {
+            expect(container.overflowing).to.exist;
+            expect(container.overflowing).to.be.false;
         });
         it("should have property openingIndex", () => {
             expect(container.openingIndex).to.exist;

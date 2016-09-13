@@ -31,7 +31,7 @@ class Liquid extends Sprite {
         this.type = "Liquid";
         this._container = container;
         this.lines = this.container.lines();
-        this._pouringFromPoint = null;
+        this._overflowStart = null;
     }
 
     get container() {
@@ -46,12 +46,12 @@ class Liquid extends Sprite {
         return this._liquidLevel;
     }
 
-    get pouringFromPoint() {
-        return this._pouringFromPoint;
+    get overflowStart() {
+        return this._overflowStart;
     }
 
-    set pouringFromPoint(pouringFromPoint) {
-        this._pouringFromPoint = pouringFromPoint;
+    set overflowStart(overflowStart) {
+        this._overflowStart = overflowStart;
     }
 
     set liquidLevel(liquidLevel) {
@@ -69,14 +69,14 @@ class Liquid extends Sprite {
         let rightIntersection;
         this.lines = [];
 
-        this.container.pouring = false;
+        this.container.overflowing = false;
         
         this.container.lines().forEach((line, index) => {
             let intersection = trees.intersection(line, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
-                    this.container.pouring = true;
-                    this.pouringFromPoint = intersection;
+                    this.container.overflowing = true;
+                    this.overflowStart = intersection;
                 }
 
                 line.intersection = intersection;
@@ -90,7 +90,7 @@ class Liquid extends Sprite {
                 if (line.start.y > this._levelLine.start.y) {
 
                     if (index === this.container.openingIndex) {
-                        this.container.pouring = true;
+                        this.container.overflowing = true;
                     }
 
                     this.lines.push(line);
@@ -113,6 +113,11 @@ class Liquid extends Sprite {
             }
         });
 
+    }
+
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.level();
     }
 
     draw(ctx) {

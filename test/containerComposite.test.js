@@ -46,8 +46,8 @@ describe('Container Composite', () => {
             expect(container.containers).not.to.be.undefined;
             expect(container.containers.length).to.equal(0);
         });
-        it("should have property pouringFromPoint", () => {
-            expect(container.pouringFromPoint).not.to.be.undefined;
+        it("should have property overflowStart", () => {
+            expect(container.overflowStart).not.to.be.undefined;
         });
         it("should have property activeOpeningEdge", () => {
             expect(container.activeOpeningEdge).not.to.be.undefined;
@@ -153,33 +153,33 @@ describe('Container Composite', () => {
 
         });
 
-        describe("pouringFromPoint", () => {
+        describe("overflowStart", () => {
 
             it("should be null by default", () => {
-                expect(container.pouringFromPoint).to.be.null;
+                expect(container.overflowStart).to.be.null;
             });
 
-            it("should be defined if liquid is pouring", () => {
+            it("should be defined if liquid is overflowing", () => {
                 sprite1.openingIndex = 0;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);
-                expect(container.pouringFromPoint).not.to.be.null;
-                expect(typeof container.pouringFromPoint.x).to.equal("number");
-                expect(typeof container.pouringFromPoint.y).to.equal("number");
+                expect(container.overflowStart).not.to.be.null;
+                expect(typeof container.overflowStart.x).to.equal("number");
+                expect(typeof container.overflowStart.y).to.equal("number");
             });
 
             it("should be null if invalid openingIndex is defined on a container", () => {
                 sprite1.openingIndex = 100;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);
-                expect(container.pouringFromPoint).to.be.null;
+                expect(container.overflowStart).to.be.null;
             });
 
             it("should be null if invalid liquidLevel is defined on a container", () => {
                 sprite1.openingIndex = 100;
                 container.liquidLevel = "abc";
                 container.rotate(95, container.center);
-                expect(container.pouringFromPoint).to.be.null;
+                expect(container.overflowStart).to.be.null;
             });
 
         });
@@ -190,7 +190,7 @@ describe('Container Composite', () => {
                 expect(container.pourWidth).to.be.null;
             });
 
-            it("should be defined if liquid is pouring", () => {
+            it("should be defined if liquid is overflowing", () => {
                 sprite1.openingIndex = 0;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);

@@ -17,8 +17,8 @@ describe('Liquid', () => {
             expect(liquid).to.exist;
             expect(liquid.type).to.equal("Liquid");
         });
-        it('should have property pouringFromPoint', () => {
-            expect(liquid.pouringFromPoint).not.to.be.undefined;
+        it('should have property overflowStart', () => {
+            expect(liquid.overflowStart).not.to.be.undefined;
         });
         it("should throw an error if no parameter is supplied", () => {
             expect(() => { new Liquid() }).throws(Error);
