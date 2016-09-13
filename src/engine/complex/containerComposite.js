@@ -1,6 +1,7 @@
 import { ComplexShape } from './complexShape.js';
 import { Liquid } from './liquid.js';
 import { Pour } from './pour.js';
+import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
 
 let pour = null;
@@ -152,8 +153,23 @@ class ContainerComposite extends ComplexShape {
         this.full = this.liquidLevel <= this.boundary.a.y;
     }
 
-    pour() {
+    addMeniscus(factor) {
+        this.removeMeniscus();
+        this.meniscus = new Meniscus(this.pouringFromPoint.x, this.pouringFromPoint.y, this.pourWidth, 5, this.activeOpeningEdge);
+        this.meniscus.color = this.liquidColor;
+        this.meniscus.factor = factor;
+        super.addShape(this.meniscus);
+    }
 
+    removeMeniscus() {
+        this.removeShape(this.meniscus)
+    }
+
+    hideMeniscus() {
+        if (this.meniscus) this.meniscus.visible = false;
+    }
+
+    pour() {
         if (this.pouring) {
             let start = this.pouringFromPoint;
             if (!pour) {
@@ -161,23 +177,31 @@ class ContainerComposite extends ComplexShape {
                 pour.color = this.liquidColor;
                 super.addShape(pour);
             }
+
+            this.addMeniscus(1);
+
             pour.startPour();
             if (!this.timer) {
+                let overhangFactor = 1;
                 this.timer = setInterval(() => {
                     if (this.pouring && !this.empty) {
-                        this.drain(.1);
+                        overhangFactor -= 0.1
+                        this.drain(1);
                         pour.dripSpeed += .5;
+                        this.addMeniscus(overhangFactor)
                     } else {
                         pour.stopPour();
+                        this.hideMeniscus();
                         clearInterval(this.timer);
                         this.timer = null;
                     }
-                }, 100);
+                }, 10);
             }
 
         } else {
             if (pour) {
                 pour.stopPour();
+                this.hideMeniscus();
             }
             if (this.timer) {
                 clearInterval(this.timer);
