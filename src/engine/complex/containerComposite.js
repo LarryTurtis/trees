@@ -4,7 +4,6 @@ import { Pour } from './pour.js';
 import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
 
-let pour = null;
 
 class ContainerComposite extends ComplexShape {
     constructor(x, y, width, height) {
@@ -126,6 +125,7 @@ class ContainerComposite extends ComplexShape {
         this._empty = empty;
     }
 
+
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
         this.handleOverflow();
@@ -157,6 +157,8 @@ class ContainerComposite extends ComplexShape {
 
         this.empty = this.liquidLevel >= this.boundary.d.y;
         this.full = this.liquidLevel <= this.boundary.a.y;
+
+        this.handleOverflow();
 
     }
 
@@ -197,7 +199,7 @@ class ContainerComposite extends ComplexShape {
 
     startDraining() {
         let drainVolume = 1;
-        let drainSpeed = 10;
+        let drainSpeed = 100;
 
         if (!this.drainTimer) {
             this.drainTimer = setInterval(() => {
@@ -216,32 +218,24 @@ class ContainerComposite extends ComplexShape {
     }
 
     startPour() {
+        let start = this.activeOpeningEdge;
 
-        let start = this.overflowStart;
-
-        if (!pour) {
-            pour = new Pour(start.x, start.y, this.pourWidth, 5);
-            pour.color = this.liquidColor;
-            super.addShape(pour);
+        if (!this.pour) {
+            this.pour = new Pour(start.x, start.y, this.pourWidth, 5);
+            this.pour.color = this.liquidColor;
+            super.addShape(this.pour);
+        } else {
+            this.pour.width = this.pourWidth;
         }
 
-        pour.start();
+        this.pour.start();
 
-        if (!this.dripTimer) {
-            this.dripTimer = setInterval(() => {
-                pour.dripSpeed += .5;
-            }, 10);
-        }
 
     }
 
     stopPour() {
-        if (pour) {
-            pour.stop();
-        }
-        if (this.dripTimer) {
-            clearInterval(this.dripTimer);
-            this.dripTimer = null;
+        if (this.pour) {
+            this.pour.stop();
         }
     }
 

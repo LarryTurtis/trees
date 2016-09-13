@@ -1,11 +1,14 @@
 import { Sprite } from '../src/engine/sprite.js';
 import { Liquid } from '../src/engine/complex/liquid.js';
 
+let tolerance = 0.001;
+
 describe('Liquid', () => {
     let liquid;
     let container;
     beforeEach(() => {
         container = new Sprite(100, 100, 100, 100);
+        container.openingIndex = 3;
         liquid = new Liquid(container);
         liquid.liquidLevel = 110;
     });
@@ -33,13 +36,34 @@ describe('Liquid', () => {
     describe("level", () => {
         let oldLines;
         beforeEach(() => {
-            oldLines = container.lines();
+            oldLines = liquid.lines;
             container.rotate(10, container.center);
             liquid.level();
         });
         it("should update lines on container rotate", () => {
             expect(liquid.lines[0].end.x).not.to.equal(oldLines[0].end.x);
         });
+        it("should correctly update the liquid lines", () => {
+            container.rotate(10, container.center);
+            expect(liquid.lines[0].start.x).to.be.closeTo(207.824, tolerance);
+            expect(liquid.lines[0].start.y).to.be.closeTo(110, tolerance);
+            expect(liquid.lines[0].end.x).to.be.closeTo(190.558, tolerance);
+            expect(liquid.lines[0].end.y).to.be.closeTo(207.922, tolerance);
+            expect(liquid.lines[1].start.x).to.be.closeTo(190.558, tolerance);
+            expect(liquid.lines[1].start.y).to.be.closeTo(207.922, tolerance);
+            expect(liquid.lines[1].end.x).to.be.closeTo(92.077, tolerance);
+            expect(liquid.lines[1].end.y).to.be.closeTo(190.557, tolerance);
+            expect(liquid.lines[2].start.x).to.be.closeTo(92.077, tolerance);
+            expect(liquid.lines[2].start.y).to.be.closeTo(190.557, tolerance);
+            expect(liquid.lines[2].end.x).to.be.closeTo(106.281, tolerance);
+            expect(liquid.lines[2].end.y).to.be.closeTo(110, tolerance);
+            expect(liquid.lines[3]).not.to.exist;
+            expect(liquid.container.overflowing).to.be.true;
+        });
+        it("should correctly update overflowing", () => {
+            container.rotate(25, container.center);
+            expect(liquid.container.overflowing).to.be.true;
+        })
     });
 
     describe("rotate", () => {

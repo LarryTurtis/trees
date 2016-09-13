@@ -87,10 +87,10 @@ class Liquid extends Sprite {
 
             let intersection = trees.intersection(line, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
-
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
                     this.overflowStart = intersection;
+                    console.log(index, this.container.openingIndex, this.overflowStart.x);
                 }
 
                 line.intersection = intersection;

@@ -1,7 +1,7 @@
 import { ComplexShape } from './complexShape.js'
 
-const POURSPEED = 5;
-const DRIPSPEED = 5;
+const POURSPEED = 25;
+const DRIPSPEED = 50;
 
 class Pour extends ComplexShape {
     constructor(x, y, width, height) {
@@ -60,15 +60,15 @@ class Pour extends ComplexShape {
 
     addDrop() {
         if (this.pouring) {
-            let x = trees.random(this.x, this.x + this.width);
-            let y = trees.random(this.y, this.y + this.height);
-            let size = trees.random(2, 3);
+            let x = this.x;
+            let y = this.y;
+            let size = this.width;
             let color = this.color //trees.setOpacity("orange", Math.random())
             let drop = {
                 x: x,
                 y: y,
                 width: size,
-                height: size,
+                height: 5,
                 color: color
             };
 
