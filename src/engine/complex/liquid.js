@@ -90,7 +90,6 @@ class Liquid extends Sprite {
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
                     this.overflowStart = intersection;
-                    console.log(index, this.container.openingIndex, this.overflowStart.x);
                 }
 
                 line.intersection = intersection;

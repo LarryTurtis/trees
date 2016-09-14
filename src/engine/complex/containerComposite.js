@@ -15,6 +15,7 @@ class ContainerComposite extends ComplexShape {
         this._liquidLevel = y;
         this._empty = false;
         this._full = true;
+        this._speed = 10;
     }
 
     get liquidColor() {
@@ -52,9 +53,9 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * Represents the highest point of overflow against the container's opening
-    * i.e., the size of the overflow
-    */
+     * Represents the highest point of overflow against the container's opening
+     * i.e., the size of the overflow
+     */
 
     get overflowStart() {
         let overflowStart = null;
@@ -65,9 +66,9 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * .activeOpeningEdge
-    * represents the 'spout' of the container. point at which liquid exits.
-    */
+     * .activeOpeningEdge
+     * represents the 'spout' of the container. point at which liquid exits.
+     */
 
     get activeOpeningEdge() {
         let edge = null;
@@ -83,9 +84,9 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * .pourWidth
-    * Distance between the container opening and point of overflow
-    */
+     * .pourWidth
+     * Distance between the container opening and point of overflow
+     */
 
     get pourWidth() {
         let result = null;
@@ -96,10 +97,10 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * .overflowing
-    * Boolean 
-    * Returns true if any opening of the composite is overflowing
-    */
+     * .overflowing
+     * Boolean 
+     * Returns true if any opening of the composite is overflowing
+     */
 
     get overflowing() {
         let result = false;
@@ -123,6 +124,14 @@ class ContainerComposite extends ComplexShape {
 
     set empty(empty) {
         this._empty = empty;
+    }
+
+    get speed() {
+        return this._speed;
+    }
+
+    set speed(speed) {
+        this._speed = speed;
     }
 
 
@@ -187,19 +196,18 @@ class ContainerComposite extends ComplexShape {
 
     handleOverflow() {
         if (this.overflowing) {
-            this.startPour();
             this.addMeniscus();
+            this.startPour();
             this.startDraining();
         } else {
-            this.stopPour();
             this.removeMeniscus();
+            this.stopPour();
             this.stopDraining();
         }
     }
 
     startDraining() {
-        let drainVolume = 1;
-        let drainSpeed = 100;
+        let drainVolume = .5;
 
         if (!this.drainTimer) {
             this.drainTimer = setInterval(() => {
@@ -208,7 +216,7 @@ class ContainerComposite extends ComplexShape {
                 } else {
                     this.stopDraining();
                 }
-            }, drainSpeed);
+            }, this.speed);
         }
     }
 
@@ -221,11 +229,12 @@ class ContainerComposite extends ComplexShape {
         let start = this.activeOpeningEdge;
 
         if (!this.pour) {
-            this.pour = new Pour(start.x, start.y, this.pourWidth, 5);
+            this.pour = new Pour(start.x, start.y, this.meniscus.overhangWidth, 5);
             this.pour.color = this.liquidColor;
+            this.pourSpeed = this.speed;
             super.addShape(this.pour);
         } else {
-            this.pour.width = this.pourWidth;
+            this.pour.width = this.meniscus.overhangWidth;
         }
 
         this.pour.start();
@@ -236,6 +245,26 @@ class ContainerComposite extends ComplexShape {
     stopPour() {
         if (this.pour) {
             this.pour.stop();
+        }
+    }
+
+    draw(ctx) {
+        if (this.liquids.length) {
+            this.liquids.forEach(liquid => {
+                liquid.draw(ctx);
+            });
+        }
+        if (this.containers.length) {
+            this.containers.forEach(container => {
+                container.draw(ctx);
+            });
+        }
+        if (this.shape.length) {
+            this.shape.forEach(shape => {
+                if (shape.type !== "Container" && shape.type !== "Liquid") {
+                    shape.draw(ctx);
+                }
+            });
         }
     }
 

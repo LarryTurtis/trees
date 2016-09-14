@@ -1,7 +1,8 @@
-import { ComplexShape } from './complexShape.js'
+import { ComplexShape } from './complexShape.js';
+import { Point } from '../point.js';
+import { Line } from '../line.js';
 
-const POURSPEED = 25;
-const DRIPSPEED = 50;
+const POURSPEED = 5;
 
 class Pour extends ComplexShape {
     constructor(x, y, width, height) {
@@ -9,21 +10,22 @@ class Pour extends ComplexShape {
         this.type = "Pour";
         this.drops = [];
         this.pourTimer;
-        this.dripTimer;
         this._pourSpeed = POURSPEED;
-        this._dripSpeed = DRIPSPEED;
         this._pouring = false;
     }
 
     pour() {
         if (this.drops.length) {
             this.drops.forEach(drop => {
-                drop.y += 3;
+                if (this.pouring) drop.end.x = this.x + this.width;
+                drop.start.y += 3;
+                drop.end.y += 3;
                 if (drop.y + drop.height > window.innerHeight) {
                     this.removeDrop(drop)
                 }
             });
         }
+        if (this.pouring) this.addDrop();
     }
 
     get pouring() {
@@ -46,31 +48,12 @@ class Pour extends ComplexShape {
         }
     }
 
-    get dripSpeed() {
-        return this._dripSpeed;
-    }
-
-    set dripSpeed(dripSpeed) {
-        this._dripSpeed = dripSpeed;
-        if (this.dripTimer) {
-            clearInterval(this.dripTimer)
-            this.dripTimer = setInterval(() => { this.addDrop() }, dripSpeed)
-        }
-    }
-
     addDrop() {
         if (this.pouring) {
-            let x = this.x;
-            let y = this.y;
-            let size = this.width;
-            let color = this.color //trees.setOpacity("orange", Math.random())
-            let drop = {
-                x: x,
-                y: y,
-                width: size,
-                height: 5,
-                color: color
-            };
+
+            let start = new Point(this.origin.x, this.origin.y)
+            let end = new Point(this.origin.x + this.width, this.origin.y)
+            let drop = new Line(start, end);
 
             this.drops.push(drop);
         }
@@ -86,30 +69,33 @@ class Pour extends ComplexShape {
     start() {
         this.pouring = true;
         if (!this.pourTimer) {
-            this.pourTimer = setInterval(() => { this.pour() }, POURSPEED);
-        }
-        if (!this.dripTimer) {
-            this.dripTimer = setInterval(() => { this.addDrop() }, DRIPSPEED);
+            this.pourTimer = setInterval(() => { this.pour(); }, POURSPEED);
         }
     }
 
     stop() {
         this.pouring = false;
-
-        clearInterval(this.dripTimer);
-        this.dripTimer = null;
-        this.dripSpeed = DRIPSPEED;
     }
 
     draw(ctx) {
         super.draw(ctx);
-        this.drops.forEach(drop => {
+        if (this.drops.length) {
             ctx.beginPath();
-            ctx.fillStyle = drop.color;
-            ctx.rect(drop.x, drop.y, drop.width, drop.height);
+            ctx.fillStyle = this.color;
+            ctx.yMove(this.drops[0].start);
+            this.drops.forEach(drop => {
+                ctx.yLine(drop.start);
+            });
+            this.drops.reverse();
+            ctx.yLine(this.drops[0].end);
+            this.drops.forEach(drop => {
+                ctx.yLine(drop.end);
+            });
+            this.drops.reverse();
+            ctx.yLine(this.drops[0].start);
             ctx.fill();
             ctx.closePath();
-        });
+        }
     }
 
 }

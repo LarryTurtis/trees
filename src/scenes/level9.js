@@ -14,7 +14,7 @@ function level9() {
 
    // shapes.add(hose);
 
-   // shapes.add(erlenmeyer);
+    shapes.add(erlenmeyer);
     shapes.add(cup);
    // shapes.add(createSpray());
 
@@ -29,7 +29,7 @@ function level9() {
     cup.callback = function() {
         //    cup.rotate(1, cup.center);
         // if (hose.full && !cup.empty) {
-        //     cup.drain(1);
+        //    cup.fill(1);
         //     hose.rotate(1, cup.center);
         //     spray.rotate(1, cup.center);
         // }
@@ -38,7 +38,7 @@ function level9() {
     erlenmeyer.callback = function() {
         //this.drain(counter);
         //this.fill(counter);
-        this.rotate(1, this.center)
+        //this.rotate(1, this.center)
     }
 
     let dragging = false;
@@ -68,14 +68,14 @@ function level9() {
     });
 
     engine.canvas.addEventListener('upArrow', function(e) {
-        hose.bend(-3);
-        erlenmeyer.rotate(-3, erlenmeyer.center)
-        cup.rotate(-3, cup.center)
+        hose.bend(-1);
+        erlenmeyer.rotate(-1, erlenmeyer.center)
+        cup.rotate(-1, cup.center)
     });
     engine.canvas.addEventListener('downArrow', function(e) {
-        hose.bend(3);
-        erlenmeyer.rotate(3, erlenmeyer.center)
-        cup.rotate(3, cup.center)
+        hose.bend(1);
+        erlenmeyer.rotate(1, erlenmeyer.center)
+        cup.rotate(1, cup.center)
     });
 
     engine.canvas.addEventListener('leftArrow', function(e) {
@@ -106,7 +106,7 @@ function createCup() {
     let cup = new engine.complex.Cup(300, 300, 200, 300, 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.liquidLevel = 310;
+    cup.liquidLevel = 410;
     return cup;
 }
 
@@ -114,7 +114,7 @@ function createErlenmeyer() {
     let erlenmeyer = new engine.complex.Erlenmeyer(100, 200, 200, 300);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.liquidLevel = 210;
+    erlenmeyer.liquidLevel = 310;
     return erlenmeyer;
 }
 

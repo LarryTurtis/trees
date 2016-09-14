@@ -15,16 +15,16 @@ class Meniscus extends Sprite {
         this._cp2;
         this._overhang;
         this._end = end;
-        this._factor = 1;
-        this._overhangDistance = width * this._factor;
+        this._factor = 0.5;
+        this._overhangWidth = width * this._factor;
         if (end.x < x) {
             this._cp1 = new Point(x - this.width / 2, this.y);
             this._cp2 = new Point(x - this.width, this.y);
-            this._overhang = new Point(this._end.x - this._overhangDistance, this._end.y);
+            this._overhang = new Point(this._end.x - this._overhangWidth, this._end.y);
         } else {
             this._cp1 = new Point(x + this.width / 2, this.y);
             this._cp2 = new Point(x + this.width, this.y);
-            this._overhang = new Point(this._end.x + this._overhangDistance, this._end.y);
+            this._overhang = new Point(this._end.x + this._overhangWidth, this._end.y);
         }
 
         this._curve = new Curve(this._cp1, this._cp2, this._overhang);
@@ -36,6 +36,14 @@ class Meniscus extends Sprite {
 
     set factor(factor) {
         this._factor = factor;
+    }
+
+    get overhangWidth() {
+        return this._overhangWidth;
+    }
+
+    set overhangWidth(overhangWidth) {
+        this._overhangWidth = overhangWidth;
     }
 
     draw(ctx) {
