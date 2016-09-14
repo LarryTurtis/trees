@@ -18,20 +18,20 @@ class Meniscus extends Sprite {
         this._factor = 0.5;
         this._overhangWidth = width * this._factor;
         if (orientation === "I") {
-            this._cp2 = new Point(x + this.width / 2, this.y);
-            this._cp1 = new Point(this.x, this.y);
+            this._cp1 = new Point(x + this.width / 2, this.y);
+            this._cp2 = new Point(x + this.width, this.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "II") {
-            this._cp2 = new Point(x - this.width / 2, this.y);
-            this._cp1 = new Point(this.x, this.y);
+            this._cp1 = new Point(x - this.width / 2, this.y);
+            this._cp2 = new Point(x - this.width, this.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "III") {
-            this._cp2 = new Point(x - this.width / 2, this.y);
-            this._cp1 = new Point(this.x, this.y);
+            this._cp1 = new Point(x - this.width / 2, this.y);
+            this._cp2 = new Point(x - this.width, this.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "IV") {
-            this._cp2 = new Point(x + this.width / 2, this.y);
-            this._cp1 = new Point(this.x, this.y);
+            this._cp1 = new Point(x + this.width / 2, this.y);
+            this._cp2 = new Point(x + this.width, this.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
         } 
 
