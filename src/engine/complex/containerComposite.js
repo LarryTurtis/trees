@@ -66,21 +66,32 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
+    * .opening
+    * Returns the first line defined as an opening for the container.
+    * (Composite can only have one opening line).
+    */
+
+    get opening() {
+        let result = null;
+        this.containers.forEach(container => {
+            if (container.openingIndex >= 0) {
+                result = container.lines()[container.openingIndex] || result;
+            }
+        });
+        return result;
+    }
+
+    /**
      * .activeOpeningEdge
      * represents the 'spout' of the container. point at which liquid exits.
      */
 
     get activeOpeningEdge() {
-        let edge = null;
-        this.containers.forEach(container => {
-            if (container.openingIndex >= 0) {
-                let opening = container.lines()[container.openingIndex];
-                if (opening) {
-                    edge = opening.start.y > opening.end.y ? opening.start : opening.end;
-                }
-            }
-        });
-        return edge;
+        let opening = this.opening;
+        if (opening) {
+            return opening.start.y > opening.end.y ? opening.start : opening.end;
+        }
+        return opening;
     }
 
     /**
@@ -156,6 +167,26 @@ class ContainerComposite extends ComplexShape {
 
     }
 
+    get orientation() {
+        let opening = this.opening;
+        let result = null;
+        if (opening) {
+            if (opening.start.x <= opening.end.x && opening.start.y <= opening.end.y) {
+                result = "I";
+            }
+            if (opening.start.x <= opening.end.x && opening.start.y > opening.end.y) {
+                result = "II";
+            }
+            if (opening.start.x > opening.end.x && opening.start.y > opening.end.y) {
+                result = "III";
+            }
+            if (opening.start.x > opening.end.x && opening.start.y <= opening.end.y) {
+                result = "IV";
+            }
+        }
+        return result;
+    }
+
     drain(amount) {
         if (typeof amount !== 'number' || amount < 0) {
             throw new Error('Tried to use drain function with invalid amount.')
@@ -185,7 +216,7 @@ class ContainerComposite extends ComplexShape {
 
     addMeniscus() {
         this.removeMeniscus();
-        this.meniscus = new Meniscus(this.overflowStart.x, this.overflowStart.y, this.pourWidth, 5, this.activeOpeningEdge);
+        this.meniscus = new Meniscus(this.overflowStart.x, this.overflowStart.y, this.pourWidth, 5, this.activeOpeningEdge, this.orientation);
         this.meniscus.color = this.liquidColor;
         super.addShape(this.meniscus);
     }
@@ -207,7 +238,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     startDraining() {
-        let drainVolume = .5;
+        let drainVolume = 0;
 
         if (!this.drainTimer) {
             this.drainTimer = setInterval(() => {

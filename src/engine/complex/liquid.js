@@ -115,6 +115,8 @@ class Liquid extends Sprite {
                 //as long as they are below it
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
+
+                    this.overflowStart = line.start.y < line.end.y ? line.start : line.end;
                 }
                 this.lines.push(line);
             }

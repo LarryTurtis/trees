@@ -5,7 +5,7 @@ describe('Container Composite', () => {
 
     let x = 10;
     let y = 10;
-    let width = 300;
+    let width = 400;
     let height = 400;
     let tolerance = 0.01;
 
@@ -62,8 +62,8 @@ describe('Container Composite', () => {
         let sprite2;
 
         beforeEach(() => {
-            sprite1 = new Sprite(0, 0, 100, 100);
-            sprite2 = new Sprite(0, 100, 100, 100);
+            sprite1 = new Sprite(x, y, 100, 100);
+            sprite2 = new Sprite(x, y + 100, 100, 100);
             container.addShape(sprite1);
             container.addShape(sprite2);
         });
@@ -108,8 +108,8 @@ describe('Container Composite', () => {
                 expect(spy3.called).to.be.true;
             });
             it("should throw an error if invalid value is provided", () => {
-                expect(() => {container.liquidLevel = "abc";}).to.throw(Error);
-                expect(() => {container.liquidLevel = -1;}).to.throw(Error);
+                expect(() => { container.liquidLevel = "abc"; }).to.throw(Error);
+                expect(() => { container.liquidLevel = -1; }).to.throw(Error);
             })
         });
 
@@ -179,6 +179,32 @@ describe('Container Composite', () => {
                 expect(spy3.called).to.be.true;
             });
         });
+
+        describe("orientation", () => {
+            beforeEach(() => {
+                container = new ContainerComposite(x, y, width, height);
+                sprite1 = new Sprite(x, y, width, height);
+                container.addShape(sprite1);
+                sprite1.openingIndex = 0;
+                container.liquidLevel = container.y + container.height / 2;
+            });
+            it("should return the correct orientation I", () => {
+                container.rotate(80, container.center);
+                expect(container.orientation).to.equal("I");
+            });
+            it("should return the correct orientation IV", () => {
+                container.rotate(170, container.center);
+                expect(container.orientation).to.equal("IV");
+            });
+            it("should return the correct orientation III", () => {
+                container.rotate(260, container.center);
+                expect(container.orientation).to.equal("III");
+            });
+            it("should return the correct orientation II", () => {
+                container.rotate(350, container.center);
+                expect(container.orientation).to.equal("II");
+            });
+        })
 
         describe("activeOpeningEdge", () => {
 
