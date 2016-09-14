@@ -92,14 +92,12 @@ class Liquid extends Sprite {
                     this.overflowStart = intersection;
                 }
 
-                line.intersection = intersection;
                 this.lines.push(line);
 
                 if (!firstIntersect) {
                     firstIntersect = intersection;
                     firstIntersectIndex = this.lines.indexOf(line);
                 } else {
-
                     if (firstIntersect.x < intersection.x) {
                         line.start = intersection;
                         this.lines[firstIntersectIndex].end = firstIntersect;
@@ -107,9 +105,6 @@ class Liquid extends Sprite {
                         line.end = intersection;
                         this.lines[firstIntersectIndex].start = firstIntersect;
                     }
-                        console.log(this.overflowStart === firstIntersect);
-                        console.log(this.overflowStart === intersection);
-
                 }
 
             } else if (line.start.y > this._levelLine.start.y) {

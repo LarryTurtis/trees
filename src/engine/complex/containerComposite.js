@@ -3,7 +3,7 @@ import { Liquid } from './liquid.js';
 import { Pour } from './pour.js';
 import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
-
+import { Line } from '../line.js';
 
 class ContainerComposite extends ComplexShape {
     constructor(x, y, width, height) {
@@ -66,10 +66,40 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * .opening
-    * Returns the first line defined as an opening for the container.
-    * (Composite can only have one opening line).
+    * .liquidTop
+    * represents the 'top' line of the liquid in container
+    * start = left, end = right
     */
+    get liquidTop() {
+        let liquidTop = null;
+        let start = null;
+        let end = null;
+        this.liquids.forEach(liquid => {
+            liquid.lines.forEach(line => {
+                console.log(line, this.liquidLevel);
+                if (line.start.y === this.liquidLevel) {
+                    start = line.start;
+                }
+                if (line.end.y === this.liquidLevel) {
+                    end = line.end;
+                }
+            });
+        });
+        if (start && end) {
+            if (start.x < end.x) {
+                liquidTop = new Line(start, end);
+            } else {
+                liquidTop = new Line(end, start);
+            }
+        }
+        return liquidTop;
+    }
+
+    /**
+     * .opening
+     * Returns the first line defined as an opening for the container.
+     * (Composite can only have one opening line).
+     */
 
     get opening() {
         let result = null;
