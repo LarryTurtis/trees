@@ -15,23 +15,23 @@ class Meniscus extends Sprite {
         this._cp2;
         this._overhang;
         this._openingEdge = openingEdge;
-        this._factor = 0.5;
+        this._factor = 1;
         this._overhangWidth = width * this._factor;
         if (orientation === "I") {
-            this._cp1 = new Point(x + this.width / 2, this.y);
-            this._cp2 = new Point(x + this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "II") {
-            this._cp1 = new Point(x - this.width / 2, this.y);
-            this._cp2 = new Point(x - this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "III") {
-            this._cp1 = new Point(x - this.width / 2, this.y);
-            this._cp2 = new Point(x - this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "IV") {
-            this._cp1 = new Point(x + this.width / 2, this.y);
-            this._cp2 = new Point(x + this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
         } 
 
@@ -64,10 +64,9 @@ class Meniscus extends Sprite {
         ctx.closePath();
         ctx.fill();
 
-        ctx.fillStyle = "red";
-        ctx.rect(this._cp1.x, this._cp1.y, 5, 5)
-        ctx.rect(this._cp2.x, this._cp2.y, 5, 5)
-        ctx.stroke();
+        // ctx.rect(this._cp1.x, this._cp1.y, 5, 5)
+        // ctx.rect(this._cp2.x, this._cp2.y, 5, 5)
+        // ctx.stroke();
 
         ctx.fillStyle = this.color;
     }

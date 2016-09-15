@@ -232,7 +232,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     startDraining() {
-        let drainVolume = 0;
+        let drainVolume = 0.5;
 
         if (!this.drainTimer) {
             this.drainTimer = setInterval(() => {
