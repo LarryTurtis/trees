@@ -84,6 +84,30 @@ class trees {
         return new point.constructor(point.x, point.y);
     }
 
+    static polygonArea(lines) {
+
+        let X = [];
+        let Y = [];
+
+        lines.forEach(line => {
+            X.push(line.start.x);
+            X.push(line.end.x);
+            Y.push(line.start.y);
+            Y.push(line.end.y);
+        });
+
+        let numPoints = X.length;
+
+        let area = 0; // Accumulates area in the loop
+        let j = numPoints - 1; // The last vertex is the 'previous' one to the first
+
+        for (let i = 0; i < numPoints; i++) {
+            area = area + (X[j] + X[i]) * (Y[j] - Y[i]);
+            j = i; //j is previous vertex to i
+        }
+        return -area / 2;
+    }
+
     static intersection(line1, line2) {
         // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
         var denominator, a, b, numerator1, numerator2, result = {

@@ -67,6 +67,10 @@ class Liquid extends Sprite {
         this.level();
     }
 
+    get area() {
+        return trees.polygonArea(this.lines);
+    }
+
     level() {
 
 
@@ -107,9 +111,6 @@ class Liquid extends Sprite {
                         line.end = intersection;
                         this.lines[firstIntersectIndex].start = firstIntersect;
                     }
-                        console.log(this.overflowStart === firstIntersect);
-                        console.log(this.overflowStart === intersection);
-
                 }
 
             } else if (line.start.y > this._levelLine.start.y) {
@@ -122,7 +123,6 @@ class Liquid extends Sprite {
                 this.lines.push(line);
             }
         });
-
     }
 
     rotate(deg, transformOrigin) {
