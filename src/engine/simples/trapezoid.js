@@ -206,8 +206,8 @@ class Trapezoid extends Sprite {
         ctx.yLine(this.topLeft);
 
         ctx.fill();
-        if (this.lineColor) ctx.stroke();
         ctx.closePath();
+        if (this.lineColor) ctx.stroke();
     }
 
 }
