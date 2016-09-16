@@ -67,6 +67,10 @@ class Liquid extends Sprite {
         this.level();
     }
 
+    get area() {
+        return trees.polygonArea(this.lines);
+    }
+
     level() {
 
 
@@ -117,7 +121,6 @@ class Liquid extends Sprite {
                 this.lines.push(line);
             }
         });
-
     }
 
     rotate(deg, transformOrigin) {

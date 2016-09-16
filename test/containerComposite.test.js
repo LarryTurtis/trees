@@ -178,6 +178,20 @@ describe('Container Composite', () => {
                 expect(spy2.called).to.be.true;
                 expect(spy3.called).to.be.true;
             });
+            it("should preserve the liquid area on rotate", () => {
+                let oldArea = container.liquidArea;
+                let percentage = oldArea / 100
+                container.rotate(-272, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(170, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(1, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(-1073, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(0, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+            })
         });
 
         describe.only("orientation", () => {

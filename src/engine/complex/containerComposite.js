@@ -175,9 +175,18 @@ class ContainerComposite extends ComplexShape {
         this._speed = speed;
     }
 
-
     rotate(deg, transformOrigin) {
+        let oldArea = this.liquidArea;
         super.rotate(deg, transformOrigin);
+        if (oldArea < this.liquidArea) {
+            while (oldArea < this.liquidArea) {
+                this.drain(0.1);
+            }
+        } else if (oldArea > this.liquidArea) {
+            while (oldArea > this.liquidArea) {
+                this.fill(0.1);
+            }
+        }
         this.handleOverflow();
     }
 
@@ -195,6 +204,14 @@ class ContainerComposite extends ComplexShape {
         this.containers.push(container);
         this.liquids.push(liquid);
 
+    }
+
+    get liquidArea() {
+        let area = 0;
+        this.liquids.forEach(liquid => {
+            area += liquid.area;
+        });
+        return area;
     }
 
     get orientation() {
@@ -244,6 +261,25 @@ class ContainerComposite extends ComplexShape {
         this.full = this.liquidLevel <= this.boundary.a.y;
     }
 
+    startDraining() {
+        let drainVolume = 0;
+
+        if (!this.drainTimer) {
+            this.drainTimer = setInterval(() => {
+                if (!this.empty) {
+                    this.drain(drainVolume);
+                } else {
+                    this.stopDraining();
+                }
+            }, this.speed);
+        }
+    }
+
+    stopDraining() {
+        clearInterval(this.drainTimer);
+        this.drainTimer = null;
+    }
+
     addMeniscus() {
         this.removeMeniscus();
         this.meniscus = new Meniscus(this.overflowStart.x, this.overflowStart.y, this.pourWidth, 5, this.activeOpeningEdge, this.orientation);
@@ -267,25 +303,6 @@ class ContainerComposite extends ComplexShape {
         }
     }
 
-    startDraining() {
-        let drainVolume = 0;
-
-        if (!this.drainTimer) {
-            this.drainTimer = setInterval(() => {
-                if (!this.empty) {
-                    this.drain(drainVolume);
-                } else {
-                    this.stopDraining();
-                }
-            }, this.speed);
-        }
-    }
-
-    stopDraining() {
-        clearInterval(this.drainTimer);
-        this.drainTimer = null;
-    }
-
     startPour() {
         let start = this.activeOpeningEdge;
 
@@ -295,7 +312,10 @@ class ContainerComposite extends ComplexShape {
             this.pourSpeed = this.speed;
             super.addShape(this.pour);
         } else {
-            this.pour.width = this.meniscus.overhangWidth;
+            this.pour.width = this.orientation === "I" ||
+                this.orientation === "IV" ? this.meniscus.overhangWidth : -this.meniscus.overhangWidth;
+            this.pour.x = start.x;
+            this.pour.y = start.y;
         }
 
         this.pour.start();
