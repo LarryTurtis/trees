@@ -52,10 +52,10 @@ function updateCollisions(shape) {
     shapesRegistry.forEach(otherShape => {
         if (shape !== otherShape) {
             if (broadPhase(shape, otherShape)) {
+                console.log('broadphase');
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
-                    if (otherShape.type === "Hose") shape.collidingWithPlatform = true;
                     collisions.push(collision);
 
                 } else {

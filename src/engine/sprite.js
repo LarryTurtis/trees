@@ -22,7 +22,7 @@ class Sprite {
         this._lineColor = null;
         this._id = null;
         this._collidingWith = null;
-        this._collidable = false;
+        this._collidable = true;
         this._minHeight = 1;
         this._visible = true;
     }
