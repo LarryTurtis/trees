@@ -55,7 +55,6 @@ function updateCollisions(shape) {
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
-                    if (otherShape.type === "Hose") shape.collidingWithPlatform = true;
                     collisions.push(collision);
 
                 } else {
