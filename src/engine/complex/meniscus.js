@@ -64,12 +64,12 @@ class Meniscus extends Sprite {
         ctx.closePath();
         ctx.fill();
 
-        ctx.fillStyle = "red";
-        ctx.rect(this._cp1.x, this._cp1.y, 5, 5)
-        ctx.rect(this._cp2.x, this._cp2.y, 5, 5)
-        ctx.stroke();
+        // ctx.fillStyle = "red";
+        // ctx.rect(this._cp1.x, this._cp1.y, 5, 5)
+        // ctx.rect(this._cp2.x, this._cp2.y, 5, 5)
+        // ctx.stroke();
 
-        ctx.fillStyle = this.color;
+        // ctx.fillStyle = this.color;
     }
 
 }

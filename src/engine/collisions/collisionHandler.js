@@ -1,12 +1,12 @@
 function collisionHandler(collision) {
-
-    if (collision._o1.pour) {
-       	collision._o1.pour.drops.splice(0, 20);
-        collision._o2.fill(3);
+console.log(collision.overlap.y);
+    if (collision._o1.y < collision._o2.y) {
+        collision._o1.pour.drops.splice(0, 5);
+        collision._o2.fill(1);
     }
-    if (collision._o2.pour) {
-        collision._o2.pour.drops.splice(0, 20);
-        collision._o1.fill(3);
+    if (collision._o2.y < collision._o1.y) {
+        collision._o2.pour.drops.splice(0, 5);
+        collision._o1.fill(1);
     }
     collision.resolved = true;
 

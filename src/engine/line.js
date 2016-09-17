@@ -19,6 +19,13 @@ class Line {
         this._end = end;
     }
 
+    createSATObject() {
+        return [new SAT.Polygon(new SAT.Vector(0, 0), [
+            new SAT.Vector(this.end.x, this.end.y),
+            new SAT.Vector(this.start.x, this.start.y),
+        ])];
+    }
+
 }
 
 export { Line }

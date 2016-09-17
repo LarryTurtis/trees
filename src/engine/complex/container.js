@@ -49,12 +49,7 @@ function Container(shape) {
         if (lines.length) {
             lines.forEach((line, index) => {
                 if (index !== shape.openingIndex) {
-                    response = response.concat(
-                        [new SAT.Polygon(new SAT.Vector(0, 0), [
-                            new SAT.Vector(line.end.x, line.end.y),
-                            new SAT.Vector(line.start.x, line.start.y),
-                        ])]
-                    );
+                    response = response.concat(line.createSATObject());
                 }
             });
         }

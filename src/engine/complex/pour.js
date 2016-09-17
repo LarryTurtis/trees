@@ -11,6 +11,7 @@ class Pour extends ComplexShape {
         this.drops = [];
         this._pourSpeed = POURSPEED;
         this._pouring = false;
+        this.pourTimer = null;
     }
 
     pour() {
@@ -62,7 +63,7 @@ class Pour extends ComplexShape {
     }
 
     animate() {
-        if (this.pouring) this.pour();
+        if (this.pouring || this.finishing) this.pour();
     }
 
     start() {
@@ -72,6 +73,14 @@ class Pour extends ComplexShape {
 
     stop() {
         this.pouring = false;
+        this.finishing = true;
+        this.pourTimer = setInterval(() => {
+            if (!this.drops.length) {
+                this.finishing = false;
+                clearInterval(this.pourTimer);
+                this.pourTimer = null;
+            }
+        }, 10);
     }
 
     createSATObject() {
@@ -79,8 +88,8 @@ class Pour extends ComplexShape {
             let lastDrop = this.drops[0];
             return [new SAT.Polygon(new SAT.Vector(0, 0), [
                 new SAT.Vector(lastDrop.end.x, lastDrop.end.y),
-                new SAT.Vector(lastDrop.end.x, lastDrop.end.y - 5),
-                new SAT.Vector(lastDrop.start.x, lastDrop.end.y - 5),
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y - 100),
+                new SAT.Vector(lastDrop.start.x, lastDrop.end.y - 100),
                 new SAT.Vector(lastDrop.start.x, lastDrop.start.y),
             ])];
         } else {

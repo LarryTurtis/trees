@@ -262,7 +262,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     startDraining() {
-        let drainVolume = 0;
+        let drainVolume = 0.5;
 
         if (!this.drainTimer) {
             this.drainTimer = setInterval(() => {
@@ -331,11 +331,17 @@ class ContainerComposite extends ComplexShape {
 
     createSATObject() {
         let response = [];
+
         this.containers.forEach(container => {
             response = response.concat(container.createSATObject());
         });
+
         if (this.pour) {
             response = response.concat(this.pour.createSATObject());
+        }
+
+        if (this.liquidTop) {
+            response = response.concat(this.liquidTop.createSATObject());
         }
         return response;
     }
