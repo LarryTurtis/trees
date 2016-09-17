@@ -194,13 +194,14 @@ describe('Container Composite', () => {
             })
         });
 
-        describe("orientation", () => {
+        describe.only("orientation", () => {
             beforeEach(() => {
                 container = new ContainerComposite(x, y, width, height);
                 sprite1 = new Sprite(x, y, width, height);
                 container.addShape(sprite1);
                 sprite1.openingIndex = 0;
                 container.liquidLevel = container.y + container.height / 2;
+                console.log(container.empty);
             });
             it("should return the correct orientation I", () => {
                 container.rotate(80, container.center);
@@ -257,6 +258,14 @@ describe('Container Composite', () => {
             });
         });
 
+        describe("liquidTop", () => {
+            it("should not be null if the container not empty", () => {
+                container.liquidLevel = sprite1.y + 10;
+                expect(container.empty).to.be.false;
+                expect(container.liquidTop).not.to.be.null;
+            });
+        })
+
         describe("overflowStart", () => {
 
             it("should be null by default", () => {
@@ -278,7 +287,15 @@ describe('Container Composite', () => {
                 container.rotate(95, container.center);
                 expect(container.overflowStart).to.be.null;
             });
-
+            it("should match liquidTop.end", () => {
+                sprite1.openingIndex = 1;
+                container.liquidLevel = sprite1.y + 10;
+                expect(container.overflowStart.x).to.equal(container.liquidTop.end.x);
+                expect(container.overflowStart.y).to.equal(container.liquidTop.end.y);
+                sprite1.rotate(350, sprite1.center);
+                expect(container.overflowStart.x).to.equal(container.liquidTop.end.x);
+                expect(container.overflowStart.y).to.equal(container.liquidTop.end.y);
+            });
         });
 
         describe("pourWidth", () => {

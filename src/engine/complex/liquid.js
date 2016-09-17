@@ -96,14 +96,12 @@ class Liquid extends Sprite {
                     this.overflowStart = intersection;
                 }
 
-                line.intersection = intersection;
                 this.lines.push(line);
 
                 if (!firstIntersect) {
                     firstIntersect = intersection;
                     firstIntersectIndex = this.lines.indexOf(line);
                 } else {
-
                     if (firstIntersect.x < intersection.x) {
                         line.start = intersection;
                         this.lines[firstIntersectIndex].end = firstIntersect;
