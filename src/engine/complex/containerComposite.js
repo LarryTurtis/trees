@@ -16,6 +16,7 @@ class ContainerComposite extends ComplexShape {
         this._empty = false;
         this._full = true;
         this._speed = 10;
+        this._collidable = true;
     }
 
     get liquidColor() {
@@ -66,10 +67,10 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-    * .liquidTop
-    * represents the 'top' line of the liquid in container
-    * start = left, end = right
-    */
+     * .liquidTop
+     * represents the 'top' line of the liquid in container
+     * start = left, end = right
+     */
     get liquidTop() {
         let liquidTop = null;
         let start = null;
@@ -327,6 +328,17 @@ class ContainerComposite extends ComplexShape {
         if (this.pour) {
             this.pour.stop();
         }
+    }
+
+    createSATObject() {
+        let response = [];
+        this.containers.forEach(container => {
+            response = response.concat(container.createSATObject());
+        });
+        if (this.pour) {
+            response = response.concat(this.pour.createSATObject());
+        }
+        return response;
     }
 
     draw(ctx) {

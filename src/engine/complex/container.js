@@ -43,6 +43,24 @@ function Container(shape) {
         }
     });
 
+    shape.createSATObject = function() {
+        let response = [];
+        let lines = shape.lines()
+        if (lines.length) {
+            lines.forEach((line, index) => {
+                if (index !== shape.openingIndex) {
+                    response = response.concat(
+                        [new SAT.Polygon(new SAT.Vector(0, 0), [
+                            new SAT.Vector(line.end.x, line.end.y),
+                            new SAT.Vector(line.start.x, line.start.y),
+                        ])]
+                    );
+                }
+            });
+        }
+        return response;
+    }
+
     return shape;
 }
 

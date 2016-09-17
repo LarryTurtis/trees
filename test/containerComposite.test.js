@@ -194,7 +194,7 @@ describe('Container Composite', () => {
             })
         });
 
-        describe.only("orientation", () => {
+        describe("orientation", () => {
             beforeEach(() => {
                 container = new ContainerComposite(x, y, width, height);
                 sprite1 = new Sprite(x, y, width, height);

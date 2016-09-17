@@ -18,6 +18,7 @@ class Line {
     set end(end) {
         this._end = end;
     }
+
 }
 
 export { Line }

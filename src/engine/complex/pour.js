@@ -16,11 +16,11 @@ class Pour extends ComplexShape {
 
     pour() {
         if (this.drops.length) {
-            this.drops.forEach(drop => {
+            this.drops.forEach((drop, index) => {
                 if (this.pouring) drop.end.x = this.x + this.width;
-                drop.start.y += 3;
-                drop.end.y += 3;
-                if (drop.y + drop.height > window.innerHeight) {
+                drop.start.y += 1;
+                drop.end.y += 1;
+                if (drop.start.y > window.innerHeight) {
                     this.removeDrop(drop)
                 }
             });
@@ -75,6 +75,21 @@ class Pour extends ComplexShape {
 
     stop() {
         this.pouring = false;
+    }
+
+    createSATObject() {
+        if (this.drops.length) {
+            let lastDrop = this.drops[0];
+            return [new SAT.Polygon(new SAT.Vector(0, 0), [
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y),
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y + 5),
+                new SAT.Vector(lastDrop.start.x, lastDrop.end.y + 5),
+                new SAT.Vector(lastDrop.start.x, lastDrop.start.y),
+            ])];
+        } else {
+            return [];
+        }
+
     }
 
     draw(ctx) {

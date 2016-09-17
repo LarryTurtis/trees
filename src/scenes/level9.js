@@ -14,7 +14,7 @@ function level9() {
 
    // shapes.add(hose);
 
-    //shapes.add(erlenmeyer);
+    shapes.add(erlenmeyer);
     shapes.add(cup);
    // shapes.add(createSpray());
 
@@ -103,18 +103,18 @@ function createSpray() {
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(300, 300, 200, 300, 85);
+    let cup = new engine.complex.Cup(200, 100, 200, 300, 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.liquidLevel = 410;
+    cup.liquidLevel = 210;
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(100, 200, 200, 300);
+    let erlenmeyer = new engine.complex.Cup(400, 500, 200, 300, 85);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.liquidLevel = 310;
+    erlenmeyer.liquidLevel = 610;
     return erlenmeyer;
 }
 
