@@ -23,6 +23,19 @@ class Trapezoid extends Sprite {
 
     }
 
+    createSATObject() {
+        if (this.topLeft) {
+            return [new SAT.Polygon(new SAT.Vector(this.x, this.y), [
+                new SAT.Vector(this.topLeft.x - this.x, this.topLeft.y - this.y),
+                new SAT.Vector(this.topRight.x - this.x, this.topRight.y - this.y),
+                new SAT.Vector(this.bottomRight.x - this.x, this.bottomRight.y - this.y),
+                new SAT.Vector(this.bottomLeft.x - this.x, this.bottomLeft.y - this.y)
+            ])];
+        } else {
+            return [];
+        }
+    }
+
     animate() {
         // if (!this.collidingWithPlatform) this.fall();
     }

@@ -1,6 +1,6 @@
 function collisionHandler(collision) {
 
-    console.log('collision');
+    console.log('collision', collision);
 
 }
 

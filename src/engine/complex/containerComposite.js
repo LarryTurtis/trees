@@ -312,9 +312,10 @@ class ContainerComposite extends ComplexShape {
             this.pourSpeed = this.speed;
             super.addShape(this.pour);
         } else {
-            this.pour.width = this.orientation === "I" ||
-                this.orientation === "IV" ? this.meniscus.overhangWidth : -this.meniscus.overhangWidth;
-            this.pour.x = start.x;
+            this.pour.width = this.meniscus.overhangWidth;
+
+            this.pour.x = this.orientation === "I" ||
+                this.orientation === "IV" ? start.x : start.x - this.meniscus.overhangWidth;
             this.pour.y = start.y;
         }
 

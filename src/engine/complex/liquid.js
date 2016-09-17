@@ -33,6 +33,7 @@ class Liquid extends Sprite {
         this.lines = this.container.lines();
         this.overflowStart = null;
         this.liquidLevel = 0;
+        this.createSATObject = container.createSATObject;
     }
 
     get container() {

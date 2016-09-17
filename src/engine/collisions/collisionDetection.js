@@ -51,8 +51,7 @@ function updateCollisions(shape) {
     shape.collidingWithPlatform = false;
     shapesRegistry.forEach(otherShape => {
         if (shape !== otherShape) {
-            if (broadPhase(shape, otherShape)) {
-                console.log('broadphase');
+            //if (broadPhase(shape, otherShape)) {
                 var overlap = narrowPhase(shape, otherShape);
                 if (overlap) {
                     let collision = globalCollisionRegistry.add(shape, otherShape, overlap);
@@ -61,9 +60,9 @@ function updateCollisions(shape) {
                 } else {
                     globalCollisionRegistry.remove(shape, otherShape);
                 }
-            } else {
-                globalCollisionRegistry.remove(shape, otherShape);
-            }
+            // } else {
+            //     globalCollisionRegistry.remove(shape, otherShape);
+            // }
         }
     });
     return collisions;

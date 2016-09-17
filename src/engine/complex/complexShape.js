@@ -134,7 +134,9 @@ class ComplexShape extends Sprite {
     createSATObject() {
         let response = [];
         this.shape.forEach(shape => {
-            response = response.concat(shape.createSATObject());
+            if (typeof shape.createSATObject === 'function') {
+                response = response.concat(shape.createSATObject());
+            }
         });
         return response;
     }

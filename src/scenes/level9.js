@@ -111,7 +111,7 @@ function createCup() {
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(200, 600, 200, 300);
+    let erlenmeyer = new engine.complex.Erlenmeyer(300, 500, 200, 300);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.liquidLevel = 810;
