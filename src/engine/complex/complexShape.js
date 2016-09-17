@@ -18,6 +18,11 @@ class ComplexShape extends Sprite {
         this.shape.push(shape);
     }
 
+    moveDrawOrderBack(shape) {
+        let shapeToMove = this.removeShape(shape);
+        this.shape.unshift(shape);
+    }
+
     removeShape(shape) {
         let index = this.shape.indexOf(shape);
         if (index >= 0) {
@@ -67,6 +72,12 @@ class ComplexShape extends Sprite {
         this.shape.forEach(shape => {
             shape.collidable = collidable;
         })
+    }
+
+    animate() {
+        this.shape && this.shape.forEach(shape => {
+            if (shape.animate) shape.animate();
+        });
     }
 
     rotate(deg, transformOrigin) {

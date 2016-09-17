@@ -44,11 +44,11 @@ function narrowPhase(o1, o2) {
         return false;
     }
 }
+    let shapesRegistry = new ShapesRegistry();
+    let globalCollisionRegistry = new GlobalCollisionRegistry();
 
 function updateCollisions(shape) {
     let collisions = [];
-    let shapesRegistry = new ShapesRegistry();
-    let globalCollisionRegistry = new GlobalCollisionRegistry();
     shape.collidingWithPlatform = false;
     shapesRegistry.forEach(otherShape => {
         if (shape !== otherShape) {

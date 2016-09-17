@@ -77,7 +77,6 @@ class ContainerComposite extends ComplexShape {
         let end = null;
         this.liquids.forEach(liquid => {
             liquid.lines.forEach(line => {
-                console.log(line, this.liquidLevel);
                 if (line.start.y === this.liquidLevel) {
                     start = line.start;
                 }
@@ -310,8 +309,8 @@ class ContainerComposite extends ComplexShape {
         if (!this.pour) {
             this.pour = new Pour(start.x, start.y, this.meniscus.overhangWidth, 5);
             this.pour.color = this.liquidColor;
-            this.pourSpeed = this.speed;
             super.addShape(this.pour);
+           // this.moveDrawOrderBack(this.pour);
         } else {
             this.pour.width = this.orientation === "I" ||
                 this.orientation === "IV" ? this.meniscus.overhangWidth : -this.meniscus.overhangWidth;

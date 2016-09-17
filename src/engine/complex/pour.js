@@ -2,24 +2,23 @@ import { ComplexShape } from './complexShape.js';
 import { Point } from '../point.js';
 import { Line } from '../line.js';
 
-const POURSPEED = 5;
+const POURSPEED = 3;
 
 class Pour extends ComplexShape {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Pour";
         this.drops = [];
-        this.pourTimer;
         this._pourSpeed = POURSPEED;
         this._pouring = false;
     }
 
     pour() {
         if (this.drops.length) {
-            this.drops.forEach((drop, index) => {
+            this.drops.forEach(drop => {
                 if (this.pouring) drop.end.x = this.x + this.width;
-                drop.start.y += 1;
-                drop.end.y += 1;
+                drop.start.y += this.pourSpeed;
+                drop.end.y += this.pourSpeed;
                 if (drop.start.y > window.innerHeight) {
                     this.removeDrop(drop)
                 }
@@ -42,10 +41,6 @@ class Pour extends ComplexShape {
 
     set pourSpeed(pourSpeed) {
         this._pourSpeed = pourSpeed;
-        if (this.pourTimer) {
-            clearInterval(this.pourTimer);
-            this.pourTimer = setInterval(() => { this.pour() }, pourSpeed);
-        }
     }
 
     addDrop() {
@@ -66,11 +61,13 @@ class Pour extends ComplexShape {
         }
     }
 
+    animate() {
+        if (this.pouring) this.pour();
+    }
+
     start() {
         this.pouring = true;
-        if (!this.pourTimer) {
-            this.pourTimer = setInterval(() => { this.pour(); }, POURSPEED);
-        }
+        this.addDrop();
     }
 
     stop() {
@@ -82,8 +79,8 @@ class Pour extends ComplexShape {
             let lastDrop = this.drops[0];
             return [new SAT.Polygon(new SAT.Vector(0, 0), [
                 new SAT.Vector(lastDrop.end.x, lastDrop.end.y),
-                new SAT.Vector(lastDrop.end.x, lastDrop.end.y + 5),
-                new SAT.Vector(lastDrop.start.x, lastDrop.end.y + 5),
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y - 5),
+                new SAT.Vector(lastDrop.start.x, lastDrop.end.y - 5),
                 new SAT.Vector(lastDrop.start.x, lastDrop.start.y),
             ])];
         } else {
