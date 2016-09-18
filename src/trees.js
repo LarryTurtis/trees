@@ -149,4 +149,5 @@ class trees {
 
 }
 
+window.trees = trees;
 export { trees };

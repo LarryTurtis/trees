@@ -5,6 +5,7 @@ module.exports = function(config) {
         reporters: ['mocha'],
         browsers: ['PhantomJS'],
         files: ['src/**/*.js', 'test/*.js', 'node_modules/SAT/sat.js'],
+        exclude: ['src/app.js'],
         preprocessors: {
             'src/**/*.js': ['browserify'],
             'test/*.js': ['browserify'],

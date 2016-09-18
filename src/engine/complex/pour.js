@@ -2,7 +2,7 @@ import { ComplexShape } from './complexShape.js';
 import { Point } from '../point.js';
 import { Line } from '../line.js';
 
-const POURSPEED = 3;
+const POURSPEED = 6;
 
 class Pour extends ComplexShape {
     constructor(x, y, width, height) {
@@ -67,8 +67,8 @@ class Pour extends ComplexShape {
     }
 
     start() {
+        if (!this.drops.length) this.addDrop();
         this.pouring = true;
-        this.addDrop();
     }
 
     stop() {

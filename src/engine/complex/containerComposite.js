@@ -17,6 +17,7 @@ class ContainerComposite extends ComplexShape {
         this._full = true;
         this._speed = 10;
         this._collidable = true;
+        this.drainVolume = 0.5;
     }
 
     get liquidColor() {
@@ -262,22 +263,11 @@ class ContainerComposite extends ComplexShape {
     }
 
     startDraining() {
-        let drainVolume = 0.5;
-
-        if (!this.drainTimer) {
-            this.drainTimer = setInterval(() => {
-                if (!this.empty) {
-                    this.drain(drainVolume);
-                } else {
-                    this.stopDraining();
-                }
-            }, this.speed);
-        }
+        this.draining = true;
     }
 
     stopDraining() {
-        clearInterval(this.drainTimer);
-        this.drainTimer = null;
+        this.draining = false;
     }
 
     addMeniscus() {
@@ -305,7 +295,6 @@ class ContainerComposite extends ComplexShape {
 
     startPour() {
         let start = this.activeOpeningEdge;
-
         if (!this.pour) {
             this.pour = new Pour(start.x, start.y, this.meniscus.overhangWidth, 5);
             this.pour.color = this.liquidColor;
@@ -326,6 +315,16 @@ class ContainerComposite extends ComplexShape {
     stopPour() {
         if (this.pour) {
             this.pour.stop();
+        }
+    }
+
+    animate() {
+        super.animate();
+        if (this.draining) {
+            this.drain(this.drainVolume);
+        }
+        if (this.filling) {
+            this.fill(this.drainVolume);
         }
     }
 
