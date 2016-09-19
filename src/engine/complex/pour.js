@@ -1,6 +1,5 @@
 import { ComplexShape } from './complexShape.js';
-import { Point } from '../point.js';
-import { Line } from '../line.js';
+import { IndividualPour } from './individualPour.js';
 
 const POURSPEED = 6;
 
@@ -8,24 +7,46 @@ class Pour extends ComplexShape {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.type = "Pour";
-        this.drops = [];
+        this.pours = [];
         this._pourSpeed = POURSPEED;
         this._pouring = false;
         this.pourTimer = null;
     }
 
     pour() {
-        if (this.drops.length) {
-            this.drops.forEach(drop => {
-                if (this.pouring) drop.end.x = this.x + this.width;
-                drop.start.y += this.pourSpeed;
-                drop.end.y += this.pourSpeed;
-                if (drop.start.y > window.innerHeight) {
-                    this.removeDrop(drop)
-                }
+        if (this.pours.length) {
+            this.pours.forEach(individualPour => {
+                individualPour.pour(this.pourSpeed);
             });
         }
-        if (this.pouring) this.addDrop();
+        if (this.pouring) this.activePour.addDrop();
+    }
+
+    get x() {
+        return super.x;
+    }
+
+    set x(x) {
+        super.x = x;
+        this.activePour.origin.x = x;
+    }
+
+    get y() {
+        return super.y;
+    }
+
+    set y(y) {
+        super.y = y;
+        this.activePour.origin.y = y;
+    }
+
+    get width() {
+        return super.width;
+    }
+
+    set width(width) {
+        super.width = width;
+        this.activePour.width = width;
     }
 
     get pouring() {
@@ -44,22 +65,16 @@ class Pour extends ComplexShape {
         this._pourSpeed = pourSpeed;
     }
 
-    addDrop() {
-        if (this.pouring) {
-
-            let start = new Point(this.origin.x, this.origin.y)
-            let end = new Point(this.origin.x + this.width, this.origin.y)
-            let drop = new Line(start, end);
-
-            this.drops.push(drop);
+    get activePour() {
+        if (this.pours.length) {
+            return this.pours[this.pours.length - 1];
+        } else {
+            return null;
         }
     }
 
-    removeDrop(drop) {
-        let index = this.drops.indexOf(drop);
-        if (index >= 0) {
-            this.drops.splice(index, 1);
-        }
+    addPour() {
+        this.pours.push(new IndividualPour(this.origin, this.width));
     }
 
     animate() {
@@ -67,15 +82,17 @@ class Pour extends ComplexShape {
     }
 
     start() {
-        if (!this.drops.length) this.addDrop();
-        this.pouring = true;
+        if (!this.pouring) {
+            this.addPour();
+            this.pouring = true;
+        }
     }
 
     stop() {
         this.pouring = false;
         this.finishing = true;
         this.pourTimer = setInterval(() => {
-            if (!this.drops.length) {
+            if (!this.activePour.drops.length) {
                 this.finishing = false;
                 clearInterval(this.pourTimer);
                 this.pourTimer = null;
@@ -84,38 +101,19 @@ class Pour extends ComplexShape {
     }
 
     createSATObject() {
-        if (this.drops.length) {
-            let lastDrop = this.drops[0];
-            return [new SAT.Polygon(new SAT.Vector(0, 0), [
-                new SAT.Vector(lastDrop.end.x, lastDrop.end.y),
-                new SAT.Vector(lastDrop.end.x, lastDrop.end.y - 100),
-                new SAT.Vector(lastDrop.start.x, lastDrop.end.y - 100),
-                new SAT.Vector(lastDrop.start.x, lastDrop.start.y),
-            ])];
-        } else {
-            return [];
-        }
-
+        let response = [];
+        this.pours.forEach(individualPour => {
+            response = response.concat(individualPour.createSATObject());
+        });
+        return response;
     }
 
     draw(ctx) {
         super.draw(ctx);
-        if (this.drops.length) {
-            ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.yMove(this.drops[0].start);
-            this.drops.forEach(drop => {
-                ctx.yLine(drop.start);
-            });
-            this.drops.reverse();
-            ctx.yLine(this.drops[0].end);
-            this.drops.forEach(drop => {
-                ctx.yLine(drop.end);
-            });
-            this.drops.reverse();
-            ctx.yLine(this.drops[0].start);
-            ctx.fill();
-            ctx.closePath();
+        if (this.pours.length) {
+            this.pours.forEach(pour => {
+                pour.draw(ctx);
+            })
         }
     }
 
