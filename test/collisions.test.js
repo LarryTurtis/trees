@@ -1,4 +1,4 @@
-import { Pour } from '../src/engine/complex/pour.js';
+import { PourComposite } from '../src/engine/complex/pourComposite.js';
 import { Rectangle } from '../src/engine/simples/rectangle.js';
 import { Container } from '../src/engine/complex/container.js';
 import { updateCollisions } from '../src/engine/collisions/collisionDetection.js';
@@ -13,7 +13,7 @@ describe('pour collisions', () => {
     let spy;
 
     beforeEach(() => {
-        pour = new Pour(100, 100, 100, 10);
+        pour = new PourComposite(100, 100, 100, 10);
         pour.collidable = true;
         rectangle = new Rectangle(100, 300, 200, 200);
         container = new Container(rectangle);

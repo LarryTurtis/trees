@@ -28,8 +28,6 @@ class Drop extends Line {
         this.end.x = x + width;
     }
 
-
-
     get width() {
         return this.end.x - this.start.x;
     }

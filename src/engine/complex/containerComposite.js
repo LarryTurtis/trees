@@ -1,6 +1,6 @@
 import { ComplexShape } from './complexShape.js';
 import { Liquid } from './liquid.js';
-import { Pour } from './pour.js';
+import { PourComposite } from './pourComposite.js';
 import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
 import { Line } from '../line.js';
@@ -316,24 +316,24 @@ class ContainerComposite extends ComplexShape {
 
     startPour() {
         let start = this.activeOpeningEdge;
-        if (!this.pour) {
-            this.pour = new Pour(start.x, start.y, this.meniscus.overhangWidth, 5);
-            this.pour.color = this.liquidColor;
-            super.addShape(this.pour);
-            // this.moveDrawOrderBack(this.pour);
+        if (!this.pourComposite) {
+            this.pourComposite = new PourComposite(start.x, start.y, this.meniscus.overhangWidth, 5);
+            this.pourComposite.color = this.liquidColor;
+            super.addShape(this.pourComposite);
+            // this.moveDrawOrderBack(this.pourComposite);
         } else {
-            this.pour.width = this.orientation === "I" ||
+            this.pourComposite.width = this.orientation === "I" ||
                 this.orientation === "IV" ? this.meniscus.overhangWidth : -this.meniscus.overhangWidth;
-            this.pour.x = start.x;
-            this.pour.y = start.y;
+            this.pourComposite.x = start.x;
+            this.pourComposite.y = start.y;
         }
 
-        this.pour.start();
+        this.pourComposite.start();
     }
 
     stopPour() {
-        if (this.pour) {
-            this.pour.stop();
+        if (this.pourComposite) {
+            this.pourComposite.stop();
         }
     }
 
@@ -354,8 +354,8 @@ class ContainerComposite extends ComplexShape {
             response = response.concat(container.createSATObject());
         });
 
-        if (this.pour) {
-            response = response.concat(this.pour.createSATObject());
+        if (this.pourComposite) {
+            response = response.concat(this.pourComposite.createSATObject());
         }
 
         if (this.liquidTop) {

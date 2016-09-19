@@ -7,7 +7,7 @@ describe('Pour', () => {
     let pour;
     let container;
     beforeEach(() => {
-        pour = new Pour(100, 100, 100, 10);
+        pour = new Pour({x: 100, y: 100}, 100);
     });
     describe('interface', () => {
         it('should exist', () => {
