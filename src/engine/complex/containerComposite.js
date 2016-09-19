@@ -31,6 +31,26 @@ class ContainerComposite extends ComplexShape {
         });
     }
 
+    /**
+     * .level
+     * Represents liquid level line as percentage of container's overall height
+     */
+    get level() {
+        return ((this.height - (this.liquidLevel - this.y)) / (this.height)) * 100;
+    }
+
+    set level(level) {
+        if (typeof level !== "number" ||
+            level < 0 || level > 100) {
+            throw new Error("Level value must be a number between zero and 100.")
+        }
+        this.liquidLevel = this.y + this.height * (100 - level) / 100;
+    }
+
+    /**
+     * .liquidLevel
+     * Represents actual y-value of liquid level line.
+     */
     get liquidLevel() {
         return this._liquidLevel;
     }
@@ -179,15 +199,17 @@ class ContainerComposite extends ComplexShape {
     rotate(deg, transformOrigin) {
         let oldArea = this.liquidArea;
         super.rotate(deg, transformOrigin);
-        if (oldArea < this.liquidArea) {
-            while (oldArea < this.liquidArea) {
-                this.drain(0.1);
-            }
-        } else if (oldArea > this.liquidArea) {
-            while (oldArea > this.liquidArea) {
-                this.fill(0.1);
-            }
-        }
+
+        // this function needs rework, it's causing a lot of internal looping
+        // if (oldArea < this.liquidArea) {
+        //     while (oldArea < this.liquidArea) {
+        //         this.drain(0.1);
+        //     }
+        // } else if (oldArea > this.liquidArea) {
+        //     while (oldArea > this.liquidArea) {
+        //         this.fill(0.1);
+        //     }
+        // }
         this.handleOverflow();
     }
 
@@ -246,8 +268,6 @@ class ContainerComposite extends ComplexShape {
         this.empty = this.liquidLevel >= this.boundary.d.y;
         this.full = this.liquidLevel <= this.boundary.a.y;
 
-        this.handleOverflow();
-
     }
 
     fill(amount) {
@@ -281,6 +301,7 @@ class ContainerComposite extends ComplexShape {
         this.removeShape(this.meniscus);
     }
 
+    //this function is called continuously?
     handleOverflow() {
         if (this.overflowing) {
             this.addMeniscus();
@@ -299,7 +320,7 @@ class ContainerComposite extends ComplexShape {
             this.pour = new Pour(start.x, start.y, this.meniscus.overhangWidth, 5);
             this.pour.color = this.liquidColor;
             super.addShape(this.pour);
-           // this.moveDrawOrderBack(this.pour);
+            // this.moveDrawOrderBack(this.pour);
         } else {
             this.pour.width = this.orientation === "I" ||
                 this.orientation === "IV" ? this.meniscus.overhangWidth : -this.meniscus.overhangWidth;
@@ -308,8 +329,6 @@ class ContainerComposite extends ComplexShape {
         }
 
         this.pour.start();
-
-
     }
 
     stopPour() {

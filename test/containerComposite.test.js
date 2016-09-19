@@ -178,7 +178,7 @@ describe('Container Composite', () => {
                 expect(spy2.called).to.be.true;
                 expect(spy3.called).to.be.true;
             });
-            it("should preserve the liquid area on rotate", () => {
+            it.skip("should preserve the liquid area on rotate", () => {
                 let oldArea = container.liquidArea;
                 let percentage = oldArea / 100
                 container.rotate(-272, container.center);

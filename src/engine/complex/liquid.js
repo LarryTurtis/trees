@@ -43,9 +43,6 @@ class Liquid extends Sprite {
         this._container = container;
     }
 
-    get liquidLevel() {
-        return this._liquidLevel;
-    }
 
     get overflowStart() {
         return this._overflowStart;
@@ -53,6 +50,14 @@ class Liquid extends Sprite {
 
     set overflowStart(overflowStart) {
         this._overflowStart = overflowStart;
+    }
+
+    /**
+    * .liquidLevel
+    * Represents actual y-value of liquid level line.
+    */
+    get liquidLevel() {
+        return this._liquidLevel;
     }
 
     set liquidLevel(liquidLevel) {
