@@ -53,9 +53,9 @@ class Liquid extends Sprite {
     }
 
     /**
-    * .liquidLevel
-    * Represents actual y-value of liquid level line.
-    */
+     * .liquidLevel
+     * Represents actual y-value of liquid level line.
+     */
     get liquidLevel() {
         return this._liquidLevel;
     }
@@ -76,6 +76,14 @@ class Liquid extends Sprite {
         return trees.polygonArea(this.lines);
     }
 
+    applyThickness() {
+        this.lines.forEach(line => {
+            trees.moveLineHorizontal(line, this.container.thickness);
+            trees.moveLineVertical(line, -this.container.thickness);
+            trees.resizeLine(line, -this.container.thickness);
+        });
+    }
+
     level() {
 
 
@@ -93,37 +101,37 @@ class Liquid extends Sprite {
         this.container.overflowing = false;
 
         this.container.lines().forEach((line, index) => {
-
-            let intersection = trees.intersection(line, this._levelLine);
+            let copiedLine = trees.copyLine(line);
+            let intersection = trees.intersection(copiedLine, this._levelLine);
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
                     this.overflowStart = intersection;
                 }
 
-                this.lines.push(line);
+                this.lines.push(copiedLine);
 
                 if (!firstIntersect) {
                     firstIntersect = intersection;
-                    firstIntersectIndex = this.lines.indexOf(line);
+                    firstIntersectIndex = this.lines.indexOf(copiedLine);
                 } else {
                     if (firstIntersect.x < intersection.x) {
-                        line.start = intersection;
+                        copiedLine.start = intersection;
                         this.lines[firstIntersectIndex].end = firstIntersect;
                     } else {
-                        line.end = intersection;
+                        copiedLine.end = intersection;
                         this.lines[firstIntersectIndex].start = firstIntersect;
                     }
                 }
 
-            } else if (line.start.y > this._levelLine.start.y) {
+            } else if (copiedLine.start.y > this._levelLine.start.y) {
                 //keep any lines that do not intersect the leveline
                 //as long as they are below it
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
-                    this.overflowStart = line.start.y < line.end.y ? line.start : line.end;
+                    this.overflowStart = copiedLine.start.y < copiedLine.end.y ? copiedLine.start : copiedLine.end;
                 }
-                this.lines.push(line);
+                this.lines.push(copiedLine);
             }
         });
     }

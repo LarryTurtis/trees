@@ -106,16 +106,18 @@ function createCup() {
     let cup = new engine.complex.Cup(200, 100, 200, 300, 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.level = 90;
+    cup.level = 50;
+    cup.thickness = 10;
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(400, 400, 200, 300, 85);
+    let erlenmeyer = new engine.complex.Erlenmeyer(400, 300, 200, 300, 85);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
-    erlenmeyer.level = 10;
-    erlenmeyer.rotate(10, erlenmeyer.center)
+    erlenmeyer.level = 90;
+    erlenmeyer.thickness = 10;
+    // erlenmeyer.rotate(10, erlenmeyer.center)
     return erlenmeyer;
 }
 
