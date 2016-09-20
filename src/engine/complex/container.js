@@ -25,6 +25,8 @@ function Container(shape) {
      */
     shape._openingIndex = -1;
 
+    shape._thickness = 0;
+
     Object.defineProperty(shape, 'overflowing', {
         get: function() {
             return this._overflowing;
@@ -42,6 +44,16 @@ function Container(shape) {
             this._openingIndex = openingIndex;
         }
     });
+
+    Object.defineProperty(shape, 'thickness', {
+        get: function() {
+            return this._thickness;
+        },
+        set: function(thickness) {
+            this._thickness = thickness;
+        }
+    });
+
 
     shape.createSATObject = function() {
         let response = [];

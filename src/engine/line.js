@@ -3,6 +3,7 @@ class Line {
         this._start = start;
         this._end = end;
     }
+    
     get start() {
         return this._start;
     }

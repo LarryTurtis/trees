@@ -17,6 +17,7 @@ class ContainerComposite extends ComplexShape {
         this._full = true;
         this._speed = 10;
         this._collidable = true;
+        this._thickness = 0;
         this.drainVolume = 0.5;
     }
 
@@ -194,6 +195,20 @@ class ContainerComposite extends ComplexShape {
 
     set speed(speed) {
         this._speed = speed;
+    }
+
+    get thickness() {
+        return this._thickness;
+    }
+
+    set thickness(thickness) {
+        this._thickness = thickness;
+        this.containers.forEach(container => {
+            container.thickness = thickness;
+        });
+        this.liquids.forEach(liquid => {
+            liquid.applyThickness();
+        })
     }
 
     rotate(deg, transformOrigin) {
