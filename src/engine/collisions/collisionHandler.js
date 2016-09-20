@@ -1,12 +1,12 @@
 function collisionHandler(collision) {
-    if (collision._o1.y < collision._o2.y) {
+    if (collision._o1.y < collision._o2.y && collision._o1.pourComposite) {
         let removed = collision._o1.pourComposite.activePour.drops.splice(0, 1);
         if (removed.length) {
             let volume = Math.abs((removed[0].end.x - removed[0].start.x) / 10);
             collision._o2.fill(volume);
         }
     }
-    if (collision._o2.y < collision._o1.y) {
+    if (collision._o2.y < collision._o1.y && collision._o2.pourComposite) {
         let removed = collision._o2.pourComposite.activePour.drops.splice(0, 1);
         if (removed.length) {
             let volume = Math.abs((removed[0].end.x - removed[0].start.x) / 10);

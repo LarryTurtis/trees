@@ -12,11 +12,11 @@ function level9() {
     cup = createCup();
     erlenmeyer = createErlenmeyer();
 
-   // shapes.add(hose);
+    // shapes.add(hose);
 
     shapes.add(cup);
     shapes.add(erlenmeyer);
-   // shapes.add(createSpray());
+    // shapes.add(createSpray());
 
     // hose.callback = function() {
     //     if (cup.empty) {
@@ -35,11 +35,11 @@ function level9() {
         // }
     }
 
-    erlenmeyer.callback = function() {
-        //this.drain(counter);
-        //this.fill(counter);
-        //this.rotate(1, this.center)
-    }
+    // erlenmeyer.callback = function() {
+    //     //this.drain(counter);
+    //     //this.fill(counter);
+    //     //this.rotate(1, this.center)
+    // }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -74,7 +74,7 @@ function level9() {
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(1);
-        //erlenmeyer.rotate(1, erlenmeyer.center)
+        erlenmeyer.rotate(1, erlenmeyer.center)
         cup.rotate(1, cup.center)
     });
 
@@ -117,7 +117,7 @@ function createErlenmeyer() {
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.level = 90;
     erlenmeyer.thickness = 10;
-    // erlenmeyer.rotate(10, erlenmeyer.center)
+    erlenmeyer.rotate(10, erlenmeyer.center)
     return erlenmeyer;
 }
 

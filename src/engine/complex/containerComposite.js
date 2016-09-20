@@ -207,8 +207,8 @@ class ContainerComposite extends ComplexShape {
             container.thickness = thickness;
         });
         this.liquids.forEach(liquid => {
-            liquid.applyThickness();
-        })
+            liquid.level();
+        });
     }
 
     rotate(deg, transformOrigin) {

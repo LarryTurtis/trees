@@ -92,9 +92,9 @@ class trees {
     }
 
     static resizeLine(line, amount) {
-        // let angle = this.getAngle(line.start, line.end);
-        // line.start = this.getPointOnLine(line.start, -amount, angle);
-        // line.end = this.getPointOnLine(line.end, amount, angle);
+        let angle = this.getAngle(line.start, line.end);
+        line.start = this.getPointOnLine(line.start, amount, angle);
+        line.end = this.getPointOnLine(line.end, -amount, angle);
     }
 
     static moveLineHorizontal(line, amount) {

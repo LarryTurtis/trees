@@ -23,14 +23,14 @@ import { Line } from '../line.js'
 class Liquid extends Sprite {
     constructor(container) {
 
-        if (!container) {
-            throw new Error("Cannot create a liquid without a container sprite.");
+        if (!container || container.type !== "Container") {
+            throw new Error("Cannot create a liquid without a properly formed container sprite.");
         }
 
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
         this.container = container;
-        this.lines = this.container.lines();
+        this.lines = this.container.innerLines;
         this.overflowStart = null;
         this.liquidLevel = 0;
     }
@@ -76,17 +76,7 @@ class Liquid extends Sprite {
         return trees.polygonArea(this.lines);
     }
 
-    applyThickness() {
-        this.lines.forEach(line => {
-            trees.moveLineHorizontal(line, this.container.thickness);
-            trees.moveLineVertical(line, -this.container.thickness);
-            trees.resizeLine(line, -this.container.thickness);
-        });
-    }
-
     level() {
-
-
         //since we are dealing with quadrilaterals
         //there are 2 intersections to track
         //the left and right.
@@ -100,9 +90,10 @@ class Liquid extends Sprite {
         this.lines = [];
         this.container.overflowing = false;
 
-        this.container.lines().forEach((line, index) => {
+        this.container.innerLines.forEach((line, index) => {
             let copiedLine = trees.copyLine(line);
             let intersection = trees.intersection(copiedLine, this._levelLine);
+
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
                     this.container.overflowing = true;
@@ -134,6 +125,8 @@ class Liquid extends Sprite {
                 this.lines.push(copiedLine);
             }
         });
+
+       
     }
 
     rotate(deg, transformOrigin) {

@@ -25,8 +25,23 @@ describe('Container', () => {
             expect(container.openingIndex).to.exist;
             expect(container.openingIndex).to.equal(-1);
         });
+        it("should have property bottomIndex", () => {
+            expect(container.bottomIndex).to.exist;
+            expect(container.bottomIndex).to.equal(-1);
+        });
+        it("should have property thickness", () => {
+            expect(container.thickness).to.exist;
+            expect(container.thickness).to.equal(0);
+        });
         it("should throw an error if no parameter is supplied", () => {
             expect(() => { new Container() }).throws(Error);
+        });
+    });
+    describe('construction', () => {
+        it('should create an innerlines array', () => {
+            expect(container.innerLines).to.exist;
+            expect(container.innerLines.length).to.equal(4);
+
         });
     });
 });

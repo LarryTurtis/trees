@@ -1,4 +1,5 @@
 import { Sprite } from '../src/engine/sprite.js';
+import { Container } from '../src/engine/complex/container.js';
 import { Liquid } from '../src/engine/complex/liquid.js';
 
 let tolerance = 0.001;
@@ -7,7 +8,7 @@ describe('Liquid', () => {
     let liquid;
     let container;
     beforeEach(() => {
-        container = new Sprite(100, 100, 100, 100);
+        container = Container(new Sprite(100, 100, 100, 100));
         container.openingIndex = 3;
         liquid = new Liquid(container);
         liquid.liquidLevel = 110;
@@ -33,6 +34,20 @@ describe('Liquid', () => {
             expect(() => { new Liquid() }).throws(Error);
         });
     });
+    describe("construction", () => {
+        it("should have a container", () => {
+            expect(liquid.container).to.exist;
+            expect(liquid.container).to.equal(container);
+        });
+        it("container should have lines", () => {
+            expect(liquid.container.lines()).to.exist;
+            expect(liquid.container.lines().length).to.equal(4);
+        })
+        it("container should have inner lines", () => {
+            expect(liquid.container.innerLines).to.exist;
+            expect(liquid.container.innerLines.length).to.equal(4);
+        })
+    })
     describe("level", () => {
         let oldLines;
         beforeEach(() => {
