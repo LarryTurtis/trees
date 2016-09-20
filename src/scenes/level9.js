@@ -27,8 +27,8 @@ function level9() {
     // };
 
     cup.callback = function() {
-            cup.rotate(1, cup.center);
-            cup.y+= 3
+            //cup.rotate(1, cup.center);
+            //cup.y+= 3
         // if (hose.full && !cup.empty) {
         //    cup.fill(1);
         //     hose.rotate(1, cup.center);
@@ -36,12 +36,12 @@ function level9() {
         // }
     }
 
-    erlenmeyer.callback = function() {
-        this.x++;
-        //this.drain(counter);
-        //this.fill(counter);
-        this.rotate(-1, this.center)
-    }
+    // erlenmeyer.callback = function() {
+    //     //this.x++;
+    //     //this.drain(counter);
+    //     //this.fill(counter);
+    //     //this.rotate(-1, this.center)
+    // }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -71,13 +71,13 @@ function level9() {
 
     engine.canvas.addEventListener('upArrow', function(e) {
         hose.bend(-1);
-        //erlenmeyer.rotate(-1, erlenmeyer.center)
+        erlenmeyer.rotate(-1, erlenmeyer.center)
         cup.rotate(-1, cup.center)
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(1);
-        erlenmeyer.x++//rotate(1, erlenmeyer.center)
-        cup.y += 3//cup.rotate(1, cup.center)
+        erlenmeyer.rotate(1, erlenmeyer.center)
+        cup.rotate(1, cup.center)
     });
 
     engine.canvas.addEventListener('leftArrow', function(e) {
@@ -108,13 +108,13 @@ function createCup() {
     let cup = new engine.complex.Cup(200, 100, 200, 300, 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = trees.setOpacity("orange", 0.9);
-    cup.level = 50;
+    cup.level = 90;
     cup.thickness = 10;
     return cup;
 }
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(400, 300, 200, 300, 85);
+    let erlenmeyer = new engine.complex.Erlenmeyer(700, 300, 200, 300, 85);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.level = 90;

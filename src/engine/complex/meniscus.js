@@ -15,25 +15,46 @@ class Meniscus extends Sprite {
         this._cp2;
         this._overhang;
         this._openingEdge = openingEdge;
-        this._factor = 0.5;
+        this._factor = 0.25;
         this._overhangWidth = width * this._factor;
+
+        // if (orientation === "I") {
+        //     this._cp1 = new Point(x + this.width / 2, this.y);
+        //     this._cp2 = new Point(x + this.width, this.y);
+        //     this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
+        // } else if (orientation === "II") {
+        //     this._cp1 = new Point(x - this.width / 2, this.y);
+        //     this._cp2 = new Point(x - this.width, this.y);
+        //     this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
+        // } else if (orientation === "III") {
+        //     this._cp1 = new Point(x - this.width / 2, this.y);
+        //     this._cp2 = new Point(x - this.width, this.y);
+        //     this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
+        // } else if (orientation === "IV") {
+        //     this._cp1 = new Point(x + this.width / 2, this.y);
+        //     this._cp2 = new Point(x + this.width, this.y);
+        //     this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
+        // }
+
+        //no curves for now.
+
         if (orientation === "I") {
-            this._cp1 = new Point(x + this.width / 2, this.y);
-            this._cp2 = new Point(x + this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "II") {
-            this._cp1 = new Point(x - this.width / 2, this.y);
-            this._cp2 = new Point(x - this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "III") {
-            this._cp1 = new Point(x - this.width / 2, this.y);
-            this._cp2 = new Point(x - this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x - this._overhangWidth, this._openingEdge.y);
         } else if (orientation === "IV") {
-            this._cp1 = new Point(x + this.width / 2, this.y);
-            this._cp2 = new Point(x + this.width, this.y);
+            this._cp1 = this.origin;
+            this._cp2 = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
             this._overhang = new Point(this._openingEdge.x + this._overhangWidth, this._openingEdge.y);
-        } 
+        }
 
         this._curve = new Curve(this._cp1, this._cp2, this._overhang);
     }
