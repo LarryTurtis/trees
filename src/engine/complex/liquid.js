@@ -67,7 +67,7 @@ class Liquid extends Sprite {
         }
         this._liquidLevel = liquidLevel;
         let p1 = { x: 0, y: this._liquidLevel }
-        let p2 = { x: 1000, y: this._liquidLevel };
+        let p2 = { x: 4000, y: this._liquidLevel };
         this._levelLine = new Line(p1, p2);
         this.level();
     }
@@ -126,7 +126,7 @@ class Liquid extends Sprite {
             }
         });
 
-       
+
     }
 
     rotate(deg, transformOrigin) {
@@ -145,9 +145,9 @@ class Liquid extends Sprite {
             });
             ctx.fill();
             ctx.closePath();
-            // ctx.yMove(this._levelLine.start);
-            // ctx.yLine(this._levelLine.end);
-            // ctx.stroke();
+            ctx.yMove(this._levelLine.start);
+            ctx.yLine(this._levelLine.end);
+            ctx.stroke();
         }
     }
 

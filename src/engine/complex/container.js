@@ -136,7 +136,6 @@ function Container(shape) {
         return response;
     }
 
-    console.log(shape);
     return shape;
 }
 

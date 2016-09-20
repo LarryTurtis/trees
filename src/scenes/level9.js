@@ -27,7 +27,8 @@ function level9() {
     // };
 
     cup.callback = function() {
-        //    cup.rotate(1, cup.center);
+            cup.rotate(1, cup.center);
+            cup.y+= 3
         // if (hose.full && !cup.empty) {
         //    cup.fill(1);
         //     hose.rotate(1, cup.center);
@@ -35,11 +36,12 @@ function level9() {
         // }
     }
 
-    // erlenmeyer.callback = function() {
-    //     //this.drain(counter);
-    //     //this.fill(counter);
-    //     //this.rotate(1, this.center)
-    // }
+    erlenmeyer.callback = function() {
+        this.x++;
+        //this.drain(counter);
+        //this.fill(counter);
+        this.rotate(-1, this.center)
+    }
 
     let dragging = false;
     engine.canvas.addEventListener("mouseClick", function(e) {
@@ -74,8 +76,8 @@ function level9() {
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(1);
-        erlenmeyer.rotate(1, erlenmeyer.center)
-        cup.rotate(1, cup.center)
+        erlenmeyer.x++//rotate(1, erlenmeyer.center)
+        cup.y += 3//cup.rotate(1, cup.center)
     });
 
     engine.canvas.addEventListener('leftArrow', function(e) {

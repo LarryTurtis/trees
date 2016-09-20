@@ -20,6 +20,7 @@ class Trapezoid extends Sprite {
             this.topRight.y > this.bottomRight.y) {
             throw new Error("Parameters do not define trapezoid.");
         }
+        //this.showBoundingBox = true;
 
     }
 
@@ -28,11 +29,23 @@ class Trapezoid extends Sprite {
     }
 
     set x(x) {
+        let oldX = this.x;
+        let diffX = x - oldX;
         super.x = x;
+        this.topLeft.x += diffX;
+        this.topRight.x += diffX;
+        this.bottomLeft.x += diffX;
+        this.bottomRight.x += diffX;
     }
 
     set y(y) {
+        let oldY = this.y;
+        let diffY = y - oldY;
         super.y = y;
+        this.topLeft.y += diffY;
+        this.topRight.y += diffY;
+        this.bottomLeft.y += diffY;
+        this.bottomRight.y += diffY;
     }
 
     get x() {
@@ -136,10 +149,14 @@ class Trapezoid extends Sprite {
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
         if (this.topLeft) {
+            console.log(this.leftAngle);
             this.topLeft = this.rotate_point(this.topLeft, transformOrigin, deg);
             this.topRight = this.rotate_point(this.topRight, transformOrigin, deg);
             this.bottomLeft = this.rotate_point(this.bottomLeft, transformOrigin, deg);
             this.bottomRight = this.rotate_point(this.bottomRight, transformOrigin, deg);
+            //this.leftAngle = trees.getAngle(this.topLeft, this.bottomLeft);
+            //console.log(this.leftAngle);
+            //this.rightAngle = trees.getAngle(this.bottomRight, this.topRight);
         }
     }
 

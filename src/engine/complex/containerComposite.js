@@ -21,6 +21,51 @@ class ContainerComposite extends ComplexShape {
         this.drainVolume = 0.5;
     }
 
+    get x() {
+        return super.x;
+    }
+
+    set x(x) {
+        let oldX = this.x;
+        let diffX = x - oldX;
+        super.x = x;
+        this.containers.forEach(container => {
+            container.innerLines.forEach(line => {
+                line.start.x += diffX;
+                line.end.x += diffX;
+            });
+        });
+        this.liquids.forEach(liquid => {
+            liquid.lines.forEach(line => {
+                line.start.x += diffX;
+                line.end.x += diffX;
+            });
+        });
+    }
+
+    get y() {
+        return super.y;
+    }
+
+    set y(y) {
+        let oldY = this.y;
+        let diffY = y - oldY;
+        super.y = y;
+        this.containers.forEach(container => {
+            container.innerLines.forEach(line => {
+                line.start.y += diffY;
+                line.end.y += diffY;
+            });
+        });
+        this.liquids.forEach(liquid => {
+            liquid.lines.forEach(line => {
+                line.start.y += diffY;
+                line.end.y += diffY;
+            });
+        });
+        this.liquidLevel += diffY;
+    }
+
     get liquidColor() {
         return this._liquidColor;
     }
