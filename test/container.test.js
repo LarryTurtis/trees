@@ -17,16 +17,31 @@ describe('Container', () => {
             expect(container).to.exist;
             expect(container.type).to.equal("Container");
         });
-        it("should have property 'pouring'", () => {
-            expect(container.pouring).to.exist;
-            expect(container.pouring).to.be.false;
+        it("should have property 'overflowing'", () => {
+            expect(container.overflowing).to.exist;
+            expect(container.overflowing).to.be.false;
         });
         it("should have property openingIndex", () => {
             expect(container.openingIndex).to.exist;
             expect(container.openingIndex).to.equal(-1);
         });
+        it("should have property bottomIndex", () => {
+            expect(container.bottomIndex).to.exist;
+            expect(container.bottomIndex).to.equal(-1);
+        });
+        it("should have property thickness", () => {
+            expect(container.thickness).to.exist;
+            expect(container.thickness).to.equal(0);
+        });
         it("should throw an error if no parameter is supplied", () => {
             expect(() => { new Container() }).throws(Error);
+        });
+    });
+    describe('construction', () => {
+        it('should create an innerlines array', () => {
+            expect(container.innerLines).to.exist;
+            expect(container.innerLines.length).to.equal(4);
+
         });
     });
 });

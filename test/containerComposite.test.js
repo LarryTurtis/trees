@@ -3,9 +3,9 @@ import { ContainerComposite } from '../src/engine/complex/containerComposite.js'
 
 describe('Container Composite', () => {
 
-    let x = 0;
-    let y = 0;
-    let width = 300;
+    let x = 10;
+    let y = 10;
+    let width = 400;
     let height = 400;
     let tolerance = 0.01;
 
@@ -46,8 +46,8 @@ describe('Container Composite', () => {
             expect(container.containers).not.to.be.undefined;
             expect(container.containers.length).to.equal(0);
         });
-        it("should have property pouringFromPoint", () => {
-            expect(container.pouringFromPoint).not.to.be.undefined;
+        it("should have property overflowStart", () => {
+            expect(container.overflowStart).not.to.be.undefined;
         });
         it("should have property activeOpeningEdge", () => {
             expect(container.activeOpeningEdge).not.to.be.undefined;
@@ -62,8 +62,8 @@ describe('Container Composite', () => {
         let sprite2;
 
         beforeEach(() => {
-            sprite1 = new Sprite(0, 0, 100, 100);
-            sprite2 = new Sprite(0, 100, 100, 100);
+            sprite1 = new Sprite(x, y, 100, 100);
+            sprite2 = new Sprite(x, y + 100, 100, 100);
             container.addShape(sprite1);
             container.addShape(sprite2);
         });
@@ -80,6 +80,39 @@ describe('Container Composite', () => {
             });
         });
 
+        describe("liquidLevel", () => {
+
+            let spy1;
+            let spy2;
+            let spy3;
+            let liquids;
+
+            beforeEach(() => {
+                liquids = container.liquids;
+                spy1 = sinon.spy(liquids[0], "level");
+                spy2 = sinon.spy(liquids[1], "level");
+                spy3 = sinon.spy(container, "handleOverflow");
+            })
+
+            it("should equal the container's Y value by default", () => {
+                expect(container.liquidLevel).to.equal(y);
+            });
+            it("should be settable and gettable", () => {
+                container.liquidLevel = 1000;
+                expect(container.liquidLevel).to.equal(1000);
+            });
+            it("should check for overflow when changed", () => {
+                container.liquidLevel = 1000;
+                expect(spy1.called).to.be.true;
+                expect(spy2.called).to.be.true;
+                expect(spy3.called).to.be.true;
+            });
+            it("should throw an error if invalid value is provided", () => {
+                expect(() => { container.liquidLevel = "abc"; }).to.throw(Error);
+                expect(() => { container.liquidLevel = -1; }).to.throw(Error);
+            })
+        });
+
         describe("drain", () => {
 
             let spy1;
@@ -92,6 +125,12 @@ describe('Container Composite', () => {
             it("should no longer be full after drain is called with positive number", () => {
                 container.drain(10);
                 expect(container.full).to.be.false;
+                expect(container.empty).to.be.false;
+            });
+            it("should be full again if drained and refilled", () => {
+                container.drain(10);
+                container.fill(10);
+                expect(container.full).to.be.true;
                 expect(container.empty).to.be.false;
             });
         });
@@ -112,6 +151,12 @@ describe('Container Composite', () => {
                 expect(container.empty).to.be.false;
                 expect(container.full).to.be.false;
             });
+            it("should be empty if filled and drained", () => {
+                container.fill(10);
+                container.drain(10);
+                expect(container.empty).to.be.true;
+                expect(container.full).to.be.false;
+            });
         });
 
         describe("rotate", () => {
@@ -119,18 +164,62 @@ describe('Container Composite', () => {
             let liquids;
             let spy1;
             let spy2;
+            let spy3;
 
             beforeEach(() => {
                 liquids = container.liquids;
                 spy1 = sinon.spy(liquids[0], "level");
                 spy2 = sinon.spy(liquids[1], "level");
+                spy3 = sinon.spy(container, "handleOverflow")
                 container.rotate(1, container.center);
             });
             it("should should level the liquids on rotate", () => {
                 expect(spy1.called).to.be.true;
                 expect(spy2.called).to.be.true;
+                expect(spy3.called).to.be.true;
             });
+            it.skip("should preserve the liquid area on rotate", () => {
+                let oldArea = container.liquidArea;
+                let percentage = oldArea / 100
+                container.rotate(-272, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(170, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(1, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(-1073, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+                container.rotate(0, container.center);
+                expect(container.liquidArea).to.be.closeTo(oldArea, percentage);
+            })
         });
+
+        describe("orientation", () => {
+            beforeEach(() => {
+                container = new ContainerComposite(x, y, width, height);
+                sprite1 = new Sprite(x, y, width, height);
+                container.addShape(sprite1);
+                sprite1.openingIndex = 0;
+                container.liquidLevel = container.y + container.height / 2;
+                console.log(container.empty);
+            });
+            it("should return the correct orientation I", () => {
+                container.rotate(80, container.center);
+                expect(container.orientation).to.equal("I");
+            });
+            it("should return the correct orientation IV", () => {
+                container.rotate(170, container.center);
+                expect(container.orientation).to.equal("IV");
+            });
+            it("should return the correct orientation III", () => {
+                container.rotate(260, container.center);
+                expect(container.orientation).to.equal("III");
+            });
+            it("should return the correct orientation II", () => {
+                container.rotate(350, container.center);
+                expect(container.orientation).to.equal("II");
+            });
+        })
 
         describe("activeOpeningEdge", () => {
 
@@ -153,35 +242,60 @@ describe('Container Composite', () => {
 
         });
 
-        describe("pouringFromPoint", () => {
-
-            it("should be null by default", () => {
-                expect(container.pouringFromPoint).to.be.null;
+        describe("overflowing", () => {
+            it("should be false by default", () => {
+                expect(container.overflowing).to.be.false;
             });
-
-            it("should be defined if liquid is pouring", () => {
+            it("should be true if any part of the container is overflowing", () => {
+                sprite1.overflowing = true;
+                expect(container.overflowing).to.be.true;
+            });
+            it("should be activated by the right combination of rotation", () => {
                 sprite1.openingIndex = 0;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);
-                expect(container.pouringFromPoint).not.to.be.null;
-                expect(typeof container.pouringFromPoint.x).to.equal("number");
-                expect(typeof container.pouringFromPoint.y).to.equal("number");
+                expect(container.overflowing).to.be.true;
+            });
+        });
+
+        describe("liquidTop", () => {
+            it("should not be null if the container not empty", () => {
+                container.liquidLevel = sprite1.y + 10;
+                expect(container.empty).to.be.false;
+                expect(container.liquidTop).not.to.be.null;
+            });
+        })
+
+        describe("overflowStart", () => {
+
+            it("should be null by default", () => {
+                expect(container.overflowStart).to.be.null;
+            });
+
+            it("should be defined if liquid is overflowing", () => {
+                sprite1.openingIndex = 0;
+                container.liquidLevel = container.y + container.height / 4;
+                container.rotate(95, container.center);
+                expect(container.overflowStart).not.to.be.null;
+                expect(typeof container.overflowStart.x).to.equal("number");
+                expect(typeof container.overflowStart.y).to.equal("number");
             });
 
             it("should be null if invalid openingIndex is defined on a container", () => {
                 sprite1.openingIndex = 100;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);
-                expect(container.pouringFromPoint).to.be.null;
+                expect(container.overflowStart).to.be.null;
             });
-
-            it("should be null if invalid liquidLevel is defined on a container", () => {
-                sprite1.openingIndex = 100;
-                container.liquidLevel = "abc";
-                container.rotate(95, container.center);
-                expect(container.pouringFromPoint).to.be.null;
+            it("should match liquidTop.end", () => {
+                sprite1.openingIndex = 1;
+                container.liquidLevel = sprite1.y + 10;
+                expect(container.overflowStart.x).to.equal(container.liquidTop.end.x);
+                expect(container.overflowStart.y).to.equal(container.liquidTop.end.y);
+                sprite1.rotate(350, sprite1.center);
+                expect(container.overflowStart.x).to.equal(container.liquidTop.end.x);
+                expect(container.overflowStart.y).to.equal(container.liquidTop.end.y);
             });
-
         });
 
         describe("pourWidth", () => {
@@ -190,7 +304,7 @@ describe('Container Composite', () => {
                 expect(container.pourWidth).to.be.null;
             });
 
-            it("should be defined if liquid is pouring", () => {
+            it("should be defined if liquid is overflowing", () => {
                 sprite1.openingIndex = 0;
                 container.liquidLevel = container.y + container.height / 4;
                 container.rotate(95, container.center);
@@ -202,13 +316,6 @@ describe('Container Composite', () => {
             it("should be null if invalid openingIndex is defined on a container", () => {
                 sprite1.openingIndex = 100;
                 container.liquidLevel = container.y + container.height / 4;
-                container.rotate(95, container.center);
-                expect(container.pourWidth).to.be.null;
-            });
-
-            it("should be null if invalid liquidLevel is defined on a container", () => {
-                sprite1.openingIndex = 100;
-                container.liquidLevel = "abc";
                 container.rotate(95, container.center);
                 expect(container.pourWidth).to.be.null;
             });

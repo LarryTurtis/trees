@@ -1,112 +1,89 @@
-import { ComplexShape } from './complexShape.js'
+import { Drop } from './drop.js';
 
-const POURSPEED = 5;
-const DRIPSPEED = 5;
-
-class Pour extends ComplexShape {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
-        this.type = "Pour";
+class Pour {
+    constructor(origin, width) {
         this.drops = [];
-        this.pourTimer;
-        this.dripTimer;
-        this._pourSpeed = POURSPEED;
-        this._dripSpeed = DRIPSPEED;
-        this._pouring = false;
+        this._width = width;
+        this.origin = origin;
+        this.addDrop();
+        this.type = "Pour";
+
+        this.oscillateSpeed = 100;
+        this.oscillate = false;
+        this.oscillateInterval = 1;
+
+        this.oscillateTimer = setInterval(() => {
+            this.oscillateInterval *= -1;
+        }, this.oscillateSpeed);
     }
 
-    pour() {
-        if (this.drops.length) {
-            this.drops.forEach(drop => {
-                drop.y += 3;
-                if (drop.y + drop.height > window.innerHeight) {
-                    this.removeDrop(drop)
-                }
-            });
-        }
+    pour(amount) {
+        this.drops.forEach((drop, index) => {
+            drop.y += amount;
+            drop.y += amount;
+            if (drop.y > window.innerHeight) {
+                this.removeDrop(drop)
+            }
+        });
     }
 
-    get pouring() {
-        return this._pouring;
+    get width() {
+        return this._width;
     }
 
-    set pouring(pouring) {
-        this._pouring = pouring;
-    }
-
-    get pourSpeed() {
-        return this._pourSpeed;
-    }
-
-    set pourSpeed(pourSpeed) {
-        this._pourSpeed = pourSpeed;
-        if (this.pourTimer) {
-            clearInterval(this.pourTimer);
-            this.pourTimer = setInterval(() => {this.pour()}, pourSpeed);
-        }
-    }
-
-    get dripSpeed() {
-        return this._dripSpeed;
-    }
-
-    set dripSpeed(dripSpeed) {
-        this._dripSpeed = dripSpeed;
-        if (this.dripTimer) {
-            clearInterval(this.dripTimer)
-            this.dripTimer = setInterval(() => {this.addDrop()}, dripSpeed)
-        }
+    set width(width) {
+        this._width = width;
     }
 
     addDrop() {
-        if (this.pouring) {
-            let x = this.x//trees.random(this.x, this.x + this.width);
-            let y = trees.random(this.y, this.y + this.height);
-            let size = trees.random(2, 3);
-            let color = this.color//trees.setOpacity("orange", Math.random())
-            let drop = {
-                x: x,
-                y: y,
-                width: size,
-                height: size,
-                color: color
-            };
-
-            this.drops.push(drop);
+        let drop = new Drop(this.origin, this.width)
+        if (this.oscillate) {
+            drop.x = this.origin.x + this.oscillateInterval;
         }
+        this.drops.push(drop);
     }
 
     removeDrop(drop) {
-        this.drops.splice(this.drops.indexOf(drop), 1);
-    }
-
-    startPour() {
-        this.pouring = true;
-        if (!this.pourTimer) {
-            this.pourTimer = setInterval(() => {this.pour()}, POURSPEED);
-        }
-        if (!this.dripTimer) {
-            this.dripTimer = setInterval(() => {this.addDrop()}, DRIPSPEED);
+        let index = this.drops.indexOf(drop);
+        if (index >= 0) {
+            this.drops.splice(index, 1);
         }
     }
 
-    stopPour() {
-        this.pouring = false;
+    createSATObject() {
+        if (this.drops.length) {
+            let lastDrop = this.drops[0];
+            return [new SAT.Polygon(new SAT.Vector(0, 0), [
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y),
+                new SAT.Vector(lastDrop.end.x, lastDrop.end.y - 100),
+                new SAT.Vector(lastDrop.start.x, lastDrop.end.y - 100),
+                new SAT.Vector(lastDrop.start.x, lastDrop.start.y),
+            ])];
+        } else {
+            return [];
+        }
 
-        clearInterval(this.dripTimer);
-        this.dripTimer = null;
-        this.dripSpeed = DRIPSPEED;
     }
 
     draw(ctx) {
-        super.draw(ctx);
-        this.drops.forEach(drop => {
+        if (this.drops.length) {
+
             ctx.beginPath();
-            ctx.fillStyle = drop.color;
-            ctx.rect(drop.x, drop.y, drop.width, drop.height);
+            ctx.fillStyle = this.color;
+            ctx.yMove(this.drops[0].start);
+            this.drops.forEach(drop => {
+                ctx.yLine(drop.start);
+            });
+            this.drops.reverse();
+            ctx.yLine(this.drops[0].end);
+            this.drops.forEach(drop => {
+                ctx.yLine(drop.end);
+            });
+            this.drops.reverse();
+            ctx.yLine(this.drops[0].start);
             ctx.fill();
             ctx.closePath();
-        });
+        }
     }
 
 }

@@ -4,7 +4,8 @@ module.exports = function(config) {
         frameworks: ['browserify', 'mocha', 'chai', 'sinon'],
         reporters: ['mocha'],
         browsers: ['PhantomJS'],
-        files: ['src/**/*.js', 'test/*.js'],
+        files: ['src/**/*.js', 'test/*.js', 'node_modules/sat-js/SAT.js'],
+        exclude: ['src/app.js'],
         preprocessors: {
             'src/**/*.js': ['browserify'],
             'test/*.js': ['browserify'],

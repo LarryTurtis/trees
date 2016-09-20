@@ -1,3 +1,6 @@
+import { Point } from './engine/point.js';
+import { Line } from './engine/line.js';
+
 /**
  * A SMALL utilities library using Underscore-like statics.
  * @return {Object}
@@ -77,11 +80,55 @@ class trees {
     static getPointOnLine(firstPoint, width, angle) {
         let secondPointX = firstPoint.x + width * Math.cos(this.degToRad(angle));
         let secondPointY = firstPoint.y + width * Math.sin(this.degToRad(angle));
-        return new firstPoint.constructor(secondPointX, secondPointY);
+        return new Point(secondPointX, secondPointY);
     }
 
     static copyPoint(point) {
-        return new point.constructor(point.x, point.y);
+        return new Point(point.x, point.y);
+    }
+
+    static copyLine(line) {
+        return new Line(this.copyPoint(line.start), this.copyPoint(line.end));
+    }
+
+    static resizeLine(line, amount) {
+        let angle = this.getAngle(line.start, line.end);
+        line.start = this.getPointOnLine(line.start, amount, angle);
+        line.end = this.getPointOnLine(line.end, -amount, angle);
+    }
+
+    static moveLineHorizontal(line, amount) {
+        line.start.x += amount;
+        line.end.x += amount;
+    }
+
+    static moveLineVertical(line, amount) {
+        line.start.y += amount;
+        line.end.y += amount;
+    }
+
+    static polygonArea(lines) {
+
+        let X = [];
+        let Y = [];
+
+        lines.forEach(line => {
+            X.push(line.start.x);
+            X.push(line.end.x);
+            Y.push(line.start.y);
+            Y.push(line.end.y);
+        });
+
+        let numPoints = X.length;
+
+        let area = 0; // Accumulates area in the loop
+        let j = numPoints - 1; // The last vertex is the 'previous' one to the first
+
+        for (let i = 0; i < numPoints; i++) {
+            area = area + (X[j] + X[i]) * (Y[j] - Y[i]);
+            j = i; //j is previous vertex to i
+        }
+        return -area / 2;
     }
 
     static intersection(line1, line2) {
@@ -125,4 +172,5 @@ class trees {
 
 }
 
+window.trees = trees;
 export { trees };

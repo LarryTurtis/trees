@@ -23,15 +23,16 @@ import { Line } from '../line.js'
 class Liquid extends Sprite {
     constructor(container) {
 
-        if (!container) {
-            throw new Error("Cannot create a liquid without a container sprite.");
+        if (!container || container.type !== "Container") {
+            throw new Error("Cannot create a liquid without a properly formed container sprite.");
         }
 
         super(container.x, container.y, container.width, container.height);
         this.type = "Liquid";
-        this._container = container;
-        this.lines = this.container.lines();
-        this._pouringFromPoint = null;
+        this.container = container;
+        this.lines = this.container.innerLines;
+        this.overflowStart = null;
+        this.liquidLevel = 0;
     }
 
     get container() {
@@ -42,19 +43,28 @@ class Liquid extends Sprite {
         this._container = container;
     }
 
+
+    get overflowStart() {
+        return this._overflowStart;
+    }
+
+    set overflowStart(overflowStart) {
+        this._overflowStart = overflowStart;
+    }
+
+    /**
+     * .liquidLevel
+     * Represents actual y-value of liquid level line.
+     */
     get liquidLevel() {
         return this._liquidLevel;
     }
 
-    get pouringFromPoint() {
-        return this._pouringFromPoint;
-    }
-
-    set pouringFromPoint(pouringFromPoint) {
-        this._pouringFromPoint = pouringFromPoint;
-    }
-
     set liquidLevel(liquidLevel) {
+        if (typeof liquidLevel !== "number" ||
+            liquidLevel < 0) {
+            throw new Error("Liquid Level value must be a number between zero and canvas height.")
+        }
         this._liquidLevel = liquidLevel;
         let p1 = { x: 0, y: this._liquidLevel }
         let p2 = { x: 1000, y: this._liquidLevel };
@@ -62,57 +72,66 @@ class Liquid extends Sprite {
         this.level();
     }
 
-    level() {
-        let intersect1 = null;
-        let intersect2 = null;
-        let leftIntersection;
-        let rightIntersection;
-        this.lines = [];
+    get area() {
+        return trees.polygonArea(this.lines);
+    }
 
-        this.container.pouring = false;
-        
-        this.container.lines().forEach((line, index) => {
-            let intersection = trees.intersection(line, this._levelLine);
+    level() {
+        //since we are dealing with quadrilaterals
+        //there are 2 intersections to track
+        //the left and right.
+
+        //we need to know which is which.
+
+        //we will capture the first intersection and compare with the second.
+        let firstIntersect = null;
+        let firstIntersectIndex = null;
+
+        this.lines = [];
+        this.container.overflowing = false;
+
+        this.container.innerLines.forEach((line, index) => {
+            let copiedLine = trees.copyLine(line);
+            let intersection = trees.intersection(copiedLine, this._levelLine);
+
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
-                    this.container.pouring = true;
-                    this.pouringFromPoint = intersection;
+                    this.container.overflowing = true;
+                    this.overflowStart = intersection;
                 }
 
-                line.intersection = intersection;
-                if (!intersect1) {
-                    intersect1 = intersection;
+                this.lines.push(copiedLine);
+
+                if (!firstIntersect) {
+                    firstIntersect = intersection;
+                    firstIntersectIndex = this.lines.indexOf(copiedLine);
                 } else {
-                    intersect2 = intersection;
-                }
-                this.lines.push(line);
-            } else {
-                if (line.start.y > this._levelLine.start.y) {
-
-                    if (index === this.container.openingIndex) {
-                        this.container.pouring = true;
+                    if (firstIntersect.x < intersection.x) {
+                        copiedLine.start = intersection;
+                        this.lines[firstIntersectIndex].end = firstIntersect;
+                    } else {
+                        copiedLine.end = intersection;
+                        this.lines[firstIntersectIndex].start = firstIntersect;
                     }
-
-                    this.lines.push(line);
                 }
+
+            } else if (copiedLine.start.y > this._levelLine.start.y) {
+                //keep any lines that do not intersect the leveline
+                //as long as they are below it
+                if (index === this.container.openingIndex) {
+                    this.container.overflowing = true;
+                    this.overflowStart = copiedLine.start.y < copiedLine.end.y ? copiedLine.start : copiedLine.end;
+                }
+                this.lines.push(copiedLine);
             }
         });
 
-        if (intersect1 && intersect2) {
-            leftIntersection = intersect1.x < intersect2.x ? intersect1 : intersect2;
-            rightIntersection = intersect1.x > intersect2.x ? intersect1 : intersect2;
-        }
+       
+    }
 
-        this.lines.forEach(line => {
-            if (line.intersection && leftIntersection) {
-                if (line.intersection.x === leftIntersection.x && line.intersection.y === leftIntersection.y) {
-                    line.end = line.intersection;
-                } else {
-                    line.start = line.intersection;
-                }
-            }
-        });
-
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.level();
     }
 
     draw(ctx) {

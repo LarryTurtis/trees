@@ -1,30 +1,40 @@
-import { ComplexShape } from './complexShape.js'
+import { Point } from '../point.js';
+import { Line } from '../line.js';
 
-class Drop extends ComplexShape {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
+class Drop extends Line {
+    constructor(origin, width) {
+        let start = new Point(origin.x, origin.y);
+        let end = new Point(origin.x + width, origin.y);
+        super(start, end);
         this.type = "Drop";
-        this.head = null;
-        this.body = null;
-        this.tail = null;
     }
 
-    thin() {
-
+    get y() {
+        return this.start.y;
     }
 
-    thicken() {
-
+    set y(y) {
+        this.start.y = y;
+        this.end.y = y;
     }
 
-    fall() {
-
+    get x() {
+        return this.start.x;
     }
 
-    splash() {
-
+    set x(x) {
+        let width = this.width;
+        this.start.x = x;
+        this.end.x = x + width;
     }
 
+    get width() {
+        return this.end.x - this.start.x;
+    }
+
+    set width(width) {
+        this.end.x = this.start.x + width;
+    }
 }
 
 export { Drop }
