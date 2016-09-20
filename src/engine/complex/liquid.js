@@ -145,9 +145,9 @@ class Liquid extends Sprite {
             });
             ctx.fill();
             ctx.closePath();
-            ctx.yMove(this._levelLine.start);
-            ctx.yLine(this._levelLine.end);
-            ctx.stroke();
+            // ctx.yMove(this._levelLine.start);
+            // ctx.yLine(this._levelLine.end);
+            // ctx.stroke();
         }
     }
 

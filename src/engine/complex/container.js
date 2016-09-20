@@ -1,5 +1,3 @@
-import { ComplexShape } from './complexShape.js';
-import { complex } from './complex.js';
 import { Liquid } from './liquid.js';
 
 function Container(shape) {
@@ -121,7 +119,6 @@ function Container(shape) {
     //     });
     //     ctx.fillStyle = shape.color;
     // }
-
 
     shape.createSATObject = function() {
         let response = [];
