@@ -4,6 +4,7 @@ import { PourComposite } from './pourComposite.js';
 import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
 import { Line } from '../line.js';
+import { Point } from '../point.js';
 import { LevelLine } from './levelLine.js';
 
 class ContainerComposite extends ComplexShape {
@@ -14,10 +15,8 @@ class ContainerComposite extends ComplexShape {
         this._containers = [];
         this._liquids = [];
         this._levelLine = new LevelLine(y);
-        this._empty = false;
-        this._full = true;
         this._speed = 10;
-        this._collidable = true;
+        this._collidable = false;
         this._thickness = 0;
         this.drainVolume = 0.5;
     }
@@ -95,7 +94,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     /**
-     * .liquidLevel
+     * .levelLine
      * Represents actual y-value of liquid level line.
      */
     get levelLine() {
@@ -105,8 +104,9 @@ class ContainerComposite extends ComplexShape {
     set levelLine(y) {
         this._levelLine.y = y;
 
-        this.empty = this.levelLine.y >= this.boundary.d.y;
-        this.full = this.levelLine.y <= this.boundary.a.y;
+        this.liquids.forEach(liquid => {
+            liquid.level();
+        });
 
         this.handleOverflow();
     }
@@ -139,26 +139,36 @@ class ContainerComposite extends ComplexShape {
      */
     get liquidTop() {
         let liquidTop = null;
-        let start = null;
-        let end = null;
+        let leftMost = null;
+        let rightMost = null;
         this.liquids.forEach(liquid => {
             liquid.lines.forEach(line => {
-                if (line.start.y === this.liquidLevel) {
-                    start = line.start;
+                if (Math.abs(line.start.y - this.levelLine) < 0.0001) {
+                    if (!leftMost || line.start.x < leftMost.x) leftMost = line.start;
+                    if (!rightMost || line.start.x > rightMost.x) rightMost = line.start;
                 }
-                if (line.end.y === this.liquidLevel) {
-                    end = line.end;
+                if (Math.abs(line.end.y - this.levelLine) < 0.0001) {
+                    if (!leftMost || line.end.x < leftMost.x) leftMost = line.end;
+                    if (!rightMost || line.end.x > rightMost.x) rightMost = line.end;
                 }
             });
         });
-        if (start && end) {
-            if (start.x < end.x) {
-                liquidTop = new Line(start, end);
-            } else {
-                liquidTop = new Line(end, start);
-            }
-        }
+
+        if (leftMost && rightMost) liquidTop = new Line(leftMost, rightMost);
         return liquidTop;
+    }
+
+    /**
+     *.liquidCenterPoint
+     * Represents the mid point of liquid top.
+     */
+    get liquidCenterPoint() {
+        let liquidTop = this.liquidTop;
+        if (liquidTop) {
+            return new Point(liquidTop.start.x + (liquidTop.end.x - liquidTop.start.x) / 2, liquidTop.start.y);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -218,19 +228,15 @@ class ContainerComposite extends ComplexShape {
     }
 
     get full() {
-        return this._full;
-    }
-
-    set full(full) {
-        this._full = full;
+        return this.levelLine <= this.boundary.a.y;
     }
 
     get empty() {
-        return this._empty;
-    }
-
-    set empty(empty) {
-        this._empty = empty;
+        let empty = true;
+        this.liquids.forEach(liquid => {
+            empty = empty && !liquid.lines.length;
+        })
+        return empty;
     }
 
     get speed() {
@@ -259,27 +265,23 @@ class ContainerComposite extends ComplexShape {
         let oldArea = this.liquidArea;
         super.rotate(deg, transformOrigin);
 
-        // this function needs rework, it's causing a lot of internal looping
-        // if (oldArea < this.liquidArea) {
-        //     while (oldArea < this.liquidArea) {
-        //         this.drain(0.1);
-        //     }
-        // } else if (oldArea > this.liquidArea) {
-        //     while (oldArea > this.liquidArea) {
-        //         this.fill(0.1);
-        //     }
+        // if (!this.empty) {
+        //     let center = this.liquidCenterPoint;
+        //     this._levelLine.rotate(deg, transformOrigin);
+        //     this._levelLine.rotate(-deg, center);
         // }
+
         this.handleOverflow();
     }
 
     addShape(shape) {
 
         let container = Container(shape);
-        container.levelLine = this._levelLine;
 
         let liquid = new Liquid(container);
         liquid.color = this.liquidColor;
-        
+        liquid.levelLine = this._levelLine;
+
         super.addShape(container);
         super.addShape(liquid);
 
@@ -324,9 +326,6 @@ class ContainerComposite extends ComplexShape {
             this.levelLine += amount;
         }
 
-        this.empty = this.levelLine >= this.boundary.d.y;
-        this.full = this.levelLine <= this.boundary.a.y;
-
     }
 
     fill(amount) {
@@ -336,9 +335,6 @@ class ContainerComposite extends ComplexShape {
         if (!this.full) {
             this.levelLine -= amount;
         }
-
-        this.empty = this.levelLine >= this.boundary.d.y;
-        this.full = this.levelLine <= this.boundary.a.y;
     }
 
     startDraining() {
@@ -416,7 +412,6 @@ class ContainerComposite extends ComplexShape {
         if (this.pourComposite) {
             response = response.concat(this.pourComposite.createSATObject());
         }
-
         if (this.liquidTop) {
             response = response.concat(this.liquidTop.createSATObject());
         }
@@ -441,6 +436,15 @@ class ContainerComposite extends ComplexShape {
                 }
             });
         }
+
+        // ctx.beginPath();
+        // ctx.fillStyle = "red";
+        // ctx.rect(this.liquidCenterPoint.x - 2.5, this.liquidCenterPoint.y - 2.5, 5, 5)
+        // ctx.rect(this.liquidTop.start.x - 2.5, this.liquidTop.start.y - 2.5, 5, 5)
+        // ctx.rect(this.liquidTop.end.x - 2.5, this.liquidTop.end.y - 2.5, 5, 5)
+        // ctx.fill()
+        // ctx.fillStyle = this.color;
+        // ctx.closePath();
     }
 
 }

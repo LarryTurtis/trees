@@ -15,7 +15,7 @@ describe('LevelLine', function() {
         it('should create two points', function() {
             let levelLine = new LevelLine(10);
             expect(levelLine.start).to.exist;
-            expect(levelLine.start.x).to.equal(0);
+            expect(levelLine.start.x).to.equal(-2000);
             expect(levelLine.start.y).to.equal(10);
             expect(levelLine.end).to.exist;
             expect(levelLine.end.x).to.equal(2000);
@@ -30,10 +30,10 @@ describe('LevelLine', function() {
         it("should allow rotation", () => {
             let levelLine = new LevelLine(10);
             levelLine.rotate(90, levelLine.start);
-            expect(levelLine.start.x).to.equal(0);
+            expect(levelLine.start.x).to.equal(-2000);
             expect(levelLine.start.y).to.equal(10);
-            expect(levelLine.end.x).to.be.closeTo(0, 0.001);
-            expect(levelLine.end.y).to.equal(2010);
+            expect(levelLine.end.x).to.be.closeTo(-2000, 0.001);
+            expect(levelLine.end.y).to.equal(4010);
         });
     });
 });

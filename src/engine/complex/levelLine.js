@@ -1,7 +1,7 @@
 import { Line } from '../line.js';
 import { Point } from '../point.js';
 
-const START = 0;
+const START = -2000;
 const END = 2000;
 
 class LevelLine extends Line {
@@ -21,6 +21,9 @@ class LevelLine extends Line {
     }
 
     set y(y) {
+        if (typeof y !== "number") {
+            throw new Error("Invalid value supplied for LevelLine")
+        }
         this.start.y = y;
         this.end.y = y;
     }

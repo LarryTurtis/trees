@@ -19,6 +19,7 @@ this should achieve the desired result.
 
 import { Sprite } from '../sprite.js'
 import { Line } from '../line.js'
+import { LevelLine } from './levelLine.js'
 
 class Liquid extends Sprite {
     constructor(container) {
@@ -32,6 +33,7 @@ class Liquid extends Sprite {
         this.container = container;
         this.lines = this.container.innerLines;
         this.overflowStart = null;
+        this._levelLine = new LevelLine(container.y);
     }
 
     get container() {
@@ -51,12 +53,19 @@ class Liquid extends Sprite {
         this._overflowStart = overflowStart;
     }
 
+    get levelLine() {
+        return this._levelLine;
+    }
+
+    set levelLine(levelLine) {
+        this._levelLine = levelLine;
+    }
+
     get area() {
         return trees.polygonArea(this.lines);
     }
 
     level() {
-        console.log('level', this.container.levelLine);
         //since we are dealing with quadrilaterals
         //there are 2 intersections to track
         //the left and right.
@@ -72,7 +81,7 @@ class Liquid extends Sprite {
 
         this.container.innerLines.forEach((line, index) => {
             let copiedLine = trees.copyLine(line);
-            let intersection = trees.intersection(copiedLine, this.container.levelLine);
+            let intersection = trees.intersection(copiedLine, this.levelLine);
 
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
@@ -95,7 +104,7 @@ class Liquid extends Sprite {
                     }
                 }
 
-            } else if (copiedLine.start.y > this.container.levelLine.y) {
+            } else if (copiedLine.start.y > this.levelLine.y) {
                 //keep any lines that do not intersect the leveline
                 //as long as they are below it
                 if (index === this.container.openingIndex) {
@@ -125,10 +134,10 @@ class Liquid extends Sprite {
             });
             ctx.fill();
             ctx.closePath();
-            ctx.yMove(this.container.levelLine.start);
-            ctx.yLine(this.container.levelLine.end);
-            ctx.stroke();
         }
+        ctx.yMove(this.levelLine.start);
+        ctx.yLine(this.levelLine.end);
+        ctx.stroke();
     }
 
 }

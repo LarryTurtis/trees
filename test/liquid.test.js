@@ -11,7 +11,7 @@ describe('Liquid', () => {
         container = Container(new Sprite(100, 100, 100, 100));
         container.openingIndex = 3;
         liquid = new Liquid(container);
-        liquid.liquidLevel = 110;
+        liquid.levelLine.y = 110;
     });
     describe('interface', () => {
         it('should exist', () => {
@@ -24,11 +24,8 @@ describe('Liquid', () => {
         it('should have property overflowStart', () => {
             expect(liquid.overflowStart).not.to.be.undefined;
         });
-        it('should have property liquidLevel', () => {
-            expect(liquid.liquidLevel).not.to.be.undefined;
-        });
-        it("should have property _levelLine", () => {
-            expect(liquid._levelLine).to.exist;
+        it("should have property levelLine", () => {
+            expect(liquid.levelLine).not.to.be.undefined;
         })
         it("should throw an error if no parameter is supplied", () => {
             expect(() => { new Liquid() }).throws(Error);
@@ -51,12 +48,12 @@ describe('Liquid', () => {
     describe("level", () => {
         let oldLines;
         beforeEach(() => {
-            oldLines = liquid.lines;
+            oldLines = liquid.lines[0].end.x;
             container.rotate(10, container.center);
             liquid.level();
         });
         it("should update lines on container rotate", () => {
-            expect(liquid.lines[0].end.x).not.to.equal(oldLines[0].end.x);
+            expect(liquid.lines[0].end.x).not.to.equal(oldLines);
         });
         it("should correctly update the liquid lines", () => {
             container.rotate(10, container.center);
@@ -94,7 +91,7 @@ describe('Liquid', () => {
         });
     });
 
-    describe("liquidLevel", () => {
+    describe("levelLine", () => {
         let spy1;
 
         beforeEach(() => {
@@ -103,26 +100,23 @@ describe('Liquid', () => {
 
         it("should be zero by default", () => {
             liquid = new Liquid(container);
-            expect(liquid.liquidLevel).to.equal(0);
+            expect(liquid.levelLine.start.y).to.equal(container.y);
+            expect(liquid.levelLine.end.y).to.equal(container.y);
         });
         it("should be settable and gettable", () => {
-            liquid.liquidLevel = 1000;
-            expect(liquid.liquidLevel).to.equal(1000);
+            liquid.levelLine = 1000;
+            expect(liquid.levelLine).to.equal(1000);
         });
-        it("should call level when changed", () => {
-            liquid.liquidLevel = 1000;
-            expect(spy1.called).to.be.true;
+        it("should not call level when changed", () => {
+            liquid.levelLine = 1000;
+            expect(spy1.called).to.be.false;
         });
         it("should update levelLine Y values when changed", () => {
-            let oldLevelLine = liquid._levelLine;
-            liquid.liquidLevel = 1000;
-            expect(liquid._levelLine.start.y).not.to.equal(oldLevelLine.start.y);
-            expect(liquid._levelLine.end.y).not.to.equal(oldLevelLine.end.y);
+            let oldLevelLine = liquid.levelLine.start.y;
+            liquid.levelLine.y = 1000;
+            expect(liquid.levelLine.start.y).not.to.equal(oldLevelLine);
+            expect(liquid.levelLine.end.y).not.to.equal(oldLevelLine);
         });
-        it("should throw an error if invalid value is provided", () => {
-            expect(() => { liquid.liquidLevel = "abc"; }).to.throw(Error);
-            expect(() => { liquid.liquidLevel = -1; }).to.throw(Error);
-        })
     });
 
 });
