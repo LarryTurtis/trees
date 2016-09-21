@@ -43,7 +43,7 @@ class Canvas {
         this._center = new Point(this.element.width / 2, this.element.height / 2);
         this._width = this.element.width;
         this._height = this.element.height;
-        this._fps = 60;
+        this._fps = 24;
         this.interval = 1000 / this._fps;
         this.blur = false;
         return instance;

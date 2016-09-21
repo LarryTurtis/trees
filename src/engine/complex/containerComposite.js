@@ -18,7 +18,7 @@ class ContainerComposite extends ComplexShape {
         this._speed = 10;
         this._collidable = false;
         this._thickness = 0;
-        this.drainVolume = 0.5;
+        this.drainVolume = 0.4;
     }
 
     get x() {
@@ -265,11 +265,11 @@ class ContainerComposite extends ComplexShape {
         let oldArea = this.liquidArea;
         super.rotate(deg, transformOrigin);
 
-        // if (!this.empty) {
-        //     let center = this.liquidCenterPoint;
-        //     this._levelLine.rotate(deg, transformOrigin);
-        //     this._levelLine.rotate(-deg, center);
-        // }
+        if (!this.empty && this.liquidCenterPoint) {
+            let center = this.liquidCenterPoint;
+            this._levelLine.rotate(deg, transformOrigin);
+            this._levelLine.rotate(-deg, center);
+        }
 
         this.handleOverflow();
     }

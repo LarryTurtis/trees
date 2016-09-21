@@ -12,7 +12,7 @@ function load() {
     engine.levels.push(scenes.level7);
     engine.levels.push(scenes.level8);
     engine.levels.push(scenes.level9);
-    scenes.level9();
+    scenes.level0();
 }
 
 Array.prototype.move = function(old_index, new_index) {
