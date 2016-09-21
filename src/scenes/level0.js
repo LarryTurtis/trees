@@ -61,6 +61,15 @@ function level0() {
     rect.color = "rgb(0,47,57)";
     shapes.add(rect);
 
+    let rect2 = new engine.complex.Box(1200, 600, engine.canvas.width - 1200, engine.canvas.height - 600);
+    rect2.color = "rgb(0,74,37)";
+    shapes.add(rect2);
+
+    let wedge = new engine.simples.Wedge(1200, 600, engine.canvas.height - 600, engine.canvas.height - 600);
+    wedge.color = "rgb(0,47,57)";
+    shapes.add(wedge);
+    engine.patterns.polkaDots(rect2, engine.simples.Circle, 50, 2, 4, "rgb(0,44,9)");
+
     wheel.callback = function() {
         this.shape.forEach(shape => {
             if (shape.type === "Cup" && shape.y > 600) {

@@ -1,4 +1,5 @@
 import { simples } from '../simples/simples.js';
+import { complex } from '../complex/complex.js';
 import { ComplexShape } from './complexShape.js';
 import { patterns } from '../patterns/patterns.js';
 
@@ -7,11 +8,11 @@ class Mushroom extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "Mushroom";
 
-        let stem = new simples.Rectangle(this.center.x - this.width / 10, y + height / 4, this.width / 5, this.height * 0.75, 0);
+        let stem = new simples.Rectangle(this.center.x - this.width / 10, y + height / 4, this.width / 5, this.height * 0.75);
         stem.color = "#F8A068";
-        let cap = new complex.SemiCircle(x, y - height / 4, width, height, 0);
+        let cap = new complex.SemiCircle(x, y - height / 4, width, height);
         cap.color = "#AF001E";
-        let rectangle = new simples.Rectangle(x, y + height / 4 - 1, width, height / 8, 0);
+        let rectangle = new simples.Rectangle(x, y + height / 4 - 1, width, height / 8);
         rectangle.color = "#AF001E";
         this.addShape(stem);
         this.addShape(cap);
@@ -19,12 +20,13 @@ class Mushroom extends ComplexShape {
         for (let i = 0; i < 5; i++) {
             let v_width = width / 5;
             let v_height = height / 10;
-            let veil = new complex.SemiCircle(x + i * v_width, rectangle.d.y - v_height / 2, v_width, v_height, 180);
+            let veil = new complex.SemiCircle(x + i * v_width, rectangle.d.y - v_height / 2, v_width, v_height);
+            veil.rotate(180, veil.center);
             veil.color = "#FFFCC4";
             this.addShape(veil);
         }
         this.addShape(rectangle);
-        patterns.randomSpots(cap).forEach(spot => {
+        patterns.randomSpotsOnCircle(cap).forEach(spot => {
             //make sure it is above the semicircle.
             if (spot.y + spot.height < rectangle.d.y) {
                 spot.color = "#F8A068";
@@ -35,8 +37,6 @@ class Mushroom extends ComplexShape {
     }
 
     draw(ctx) {
-        this.width++;
-        this.height++;
         super.draw(ctx);
 
         ctx.beginPath();
