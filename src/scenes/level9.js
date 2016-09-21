@@ -46,13 +46,13 @@ function level9() {
     engine.canvas.addEventListener('upArrow', function(e) {
         hose.bend(-1);
         // erlenmeyer.rotate(-1, erlenmeyer.center)
-        // cup.rotate(-1, cup.center);
+         cup.rotate(-1, cup.center);
         testTube.rotate(-1, cup.center);
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(1);
         // erlenmeyer.rotate(1, erlenmeyer.center)
-        // cup.rotate(1, cup.center)
+         cup.rotate(1, cup.center)
         testTube.rotate(1, cup.center);
     });
 

@@ -12,9 +12,9 @@ class Triangle extends Sprite {
 
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
-        this.ta = this.rotate_point(this.ta, transformOrigin, deg);
-        this.tb = this.rotate_point(this.tb, transformOrigin, deg);
-        this.tc = this.rotate_point(this.tc, transformOrigin, deg);
+        this.ta = trees.rotatePoint(this.ta, transformOrigin, deg);
+        this.tb = trees.rotatePoint(this.tb, transformOrigin, deg);
+        this.tc = trees.rotatePoint(this.tc, transformOrigin, deg);
     }
 
     get width() {

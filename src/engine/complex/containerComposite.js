@@ -4,6 +4,7 @@ import { PourComposite } from './pourComposite.js';
 import { Meniscus } from './meniscus.js';
 import { Container } from './container.js';
 import { Line } from '../line.js';
+import { LevelLine } from './levelLine.js';
 
 class ContainerComposite extends ComplexShape {
     constructor(x, y, width, height) {
@@ -12,7 +13,7 @@ class ContainerComposite extends ComplexShape {
         this._liquidColor = "transparent";
         this._containers = [];
         this._liquids = [];
-        this._liquidLevel = y;
+        this._levelLine = new LevelLine(y);
         this._empty = false;
         this._full = true;
         this._speed = 10;
@@ -63,7 +64,7 @@ class ContainerComposite extends ComplexShape {
                 line.end.y += diffY;
             });
         });
-        this.liquidLevel += diffY;
+        this.levelLine += diffY;
     }
 
     get liquidColor() {
@@ -82,7 +83,7 @@ class ContainerComposite extends ComplexShape {
      * Represents liquid level line as percentage of container's overall height
      */
     get level() {
-        return ((this.height - (this.liquidLevel - this.y)) / (this.height)) * 100;
+        return ((this.height - (this.levelLine - this.y)) / (this.height)) * 100;
     }
 
     set level(level) {
@@ -90,25 +91,23 @@ class ContainerComposite extends ComplexShape {
             level < 0 || level > 100) {
             throw new Error("Level value must be a number between zero and 100.")
         }
-        this.liquidLevel = this.y + this.height * (100 - level) / 100;
+        this.levelLine = this.y + this.height * (100 - level) / 100;
     }
 
     /**
      * .liquidLevel
      * Represents actual y-value of liquid level line.
      */
-    get liquidLevel() {
-        return this._liquidLevel;
+    get levelLine() {
+        return this._levelLine.y;
     }
 
-    set liquidLevel(liquidLevel) {
-        this._liquidLevel = liquidLevel;
+    set levelLine(y) {
+        this._levelLine.y = y;
 
-        this.empty = this.liquidLevel >= this.boundary.d.y;
-        this.full = this.liquidLevel <= this.boundary.a.y;
-        this.liquids.forEach(shape => {
-            shape.liquidLevel = liquidLevel;
-        });
+        this.empty = this.levelLine.y >= this.boundary.d.y;
+        this.full = this.levelLine.y <= this.boundary.a.y;
+
         this.handleOverflow();
     }
 
@@ -276,11 +275,11 @@ class ContainerComposite extends ComplexShape {
     addShape(shape) {
 
         let container = Container(shape);
+        container.levelLine = this._levelLine;
+
         let liquid = new Liquid(container);
-
         liquid.color = this.liquidColor;
-        liquid.liquidLevel = this.liquidLevel;
-
+        
         super.addShape(container);
         super.addShape(liquid);
 
@@ -322,11 +321,11 @@ class ContainerComposite extends ComplexShape {
             throw new Error('Tried to use drain function with invalid amount.')
         }
         if (!this.empty) {
-            this.liquidLevel += amount;
+            this.levelLine += amount;
         }
 
-        this.empty = this.liquidLevel >= this.boundary.d.y;
-        this.full = this.liquidLevel <= this.boundary.a.y;
+        this.empty = this.levelLine >= this.boundary.d.y;
+        this.full = this.levelLine <= this.boundary.a.y;
 
     }
 
@@ -335,11 +334,11 @@ class ContainerComposite extends ComplexShape {
             throw new Error('Tried to use drain function with invalid amount.')
         }
         if (!this.full) {
-            this.liquidLevel -= amount;
+            this.levelLine -= amount;
         }
 
-        this.empty = this.liquidLevel >= this.boundary.d.y;
-        this.full = this.liquidLevel <= this.boundary.a.y;
+        this.empty = this.levelLine >= this.boundary.d.y;
+        this.full = this.levelLine <= this.boundary.a.y;
     }
 
     startDraining() {

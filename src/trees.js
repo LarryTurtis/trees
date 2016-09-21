@@ -77,6 +77,13 @@ class trees {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
     }
 
+    static rotatePoint(point, origin, deg) {
+        let angle = deg * Math.PI / 180.0;
+        let x = Math.cos(angle) * (point.x - origin.x) - Math.sin(angle) * (point.y - origin.y) + origin.x;
+        let y = Math.sin(angle) * (point.x - origin.x) + Math.cos(angle) * (point.y - origin.y) + origin.y;
+        return new Point(x, y);
+    }
+
     static getPointOnLine(firstPoint, width, angle) {
         let secondPointX = firstPoint.x + width * Math.cos(this.degToRad(angle));
         let secondPointY = firstPoint.y + width * Math.sin(this.degToRad(angle));

@@ -32,7 +32,6 @@ class Liquid extends Sprite {
         this.container = container;
         this.lines = this.container.innerLines;
         this.overflowStart = null;
-        this.liquidLevel = 0;
     }
 
     get container() {
@@ -52,31 +51,12 @@ class Liquid extends Sprite {
         this._overflowStart = overflowStart;
     }
 
-    /**
-     * .liquidLevel
-     * Represents actual y-value of liquid level line.
-     */
-    get liquidLevel() {
-        return this._liquidLevel;
-    }
-
-    set liquidLevel(liquidLevel) {
-        if (typeof liquidLevel !== "number" ||
-            liquidLevel < 0) {
-            throw new Error("Liquid Level value must be a number between zero and canvas height.")
-        }
-        this._liquidLevel = liquidLevel;
-        let p1 = { x: 0, y: this._liquidLevel }
-        let p2 = { x: 4000, y: this._liquidLevel };
-        this._levelLine = new Line(p1, p2);
-        this.level();
-    }
-
     get area() {
         return trees.polygonArea(this.lines);
     }
 
     level() {
+        console.log('level', this.container.levelLine);
         //since we are dealing with quadrilaterals
         //there are 2 intersections to track
         //the left and right.
@@ -92,7 +72,7 @@ class Liquid extends Sprite {
 
         this.container.innerLines.forEach((line, index) => {
             let copiedLine = trees.copyLine(line);
-            let intersection = trees.intersection(copiedLine, this._levelLine);
+            let intersection = trees.intersection(copiedLine, this.container.levelLine);
 
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
@@ -115,7 +95,7 @@ class Liquid extends Sprite {
                     }
                 }
 
-            } else if (copiedLine.start.y > this._levelLine.start.y) {
+            } else if (copiedLine.start.y > this.container.levelLine.y) {
                 //keep any lines that do not intersect the leveline
                 //as long as they are below it
                 if (index === this.container.openingIndex) {
@@ -145,9 +125,9 @@ class Liquid extends Sprite {
             });
             ctx.fill();
             ctx.closePath();
-            // ctx.yMove(this._levelLine.start);
-            // ctx.yLine(this._levelLine.end);
-            // ctx.stroke();
+            ctx.yMove(this.container.levelLine.start);
+            ctx.yLine(this.container.levelLine.end);
+            ctx.stroke();
         }
     }
 
