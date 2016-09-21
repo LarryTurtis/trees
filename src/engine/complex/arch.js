@@ -8,6 +8,7 @@ class Arch extends ThickShape {
 
         this.right = new complex.Macaroni(x + width / 2, y, width / 2, height, 0, thickness);
         this.left = new complex.Macaroni(x, y, width / 2, height, 270, thickness);
+        this.left.rotate(270, this.left.center);
         this.addShape(this.right);
         this.addShape(this.left);
     }

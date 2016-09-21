@@ -6,8 +6,8 @@ let a = 0;
 let i = 1;
 
 class Octopus extends ComplexShape {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Octopus";
 
         let main = new simples.Circle(this.center.x - width / 8, y, width / 4, height / 4);
@@ -16,7 +16,7 @@ class Octopus extends ComplexShape {
         this.addShape(rect);
         let direction = 1;
         for (let i = 0; i < 8; i++) {
-            let tentacle = new complex.Hose(rect.d.x + i * rect.width / 8, rect.d.y - rect.width / 8, this.width * 0.75, rect.width / 8, 0, simples.Rectangle);
+            let tentacle = new complex.Hose(rect.d.x + i * rect.width / 8, rect.d.y - rect.width / 8, this.width * 0.75, rect.width / 8);
             tentacle.direction = direction;
             tentacle.type = "Tentacle";
             this.addShape(tentacle);
@@ -35,26 +35,15 @@ class Octopus extends ComplexShape {
                     a = 0;
                 }
                 let length = Math.floor(Math.random() * shape.length);
-                shape.bend(i, i+5, shape.direction);
-                shape.bend(0, i, -shape.direction);
+                shape.selectSection(shape.shape[i])
+                shape.sectionLength = 5;
+                shape.bend(shape.direction);
+                shape.selectSection(shape.shape[0]);
+                shape.sectionLength = i;
+                shape.bend(-shape.direction);
                 a++
             }
         });
-    }
-
-    draw(ctx) {
-        super.draw(ctx);
-
-        ctx.beginPath();
-
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
-        });
-
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
-
     }
 
 }

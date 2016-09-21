@@ -8,6 +8,7 @@ class SemiCircle extends CircularShape {
         
         this.right = new simples.Wedge(x + width / 2, y, width / 2, height);
         this.left = new simples.Wedge(x, y, width / 2, height, 270);
+        this.left.rotate(270, this.left.center);
         this.addShape(this.left);
         this.addShape(this.right);
     }

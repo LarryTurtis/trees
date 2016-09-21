@@ -27,8 +27,6 @@ class Macaroni extends ThickShape {
     }
 
     draw(ctx) {
-        super.draw(ctx);
-
         ctx.beginPath();
         ctx.yMove(this.a);
         ctx.curve(this.outer.curve);

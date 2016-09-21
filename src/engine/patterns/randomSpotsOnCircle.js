@@ -38,9 +38,9 @@ function randomSpotsOnCircle(container) {
 }
 
 function randomRadius(location, container) {
-    let angle = container.getAngle(container.center, location);
-    let edge = container.getPointOnLine(container.center, container.radius, angle)
-    let max = container.distance(location, edge) / 2;
+    let angle = trees.getAngle(container.center, location);
+    let edge = trees.getPointOnLine(container.center, container.radius, angle)
+    let max = trees.getDistance(location, edge) / 2;
     let min = container.radius / 6 > max ? max : container.radius / 6;
     return Math.floor(Math.random() * (max - min)) + min;
 }

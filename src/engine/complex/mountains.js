@@ -25,7 +25,6 @@ class Mountains extends ComplexShape {
 
             //create the triangle.
             let triangle = new simples.Triangle(triangleX, this.d.y - size, size, size);
-            
             this.addShape(triangle);
             previoustriangle = triangle;
 
@@ -37,21 +36,6 @@ class Mountains extends ComplexShape {
             }
         }
     }
-
-    draw(ctx) {
-        super.draw(ctx);
-
-        ctx.beginPath();
-        this.shape.forEach(shape => {
-            shape.draw(ctx);
-        });
-
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
-        ctx.closePath();
-
-    }
-
 }
 
 export { Mountains }

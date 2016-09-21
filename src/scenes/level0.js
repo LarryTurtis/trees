@@ -31,6 +31,7 @@ function createMountains() {
     mountain.color = "black";
     mountain.collidable = false;
     shapes.add(mountain);
+    console.log(shapes);
 }
 
 function level0() {

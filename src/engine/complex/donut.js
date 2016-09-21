@@ -8,7 +8,7 @@ class Donut extends ThickShape {
 
         let top = new complex.Arch(x, y, width, height / 2, 0, thickness);
         let bottom = new complex.Arch(x, y + height / 2, width, height / 2, 180, thickness);
-
+        bottom.rotate(180, bottom.center);
         this.addShape(top);
         this.addShape(bottom);
 

@@ -6,10 +6,14 @@ class Circle extends CircularShape {
         super(x, y, width, height, angle);
         this.type = "Circle";
 
-        this.topRight = new simples.Wedge(x + width / 2, y, width / 2, height / 2, 0);
+        this.topRight = new simples.Wedge(x + width / 2, y, width / 2, height / 2);
         this.topLeft = new simples.Wedge(x, y, width / 2, height / 2, 270);
+        this.topLeft.rotate(270, this.topLeft.center);
         this.bottomRight = new simples.Wedge(x + width / 2, y + height / 2, width / 2, height / 2, 90);
+        this.bottomRight.rotate(90, this.bottomRight.center);
         this.bottomLeft = new simples.Wedge(x, y + height / 2, width / 2, height / 2, 180);
+        this.bottomLeft.rotate(180, this.bottomLeft.center);
+
 
         this.addShape(this.topRight);
         this.addShape(this.topLeft);
