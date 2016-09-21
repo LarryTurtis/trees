@@ -58,9 +58,9 @@ class Wedge extends Sprite {
 
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
-        this.cp1 = this.rotate_point(this.cp1, transformOrigin, deg);
-        this.cp2 = this.rotate_point(this.cp2, transformOrigin, deg);
-        this.end = this.rotate_point(this.end, transformOrigin, deg);
+        this.cp1 = trees.rotatePoint(this.cp1, transformOrigin, deg);
+        this.cp2 = trees.rotatePoint(this.cp2, transformOrigin, deg);
+        this.end = trees.rotatePoint(this.end, transformOrigin, deg);
         this.curve = new Curve(this.cp1, this.cp2, this.end);
     }
 

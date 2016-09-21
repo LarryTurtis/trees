@@ -45,14 +45,16 @@ function level9() {
 
     engine.canvas.addEventListener('upArrow', function(e) {
         hose.bend(-1);
-        // erlenmeyer.rotate(-1, erlenmeyer.center)
-        // cup.rotate(-1, cup.center);
-        testTube.rotate(-1, cup.center);
+        erlenmeyer.rotate(-1, erlenmeyer.center)
+         cup.rotate(-1, cup.center);
+        testTube.levelLine = testTube.y + testTube.height;
+        testTube.fill(10);
+        console.log(testTube.empty);
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         hose.bend(1);
-        // erlenmeyer.rotate(1, erlenmeyer.center)
-        // cup.rotate(1, cup.center)
+         erlenmeyer.rotate(1, erlenmeyer.center)
+         cup.rotate(1, cup.center)
         testTube.rotate(1, cup.center);
     });
 
@@ -72,7 +74,7 @@ function createTestTube() {
     testTube.color = trees.setOpacity("white", 0.2);
     testTube.liquidColor = trees.setOpacity("orange", 0.9);
     testTube.level = 50;
-    testTube.thickness = 10;
+    //testTube.thickness = 10;
     testTube.lip.thickness = 20;
     return testTube;
 }
@@ -84,7 +86,6 @@ function createErlenmeyer() {
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.level = 90;
     erlenmeyer.thickness = 10;
-    erlenmeyer.rotate(10, erlenmeyer.center)
     return erlenmeyer;
 }
 

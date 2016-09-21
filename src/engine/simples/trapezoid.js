@@ -149,10 +149,10 @@ class Trapezoid extends Sprite {
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
         if (this.topLeft) {
-            this.topLeft = this.rotate_point(this.topLeft, transformOrigin, deg);
-            this.topRight = this.rotate_point(this.topRight, transformOrigin, deg);
-            this.bottomLeft = this.rotate_point(this.bottomLeft, transformOrigin, deg);
-            this.bottomRight = this.rotate_point(this.bottomRight, transformOrigin, deg);
+            this.topLeft = trees.rotatePoint(this.topLeft, transformOrigin, deg);
+            this.topRight = trees.rotatePoint(this.topRight, transformOrigin, deg);
+            this.bottomLeft = trees.rotatePoint(this.bottomLeft, transformOrigin, deg);
+            this.bottomRight = trees.rotatePoint(this.bottomRight, transformOrigin, deg);
         }
     }
 

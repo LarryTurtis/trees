@@ -98,8 +98,8 @@ function Container(shape) {
     shape.rotate = function(deg, transformOrigin) {
         oldRotate.call(shape, deg, transformOrigin);
         shape.innerLines.forEach(line => {
-            line.start = shape.rotate_point(line.start, transformOrigin, deg);
-            line.end = shape.rotate_point(line.end, transformOrigin, deg);
+            line.start = trees.rotatePoint(line.start, transformOrigin, deg);
+            line.end = trees.rotatePoint(line.end, transformOrigin, deg);
         });
     }
 

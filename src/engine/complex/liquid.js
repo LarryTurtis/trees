@@ -19,6 +19,7 @@ this should achieve the desired result.
 
 import { Sprite } from '../sprite.js'
 import { Line } from '../line.js'
+import { LevelLine } from './levelLine.js'
 
 class Liquid extends Sprite {
     constructor(container) {
@@ -32,7 +33,7 @@ class Liquid extends Sprite {
         this.container = container;
         this.lines = this.container.innerLines;
         this.overflowStart = null;
-        this.liquidLevel = 0;
+        this._levelLine = new LevelLine(container.y);
     }
 
     get container() {
@@ -52,24 +53,12 @@ class Liquid extends Sprite {
         this._overflowStart = overflowStart;
     }
 
-    /**
-     * .liquidLevel
-     * Represents actual y-value of liquid level line.
-     */
-    get liquidLevel() {
-        return this._liquidLevel;
+    get levelLine() {
+        return this._levelLine;
     }
 
-    set liquidLevel(liquidLevel) {
-        if (typeof liquidLevel !== "number" ||
-            liquidLevel < 0) {
-            throw new Error("Liquid Level value must be a number between zero and canvas height.")
-        }
-        this._liquidLevel = liquidLevel;
-        let p1 = { x: 0, y: this._liquidLevel }
-        let p2 = { x: 4000, y: this._liquidLevel };
-        this._levelLine = new Line(p1, p2);
-        this.level();
+    set levelLine(levelLine) {
+        this._levelLine = levelLine;
     }
 
     get area() {
@@ -92,7 +81,7 @@ class Liquid extends Sprite {
 
         this.container.innerLines.forEach((line, index) => {
             let copiedLine = trees.copyLine(line);
-            let intersection = trees.intersection(copiedLine, this._levelLine);
+            let intersection = trees.intersection(copiedLine, this.levelLine);
 
             if (intersection.onLine1 && intersection.onLine2) {
                 if (index === this.container.openingIndex) {
@@ -115,7 +104,7 @@ class Liquid extends Sprite {
                     }
                 }
 
-            } else if (copiedLine.start.y > this._levelLine.start.y) {
+            } else if (copiedLine.start.y > this.levelLine.y) {
                 //keep any lines that do not intersect the leveline
                 //as long as they are below it
                 if (index === this.container.openingIndex) {
@@ -145,10 +134,10 @@ class Liquid extends Sprite {
             });
             ctx.fill();
             ctx.closePath();
-            // ctx.yMove(this._levelLine.start);
-            // ctx.yLine(this._levelLine.end);
-            // ctx.stroke();
         }
+        ctx.yMove(this.levelLine.start);
+        ctx.yLine(this.levelLine.end);
+        ctx.stroke();
     }
 
 }

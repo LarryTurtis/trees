@@ -49,7 +49,7 @@ class Polygon extends Sprite {
     rotate(deg, transformOrigin) {
         super.rotate(deg, transformOrigin);
         this.points = this.points.map(point => {
-            return this.rotate_point(point, transformOrigin, deg);
+            return trees.rotatePoint(point, transformOrigin, deg);
         })
     }
 

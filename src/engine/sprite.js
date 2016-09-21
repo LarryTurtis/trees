@@ -194,14 +194,14 @@ class Sprite {
             typeof(transformOrigin.y) !== "number") {
             throw new Error('Attempted to rotate using non-numeric value');
         }
-        this._origin = this.rotate_point(this.origin, transformOrigin, deg);
+        this._origin = trees.rotatePoint(this.origin, transformOrigin, deg);
         this._x = this.origin.x;
         this._y = this.origin.y;
-        this.a = this.rotate_point(this.a, transformOrigin, deg);
-        this.b = this.rotate_point(this.b, transformOrigin, deg);
-        this.c = this.rotate_point(this.c, transformOrigin, deg);
-        this.d = this.rotate_point(this.d, transformOrigin, deg);
-        this.center = this.rotate_point(this.center, transformOrigin, deg);
+        this.a = trees.rotatePoint(this.a, transformOrigin, deg);
+        this.b = trees.rotatePoint(this.b, transformOrigin, deg);
+        this.c = trees.rotatePoint(this.c, transformOrigin, deg);
+        this.d = trees.rotatePoint(this.d, transformOrigin, deg);
+        this.center = trees.rotatePoint(this.center, transformOrigin, deg);
 
         this._updateBoundaries();
     }
@@ -228,13 +228,6 @@ class Sprite {
 
     set visible(visible) {
         this._visible = visible;
-    }
-
-    rotate_point(point, origin, deg) {
-        let angle = deg * Math.PI / 180.0;
-        let x = Math.cos(angle) * (point.x - origin.x) - Math.sin(angle) * (point.y - origin.y) + origin.x;
-        let y = Math.sin(angle) * (point.x - origin.x) + Math.cos(angle) * (point.y - origin.y) + origin.y;
-        return new Point(x, y);
     }
 
     trimTop(amount) {
