@@ -15,10 +15,8 @@ import { Octopus } from './octopus.js';
 import { Cloud } from './cloud.js';
 import { Mountains } from './mountains.js';
 import { Gear } from './gear.js';
-import { Eye } from './eye.js';
-import { Pupil } from './pupil.js';
-import { Head } from './head.js';
 import { Wheel } from './wheel.js';
+import { WaterWheel } from './waterWheel.js';
 import { Container } from './container.js';
 import { Cup } from './cup.js';
 import { Spray } from './spray.js';
@@ -43,10 +41,8 @@ let complex = {
     Cloud: Cloud,
     Mountains: Mountains,
     Gear: Gear,
-    Eye: Eye,
-    Pupil: Pupil,
-    Head: Head,
     Wheel: Wheel,
+    WaterWheel: WaterWheel,
     Container: Container,
     Cup: Cup,
     Spray: Spray,
