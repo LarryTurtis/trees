@@ -1,7 +1,7 @@
 let instance = null;
 
 class ShapesRegistry {
-    constructor(canvas) {
+    constructor() {
         if (!instance) {
             instance = this;
         }

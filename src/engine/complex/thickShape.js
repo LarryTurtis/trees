@@ -2,8 +2,8 @@ import { simples } from '../simples/simples.js';
 import { CircularShape } from './circularShape.js';
 
 class ThickShape extends CircularShape {
-    constructor(x, y, width, height, angle, thickness) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height, thickness) {
+        super(x, y, width, height);
         this.type = "ThickShape";
         this._thickness = thickness || 1;
     }

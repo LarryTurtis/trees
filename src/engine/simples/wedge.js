@@ -7,10 +7,10 @@ function getBezierDistance(n) {
 }
 
 class Wedge extends Sprite {
-    constructor(x, y, width, height, angle) {
+    constructor(x, y, width, height) {
         // Here, it calls the parent class' constructor with lengths
         // provided for the Polygon's width and height
-        super(x, y, width, height, angle);
+        super(x, y, width, height);
 
     }
 
