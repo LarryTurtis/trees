@@ -2,8 +2,8 @@ import { simples } from '../simples/simples.js';
 import { ComplexShape } from './complexShape.js';
 
 class CircularShape extends ComplexShape {
-    constructor(x, y, width, height, angle, thickness) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height, thickness) {
+        super(x, y, width, height);
         this.type = "CircularShape";
         this._radius = this.width / 2;
     }

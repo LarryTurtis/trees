@@ -2,8 +2,8 @@ import { Wedge } from '../simples/wedge.js';
 import { ThickShape } from './thickShape.js';
 
 class Macaroni extends ThickShape {
-    constructor(x, y, width, height, angle, thickness) {
-        super(x, y, width, height, angle, thickness);
+    constructor(x, y, width, height, thickness) {
+        super(x, y, width, height, thickness);
         this.type = "Macaroni";
 
         this.outer = new Wedge(x, y, width, height);

@@ -7,12 +7,12 @@ class WaterWheel extends ComplexShape {
         super(x, y, width, height, angle);
         this.type = "WaterWheel";
 
-        let thickness = width / 30;
+        let thickness = width.percent(3);
+        console.log(width, thickness);
 
-
-        let hub = new complex.Circle(x + width / 2 - width / 8, y + width / 2 - width / 8, width / 4, height / 4, 0);
+        let hub = new complex.Circle(x + width.percent(37.5), y + width.percent(37.5), width.percent(25), height.percent(25));
         hub.color = trees.setOpacity("white", 1);
-        let rim = new complex.Donut(x, y, width, height, 0, thickness);
+        let rim = new complex.Donut(x, y, width, height, thickness);
         rim.color = trees.setOpacity("white", 1);
         this.addShape(rim);
 
@@ -21,7 +21,7 @@ class WaterWheel extends ComplexShape {
         let color = ["red", "green", "blue", "yellow", "black", "orange", "purple", "white"];
 
         for (var i = 0; i < 8; i++) {
-            let spoke = new simples.Rectangle(this.center.x - thickness / 2, this.center.y, thickness, this.height / 2, 0);
+            let spoke = new simples.Rectangle(this.center.x - thickness / 2, this.center.y, thickness, height / 2, 0);
             this.addShape(spoke);
             spoke.color = trees.setOpacity(color[i], 0.5);
             spoke.rotate(s_angle, this.center);
@@ -30,8 +30,8 @@ class WaterWheel extends ComplexShape {
         this.addShape(hub);
 
         for (var i = 0; i < 8; i++) {
-            let container = new complex.Cup(this.x + 65, this.y + 10, 100, 100, 70);
-            container.thickness = 10;
+            let container = new complex.Cup(x + width.percent(10), y + height.percent(1), width.percent(16), width.percent(16), 70);
+            container.thickness = width.percent(1);
             container.color = trees.setOpacity(color[i], 0.5);
             container.liquidColor = "rgb(0,47,57)";
             this.addShape(container);
