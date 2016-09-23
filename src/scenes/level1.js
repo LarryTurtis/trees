@@ -12,27 +12,41 @@ function level1() {
 
     createText();
     createBalloon();
+   createStripedBalloon();
 }
 
 function createBalloon() {
-
-    for (let i = 0; i < 50; i++) {
-
-        let size = Width.percent(trees.random(0, 5));
+    for (let i = 0; i < 25; i++) {
+        let size = Width.percent(trees.random(5, 15));
         let x = Width.percent(trees.random(0, 95));
         let y = Height.percent(trees.random(0, 100));
 
-        let balloon = new engine.complex.Balloon(x, y, size, size);
+        let balloon = new engine.complex.HotAirBalloon(x, y, size, size);
 
         balloon.color = trees.randomColor();
         balloon.callback = function() {
             this.y -= size / 10;
         }
-
         shapes.add(balloon);
-
     }
+}
 
+function createStripedBalloon() {
+    for (let i = 0; i < 25; i++) {
+        let size = Width.percent(trees.random(5, 15));
+        let x = Width.percent(trees.random(0, 95));
+        let y = Height.percent(trees.random(0, 100));
+
+        let balloon = new engine.complex.StripedBalloon(x, y, size, size);
+        balloon.stripeWidth = balloon.width.percent(trees.random(10, 20));
+        balloon.stripeSpacing = balloon.width.percent(trees.random(10, 20));
+        balloon.stripeColor = trees.randomColor();
+        balloon.color = trees.randomColor();
+        balloon.callback = function() {
+            this.y -= size / 10;
+        }
+        shapes.add(balloon);
+    }
 }
 
 function createText() {

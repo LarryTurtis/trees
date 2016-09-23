@@ -25,6 +25,7 @@ class Sprite {
         this._collidable = false;
         this._minHeight = 1;
         this._visible = true;
+        this._pathOnly = false;
     }
 
     set x(x) {
@@ -228,6 +229,14 @@ class Sprite {
 
     set visible(visible) {
         this._visible = visible;
+    }
+
+    get pathOnly() {
+        return this._pathOnly;
+    }
+
+    set pathOnly(pathOnly) {
+        this._pathOnly = pathOnly;
     }
 
     trimTop(amount) {

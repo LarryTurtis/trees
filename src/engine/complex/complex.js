@@ -23,6 +23,8 @@ import { Spray } from './spray.js';
 import { Erlenmeyer } from './erlenmeyer.js';
 import { TestTube } from './testTube.js';
 import { Balloon } from './balloon.js';
+import { HotAirBalloon } from './hotAirBalloon.js';
+import { StripedBalloon } from './stripedBalloon.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -49,7 +51,9 @@ let complex = {
     Spray: Spray,
     Erlenmeyer: Erlenmeyer,
     TestTube: TestTube,
-    Balloon: Balloon
+    HotAirBalloon: HotAirBalloon,
+    Balloon: Balloon,
+    StripedBalloon: StripedBalloon
 };
 
 export { complex }

@@ -64,8 +64,8 @@ class Circle extends Sprite {
 
         ctx.arc(this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle)
 
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
+        if (!this.pathOnly) ctx.fill();
+        if (!this.pathOnly && this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 

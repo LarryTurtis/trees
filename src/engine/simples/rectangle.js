@@ -27,8 +27,8 @@ class Rectangle extends Sprite {
         ctx.beginPath();
         ctx.yMove(this.a);
         ctx.yRect(rect);
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
+        if (!this.pathOnly) ctx.fill();
+        if (!this.pathOnly && this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 

@@ -38,6 +38,17 @@ class ComplexShape extends Sprite {
         this._shape = shape;
     }
 
+    get pathOnly() {
+        return super.pathOnly;
+    }
+
+    set pathOnly(pathOnly) {
+        super.pathOnly = pathOnly;
+        this.shape.forEach(shape => {
+            shape.pathOnly = pathOnly;
+        })
+    }
+
     get color() {
         return super.color;
     }
