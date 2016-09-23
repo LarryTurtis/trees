@@ -37,28 +37,70 @@ class Canvas {
     constructor() {
         if (!instance) {
             instance = this;
+            this.element = document.createElement('canvas');
+            this.ctx = this.element.getContext("2d");
+            this._center = new Point(this.element.width / 2, this.element.height / 2);
+            this._width = this.element.width;
+            this._height = this.element.height;
+            this._fps = 24;
+            this.interval = 1000 / this._fps;
+            this.blur = false;
+            this.parentNode = document.getElementById("main") || document.body;
+
+            let dpr = window.devicePixelRatio || 1;
+            let bsr = this.ctx.webkitBackingStorePixelRatio ||
+                this.ctx.mozBackingStorePixelRatio ||
+                this.ctx.msBackingStorePixelRatio ||
+                this.ctx.oBackingStorePixelRatio ||
+                this.ctx.backingStorePixelRatio || 1;
+
+            this.pixelRatio = dpr / bsr;
+
+            //Create canvas with the device resolution.
+            this.createCanvas(500, 250);
+
+            //Create canvas with a custom resolution.
+            //var myCustomCanvas = createHiDPICanvas(500, 200, 4);
         }
-        this.element = document.getElementById('main') || document.createElement('canvas');
-        this.ctx = this.element.getContext("2d");
-        this._center = new Point(this.element.width / 2, this.element.height / 2);
-        this._width = this.element.width;
-        this._height = this.element.height;
-        this._fps = 24;
-        this.interval = 1000 / this._fps;
-        this.blur = false;
+
         return instance;
     }
 
+    measureText(text, font) {
+        this.ctx.font = font;
+        return this.ctx.measureText(text).width;
+    }
+
+    createCanvas(w, h, ratio) {
+        try {
+            this.parentNode.removeChild(this.element);
+        } catch (e) {
+
+        }
+
+        if (!ratio) { ratio = this.pixelRatio; }
+        let can = document.createElement('canvas');
+        can.width = w * ratio;
+        can.height = h * ratio;
+        can.style.width = w + "px";
+        can.style.height = h + "px";
+
+        this.ctx = can.getContext("2d");
+        this.element = can;
+        this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        this.parentNode.appendChild(this.element);
+    }
+
     set width(width) {
-        this.element.width = width;
         this._width = width;
         this._center = new Point(width / 2, this._center.y);
+        this.createCanvas(width, this.height);
     }
 
     set height(height) {
-        this.element.height = height;
         this._height = height;
         this._center = new Point(this._center.x, height / 2);
+        this.createCanvas(this.width, height);
     }
 
     get width() {

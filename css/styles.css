@@ -1,22 +1,27 @@
 @font-face {
-  font-family: 'Lato';
-  src: url('./fonts/Lato/Lato-Hairline.ttf') format('truetype')
+    font-family: 'Lato';
+    src: url('./fonts/Lato/Lato-Hairline.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Yatra';
+    src: url('./fonts/Yatra_One/YatraOne-Regular.ttf') format('truetype')
 }
 
 body {
-	background-color: #004d00;
-	font-family: 'Lato', Arial, serif;
-	font-size: 36px;
-	color: orange;
+    background-color: #004d00;
+    font-family: 'Lato', Arial, serif;
+    font-size: 36px;
+    color: orange;
 }
 
 .title {
-	position: absolute;
-	top: 100px;
-	left: 100px;
-	z-index: -1;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    z-index: -1;
 }
 
 canvas {
-	z-index: 1000;
+    z-index: 1000;
 }

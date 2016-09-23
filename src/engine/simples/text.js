@@ -1,4 +1,7 @@
 import { Sprite } from '../sprite.js'
+import { Canvas } from '../canvas.js'
+
+let canvas = new Canvas();
 
 class Text extends Sprite {
     constructor(text, x, y, size, font) {
@@ -8,6 +11,10 @@ class Text extends Sprite {
         this._size = size;
         this._fontName = font;
         this._font = size + "px " + font;
+    }
+
+    get getWidth() {
+        return canvas.measureText(this.value, this.font);
     }
 
     get value() {
@@ -47,6 +54,7 @@ class Text extends Sprite {
     draw(ctx) {
         super.draw(ctx);
         ctx.font = this.font;
+        ctx.textBaseline = "hanging";
         if (Array.isArray(this.color)) {
             let letters = this.value.split("");
             let x = this.x;
