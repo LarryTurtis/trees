@@ -59,9 +59,9 @@ class trees {
         return [rgb.slice(0, rgb.length - 1), ", " + opacity.toString(), rgb.slice(rgb.length - 1)].join("");
     }
 
-    static getCenterX(inner, outer) {
+    static getCenterX(innerWidth, outer) {
         let outerCenter = outer.x + outer.width / 2;
-        let innerOffset = inner / 2;
+        let innerOffset = innerWidth / 2;
         let innerX = outerCenter - innerOffset;
         return innerX;
     }
@@ -141,42 +141,6 @@ class trees {
             j = i; //j is previous vertex to i
         }
         return -area / 2;
-    }
-
-    /**
-    * Accepts a percentage
-    * Returns actual number as percentage of width
-    */
-    static canvasW(number) {
-
-        let translate = (percentage) => {
-            return percentage / 100 * engine.canvas.width;
-        };
-        if (typeof number === 'number') {
-            return translate(number);
-        } else if (Array.isArray(number)) {
-            return number.map(translate);
-        } else {
-            throw new Error("Cannot translate " + number + " to percentage");
-        }
-    }
-
-    /**
-    * Accepts a percentage
-    * Returns actual number as percentage of height
-    */
-    static canvasH(number) {
-        let translate = (percentage) => {
-            return percentage / 100 * engine.canvas.height;
-        };
-        if (typeof number === 'number') {
-            return translate(number);
-        } else if (Array.isArray(number)) {
-            return number.map(translate);
-        } else {
-            throw new Error("Cannot translate " + number + " to percentage");
-        }
-
     }
 
     static intersection(line1, line2) {

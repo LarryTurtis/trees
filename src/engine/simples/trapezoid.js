@@ -7,6 +7,14 @@ class Trapezoid extends Sprite {
         super(x, y, width, height);
         this.type = "Trapezoid";
 
+        if (typeof leftAngle !== "number") {
+            throw new Error("No angle for trapezoid was supplied.")
+        }
+
+        if (typeof rightAngle !== "number") {
+            rightAngle = leftAngle;
+        }
+
         //left angle is the degree of the top left corner.
         //right angle is the degree of the top right corner.
 

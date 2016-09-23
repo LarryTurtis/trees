@@ -2,8 +2,8 @@ import { simples } from '../simples/simples.js';
 import { CircularShape } from './circularShape.js';
 
 class Circle extends CircularShape {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Circle";
 
         this.topRight = new simples.Wedge(x + width / 2, y, width / 2, height / 2);

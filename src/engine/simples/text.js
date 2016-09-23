@@ -66,7 +66,7 @@ class Text extends Sprite {
                     color = this.color[index % this.color.length]
                 }
                 ctx.fillStyle = color;
-                ctx.fillText(letter, x, this.y);
+                ctx.fillText(letter, x, this.y + index * 20);
                 x += ctx.measureText(letter).width
             });
         } else {

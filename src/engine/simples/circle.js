@@ -1,10 +1,12 @@
 import { Sprite } from '../sprite.js';
 
 class Circle extends Sprite {
-    constructor(x, y, width, height, angle) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
         this.type = "Circle";
         this._radius = width / 2;
+        this.startAngle = 0;
+        this.endAngle = 2;
     }
 
     get radius() {
@@ -33,6 +35,23 @@ class Circle extends Sprite {
         //this.radius = height/2;
     }
 
+    get startAngle() {
+        return this._startAngle;
+    }
+
+    set startAngle(startAngle) {
+        this._startAngle = startAngle * Math.PI;
+        //this.radius = height/2;
+    }
+
+    get endAngle() {
+        return this._endAngle;
+    }
+
+    set endAngle(endAngle) {
+        this._endAngle = endAngle * Math.PI;
+        //this.radius = height/2;
+    }
 
     createSATObject() {
         return [new SAT.Circle(new SAT.Vector(this.center.x, this.center.y), this.width / 2)];
@@ -43,7 +62,7 @@ class Circle extends Sprite {
 
         ctx.beginPath();
 
-        ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI)
+        ctx.arc(this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle)
 
         ctx.fill();
         if (this.lineColor) ctx.stroke();

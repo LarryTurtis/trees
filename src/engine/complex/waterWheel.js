@@ -8,7 +8,6 @@ class WaterWheel extends ComplexShape {
         this.type = "WaterWheel";
 
         let thickness = width.percent(3);
-        console.log(width, thickness);
 
         let hub = new complex.Circle(x + width.percent(37.5), y + width.percent(37.5), width.percent(25), height.percent(25));
         hub.color = trees.setOpacity("white", 1);
