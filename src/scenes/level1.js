@@ -15,6 +15,20 @@ function level1() {
         //createBalloon();
         createStripedBalloon();
     }, 1000);
+
+    createRockWall();
+}
+
+function createRockWall() {
+    let width = Width.percent(5);
+    let height = Height;
+    let x = 30;
+    let y = 30;
+
+    let rockyBorder = new engine.complex.RockyBorder(x, y, width, height);
+
+    rockyBorder.color = trees.randomColor();
+    shapes.add(rockyBorder);
 }
 
 function createBalloon() {
@@ -29,10 +43,6 @@ function createBalloon() {
         this.y -= size / 50;
     }
     shapes.add(balloon);
-}
-
-for (let i = 0; i < 25; i++) {
-
 }
 
 function createStripedBalloon() {
@@ -52,7 +62,7 @@ function createStripedBalloon() {
         return arr;
     }();
 
-    balloon.orientation = ["vertical", "diagonal", "horizontal"][trees.random(0,2)];
+    balloon.orientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
     balloon.color = trees.randomColor();
     balloon.callback = function() {
         this.y -= size / 50;
@@ -65,7 +75,7 @@ function createText() {
     let x = Width.percent(3);
     let y = Height.percent(3);
 
-    let text = new engine.simples.Text("Gary K", x, y, size, "Bungee Shade");
+    let text = new engine.simples.Text("Gary K", x, y, size, "Lato");
 
     text.color = ["rgb(0,47,57)"];
 

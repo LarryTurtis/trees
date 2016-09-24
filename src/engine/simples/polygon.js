@@ -2,8 +2,8 @@ import { Sprite } from '../sprite.js';
 import { Point } from '../point.js';
 
 class Polygon extends Sprite {
-    constructor(x, y, width, height, angle, sides) {
-        super(x, y, width, height, angle);
+    constructor(x, y, width, height, sides) {
+        super(x, y, width, height);
         this.type = "Polygon";
         this._sides = sides;
         this._points = [];

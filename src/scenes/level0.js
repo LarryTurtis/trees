@@ -7,6 +7,8 @@ let scrollDown = false;
 let scrollUp = false;
 let max = 0;
 
+let water;
+
 function level0() {
 
     Width = engine.canvas.width;
@@ -14,7 +16,7 @@ function level0() {
     engine.canvas.element.style.backgroundColor = "pink";
 
     for (let i = 0; i < 10; i++) {
-       createStripedBalloon();
+        createStripedBalloon();
     }
 
     for (let i = 0; i < 50; i++) {
@@ -23,14 +25,13 @@ function level0() {
 
     createMountains();
     createWheel();
-    createGrass();
-    createWater();
+    createGrassAndWater();
+    createRockWall();
 
     shapes.forEach(shape => {
-        if (shape.type !== "Cloud" && shape.type !== "Balloon") {
-            shape.y += Height;
-        }
+        shape.y -= Height;
     })
+
     engine.canvas.addEventListener('upArrow', function(e) {
         shapes.forEach(shape => {
             shape.y += 10;
@@ -41,6 +42,15 @@ function level0() {
             shape.y -= 10;
         })
     });
+
+}
+
+
+function createRockWall() {
+
+    // rockyBorder = new engine.complex.RockyBorder(0, Height.percent(160), Width.percent(5), Width.percent(20));
+    // rockyBorder.color = "#190D03";
+    // shapes.add(rockyBorder);
 
 }
 
@@ -87,7 +97,7 @@ function createCloud() {
 function createMountains() {
     let width = Width.percent(103);
     let height = width / 10
-    let y = Height.percent(60) - height;
+    let y = Height.percent(160) - height;
     let mountain = new engine.complex.Mountains(-100, y, width, height, 0);
     mountain.color = "black";
     mountain.collidable = false;
@@ -111,7 +121,7 @@ function createWheel() {
     let width = Width.percent(32.3);
     let height = width;
     let x = Width.percent(15);
-    let y = Height.percent(60) - height / 2;
+    let y = Height.percent(160) - height / 2;
 
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
     shapes.add(wheel);
@@ -127,26 +137,42 @@ function createWheel() {
 
 }
 
-function createWater() {
+function createGrassAndWater() {
+
+    let earth = new engine.complex.Box(0, Height.percent(200), Width, Height.percent(30));
+    earth.color = "#190D03";
+    shapes.add(earth);
+    engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
+
+    let grass = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(27));
+    grass.color = "rgb(0,74,37)";
+    shapes.add(grass);
+
+    let rockyBorder = new engine.complex.RockyBorder(Width, grass.y + grass.height.percent(99), Width.percent(3), Width);
+    rockyBorder.rotate(90, rockyBorder.a)
+    rockyBorder.color = "rgb(0,74,37)";
+    shapes.add(rockyBorder);
 
     let color = "rgb(0,47,57)";
 
-    let rect = new engine.complex.Box(0, Height.percent(60), Width.percent(60.1), Height.percent(40));
-    let wedge = new engine.simples.Wedge(Width.percent(60), Height.percent(60), Height.percent(40), Height.percent(40));
+    water = new engine.complex.Box(0, Height.percent(160), Width.percent(79.9), Width.percent(19.9));
+    water.color = color;
+    shapes.add(water);
 
-    rect.color = color;
+    let rectangle = new engine.complex.Box(0, water.y + water.height.percent(99), Width.percent(55), Width.percent(5.1));
+    rectangle.color = color;
+    shapes.add(rectangle);
+
+    let wedge = new engine.simples.Wedge(Width.percent(60), water.y + water.height.percent(99), Width.percent(5.1), Width.percent(5.1));
+    wedge.rotate(90, wedge.a);
     wedge.color = color;
-
-    shapes.add(rect);
     shapes.add(wedge);
 
-}
+    wedge = new engine.simples.Wedge(Width.percent(80), Height.percent(160), Width.percent(20), Width.percent(20));
+    wedge.rotate(-90, wedge.d)
+    wedge.color = "rgb(0,74,37)";
+    shapes.add(wedge);
 
-function createGrass() {
-    let grass = new engine.complex.Box(Width.percent(60), Height.percent(60), Width.percent(40), Height.percent(40));
-    grass.color = "rgb(0,74,37)";
-    shapes.add(grass);
-    engine.patterns.polkaDots(grass, engine.simples.Circle, 50, 2, 4, "rgb(0,44,9)");
 }
 
 export { level0 };
