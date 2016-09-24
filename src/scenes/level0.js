@@ -14,7 +14,7 @@ function level0() {
     engine.canvas.element.style.backgroundColor = "pink";
 
     for (let i = 0; i < 10; i++) {
-        createStripedBalloon();
+       createStripedBalloon();
     }
 
     for (let i = 0; i < 50; i++) {
@@ -31,29 +31,16 @@ function level0() {
             shape.y += Height;
         }
     })
-
-    setInterval(() => {
-        if (scrollDown) {
-            if (max < 60) {
-                shapes.forEach(shape => {
-                    shape.y -= 10;
-                })
-                max++;
-            } else {
-                scrollDown = false;
-            }
-        }
-        if (scrollUp) {
-            if (max < 60) {
-                shapes.forEach(shape => {
-                    shape.y += 10;
-                })
-                max++;
-            } else {
-                scrollUp = false;
-            }
-        }
-    }, 5)
+    engine.canvas.addEventListener('upArrow', function(e) {
+        shapes.forEach(shape => {
+            shape.y += 10;
+        })
+    });
+    engine.canvas.addEventListener('downArrow', function(e) {
+        shapes.forEach(shape => {
+            shape.y -= 10;
+        })
+    });
 
 }
 
@@ -129,26 +116,15 @@ function createWheel() {
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
     shapes.add(wheel);
 
-    wheel.callback = function() {
-        wheel.rotate(0.5, wheel.center);
-        this.shape.forEach(shape => {
-            if (shape.type === "Cup" && shape.y > Height.percent(60) && shape.y < Height.percent(70)) {
-                shape.fill(1);
-            }
-        })
-    }
+    // wheel.callback = function() {
+    //     wheel.rotate(0.5, wheel.center);
+    //     this.shape.forEach(shape => {
+    //         if (shape.type === "Cup" && shape.y > Height.percent(60) && shape.y < Height.percent(70)) {
+    //             shape.fill(1);
+    //         }
+    //     })
+    // }
 
-    engine.canvas.addEventListener('upArrow', function(e) {
-        wheel.rotate(-0.5, wheel.center);
-        max = 0;
-        scrollUp = true;
-    });
-    engine.canvas.addEventListener('downArrow', function(e) {
-        wheel.rotate(0.5, wheel.center);
-        max = 0;
-        scrollDown = true;
-
-    });
 }
 
 function createWater() {
