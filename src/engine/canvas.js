@@ -143,7 +143,6 @@ class Canvas {
 
         now = Date.now();
         delta = now - then;
-
         if (delta > this.interval) {
             // update time stuffs
 
@@ -166,15 +165,15 @@ class Canvas {
                 if (!this.blur) this.ctx.clearRect(0, 0, this.width, this.height);
 
                 shapesRegistry.forEach(shape => {
-                    if (shape.x > this.width * 3 || shape.x + shape.width < -this.height) {
-                        shapesRegistry.remove(shape);
-                        return;
-                    }
+                    // if (shape.x > this.width * 3 || shape.x + shape.width < -this.height) {
+                    //     shapesRegistry.remove(shape);
+                    //     return;
+                    // }
 
-                    if (shape.y > this.height * 3 || shape.y + shape.height < -this.height) {
-                        shapesRegistry.remove(shape);
-                        return;
-                    }
+                    // if (shape.y > this.height * 3 || shape.y + shape.height * 2 < 0) {
+                    //     shapesRegistry.remove(shape);
+                    //     return;
+                    // }
 
                     let collisions = [];
 

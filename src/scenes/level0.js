@@ -3,6 +3,9 @@ import { engine } from '../engine/engine.js';
 let shapes = engine.shapesRegistry;
 let Width;
 let Height;
+let scrollDown = false;
+let scrollUp = false;
+let max = 0;
 
 function level0() {
 
@@ -10,7 +13,11 @@ function level0() {
     Height = engine.canvas.height;
     engine.canvas.element.style.backgroundColor = "pink";
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 10; i++) {
+        createStripedBalloon();
+    }
+
+    for (let i = 0; i < 50; i++) {
         createCloud();
     }
 
@@ -19,12 +26,66 @@ function level0() {
     createGrass();
     createWater();
 
+    shapes.forEach(shape => {
+        if (shape.type !== "Cloud" && shape.type !== "Balloon") {
+            shape.y += Height;
+        }
+    })
+
+    setInterval(() => {
+        if (scrollDown) {
+            if (max < 60) {
+                shapes.forEach(shape => {
+                    shape.y -= 10;
+                })
+                max++;
+            } else {
+                scrollDown = false;
+            }
+        }
+        if (scrollUp) {
+            if (max < 60) {
+                shapes.forEach(shape => {
+                    shape.y += 10;
+                })
+                max++;
+            } else {
+                scrollUp = false;
+            }
+        }
+    }, 5)
+
+}
+
+function createStripedBalloon() {
+    let size = Width.percent(trees.random(1, 5));
+    let x = Width.percent(trees.random(0, 95));
+    let y = Height.percent(trees.random(0, 100));
+
+    let balloon = new engine.complex.StripedBalloon(x, y, size, size);
+    balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
+    balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
+
+    balloon.stripeColor = function() {
+        let arr = [];
+        for (let i = 0; i < trees.random(1, 25); i++) {
+            arr.push(trees.randomColor());
+        }
+        return arr;
+    }();
+
+    balloon.orientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
+    balloon.color = trees.randomColor();
+    balloon.callback = function() {
+        this.y -= size / 50;
+    }
+    shapes.add(balloon);
 }
 
 function createCloud() {
     let width = Width.percent(trees.random(2, 15));
     let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(1, 50));
+    let y = Height.percent(trees.random(0, 160));
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;
@@ -69,19 +130,24 @@ function createWheel() {
     shapes.add(wheel);
 
     wheel.callback = function() {
+        wheel.rotate(0.5, wheel.center);
         this.shape.forEach(shape => {
-            if (shape.type === "Cup" && shape.y > Height.percent(60)) {
+            if (shape.type === "Cup" && shape.y > Height.percent(60) && shape.y < Height.percent(70)) {
                 shape.fill(1);
             }
         })
     }
 
     engine.canvas.addEventListener('upArrow', function(e) {
-        wheel.rotate(0.5, wheel.center);
-
+        wheel.rotate(-0.5, wheel.center);
+        max = 0;
+        scrollUp = true;
     });
     engine.canvas.addEventListener('downArrow', function(e) {
-        wheel.rotate(-0.5, wheel.center);
+        wheel.rotate(0.5, wheel.center);
+        max = 0;
+        scrollDown = true;
+
     });
 }
 
