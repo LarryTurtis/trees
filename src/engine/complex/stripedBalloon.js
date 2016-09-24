@@ -9,10 +9,8 @@ class StripedBalloon extends HotAirBalloon {
     }
 
     addStripes() {
-        console.log('nothing');
-        if (this.stripeWidth && this.stripeSpacing && this.stripeColor) {
-            console.log('something');
-            this.stripes = patterns.stripes(this.balloon, this.stripeWidth, this.stripeSpacing, this.stripeColor);
+        if (this.stripeWidth && this.stripeSpacing && this.stripeColor && this.orientation) {
+            this.stripes = patterns.stripes(this.balloon, this.stripeWidth, this.stripeSpacing, this.stripeColor, this.orientation);
 
             this.stripes.forEach(stripe => {
                 this.addShape(stripe);
@@ -45,6 +43,15 @@ class StripedBalloon extends HotAirBalloon {
 
     set stripeSpacing(stripeSpacing) {
         this._stripeSpacing = stripeSpacing;
+        this.addStripes();
+    }
+
+    get orientation() {
+        return this._orientation;
+    }
+
+    set orientation(orientation) {
+        this._orientation = orientation;
         this.addStripes();
     }
 

@@ -166,12 +166,12 @@ class Canvas {
                 if (!this.blur) this.ctx.clearRect(0, 0, this.width, this.height);
 
                 shapesRegistry.forEach(shape => {
-                    if (shape.x > this.width * 3 || shape.x + shape.width < 0) {
+                    if (shape.x > this.width * 3 || shape.x + shape.width < -this.height) {
                         shapesRegistry.remove(shape);
                         return;
                     }
 
-                    if (shape.y > this.height * 3 || shape.y + shape.height < 0) {
+                    if (shape.y > this.height * 3 || shape.y + shape.height < -this.height) {
                         shapesRegistry.remove(shape);
                         return;
                     }

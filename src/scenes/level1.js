@@ -12,12 +12,12 @@ function level1() {
 
     createText();
     createBalloon();
-   createStripedBalloon();
+    createStripedBalloon();
 }
 
 function createBalloon() {
     for (let i = 0; i < 25; i++) {
-        let size = Width.percent(trees.random(5, 15));
+        let size = Width.percent(trees.random(i));
         let x = Width.percent(trees.random(0, 95));
         let y = Height.percent(trees.random(0, 100));
 
@@ -25,7 +25,7 @@ function createBalloon() {
 
         balloon.color = trees.randomColor();
         balloon.callback = function() {
-            this.y -= size / 10;
+              this.y -= size / 100;
         }
         shapes.add(balloon);
     }
@@ -33,17 +33,18 @@ function createBalloon() {
 
 function createStripedBalloon() {
     for (let i = 0; i < 25; i++) {
-        let size = Width.percent(trees.random(5, 15));
+        let size = Width.percent(i);
         let x = Width.percent(trees.random(0, 95));
         let y = Height.percent(trees.random(0, 100));
 
         let balloon = new engine.complex.StripedBalloon(x, y, size, size);
-        balloon.stripeWidth = balloon.width.percent(trees.random(10, 20));
-        balloon.stripeSpacing = balloon.width.percent(trees.random(10, 20));
+        balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
+        balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
         balloon.stripeColor = trees.randomColor();
+        balloon.orientation = trees.posNeg() < 0 ? "vertical" : "horizontal";
         balloon.color = trees.randomColor();
         balloon.callback = function() {
-            this.y -= size / 10;
+              this.y -= size / 100;
         }
         shapes.add(balloon);
     }
