@@ -149,7 +149,7 @@ function createGrassAndWater() {
     grass.color = "rgb(0,74,37)";
     shapes.add(grass);
 
-    new engine.complex.RockyBorder(grass, Width.percent(3), grass.lines()[2]);
+    new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
     let color = "rgb(0,47,57)";
 
