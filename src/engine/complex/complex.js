@@ -29,6 +29,7 @@ import { Border } from './border.js';
 import { RockyBorder } from './rockyBorder.js';
 import { ScallopedBorder } from './scallopedBorder.js';
 import { ShoreLine } from './shoreLine.js';
+import { Lake } from './lake.js';
 import { YinYang } from './yinYang.js';
 import { YangYin } from './yangYin.js';
 
@@ -64,6 +65,7 @@ let complex = {
     RockyBorder: RockyBorder,
     ScallopedBorder: ScallopedBorder,
     ShoreLine: ShoreLine,
+    Lake: Lake,
     YinYang: YinYang,
     YangYin: YangYin
 };

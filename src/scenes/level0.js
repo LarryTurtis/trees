@@ -145,25 +145,16 @@ function createGrassAndWater() {
     engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
 
-    let grass = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(27));
+    water = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(50));
+    water.color = "rgb(0,47,57)";
+    shapes.add(water);
+
+    let grass = new engine.complex.Lake(0, Height.percent(160), Width, Width.percent(50));
     grass.color = "rgb(0,74,37)";
     shapes.add(grass);
-
+    
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
-    let color = "rgb(0,47,57)";
-
-    water = new engine.complex.Box(0, Height.percent(160), Width.percent(60), Width.percent(25));
-    water.color = color;
-    shapes.add(water);
-    let wedge = new engine.simples.Wedge(Width.percent(80), Height.percent(160), Width.percent(20), Width.percent(20));
-    wedge.rotate(90, wedge.a)
-    wedge.color = color;
-    shapes.add(wedge);
-
-    let shoreLine = new engine.complex.ShoreLine(water.x, water.y + Width.percent(20), Width.percent(60), Width.percent(5));
-    shoreLine.color = "rgb(0,74,37)";
-    shapes.add(shoreLine)
 
 
 }
