@@ -27,6 +27,7 @@ import { HotAirBalloon } from './hotAirBalloon.js';
 import { StripedBalloon } from './stripedBalloon.js';
 import { Border } from './border.js';
 import { RockyBorder } from './rockyBorder.js';
+import { ScallopedBorder } from './scallopedBorder.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -57,7 +58,8 @@ let complex = {
     Balloon: Balloon,
     StripedBalloon: StripedBalloon,
     Border: Border,
-    RockyBorder: RockyBorder
+    RockyBorder: RockyBorder,
+    ScallopedBorder: ScallopedBorder
 };
 
 export { complex }
