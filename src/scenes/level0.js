@@ -153,16 +153,18 @@ function createGrassAndWater() {
 
     let color = "rgb(0,47,57)";
 
-    water = new engine.complex.Box(0, Height.percent(160), Width.percent(60), Width.percent(20));
+    water = new engine.complex.Box(0, Height.percent(160), Width.percent(60), Width.percent(25));
     water.color = color;
     shapes.add(water);
-
-    new engine.complex.ScallopedBorder(water, Width.percent(2), water.lines()[2]);
-
     let wedge = new engine.simples.Wedge(Width.percent(80), Height.percent(160), Width.percent(20), Width.percent(20));
     wedge.rotate(90, wedge.a)
     wedge.color = color;
     shapes.add(wedge);
+
+    let shoreLine = new engine.complex.ShoreLine(water.x, water.y + Width.percent(20), Width.percent(60), Width.percent(5));
+    shoreLine.color = "rgb(0,74,37)";
+    shapes.add(shoreLine)
+
 
 }
 

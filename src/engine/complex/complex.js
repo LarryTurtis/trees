@@ -28,6 +28,9 @@ import { StripedBalloon } from './stripedBalloon.js';
 import { Border } from './border.js';
 import { RockyBorder } from './rockyBorder.js';
 import { ScallopedBorder } from './scallopedBorder.js';
+import { ShoreLine } from './shoreLine.js';
+import { YinYang } from './yinYang.js';
+import { YangYin } from './yangYin.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -59,7 +62,10 @@ let complex = {
     StripedBalloon: StripedBalloon,
     Border: Border,
     RockyBorder: RockyBorder,
-    ScallopedBorder: ScallopedBorder
+    ScallopedBorder: ScallopedBorder,
+    ShoreLine: ShoreLine,
+    YinYang: YinYang,
+    YangYin: YangYin
 };
 
 export { complex }

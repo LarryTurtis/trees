@@ -38,6 +38,14 @@ class ComplexShape extends Sprite {
         this._shape = shape;
     }
 
+    get lastShape() {
+        return this._shape[this._shape.length - 1];
+    }
+
+    get firstShape() {
+        return this._shape[0];
+    }
+
     get pathOnly() {
         return super.pathOnly;
     }
