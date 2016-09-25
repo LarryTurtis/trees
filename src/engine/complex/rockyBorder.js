@@ -1,23 +1,38 @@
 import { simples } from '../simples/simples.js';
-import { ComplexShape } from './complexShape.js';
+import { Border } from './border.js';
 
-class RockyBorder extends ComplexShape {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
+class RockyBorder extends Border {
+    constructor(container, thickness, edgeLine) {
+        super(container, thickness, edgeLine);
         this.type = "RockyBorder";
+        let numberOfRocks = Math.floor((this.width / thickness) * 2);
+        let current = trees.copyPoint(edgeLine.start);
 
-        let numberOfRocks = (height / width) * 2;
-        let currentY = y;
+        let angle = trees.getAngle(edgeLine.start, edgeLine.end);
+        let orientation = trees.orientation(edgeLine);
+        let currentLength = 0;
 
-        for (let i = 0; i < numberOfRocks; i++) {
-            let rock = new simples.Polygon(x, currentY, width, width, trees.random(3,6));
-            rock.rotate(trees.random(0, 180), rock.center);
-            this.addShape(rock);
-            currentY += width.percent(50);
+        if (orientation === "I") {
+            current.y -= thickness.percent(50);
+        } else if (orientation === "II") {
+            current.x -= thickness.percent(50);
+            current.y -= thickness;
+        } else if (orientation === "III") {
+            current.x -= thickness;
+            current.y -= thickness.percent(50);
+        } else if (orientation === "IV") {
+            current.x -= thickness.percent(50);
+            current.y -= thickness.percent(50);
         }
 
-        let backingRectangle = new simples.Rectangle(x, y, width / 2, height);
-        this.addShape(backingRectangle);
+        for (let i = 0; i < numberOfRocks; i++) {
+            let rock = new simples.Polygon(current.x, current.y, thickness, thickness, trees.random(3, 6));
+            rock.rotate(trees.random(0, 180), rock.center);
+            rock.color = container.color;
+            container.addShape(rock);
+            current = trees.getPointOnLine(current, thickness.percent(50), angle);
+            currentLength += thickness.percent(50);
+        }
 
     }
 

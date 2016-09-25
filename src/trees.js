@@ -143,6 +143,23 @@ class trees {
         return -area / 2;
     }
 
+    static orientation(line) {
+        let result = null;
+            if (line.start.x <= line.end.x && line.start.y <= line.end.y) {
+                result = "I";
+            }
+            if (line.start.x <= line.end.x && line.start.y > line.end.y) {
+                result = "II";
+            }
+            if (line.start.x > line.end.x && line.start.y > line.end.y) {
+                result = "III";
+            }
+            if (line.start.x > line.end.x && line.start.y <= line.end.y) {
+                result = "IV";
+            }
+        return result;
+    }
+
     static intersection(line1, line2) {
         // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
         var denominator, a, b, numerator1, numerator2, result = {

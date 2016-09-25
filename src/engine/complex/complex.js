@@ -25,6 +25,7 @@ import { TestTube } from './testTube.js';
 import { Balloon } from './balloon.js';
 import { HotAirBalloon } from './hotAirBalloon.js';
 import { StripedBalloon } from './stripedBalloon.js';
+import { Border } from './border.js';
 import { RockyBorder } from './rockyBorder.js';
 
 let complex = {
@@ -55,6 +56,7 @@ let complex = {
     HotAirBalloon: HotAirBalloon,
     Balloon: Balloon,
     StripedBalloon: StripedBalloon,
+    Border: Border,
     RockyBorder: RockyBorder
 };
 

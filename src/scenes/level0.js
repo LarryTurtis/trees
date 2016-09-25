@@ -143,15 +143,13 @@ function createGrassAndWater() {
     earth.color = "#190D03";
     shapes.add(earth);
     engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
+    new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
 
     let grass = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(27));
     grass.color = "rgb(0,74,37)";
     shapes.add(grass);
 
-    let rockyBorder = new engine.complex.RockyBorder(Width, grass.y + grass.height.percent(99), Width.percent(3), Width);
-    rockyBorder.rotate(90, rockyBorder.a)
-    rockyBorder.color = "rgb(0,74,37)";
-    shapes.add(rockyBorder);
+    new engine.complex.RockyBorder(grass, Width.percent(3), grass.lines()[2]);
 
     let color = "rgb(0,47,57)";
 
