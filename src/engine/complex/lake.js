@@ -20,7 +20,7 @@ class Lake extends ComplexShape {
         this.shoreLine2 = new complex.ShoreLine(x + width.percent(15), y + height - width.percent(15), width.percent(40), width.percent(15));
         this.addShape(this.shoreLine2);
 
-        this.rectangle1 = new simples.Rectangle(x + width.percent(70), y + height - width.percent(30), width.percent(40), width.percent(15));
+        this.rectangle1 = new simples.Rectangle(x + width.percent(70), y + height - width.percent(30), width.percent(30), width.percent(15));
         this.rectangle2 = new simples.Rectangle(x + width.percent(90), y, width.percent(10), width.percent(20));
         this.addShape(this.rectangle1);
         this.addShape(this.rectangle2);
