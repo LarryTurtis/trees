@@ -11,7 +11,7 @@ function drawStaticShapes() {
                 shapesRegistry.staticForegroundCanvas.ctx.clearRect(0, 0, shapesRegistry.staticForegroundCanvas.width, shapesRegistry.staticForegroundCanvas.height);
             }
 
-            shapesRegistry.forEach(shape => {
+            shapesRegistry.staticShapes.forEach(shape => {
                 if (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10)) {
                     //shapesRegistry.remove(shape);
                     return;
