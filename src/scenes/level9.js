@@ -14,9 +14,9 @@ function level9() {
     testTube = createTestTube();
     // shapes.add(hose);
 
-    shapes.add(cup);
-    shapes.add(erlenmeyer);
-    shapes.add(testTube);
+    shapes.addToDynamicForeground(cup);
+    shapes.addToDynamicForeground(erlenmeyer);
+    shapes.addToDynamicForeground(testTube);
 
     // hose.callback = function() {
     //     if (cup.empty) {
@@ -27,8 +27,8 @@ function level9() {
     // };
 
     cup.callback = function() {
-            //cup.rotate(1, cup.center);
-            //cup.y+= 3
+        //cup.rotate(1, cup.center);
+        //cup.y+= 3
         // if (hose.full && !cup.empty) {
         //    cup.fill(1);
         //     hose.rotate(1, cup.center);
@@ -43,19 +43,21 @@ function level9() {
     //     //this.rotate(-1, this.center)
     // }
 
-    engine.canvas.addEventListener('upArrow', function(e) {
-        hose.bend(-1);
-        erlenmeyer.rotate(-1, erlenmeyer.center)
-         cup.rotate(-1, cup.center);
-        testTube.levelLine = testTube.y + testTube.height;
-        testTube.fill(10);
-        console.log(testTube.empty);
-    });
-    engine.canvas.addEventListener('downArrow', function(e) {
-        hose.bend(1);
-         erlenmeyer.rotate(1, erlenmeyer.center)
-         cup.rotate(1, cup.center)
-        testTube.rotate(1, cup.center);
+    shapes.allCanvases.forEach(canvas => {
+        canvas.addEventListener('upArrow', function(e) {
+            hose.bend(-1);
+            erlenmeyer.rotate(-1, erlenmeyer.center)
+            cup.rotate(-1, cup.center);
+            testTube.levelLine = testTube.y + testTube.height;
+            testTube.fill(10);
+            console.log(testTube.empty);
+        });
+        canvas.addEventListener('downArrow', function(e) {
+            hose.bend(1);
+            erlenmeyer.rotate(1, erlenmeyer.center)
+            cup.rotate(1, cup.center)
+            testTube.rotate(1, cup.center);
+        });
     });
 
 }

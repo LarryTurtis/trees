@@ -40,13 +40,17 @@ function level0() {
     shapes.allCanvases.forEach(canvas => {
         canvas.addEventListener('upArrow', function(e) {
             shapes.forEach(shape => {
+                shape.scrollOn = true;
                 shape.y += 200;
+                shape.scrollOn = false;
             });
             engine.drawStaticShapes();
         });
         canvas.addEventListener('downArrow', function(e) {
             shapes.forEach(shape => {
+                shape.scrollOn = true;
                 shape.y -= 200;
+                shape.scrollOn = false;
             });
             engine.drawStaticShapes();
         });
@@ -114,9 +118,9 @@ function createCloud() {
     let opacity = 1 - width / 300;
     cloud.color = "rgba(0,0,0, " + opacity + ")";
     cloud.xSpeed = height / 1000;
-    // cloud.callback = function() {
-    //     this.x += this.xSpeed;
-    // }
+    cloud.callback = function() {
+        this.x += this.xSpeed;
+    }
     shapes.add(cloud);
 }
 

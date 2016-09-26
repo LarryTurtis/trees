@@ -8,13 +8,22 @@ class Pour {
         this.addDrop();
         this.type = "Pour";
 
-        this.oscillateSpeed = 100;
+        this.oscillateSpeed = 4;
         this.oscillate = false;
         this.oscillateInterval = 1;
 
-        this.oscillateTimer = setInterval(() => {
-            this.oscillateInterval *= -1;
-        }, this.oscillateSpeed);
+        this.oscillateCounter = 0;
+    }
+
+    animate() {
+        if (this.oscillate) {
+            if (this.oscillateCounter < this.oscillateSpeed) {
+                this.oscillateCounter++;
+            } else {
+                this.oscillateCounter = 0;
+                this.oscillateInterval *= -1;
+            }
+        }
     }
 
     pour(amount) {

@@ -10,7 +10,6 @@ class PourComposite extends ComplexShape {
         this.pours = [];
         this._pourSpeed = POURSPEED;
         this._pouring = false;
-        this.pourTimer = null;
     }
 
     pour() {
@@ -79,6 +78,14 @@ class PourComposite extends ComplexShape {
 
     animate() {
         if (this.pouring || this.finishing) this.pour();
+        if (!this.pouring && this.finishing) {
+            if (!this.activePour.drops.length) this.finishing = false;
+        }
+        this.pours.forEach(pour => {
+            if (pour.animate) {
+                pour.animate();
+            }
+        })
     }
 
     start() {
@@ -91,13 +98,6 @@ class PourComposite extends ComplexShape {
     stop() {
         this.pouring = false;
         this.finishing = true;
-        this.pourTimer = setInterval(() => {
-            if (!this.activePour.drops.length) {
-                this.finishing = false;
-                clearInterval(this.pourTimer);
-                this.pourTimer = null;
-            }
-        }, 10);
     }
 
     createSATObject() {
