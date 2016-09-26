@@ -1,13 +1,4 @@
-import { ShapesRegistry } from './shapesregistry.js'
-import { updateCollisions } from './collisions/collisionDetection.js'
-import { collisionHandler } from './collisions/collisionHandler.js'
 import { Point } from './point.js'
-
-let shapesRegistry = new ShapesRegistry();
-let now;
-let then = Date.now();
-let delta;
-let instance = null;
 
 CanvasRenderingContext2D.prototype.curve = function(points) {
     if (points) {
@@ -34,36 +25,28 @@ CanvasRenderingContext2D.prototype.yArc = function(arc) {
 };
 
 class Canvas {
-    constructor() {
-        if (!instance) {
-            instance = this;
-            this.element = document.createElement('canvas');
-            this.ctx = this.element.getContext("2d");
-            this._center = new Point(this.element.width / 2, this.element.height / 2);
-            this._width = this.element.width;
-            this._height = this.element.height;
-            this._fps = 24;
-            this.interval = 1000 / this._fps;
-            this.blur = false;
-            this.parentNode = document.getElementById("main") || document.body;
+    constructor(parentNodeName) {
+        this.element = document.createElement('canvas');
+        this.ctx = this.element.getContext("2d");
+        this._center = new Point(this.element.width / 2, this.element.height / 2);
+        this._width = this.element.width;
+        this._height = this.element.height;
+        this.parentNode = document.getElementById(parentNodeName) || document.body;
 
-            let dpr = window.devicePixelRatio || 1;
-            let bsr = this.ctx.webkitBackingStorePixelRatio ||
-                this.ctx.mozBackingStorePixelRatio ||
-                this.ctx.msBackingStorePixelRatio ||
-                this.ctx.oBackingStorePixelRatio ||
-                this.ctx.backingStorePixelRatio || 1;
+        let dpr = window.devicePixelRatio || 1;
+        let bsr = this.ctx.webkitBackingStorePixelRatio ||
+            this.ctx.mozBackingStorePixelRatio ||
+            this.ctx.msBackingStorePixelRatio ||
+            this.ctx.oBackingStorePixelRatio ||
+            this.ctx.backingStorePixelRatio || 1;
 
-            this.pixelRatio = dpr / bsr;
+        this.pixelRatio = dpr / bsr;
 
-            //Create canvas with the device resolution.
-            this.createCanvas(500, 250);
+        //Create canvas with the device resolution.
+        this.createCanvas(500, 250);
 
-            //Create canvas with a custom resolution.
-            //var myCustomCanvas = createHiDPICanvas(500, 200, 4);
-        }
-
-        return instance;
+        //Create canvas with a custom resolution.
+        //var myCustomCanvas = createHiDPICanvas(500, 200, 4);
     }
 
     measureText(text, font) {
@@ -107,15 +90,6 @@ class Canvas {
         return this._width;
     }
 
-    get fps() {
-        return this._fps;
-    }
-
-    set fps(fps) {
-        this._fps = fps;
-        this.interval = 1000 / fps;
-    }
-
     get height() {
         return this._height;
     }
@@ -135,74 +109,6 @@ class Canvas {
     getBoundingClientRect() {
         return this.element.getBoundingClientRect();
     }
-
-    animate() {
-        requestAnimationFrame(() => {
-            this.animate();
-        });
-
-        now = Date.now();
-        delta = now - then;
-
-        if (delta > this.interval) {
-            // update time stuffs
-
-            // Just `then = now` is not enough.
-            // Lets say we set fps at 10 which means
-            // each frame must take 100ms
-            // Now frame executes in 16ms (60fps) so
-            // the loop iterates 7 times (16*7 = 112ms) until
-            // delta > interval === true
-            // Eventually this lowers down the FPS as
-            // 112*10 = 1120ms (NOT 1000ms).
-            // So we have to get rid of that extra 12ms
-            // by subtracting delta (112) % interval (100).
-            // Hope that makes sense.
-
-            then = now - (delta % this.interval);
-
-            // ... Code for Drawing the Frame ...
-            if (shapesRegistry.length) {
-                if (!this.blur) this.ctx.clearRect(0, 0, this.width, this.height);
-
-                shapesRegistry.forEach(shape => {
-                    if (shape.boundary.a.x > this.width.percent(110) || shape.boundary.b.x < -this.width.percent(10)) {
-                        //shapesRegistry.remove(shape);
-                        return;
-                    }
-
-                    if (shape.boundary.a.y > this.height.percent(110) || shape.boundary.d.y < -this.height.percent(10)) {
-                        //shapesRegistry.remove(shape);
-                        return;
-                    }
-
-                    let collisions = [];
-
-                    if (shape.animate) {
-                        shape.animate();
-                    }
-                    if (shape.callback) {
-                        shape.callback();
-                    }
-
-                    if (shape.collidable) {
-                        collisions = updateCollisions(shape);
-                        if (collisions.length) {
-                            collisions.forEach(collisionHandler);
-                        }
-                    }
-
-                    if (shape.visible) shape.draw(this.ctx);
-                });
-
-            }
-
-
-        }
-
-
-    }
-
 
 };
 

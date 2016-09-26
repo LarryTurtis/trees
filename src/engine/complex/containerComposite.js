@@ -18,7 +18,7 @@ class ContainerComposite extends ComplexShape {
         this._speed = 10;
         this._collidable = false;
         this._thickness = 0;
-        this.drainVolume = 0.25;
+        this.drainVolume = 0.5;
     }
 
     get x() {
@@ -387,7 +387,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     stopPour() {
-        if (this.pourComposite) {
+        if (this.pourComposite && this.pourComposite.pouring) {
             this.pourComposite.stop();
         }
     }

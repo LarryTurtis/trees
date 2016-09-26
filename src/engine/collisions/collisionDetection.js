@@ -1,7 +1,6 @@
 import { GlobalCollisionRegistry } from './globalCollisionRegistry.js';
 import { ShapesRegistry } from '../shapesregistry.js';
 
-
 function broadPhase(o1, o2) {
     if (o1.boundary.a.x <= o2.boundary.b.x &&
         o1.boundary.b.x >= o2.boundary.a.x &&

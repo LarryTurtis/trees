@@ -5,7 +5,6 @@ let keyboardEvents = {
     initialize: initialize
 }
 
-let canvas = new Canvas();
 let shapesRegistry = new ShapesRegistry();
 
 let boundingBoxes = false;
@@ -55,22 +54,22 @@ function mapKeys(e) {
     switch (e.keyCode) {
         case 37: // left
             //previousScene();
-            canvas.dispatchEvent(leftArrow);
+            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(leftArrow) });
             break;
         case 32: // space
             toggleBoundingBoxes();
             break;
         case 38: // up
-            //if (canvas.fps < 60) canvas.fps += 10;
-            canvas.dispatchEvent(upArrow);
+            //if (shapesRegistry.canvas.fps < 60) shapesRegistry.canvas.fps += 10;
+            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(upArrow) });
             break;
         case 39: // right
             //nextScene();
-            canvas.dispatchEvent(rightArrow);
+            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(rightArrow) });
             break;
         case 40: // down
-            //if (canvas.fps > 0) canvas.fps -= 1;
-            canvas.dispatchEvent(downArrow);
+            //if (shapesRegistry.canvas.fps > 0) shapesRegistry.canvas.fps -= 1;
+            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(downArrow) });
             break;
 
         default:
