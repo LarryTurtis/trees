@@ -101,7 +101,7 @@ function createStripedBalloon() {
         return arr;
     }();
 
-    balloon.orientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
+    balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
     balloon.color = trees.randomColor();
     balloon.callback = function() {
         this.y -= size / 50;
@@ -186,19 +186,36 @@ function createGrassAndWater() {
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
-    shapes.addToStaticForeground(caveBackground);
-    
-    for (let i = 0; i < 100; i++) {
+    shapes.addToStaticBackground(caveBackground);
+
+    for (let i = 0; i < 150; i++) {
 
         let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
         let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
-        let height = trees.random(caveBackground.width.percent(0.1), caveBackground.width.percent(1));
+        let height = trees.random(caveBackground.width.percent(.1), caveBackground.width.percent(1));
         let width = height;
 
         let crystal = new engine.complex.Crystal(x, y, width, height);
-        crystal.rotate(trees.random(0, 180), crystal.center);
-        shapes.addToStaticForeground(crystal);
         crystal.color = trees.randomColor();
+        crystal.rotate(trees.random(0, 180), crystal.center);
+        shapes.addToStaticBackground(crystal);
+    }
+
+    for (let i = 0; i < 10; i++) {
+
+        let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
+        let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
+        let height = trees.random(caveBackground.width.percent(2), caveBackground.width.percent(4));
+        let width = height / 2;
+
+        let gleamingCrystal = new engine.complex.GleamingCrystal(x, y, width, height);
+        gleamingCrystal.color = trees.randomColor();
+        gleamingCrystal.stripeWidth = gleamingCrystal.width.percent(10);
+        gleamingCrystal.stripeSpacing = gleamingCrystal.width.percent(90);
+        gleamingCrystal.stripeColor = [trees.setOpacity("white", 0.5)];
+        gleamingCrystal.stripeOrientation = "vertical";
+        gleamingCrystal.rotate(trees.random(0, 180), gleamingCrystal.center);
+        shapes.addToStaticBackground(gleamingCrystal);
     }
 
     shapes.addToStaticForeground(cave);

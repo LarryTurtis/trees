@@ -6,7 +6,7 @@ function stripes(container, stripeSize, stripeSpacing, color, orientation) {
     if (!orientation || orientation === "vertical") {
 
         let numStripes = container.width / (stripeSize + stripeSpacing);
-        let currentStripe = container.x + stripeSpacing;
+        let currentStripe = container.x;
 
         for (let i = 0; i < numStripes; i++) {
             let stripe = new simples.Rectangle(currentStripe, container.y, stripeSize, container.height);

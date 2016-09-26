@@ -82,8 +82,8 @@ class Triangle extends Sprite {
         ctx.lineTo(this.tb.x, this.tb.y)
         ctx.lineTo(this.tc.x, this.tc.y)
         ctx.lineTo(this.ta.x, this.ta.y)
-        ctx.fill();
-        if (this.lineColor) ctx.stroke();
+        if (!this.pathOnly) ctx.fill();
+        if (!this.pathOnly && this.lineColor) ctx.stroke();
         ctx.closePath();
     }
 

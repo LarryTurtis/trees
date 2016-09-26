@@ -1,22 +1,42 @@
 import { simples } from '../simples/simples.js';
 import { patterns } from '../patterns/patterns.js';
-import { HotAirBalloon } from './hotAirBalloon.js';
+import { Crystal } from './crystal.js';
+import { ShapesRegistry } from '../shapesregistry.js';
 
-class StripedBalloon extends HotAirBalloon {
+let shapesRegistry = new ShapesRegistry();
+
+class GleamingCrystal extends Crystal {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.type = "Balloon";
+        this.type = "GleamingCrystal";
     }
 
     addStripes() {
         if (this.stripeWidth && this.stripeSpacing && this.stripeColor && this.stripeOrientation) {
-            this.stripes = patterns.stripes(this.balloon, this.stripeWidth, this.stripeSpacing, this.stripeColor, this.stripeOrientation);
+            this.stripes = patterns.stripes(this.triangle5, this.stripeWidth, this.stripeSpacing, this.stripeColor, this.stripeOrientation);
 
             this.stripes.forEach(stripe => {
-                this.addShape(stripe);
+                let counter = 0;
+                stripe.animate = (function() {
+                    if (counter < this.width.percent(200)) {
+                        let next = trees.getPointOnLine(this.a, counter++, trees.getAngle(this.a, this.b));
+                        stripe.x = next.x;
+                        stripe.y = next.y;
+                    } else {
+                        counter = 0;
+                    }
+                }).bind(this);
+                shapesRegistry.addToDynamicBackground(stripe);
             });
 
         }
+    }
+
+    rotate(deg, transformOrigin) {
+        super.rotate(deg, transformOrigin);
+        this.stripes.forEach(stripe => {
+            stripe.rotate(deg, transformOrigin);
+        });
     }
 
     get stripeColor() {
@@ -59,4 +79,4 @@ class StripedBalloon extends HotAirBalloon {
 
 }
 
-export { StripedBalloon }
+export { GleamingCrystal }

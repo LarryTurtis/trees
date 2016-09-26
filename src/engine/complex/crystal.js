@@ -8,7 +8,7 @@ class Crystal extends ComplexShape {
 
         this.type = "Crystal";
 
-        let horizontalLine = trees.random(0, this.height / 2);
+        let horizontalLine = trees.random(this.height.percent(10), this.height.percent(50));
         let verticalLine1 = trees.random(0, this.width / 2);
         let verticalLine2 = trees.random(verticalLine1, this.width);
 
@@ -20,26 +20,26 @@ class Crystal extends ComplexShape {
         let centerRight = new Point(this.x + verticalLine2, this.y + horizontalLine);
         let right = new Point(this.x + this.width, this.y + horizontalLine);
 
-        let triangle1 = new simples.Triangle(x, y, width, height);
-        let triangle2 = new simples.Triangle(x, y, width, height);
-        let triangle3 = new simples.Triangle(x, y, width, height);
-        let triangle4 = new simples.Triangle(x, y, width, height);
-        let triangle5 = new simples.Triangle(x, y, width, height);
-        let triangle6 = new simples.Triangle(x, y, width, height);
+        this.triangle1 = new simples.Triangle(x, y, width, height);
+        this.triangle2 = new simples.Triangle(x, y, width, height);
+        this.triangle3 = new simples.Triangle(x, y, width, height);
+        this.triangle4 = new simples.Triangle(x, y, width, height);
+        this.triangle5 = new simples.Triangle(x, y, width, height);
+        this.triangle6 = new simples.Triangle(x, y, width, height);
 
-        triangle1.points = [left, top, centerLeft];
-        triangle2.points = [centerLeft, top, centerRight];
-        triangle3.points = [centerRight, top, right];
-        triangle4.points = [left, bottom, centerLeft];
-        triangle5.points = [centerLeft, bottom, centerRight];
-        triangle6.points = [centerRight, bottom, right];
+        this.triangle1.points = [left, top, centerLeft];
+        this.triangle2.points = [centerLeft, top, centerRight];
+        this.triangle3.points = [centerRight, top, right];
+        this.triangle4.points = [left, bottom, centerLeft];
+        this.triangle5.points = [centerLeft, bottom, centerRight];
+        this.triangle6.points = [centerRight, bottom, right];
 
-        this.addShape(triangle1);
-        this.addShape(triangle2);
-        this.addShape(triangle3);
-        this.addShape(triangle4);
-        this.addShape(triangle5);
-        this.addShape(triangle6);
+        this.addShape(this.triangle1);
+        this.addShape(this.triangle2);
+        this.addShape(this.triangle3);
+        this.addShape(this.triangle4);
+        this.addShape(this.triangle5);
+        this.addShape(this.triangle6);
 
     }
 
@@ -50,7 +50,7 @@ class Crystal extends ComplexShape {
     set color(color) {
         super.color = color;
         this.shape.forEach(shape => {
-            shape.color = trees.shadeColor(this.color, trees.random(-50, 50)/100);
+            shape.color = trees.shadeColor(this.color, trees.random(-50, 50) / 100);
         })
     }
 

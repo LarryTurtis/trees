@@ -32,6 +32,7 @@ import { ShoreLine } from './shoreLine.js';
 import { Lake } from './lake.js';
 import { Cave } from './cave.js';
 import { Crystal } from './crystal.js';
+import { GleamingCrystal } from './gleamingCrystal.js';
 import { YinYang } from './yinYang.js';
 import { YangYin } from './yangYin.js';
 import { PourComposite } from './pourComposite.js';
@@ -72,6 +73,7 @@ let complex = {
     Lake: Lake,
     Cave: Cave,
     Crystal: Crystal,
+    GleamingCrystal: GleamingCrystal,
     YinYang: YinYang,
     YangYin: YangYin
 };
