@@ -37,6 +37,19 @@ class Triangle extends Sprite {
         this.tb = new Point(this.c.x, this.c.y);
     }
 
+    get points() {
+        return [this.ta, this.tb, this.tc];
+    }
+
+    set points(arr) {
+        if (!Array.isArray(arr) || arr.length < 3) {
+            throw new Error("Triangle points property expects array with three Point objects");
+        }
+        this.ta = arr[0];
+        this.tb = arr[1];
+        this.tc = arr[2];
+    }
+
     _updatePoints() {
         let oldOrigin = this.origin;
         super._updatePoints();

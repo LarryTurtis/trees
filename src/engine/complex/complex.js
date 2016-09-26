@@ -31,6 +31,7 @@ import { ScallopedBorder } from './scallopedBorder.js';
 import { ShoreLine } from './shoreLine.js';
 import { Lake } from './lake.js';
 import { Cave } from './cave.js';
+import { Crystal } from './crystal.js';
 import { YinYang } from './yinYang.js';
 import { YangYin } from './yangYin.js';
 import { PourComposite } from './pourComposite.js';
@@ -70,6 +71,7 @@ let complex = {
     ShoreLine: ShoreLine,
     Lake: Lake,
     Cave: Cave,
+    Crystal: Crystal,
     YinYang: YinYang,
     YangYin: YangYin
 };
