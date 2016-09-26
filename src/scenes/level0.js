@@ -15,9 +15,9 @@ let grass;
 
 function level0() {
 
-    Width = engine.canvas.width;
-    Height = engine.canvas.height;
-    engine.canvas.element.style.backgroundColor = "pink";
+    Width = shapes.staticBackgroundCanvas.width;
+    Height = shapes.staticBackgroundCanvas.height;
+    shapes.staticBackgroundCanvas.element.style.backgroundColor = "pink";
 
     for (let i = 0; i < 10; i++) {
         createStripedBalloon();
@@ -37,15 +37,19 @@ function level0() {
         shape.y -= Height * 2;
     })
 
-    engine.canvas.addEventListener('upArrow', function(e) {
-        shapes.forEach(shape => {
-            shape.y += 200;
-        })
-    });
-    engine.canvas.addEventListener('downArrow', function(e) {
-        shapes.forEach(shape => {
-            shape.y -= 200;
-        })
+    shapes.allCanvases.forEach(canvas => {
+        canvas.addEventListener('upArrow', function(e) {
+            shapes.forEach(shape => {
+                shape.y += 200;
+            });
+            engine.drawStaticShapes();
+        });
+        canvas.addEventListener('downArrow', function(e) {
+            shapes.forEach(shape => {
+                shape.y -= 200;
+            });
+            engine.drawStaticShapes();
+        });
     });
 
 }
@@ -56,9 +60,9 @@ function createWaterFall() {
     let x = Width.percent(30);
     let y = water.y + water.height.percent(90);
     let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Width.percent(17));
-    pour.color = trees.setOpacity(water.color, 0.8);
+    pour.color = trees.setOpacity(water.color, 1);
     //pour.collidable = true;
-    shapes.add(pour);
+    shapes.addToDynamicForeground(pour);
     pour.start();
     pour.activePour.oscillate = true;
 
@@ -73,7 +77,7 @@ function createCup() {
     //cup.collidable = true;
     cup.rotate(15, cup.center);
     cup.level = 10;
-    shapes.add(cup);
+    shapes.addToDynamicForeground(cup);
 }
 
 function createStripedBalloon() {
@@ -98,7 +102,7 @@ function createStripedBalloon() {
     balloon.callback = function() {
         this.y -= size / 50;
     }
-    shapes.add(balloon);
+    shapes.addToDynamicBackground(balloon);
 }
 
 function createCloud() {
@@ -110,9 +114,9 @@ function createCloud() {
     let opacity = 1 - width / 300;
     cloud.color = "rgba(0,0,0, " + opacity + ")";
     cloud.xSpeed = height / 1000;
-    cloud.callback = function() {
-        this.x += this.xSpeed;
-    }
+    // cloud.callback = function() {
+    //     this.x += this.xSpeed;
+    // }
     shapes.add(cloud);
 }
 
@@ -123,7 +127,7 @@ function createMountains() {
     let mountain = new engine.complex.Mountains(-100, y, width, height, 0);
     mountain.color = "black";
     mountain.collidable = false;
-    shapes.add(mountain);
+    shapes.addToDynamicBackground(mountain);
 
     engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, "yellow");
 
@@ -146,7 +150,7 @@ function createWheel() {
     let y = Height.percent(160) - height / 2;
 
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
-    shapes.add(wheel);
+    shapes.addToDynamicBackground(wheel);
 
     wheel.callback = function() {
         wheel.rotate(0.5, wheel.center);
@@ -177,11 +181,11 @@ function createGrassAndWater() {
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
-    shapes.add(caveBackground);
-    shapes.add(cave);
-    shapes.add(earth);
-    shapes.add(water);
-    shapes.add(grass);
+    shapes.addToStaticForeground(caveBackground);
+    shapes.addToStaticForeground(cave);
+    shapes.addToStaticForeground(earth);
+    shapes.addToStaticForeground(water);
+    shapes.addToStaticForeground(grass);
 
 
 }

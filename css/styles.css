@@ -22,6 +22,26 @@ body {
     z-index: -1;
 }
 
-canvas {
-    z-index: 1000;
+.canvases {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
+
+#staticBackgroundCanvas {
+    z-index: 100;
+}
+
+#dynamicBackgroundCanvas {
+    z-index: 200;
+}
+
+#staticForegroundCanvas {
+    z-index: 300;
+}
+
+#dynamicForegroundCanvas {
+    z-index: 400;
+}
+
+

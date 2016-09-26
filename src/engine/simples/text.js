@@ -1,7 +1,7 @@
 import { Sprite } from '../sprite.js'
-import { Canvas } from '../canvas.js'
+import { ShapesRegistry } from '../shapesregistry.js';
 
-let canvas = new Canvas();
+let shapesRegistry = new ShapesRegistry();
 
 class Text extends Sprite {
     constructor(text, x, y, size, font) {
@@ -14,7 +14,7 @@ class Text extends Sprite {
     }
 
     get getWidth() {
-        return canvas.measureText(this.value, this.font);
+        return shapesRegistry.canvas.measureText(this.value, this.font);
     }
 
     get value() {

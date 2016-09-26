@@ -1,22 +1,22 @@
-import { Canvas } from './canvas.js';
-import { ShapesRegistry } from './shapesregistry.js'
-import { simples } from './simples/simples.js'
-import { complex } from './complex/complex.js'
+let shapesRegistry = new ShapesRegistry();
+let level = 0;
+
+import { ShapesRegistry } from './shapesregistry.js';
+import { animate } from './animate.js';
+import { drawStaticShapes } from './drawStaticShapes.js';
+import { simples } from './simples/simples.js';
+import { complex } from './complex/complex.js';
 import { animations } from './animations/animations.js';
 import { patterns } from './patterns/patterns.js';
 import { mouseEvents } from './userInput/mouseEvents.js';
 import { keyboardEvents } from './userInput/keyboardEvents.js';
 
-let shapesRegistry = new ShapesRegistry();
-let canvas = new Canvas();
-
-let level = 0;
 
 let engine = {
-    canvas: canvas,
     animations: animations,
     patterns: patterns,
     shapesRegistry: shapesRegistry,
+    drawStaticShapes: drawStaticShapes,
     simples: simples,
     complex: complex,
     go: go,
@@ -28,14 +28,18 @@ export { engine };
 //set canvas height, maps keys, calls game setup function, and begins animation.
 function go(callback) {
     shapesRegistry.maxShapes = 10000;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
 
-    window.addEventListener('load', callback, false);
+    shapesRegistry.allCanvases.forEach(canvas => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
 
-    keyboardEvents.initialize();
-    mouseEvents.initialize();
-
-    canvas.animate();
+    window.addEventListener('load', () => {
+        callback();
+        keyboardEvents.initialize();
+        mouseEvents.initialize();
+        drawStaticShapes();
+        animate();
+    }, false);
 
 }
