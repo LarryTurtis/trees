@@ -56,7 +56,7 @@ function createWaterFall() {
     let x = Width.percent(30);
     let y = water.y + water.height.percent(90);
     let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Width.percent(17));
-    pour.color = water.color;
+    pour.color = trees.setOpacity(water.color, 0.8);
     //pour.collidable = true;
     shapes.add(pour);
     pour.start();
@@ -148,14 +148,14 @@ function createWheel() {
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
     shapes.add(wheel);
 
-    // wheel.callback = function() {
-    //     wheel.rotate(0.5, wheel.center);
-    //     this.shape.forEach(shape => {
-    //         if (shape.type === "Cup" && shape.y > Height.percent(60) && shape.y < Height.percent(70)) {
-    //             shape.fill(1);
-    //         }
-    //     })
-    // }
+    wheel.callback = function() {
+        wheel.rotate(0.5, wheel.center);
+        this.shape.forEach(shape => {
+            if (shape.type === "Cup" && shape.y > water.y && shape.y < water.y + water.height) {
+                shape.fill(1);
+            }
+        })
+    }
 
 }
 

@@ -18,7 +18,7 @@ class ContainerComposite extends ComplexShape {
         this._speed = 10;
         this._collidable = false;
         this._thickness = 0;
-        this.drainVolume = 0.4;
+        this.drainVolume = 0.25;
     }
 
     get x() {

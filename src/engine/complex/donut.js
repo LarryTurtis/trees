@@ -13,6 +13,10 @@ class Donut extends ThickShape {
         this.addShape(bottom);
 
     }
+
+    rotate() {
+        
+    }
     
     draw(ctx) {
         super.draw(ctx);

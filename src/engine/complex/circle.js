@@ -22,6 +22,10 @@ class Circle extends CircularShape {
 
     }
 
+    rotate() {
+        
+    }
+
     draw(ctx) {
         super.draw(ctx);
 
