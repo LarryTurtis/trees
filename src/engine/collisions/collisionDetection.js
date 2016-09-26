@@ -51,7 +51,7 @@ function updateCollisions(shape) {
     let collisions = [];
     shape.collidingWithPlatform = false;
     shapesRegistry.forEach(otherShape => {
-        if (shape !== otherShape) {
+        if (shape !== otherShape && otherShape.collidable) {
             // if (broadPhase(shape, otherShape)) {
             var overlap = narrowPhase(shape, otherShape);
             if (overlap) {

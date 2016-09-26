@@ -30,8 +30,10 @@ import { RockyBorder } from './rockyBorder.js';
 import { ScallopedBorder } from './scallopedBorder.js';
 import { ShoreLine } from './shoreLine.js';
 import { Lake } from './lake.js';
+import { Cave } from './cave.js';
 import { YinYang } from './yinYang.js';
 import { YangYin } from './yangYin.js';
+import { PourComposite } from './pourComposite.js';
 
 let complex = {
     SemiCircle: SemiCircle,
@@ -54,6 +56,7 @@ let complex = {
     Wheel: Wheel,
     WaterWheel: WaterWheel,
     Container: Container,
+    PourComposite: PourComposite,
     Cup: Cup,
     Spray: Spray,
     Erlenmeyer: Erlenmeyer,
@@ -66,6 +69,7 @@ let complex = {
     ScallopedBorder: ScallopedBorder,
     ShoreLine: ShoreLine,
     Lake: Lake,
+    Cave: Cave,
     YinYang: YinYang,
     YangYin: YangYin
 };

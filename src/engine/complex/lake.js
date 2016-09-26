@@ -7,9 +7,6 @@ class Lake extends ComplexShape {
         super(x, y, width, height);
         this.type = "Lake";
 
-        // this.water = new simples.Rectangle(x, y, width, height);
-        // this.water.pathOnly = true;
-        // this.addShape(this.water);
         this.wedge = new simples.Wedge(x + width.percent(50), y, width.percent(20), width.percent(20));
         this.wedge.rotate(-90, this.wedge.b)
         this.addShape(this.wedge);
@@ -31,23 +28,6 @@ class Lake extends ComplexShape {
         this.addShape(this.rectangle4);
     }
 
-
-    // draw(ctx) {
-    //     ctx.save();
-    //     ctx.beginPath();
-    //     this.water.draw(ctx);
-    //     //ctx.clip();
-    //     this.wedge.draw(ctx);
-    //     this.shoreLine1.draw(ctx);
-    //     this.shoreLine2.draw(ctx);
-    //     this.rectangle1.draw(ctx);
-    //     this.rectangle2.draw(ctx);
-    //     this.rectangle3.draw(ctx);
-    //     this.rectangle4.draw(ctx);
-    //     ctx.closePath();
-    //     ctx.fill();
-    //     ctx.restore();
-    // }
 
 }
 

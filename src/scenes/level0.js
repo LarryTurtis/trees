@@ -8,6 +8,10 @@ let scrollUp = false;
 let max = 0;
 
 let water;
+let earth;
+let cave;
+let caveBackground;
+let grass;
 
 function level0() {
 
@@ -26,32 +30,50 @@ function level0() {
     createMountains();
     createWheel();
     createGrassAndWater();
-    createRockWall();
+    createWaterFall();
+    createCup();
 
     shapes.forEach(shape => {
-        shape.y -= Height;
+        shape.y -= Height * 2;
     })
 
     engine.canvas.addEventListener('upArrow', function(e) {
         shapes.forEach(shape => {
-            shape.y += 10;
+            shape.y += 200;
         })
     });
     engine.canvas.addEventListener('downArrow', function(e) {
         shapes.forEach(shape => {
-            shape.y -= 10;
+            shape.y -= 200;
         })
     });
 
 }
 
 
-function createRockWall() {
+function createWaterFall() {
 
-    // rockyBorder = new engine.complex.RockyBorder(0, Height.percent(160), Width.percent(5), Width.percent(20));
-    // rockyBorder.color = "#190D03";
-    // shapes.add(rockyBorder);
+    let x = Width.percent(30);
+    let y = water.y + water.height.percent(90);
+    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Width.percent(17));
+    pour.color = water.color;
+    //pour.collidable = true;
+    shapes.add(pour);
+    pour.start();
+    pour.activePour.oscillate = true;
 
+}
+
+function createCup() {
+
+    let cup = new engine.complex.Cup(Width.percent(25), cave.y + Width.percent(15), Width.percent(20), Width.percent(10), 85);
+    cup.color = trees.setOpacity("white", 0.2);
+    cup.liquidColor = water.color;
+    cup.thickness = Width.percent(1);
+    //cup.collidable = true;
+    cup.rotate(15, cup.center);
+    cup.level = 10;
+    shapes.add(cup);
 }
 
 function createStripedBalloon() {
@@ -139,22 +161,27 @@ function createWheel() {
 
 function createGrassAndWater() {
 
-    let earth = new engine.complex.Box(0, Height.percent(200), Width, Height.percent(30));
+    water = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(50));
+    earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(30));
+    grass = new engine.complex.Lake(0, Height.percent(160), Width, Width.percent(50));
+    caveBackground = new engine.complex.Box(0, earth.y + earth.height, Width, Width.percent(75));
+    cave = new engine.complex.Cave(0, earth.y + earth.height, Width, Width.percent(75));
+
     earth.color = "#190D03";
-    shapes.add(earth);
+    water.color = "rgb(0,47,57)";
+    grass.color = "rgb(0,74,37)";
+    caveBackground.color = "#1A001A";
+    cave.color = "#44355B"
+
     engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
-
-    water = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(50));
-    water.color = "rgb(0,47,57)";
-    shapes.add(water);
-
-    let grass = new engine.complex.Lake(0, Height.percent(160), Width, Width.percent(50));
-    grass.color = "rgb(0,74,37)";
-    shapes.add(grass);
-    
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
+    shapes.add(caveBackground);
+    shapes.add(cave);
+    shapes.add(earth);
+    shapes.add(water);
+    shapes.add(grass);
 
 
 }

@@ -21,7 +21,7 @@ class Pour {
         this.drops.forEach((drop, index) => {
             drop.y += amount;
             drop.y += amount;
-            if (drop.y > window.innerHeight) {
+            if (drop.y > window.innerHeight.percent(110)) {
                 this.removeDrop(drop)
             }
         });
