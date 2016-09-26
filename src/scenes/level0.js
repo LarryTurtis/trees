@@ -41,7 +41,7 @@ function level0() {
         canvas.addEventListener('upArrow', function(e) {
             shapes.forEach(shape => {
                 shape.scrollOn = true;
-                shape.y += 200;
+                shape.y += 20;
                 shape.scrollOn = false;
             });
             engine.drawStaticShapes();
@@ -49,7 +49,7 @@ function level0() {
         canvas.addEventListener('downArrow', function(e) {
             shapes.forEach(shape => {
                 shape.scrollOn = true;
-                shape.y -= 200;
+                shape.y -= 20;
                 shape.scrollOn = false;
             });
             engine.drawStaticShapes();
@@ -173,6 +173,7 @@ function createGrassAndWater() {
     earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(30));
     grass = new engine.complex.Lake(0, Height.percent(160), Width, Width.percent(50));
     caveBackground = new engine.complex.Box(0, earth.y + earth.height, Width, Width.percent(75));
+
     cave = new engine.complex.Cave(0, earth.y + earth.height, Width, Width.percent(75));
 
     earth.color = "#190D03";
@@ -186,12 +187,24 @@ function createGrassAndWater() {
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
     shapes.addToStaticForeground(caveBackground);
+    
+    for (let i = 0; i < 100; i++) {
+
+        let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
+        let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
+        let height = trees.random(caveBackground.width.percent(0.1), caveBackground.width.percent(1));
+        let width = height;
+
+        let crystal = new engine.complex.Crystal(x, y, width, height);
+        crystal.rotate(trees.random(0, 180), crystal.center);
+        shapes.addToStaticForeground(crystal);
+        crystal.color = trees.randomColor();
+    }
+
     shapes.addToStaticForeground(cave);
     shapes.addToStaticForeground(earth);
     shapes.addToStaticForeground(water);
     shapes.addToStaticForeground(grass);
-
-
 }
 
 export { level0 };

@@ -155,18 +155,18 @@ class trees {
 
     static orientation(line) {
         let result = null;
-            if (line.start.x <= line.end.x && line.start.y <= line.end.y) {
-                result = "I";
-            }
-            if (line.start.x <= line.end.x && line.start.y > line.end.y) {
-                result = "II";
-            }
-            if (line.start.x > line.end.x && line.start.y > line.end.y) {
-                result = "III";
-            }
-            if (line.start.x > line.end.x && line.start.y <= line.end.y) {
-                result = "IV";
-            }
+        if (line.start.x <= line.end.x && line.start.y <= line.end.y) {
+            result = "I";
+        }
+        if (line.start.x <= line.end.x && line.start.y > line.end.y) {
+            result = "II";
+        }
+        if (line.start.x > line.end.x && line.start.y > line.end.y) {
+            result = "III";
+        }
+        if (line.start.x > line.end.x && line.start.y <= line.end.y) {
+            result = "IV";
+        }
         return result;
     }
 
@@ -208,6 +208,16 @@ class trees {
         // if line1 and line2 are segments, they intersect if both of the above are true
         return result;
     };
+
+    static shadeColor(color, percent) {
+        var f = parseInt(color.slice(1), 16),
+            t = percent < 0 ? 0 : 255,
+            p = percent < 0 ? percent * -1 : percent,
+            R = f >> 16,
+            G = f >> 8 & 0x00FF,
+            B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    }
 
 }
 
