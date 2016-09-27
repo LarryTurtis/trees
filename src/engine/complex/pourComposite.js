@@ -73,7 +73,10 @@ class PourComposite extends ComplexShape {
     }
 
     addPour() {
-        this.pours.push(new Pour(this.origin, this.width));
+        let pour = new Pour(this.origin, this.width)
+        this.pours.push(pour);
+        pour.endPoint = this.y + this.height;
+
     }
 
     animate() {

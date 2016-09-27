@@ -30,7 +30,7 @@ class Pour {
         this.drops.forEach((drop, index) => {
             drop.y += amount;
             drop.y += amount;
-            if (drop.y > 2000) {
+            if (drop.y > this.endPoint) {
                this.removeDrop(drop)
            }
         });

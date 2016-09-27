@@ -247,6 +247,14 @@ class ContainerComposite extends ComplexShape {
         this._speed = speed;
     }
 
+    get pourHeight() {
+        return this._pourHeight;
+    }
+
+    set pourHeight(pourHeight) {
+        this._pourHeight = pourHeight;
+    }
+
     get thickness() {
         return this._thickness;
     }
@@ -372,7 +380,7 @@ class ContainerComposite extends ComplexShape {
     startPour() {
         let start = this.activeOpeningEdge;
         if (!this.pourComposite) {
-            this.pourComposite = new PourComposite(start.x, start.y, this.meniscus.overhangWidth, 5);
+            this.pourComposite = new PourComposite(start.x, start.y, this.meniscus.overhangWidth, this.pourHeight);
             this.pourComposite.color = this.liquidColor;
             super.addShape(this.pourComposite);
             // this.moveDrawOrderBack(this.pourComposite);

@@ -33,6 +33,7 @@ class WaterWheel extends ComplexShape {
             container.thickness = width.percent(1);
             container.color = trees.setOpacity(color[i], 0.5);
             container.liquidColor = "rgb(0,47,57)";
+            container.pourHeight = height / 2;
             this.addShape(container);
             container.rotate(s_angle, this.center);
             container.rotate(-s_angle, container.center);

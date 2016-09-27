@@ -12,6 +12,7 @@ let earth;
 let cave;
 let caveBackground;
 let grass;
+let cup;
 
 function level0() {
 
@@ -30,23 +31,64 @@ function level0() {
     createMountains();
     createWheel();
     createGrassAndWater();
-    createWaterFall();
     createCup();
+    createWaterFall();
 
-    let counter = 0;
+    let nowScrolling = false;
+
     document.body.addEventListener('upArrow', function(e) {
-        counter += 3;
-        document.getElementById("staticBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("staticForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("dynamicBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("dynamicForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        let i = 0;
+        if (!nowScrolling) scrollUp();
+
+        function scrollUp() {
+
+            nowScrolling = true;
+
+            if (i < Height.percent(2)) {
+                shapes.allCanvases.forEach(canvas => {
+                    canvas.scroll(-3);
+                })
+                i++;
+                setTimeout(scrollUp, 5);
+            } else {
+                nowScrolling = false;
+            }
+        }
+
     });
     document.body.addEventListener('downArrow', function(e) {
-        counter -= 3;
-        document.getElementById("staticBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("staticForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("dynamicBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
-        document.getElementById("dynamicForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        let i = 0;
+        if (!nowScrolling) scrollDown();
+
+        function scrollDown() {
+            nowScrolling = true;
+            if (i < Height.percent(2)) {
+                shapes.allCanvases.forEach(canvas => {
+                    canvas.scroll(3);
+                })
+                i++;
+                setTimeout(scrollDown, 5);
+            } else {
+                nowScrolling = false;
+            }
+        }
+    });
+
+    var last_known_scroll_position = 0;
+    var ticking = false;
+
+    document.body.addEventListener('scroll', function(e) {
+        last_known_scroll_position = window.scrollY;
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                shapes.allCanvases.forEach(canvas => {
+                    canvas.currentY = last_known_scroll_position;
+                    canvas.scroll(0)
+                });
+                ticking = false;
+            });
+        }
+        ticking = true;
     });
 
 }
@@ -56,31 +98,31 @@ function createWaterFall() {
 
     let x = Width.percent(30);
     let y = water.y + water.height.percent(90);
-    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Width.percent(17));
+    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), cup.y + cup.height - y);
     pour.color = trees.setOpacity(water.color, 1);
-    //pour.collidable = true;
+    pour.collidable = true;
     shapes.addToDynamicForeground(pour);
+        shapes.addToDynamicForeground(cup);
+
     pour.start();
     pour.activePour.oscillate = true;
-    console.log(pour);
 }
 
 function createCup() {
-
-    let cup = new engine.complex.Cup(Width.percent(25), cave.y + Width.percent(15), Width.percent(20), Width.percent(10), 85);
+    cup = new engine.complex.Cup(Width.percent(25), cave.y + Width.percent(15), Width.percent(20), Width.percent(10), 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = water.color;
     cup.thickness = Width.percent(1);
-    //cup.collidable = true;
+    cup.pourHeight = cave.y + cave.height - cup.y;
+    cup.collidable = true;
     cup.rotate(15, cup.center);
     cup.level = 10;
-    shapes.addToDynamicForeground(cup);
 }
 
 function createStripedBalloon() {
     let size = Width.percent(trees.random(1, 5));
     let x = Width.percent(trees.random(0, 95));
-    let y = Height.percent(trees.random(0, 30));
+    let y = Height.percent(trees.random(10, 30));
 
     let balloon = new engine.complex.StripedBalloon(x, y, size, size);
     balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
@@ -105,7 +147,7 @@ function createStripedBalloon() {
 function createCloud() {
     let width = Width.percent(trees.random(2, 15));
     let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(0, 30));
+    let y = Height.percent(trees.random(0, 20));
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;

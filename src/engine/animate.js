@@ -39,17 +39,19 @@ function animate() {
                 shapesRegistry.dynamicForegroundCanvas.ctx.clearRect(0, 0, shapesRegistry.dynamicForegroundCanvas.width, shapesRegistry.dynamicForegroundCanvas.height);
             }
 
+            let counter = 0;
+
             shapesRegistry.dynamicShapes.forEach(shape => {
-                // if (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10)) {
-                //     //shapesRegistry.remove(shape);
-                //     return;
-                // }
+                if (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10)) {
+                    //shapesRegistry.remove(shape);
+                    return;
+                }
 
-                // if (shape.boundary.a.y > shape.canvas.height.percent(110) || shape.boundary.d.y < -shape.canvas.height.percent(10)) {
-                //     //shapesRegistry.remove(shape);
-                //     return;
-                // }
-
+                if (shape.boundary.a.y > shape.canvas.currentY + window.innerHeight.percent(110) || shape.boundary.d.y < shape.canvas.currentY - shape.canvas.height.percent(10)) {
+                    //shapesRegistry.remove(shape);
+                    return;
+                }
+                counter ++;
                 let collisions = [];
 
                 if (shape.animate) {
@@ -68,6 +70,8 @@ function animate() {
 
                 if (shape.visible) shape.draw(shape.canvas.ctx);
             });
+
+            //console.log("Drew " + counter + " shapes.");
 
         }
 

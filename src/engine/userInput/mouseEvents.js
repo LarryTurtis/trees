@@ -12,10 +12,13 @@ let prevMouse = { x: null, y: null };
 let direction = { left: false, right: false, up: false, down: false };
 let mouseClick = null;
 let mouseMove = null;
+let scroll = new Event('scroll');
+
 
 function initialize() {
     window.addEventListener("mousedown", clickObject);
     window.addEventListener("mouseup", releaseObject);
+    window.addEventListener('scroll',  () => document.body.dispatchEvent(scroll));
 }
 
 function clickObject(e) {

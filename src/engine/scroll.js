@@ -31,9 +31,6 @@ class Canvas {
         this._center = new Point(this.element.width / 2, this.element.height / 2);
         this._width = this.element.width;
         this._height = this.element.height;
-
-        this._currentY = 0;
-
         this.parentNode = document.getElementById(parentNodeName) || document.body;
 
         let dpr = window.devicePixelRatio || 1;
@@ -101,14 +98,6 @@ class Canvas {
         return this._center;
     }
 
-    get currentY() {
-        return this._currentY;
-    }
-
-    set currentY(currentY) {
-        this._currentY = currentY;
-    }
-
     addEventListener(event, func) {
         this.element.addEventListener(event, func, false);
     }
@@ -119,13 +108,6 @@ class Canvas {
 
     getBoundingClientRect() {
         return this.element.getBoundingClientRect();
-    }
-
-    scroll(amount) {
-        if (this.currentY + amount > 0 && this.currentY + amount < this.height) {
-            this.currentY += amount;
-            this.element.style.marginTop = -this.currentY + "px";
-        }
     }
 
 };
