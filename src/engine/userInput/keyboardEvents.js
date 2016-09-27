@@ -54,22 +54,22 @@ function mapKeys(e) {
     switch (e.keyCode) {
         case 37: // left
             //previousScene();
-            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(leftArrow) });
+            document.body.dispatchEvent(leftArrow);
             break;
         case 32: // space
             toggleBoundingBoxes();
             break;
         case 38: // up
             //if (shapesRegistry.canvas.fps < 60) shapesRegistry.canvas.fps += 10;
-            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(upArrow) });
+            document.body.dispatchEvent(upArrow)
             break;
         case 39: // right
             //nextScene();
-            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(rightArrow) });
+            document.body.dispatchEvent(rightArrow);
             break;
         case 40: // down
             //if (shapesRegistry.canvas.fps > 0) shapesRegistry.canvas.fps -= 1;
-            shapesRegistry.allCanvases.forEach(canvas => { canvas.dispatchEvent(downArrow) });
+            document.body.dispatchEvent(downArrow);
             break;
 
         default:

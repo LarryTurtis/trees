@@ -31,7 +31,7 @@ function go(callback) {
 
     shapesRegistry.allCanvases.forEach(canvas => {
         canvas.width = window.innerWidth / 2;
-        canvas.height = window.innerHeight / 2;
+        canvas.height = window.innerHeight * 4;
     });
 
     window.addEventListener('load', () => {

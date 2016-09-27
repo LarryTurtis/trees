@@ -33,23 +33,20 @@ function level0() {
     createWaterFall();
     createCup();
 
-    shapes.forEach(shape => {
-        shape.y -= Height * 2;
-    })
-
-    shapes.allCanvases.forEach(canvas => {
-        canvas.addEventListener('upArrow', function(e) {
-            shapes.forEach(shape => {
-                shape.y += 20;
-            });
-            engine.drawStaticShapes();
-        });
-        canvas.addEventListener('downArrow', function(e) {
-            shapes.forEach(shape => {
-                shape.y -= 20;
-            });
-            engine.drawStaticShapes();
-        });
+    let counter = 0;
+    document.body.addEventListener('upArrow', function(e) {
+        counter += 3;
+        document.getElementById("staticBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("staticForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("dynamicBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("dynamicForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
+    });
+    document.body.addEventListener('downArrow', function(e) {
+        counter -= 3;
+        document.getElementById("staticBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("staticForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("dynamicBackgroundCanvas").childNodes[0].style.marginTop = counter + "px";
+        document.getElementById("dynamicForegroundCanvas").childNodes[0].style.marginTop = counter + "px";
     });
 
 }
@@ -65,7 +62,7 @@ function createWaterFall() {
     shapes.addToDynamicForeground(pour);
     pour.start();
     pour.activePour.oscillate = true;
-
+    console.log(pour);
 }
 
 function createCup() {
@@ -83,7 +80,7 @@ function createCup() {
 function createStripedBalloon() {
     let size = Width.percent(trees.random(1, 5));
     let x = Width.percent(trees.random(0, 95));
-    let y = Height.percent(trees.random(0, 100));
+    let y = Height.percent(trees.random(0, 30));
 
     let balloon = new engine.complex.StripedBalloon(x, y, size, size);
     balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
@@ -108,7 +105,7 @@ function createStripedBalloon() {
 function createCloud() {
     let width = Width.percent(trees.random(2, 15));
     let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(0, 100));
+    let y = Height.percent(trees.random(0, 30));
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;
@@ -119,7 +116,7 @@ function createCloud() {
 function createMountains() {
     let width = Width.percent(103);
     let height = width / 10
-    let y = Height.percent(160) - height;
+    let y = Height.percent(30) - height;
     let mountain = new engine.complex.Mountains(-100, y, width, height, 0);
     mountain.color = "black";
     mountain.collidable = false;
@@ -143,7 +140,7 @@ function createWheel() {
     let width = Width.percent(32.3);
     let height = width;
     let x = Width.percent(15);
-    let y = Height.percent(160) - height / 2;
+    let y = Height.percent(30) - height / 2;
 
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
     shapes.addToDynamicBackground(wheel);
@@ -161,9 +158,9 @@ function createWheel() {
 
 function createGrassAndWater() {
 
-    water = new engine.complex.Box(0, Height.percent(160), Width, Width.percent(50));
-    earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(30));
-    grass = new engine.complex.Lake(0, Height.percent(160), Width, Width.percent(50));
+    water = new engine.complex.Box(0, Height.percent(30), Width, Width.percent(50));
+    earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(5));
+    grass = new engine.complex.Lake(0, Height.percent(30), Width, Width.percent(50));
     caveBackground = new engine.complex.Box(0, earth.y + earth.height, Width, Width.percent(75));
 
     cave = new engine.complex.Cave(0, earth.y + earth.height, Width, Width.percent(75));
