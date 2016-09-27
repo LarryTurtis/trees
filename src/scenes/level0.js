@@ -28,71 +28,30 @@ function level0() {
         createCloud();
     }
 
+    createText();
     createMountains();
     createWheel();
     createGrassAndWater();
     createCup();
     createWaterFall();
 
-    let nowScrolling = false;
-
-    document.body.addEventListener('upArrow', function(e) {
-        let i = 0;
-        if (!nowScrolling) scrollUp();
-
-        function scrollUp() {
-
-            nowScrolling = true;
-
-            if (i < Height.percent(2)) {
-                shapes.allCanvases.forEach(canvas => {
-                    canvas.scroll(-3);
-                })
-                i++;
-                setTimeout(scrollUp, 5);
-            } else {
-                nowScrolling = false;
-            }
-        }
-
-    });
-    document.body.addEventListener('downArrow', function(e) {
-        let i = 0;
-        if (!nowScrolling) scrollDown();
-
-        function scrollDown() {
-            nowScrolling = true;
-            if (i < Height.percent(2)) {
-                shapes.allCanvases.forEach(canvas => {
-                    canvas.scroll(3);
-                })
-                i++;
-                setTimeout(scrollDown, 5);
-            } else {
-                nowScrolling = false;
-            }
-        }
-    });
-
-    var last_known_scroll_position = 0;
-    var ticking = false;
-
-    document.body.addEventListener('scroll', function(e) {
-        last_known_scroll_position = window.scrollY;
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                shapes.allCanvases.forEach(canvas => {
-                    canvas.currentY = last_known_scroll_position;
-                    canvas.scroll(0)
-                });
-                ticking = false;
-            });
-        }
-        ticking = true;
-    });
-
 }
 
+function createText() {
+    let size = Width.percent(5);
+    let x = Width.percent(50);
+    let y = Height.percent(3);
+
+    let text = new engine.simples.Text("Gary Kertis", x, y, size, "Bungee");
+    text.color = "black";
+
+    shapes.addToStaticForeground(text);
+    
+    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), "Bungee");
+    text2.color = "black";
+    shapes.addToStaticForeground(text2);
+
+}
 
 function createWaterFall() {
 
@@ -102,7 +61,7 @@ function createWaterFall() {
     pour.color = trees.setOpacity(water.color, 1);
     pour.collidable = true;
     shapes.addToDynamicForeground(pour);
-        shapes.addToDynamicForeground(cup);
+    shapes.addToDynamicForeground(cup);
 
     pour.start();
     pour.activePour.oscillate = true;
@@ -110,12 +69,13 @@ function createWaterFall() {
 
 function createCup() {
     cup = new engine.complex.Cup(Width.percent(25), cave.y + Width.percent(15), Width.percent(20), Width.percent(10), 85);
-    cup.color = trees.setOpacity("white", 0.2);
+    cup.color = trees.setOpacity("gold", 0.2);
     cup.liquidColor = water.color;
     cup.thickness = Width.percent(1);
-    cup.pourHeight = cave.y + cave.height - cup.y;
+    cup.pourHeight = cave.height - cup.height - Width.percent(30);
     cup.collidable = true;
     cup.rotate(15, cup.center);
+
     cup.level = 10;
 }
 
@@ -151,7 +111,7 @@ function createCloud() {
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;
-    cloud.color = "rgba(0,0,0, " + opacity + ")";
+    cloud.color = trees.setOpacity("white", opacity);
     shapes.addToStaticForeground(cloud);
 }
 
@@ -204,14 +164,15 @@ function createGrassAndWater() {
     earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(5));
     grass = new engine.complex.Lake(0, Height.percent(30), Width, Width.percent(50));
     caveBackground = new engine.complex.Box(0, earth.y + earth.height, Width, Width.percent(75));
-
     cave = new engine.complex.Cave(0, earth.y + earth.height, Width, Width.percent(75));
+    let cavePool = new engine.complex.Box(0, cave.y + cave.height - Width.percent(25), Width, Width.percent(25));
 
     earth.color = "#190D03";
     water.color = "rgb(0,47,57)";
     grass.color = "rgb(0,74,37)";
     caveBackground.color = "#1A001A";
     cave.color = "#44355B"
+    cavePool.color = "rgb(140,198,101)";
 
     cave.shape.forEach(shape => {
         if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
@@ -254,6 +215,7 @@ function createGrassAndWater() {
         shapes.addToStaticBackground(gleamingCrystal);
     }
 
+    shapes.addToStaticForeground(cavePool);
     shapes.addToStaticForeground(cave);
     shapes.addToStaticForeground(earth);
     shapes.addToStaticForeground(water);

@@ -42,7 +42,6 @@ function animate() {
             let counter = 0;
 
             shapesRegistry.dynamicShapes.forEach(shape => {
-                if (!shape.boundary) console.log(shape, 'no bound');
                 if (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10)) {
                     //shapesRegistry.remove(shape);
                     return;

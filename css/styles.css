@@ -8,12 +8,17 @@
     src: url('./fonts/Yatra_One/YatraOne-Regular.ttf') format('truetype')
 }
 
+@font-face {
+    font-family: 'Bungee';
+    src: url('./fonts/BungeeShade-Regular.ttf') format('truetype')
+}
+
 body {
     background-color: #004d00;
     font-family: 'Lato', Arial, serif;
     font-size: 36px;
     color: orange;
-    height: 5000px;
+    height: 0px;
 }
 
 .title {

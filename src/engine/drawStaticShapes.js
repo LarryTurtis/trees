@@ -12,7 +12,6 @@ function drawStaticShapes() {
             }
 
             shapesRegistry.staticShapes.forEach(shape => {
-                console.log(shape, shape.boundary);
                 if (shape.visible) shape.draw(shape.canvas.ctx);
             });
 
