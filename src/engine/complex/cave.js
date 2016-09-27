@@ -42,10 +42,13 @@ class Cave extends ComplexShape {
 
         this.addShape(rectangle6);
 
-        let rectangle7 = new complex.Box(x + width.percent(97), y + height.percent(8), width.percent(3), height.percent(60));
+        let rectangle7 = new complex.Box(x + width.percent(97), y, width.percent(3), height.percent(80));
         new complex.RockyBorder(rectangle7, width.percent(5), rectangle7.lines()[3]);
 
         this.addShape(rectangle7);
+
+        let rectangle8 = new complex.Box(x, y + height.percent(81), width, height.percent(100));
+        this.addShape(rectangle8);
     }
 
 

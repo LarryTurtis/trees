@@ -33,6 +33,7 @@ function go(callback) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight * 4;
     });
+    document.body.style.height = window.innerHeight * 4 + "px";
 
     window.addEventListener('load', () => {
         callback();

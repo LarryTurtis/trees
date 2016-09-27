@@ -9,8 +9,8 @@ class Pour {
         this.type = "Pour";
 
         this.oscillateSpeed = 4;
-        this.oscillate = false;
-        this.oscillateInterval = 1;
+        this.oscillate = true;
+        this.oscillateInterval = width.percent(1);
 
         this.oscillateCounter = 0;
     }

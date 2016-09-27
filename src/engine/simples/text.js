@@ -55,6 +55,7 @@ class Text extends Sprite {
         super.draw(ctx);
         ctx.font = this.font;
         ctx.textBaseline = "hanging";
+        ctx.textAlign = "center";
         if (Array.isArray(this.color)) {
             let letters = this.value.split("");
             let x = this.x;
