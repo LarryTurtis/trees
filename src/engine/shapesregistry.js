@@ -104,25 +104,41 @@ class ShapesRegistry {
 
     addToStaticBackground(shape) {
         this.add(shape);
-        this.staticShapes.push(shape);
+        if (!Array.isArray(shape)) {
+            this.staticShapes.push(shape);
+        } else {
+            shape.forEach(s => this.staticShapes.push(s))
+        }
         shape.canvas = this.staticBackgroundCanvas;
     }
 
     addToStaticForeground(shape) {
         this.add(shape);
-        this.staticShapes.push(shape);
+        if (!Array.isArray(shape)) {
+            this.staticShapes.push(shape);
+        } else {
+            shape.forEach(s => this.staticShapes.push(s))
+        }
         shape.canvas = this.staticForegroundCanvas;
     }
 
     addToDynamicBackground(shape) {
         this.add(shape);
-        this.dynamicShapes.push(shape);
+        if (!Array.isArray(shape)) {
+            this.dynamicShapes.push(shape);
+        } else {
+            shape.forEach(s => this.dynamicShapes.push(s))
+        }
         shape.canvas = this.dynamicBackgroundCanvas;
     }
 
     addToDynamicForeground(shape) {
         this.add(shape);
-        this.dynamicShapes.push(shape);
+        if (!Array.isArray(shape)) {
+            this.dynamicShapes.push(shape);
+        } else {
+            shape.forEach(s => this.dynamicShapes.push(s))
+        }
         shape.canvas = this.dynamicForegroundCanvas;
     }
 
@@ -136,12 +152,23 @@ class ShapesRegistry {
     }
 
     add(shape) {
-        shape.id = this.shapeId;
-        this.shapeId++;
-        if (this.length < this.maxShapes) {
-            this._shapes[shape.id] = shape;
+
+        if (Array.isArray(shape)) {
+            shape.forEach(obj => {
+                addShape.call(this, obj);
+            })
+        } else {
+            addShape.call(this, shape);
         }
-        if (!shape.canvas) shape.canvas = this.staticBackgroundCanvas;
+
+        function addShape(s) {
+            s.id = this.shapeId;
+            this.shapeId++;
+            if (this.length < this.maxShapes) {
+                this._shapes[s.id] = s;
+            }
+            if (!s.canvas) s.canvas = this.staticBackgroundCanvas;
+        }
     }
 
     remove(shape) {

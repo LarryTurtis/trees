@@ -10,7 +10,7 @@ import { animations } from './animations/animations.js';
 import { patterns } from './patterns/patterns.js';
 import { mouseEvents } from './userInput/mouseEvents.js';
 import { keyboardEvents } from './userInput/keyboardEvents.js';
-
+import { scrollEvents } from './userInput/scrollEvents.js';
 
 let engine = {
     animations: animations,
@@ -37,7 +37,7 @@ function go(callback) {
     window.addEventListener('load', () => {
         callback();
         keyboardEvents.initialize();
-        mouseEvents.initialize();
+        scrollEvents.initialize();
         drawStaticShapes();
         animate();
     }, false);
