@@ -30,8 +30,8 @@ function go(callback) {
     shapesRegistry.maxShapes = 10000;
 
     shapesRegistry.allCanvases.forEach(canvas => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth / 2;
+        canvas.height = window.innerHeight / 2;
     });
 
     window.addEventListener('load', () => {

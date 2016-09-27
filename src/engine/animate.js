@@ -45,7 +45,8 @@ function animate() {
                     return;
                 }
 
-                if (shape.boundary.a.y > shape.canvas.height.percent(110) || shape.boundary.d.y < -shape.canvas.height.percent(10)) {
+                if (shape.boundary.a.y > window.innerHeight.percent(110) || shape.boundary.d.y < -window.innerHeight.percent(10)) {
+                    console.log(window.innerHeight);
                     //shapesRegistry.remove(shape);
                     return;
                 }

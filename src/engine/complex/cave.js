@@ -1,5 +1,6 @@
 import { simples } from '../simples/simples.js';
 import { complex } from './complex.js';
+import { patterns } from '../patterns/patterns.js';
 import { ComplexShape } from './complexShape.js';
 
 class Cave extends ComplexShape {
@@ -10,7 +11,6 @@ class Cave extends ComplexShape {
         let rectangle1 = new complex.Box(x - width.percent(3), y - width.percent(3), width.percent(30), height.percent(15));
         rectangle1.rotate(-20, rectangle1.center)
         new complex.RockyBorder(rectangle1, width.percent(5), rectangle1.lines()[2]);
-
         this.addShape(rectangle1);
 
         let rectangle2 = new complex.Box(width.percent(45), y - width.percent(5), width.percent(30), height.percent(15));

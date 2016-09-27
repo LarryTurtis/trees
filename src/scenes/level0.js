@@ -108,15 +108,11 @@ function createStripedBalloon() {
 function createCloud() {
     let width = Width.percent(trees.random(2, 15));
     let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(0, 160));
+    let y = Height.percent(trees.random(0, 100));
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;
     cloud.color = "rgba(0,0,0, " + opacity + ")";
-    cloud.xSpeed = height / 1000;
-    // cloud.callback = function() {
-    //     this.x += this.xSpeed;
-    // }
     shapes.addToStaticForeground(cloud);
 }
 
@@ -178,13 +174,18 @@ function createGrassAndWater() {
     caveBackground.color = "#1A001A";
     cave.color = "#44355B"
 
+    cave.shape.forEach(shape => {
+        if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
+    });
+
     engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
+
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
     new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
 
     shapes.addToStaticBackground(caveBackground);
 
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 50; i++) {
 
         let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
         let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
@@ -197,7 +198,7 @@ function createGrassAndWater() {
         shapes.addToStaticBackground(crystal);
     }
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
 
         let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
         let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
