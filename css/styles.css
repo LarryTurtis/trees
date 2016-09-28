@@ -35,6 +35,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    pointer-events: none;
 }
 
 #staticBackgroundCanvas {
@@ -54,8 +55,9 @@ body {
 }
 
 #main {
-    z-index: 500;
+    z-index: 150;
     position: absolute;
+    pointer-events: all;
 }
 
 
@@ -65,7 +67,7 @@ body {
     left: 50%;
     z-index: 500;
     height: 5%;
-    width: 38%;
+    width: 50%;
 }
 
 /* app css stylesheet */
@@ -73,39 +75,20 @@ body {
 .header {
   padding: 20px;
 }
-.goals ul {
-  padding: 10px;
-}
-.goals h3,
-.goals h3 a {
-  font-family: 'Lato';
-  color: #674e4d;
-}
-.goals li:nth-child(odd) h3,
-.goals li:nth-child(odd) h3 a {
-  color: #c15420;
-}
-.goals li:nth-child(even) h3,
-.goals li:nth-child(odd) h3 a {
-  color: #674e4d;
-}
-.goals h2 {
-  margin-top: 0px;
-}
 img {
-  border: 1px solid #674e4d;
   margin: 5px;
 }
 .active a {
-  background-color: #674e4d !important;
+  background-color: #AF001E !important;
 }
 .nav-pills li a {
   border-radius: 0px!important;
-  color: #674e4d;
+  color: #AF001E;
 }
 .nav {
-  border-top: 2px solid #674e4d;
-  border-bottom: 2px solid #674e4d;
+  border-top: 2px solid #AF001E;
+  border-bottom: 2px solid #AF001E;
+  background-color: #44355B;
 }
 a:hover {
   color: #c15420;
@@ -113,24 +96,17 @@ a:hover {
 }
 p,
 a {
-  color: #674e4d;
-  font-family: 'Lobster';
+  color: #AF001E;
+  font-family: 'Yatra';
 }
 #sun {
   z-index: -1;
   position: fixed;
   top: 0;
   left: 0;
-  border: 2px solid #674e4d;
+  border: 2px solid #AF001E;
 }
-.wrap {
-  overflow: hidden;
-  margin-top: 50px;
-  padding-bottom: 50px;
-  border-top: 2px solid #674e4d;
-  border-bottom: 2px solid #674e4d;
-  background: #eeeeee;
-}
+
 .main {
   margin-top: 50px;
   border: 1px solid #e1e1e1;
@@ -140,9 +116,8 @@ a {
 .view-animate-container {
   height: 350px;
   position: relative;
-  overflow: hidden;
   padding: 0px!important;
-  border-bottom: 1px solid #674e4d;
+  border-bottom: 1px solid #AF001E;
 }
 .view-animate {
   padding: 10px!important;
@@ -167,10 +142,7 @@ a {
   left: 0;
 }
 .view-animate.ng-leave.ng-leave-active {
-  left: -100%;
-}
-.footer {
-  border-top: 2px solid #674e4d;
+  top: 200%;
 }
 .menu {
   list-style: none;

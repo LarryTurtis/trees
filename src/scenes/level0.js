@@ -67,7 +67,7 @@ function WaterFall() {
     let x = Width.percent(30);
     let y = skyHeight + lakeHeight + earthHeight;
     let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
-    waterFall.color = BLUE;
+    waterFall.color = trees.setOpacity(BLUE, 0.5);
     waterFall.collidable = true;
     shapes.addToDynamicBackground(waterFall);
 
