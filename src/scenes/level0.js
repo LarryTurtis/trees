@@ -57,11 +57,11 @@ function createWaterFall() {
 
     let x = Width.percent(30);
     let y = water.y + water.height.percent(90);
-    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), cup.y + cup.height - y);
-    pour.color = trees.setOpacity(water.color, 1);
+    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), cave.height);
+    pour.color = trees.setOpacity(water.color, 0.8);
     pour.collidable = true;
-    shapes.addToDynamicForeground(pour);
-    shapes.addToDynamicForeground(cup);
+    shapes.addToDynamicBackground(pour);
+    //shapes.addToDynamicForeground(cup);
 
     pour.start();
     pour.activePour.oscillate = true;
@@ -172,7 +172,7 @@ function createGrassAndWater() {
     grass.color = "rgb(0,74,37)";
     caveBackground.color = "#1A001A";
     cave.color = "#44355B"
-    cavePool.color = "rgb(140,198,101)";
+    cavePool.color = "rgb(0,47,57)";
 
     cave.shape.forEach(shape => {
         if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
