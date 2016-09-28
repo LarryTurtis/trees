@@ -28,19 +28,19 @@ class WaterWheel extends ComplexShape {
         }
         this.addShape(hub);
 
-        for (var i = 0; i < 8; i++) {
-            let container = new complex.Cup(x + width.percent(10), y + height.percent(1), width.percent(16), width.percent(16), 70);
-            container.thickness = width.percent(1);
-            container.color = trees.setOpacity(color[i], 0.5);
-            container.liquidColor = "rgb(0,47,57)";
-            container.pourHeight = height / 2;
-            this.addShape(container);
-            container.rotate(s_angle, this.center);
-            container.rotate(-s_angle, container.center);
-            container.rotate(s_angle + 45, container.center);
-            container.level = 50;
-            s_angle += 45;
-        }
+        // for (var i = 0; i < 8; i++) {
+        //     let container = new complex.Cup(x + width.percent(10), y + height.percent(1), width.percent(16), width.percent(16), 70);
+        //     container.thickness = width.percent(1);
+        //     container.color = trees.setOpacity(color[i], 0.5);
+        //     container.liquidColor = "rgb(0,47,57)";
+        //     container.pourHeight = height / 2;
+        //     this.addShape(container);
+        //     container.rotate(s_angle, this.center);
+        //     container.rotate(-s_angle, container.center);
+        //     container.rotate(s_angle + 45, container.center);
+        //     container.level = 50;
+        //     s_angle += 45;
+        // }
 
 
     }
