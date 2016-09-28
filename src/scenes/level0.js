@@ -7,32 +7,38 @@ let scrollDown = false;
 let scrollUp = false;
 let max = 0;
 
-let water;
-let earth;
-let cave;
-let caveBackground;
-let grass;
-let cup;
+let skyHeight;
+let lakeHeight;
+let earthHeight;
+let caveHeight;
+
+const BROWN = "#190D03";
+const BLUE = "rgb(0,47,57)";
+const GREEN = "rgb(0,74,37)";
+const DARKPURPLE = "#1A001A";
+const LIGHTPURPLE = "#44355B"
 
 function level0() {
 
     Width = shapes.staticBackgroundCanvas.width;
     Height = shapes.staticBackgroundCanvas.height;
+
+    skyHeight = Height.percent(40);
+    lakeHeight = Height.percent(20);
+    earthHeight = Height.percent(10);
+    caveHeight = Height.percent(30);
+
     shapes.staticBackgroundCanvas.element.style.backgroundColor = "pink";
 
-    for (let i = 0; i < 10; i++) {
-        createStripedBalloon();
-    }
-
-    for (let i = 0; i < 50; i++) {
-        createCloud();
-    }
-
-    createText();
+    createStripedBalloons();
     createMountains();
+    createClouds();
+    createText();
     createWheel();
-    createGrassAndWater();
-    createCup();
+    createCave();
+    createLake();
+    createCrystals();
+    createGleamingCrystals();
     createWaterFall();
 
 }
@@ -46,7 +52,7 @@ function createText() {
     text.color = "black";
 
     shapes.addToStaticForeground(text);
-    
+
     let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), "BungeeShade");
     text2.color = "black";
     shapes.addToStaticForeground(text2);
@@ -56,70 +62,63 @@ function createText() {
 function createWaterFall() {
 
     let x = Width.percent(30);
-    let y = water.y + water.height.percent(90);
-    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
-    pour.color = trees.setOpacity(water.color, 0.8);
-    pour.collidable = true;
-    shapes.addToDynamicBackground(pour);
-    //shapes.addToDynamicForeground(cup);
+    let y = skyHeight + lakeHeight + earthHeight;
+    let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
+    waterFall.color = trees.setOpacity(BLUE, 0.8);
+    waterFall.collidable = true;
+    shapes.addToDynamicBackground(waterFall);
 
-    pour.start();
-    pour.activePour.oscillate = true;
+    waterFall.start();
+    waterFall.activePour.oscillate = true;
 }
 
-function createCup() {
-    cup = new engine.complex.Cup(Width.percent(25), cave.y + Width.percent(15), Width.percent(20), Width.percent(10), 85);
-    cup.color = trees.setOpacity("gold", 0.2);
-    cup.liquidColor = water.color;
-    cup.thickness = Width.percent(1);
-    cup.pourHeight = cave.height - cup.height - Width.percent(30);
-    cup.collidable = true;
-    cup.rotate(15, cup.center);
+function createStripedBalloons() {
+    for (let i = 0; i < 10; i++) {
 
-    cup.level = 10;
-}
+        let size = Width.percent(trees.random(1, 5));
+        let x = Width.percent(trees.random(0, 95));
+        let y = Height.percent(trees.random(10, 30));
 
-function createStripedBalloon() {
-    let size = Width.percent(trees.random(1, 5));
-    let x = Width.percent(trees.random(0, 95));
-    let y = Height.percent(trees.random(10, 30));
+        let balloon = new engine.complex.StripedBalloon(x, y, size, size);
+        balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
+        balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
 
-    let balloon = new engine.complex.StripedBalloon(x, y, size, size);
-    balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
-    balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
+        balloon.stripeColor = function() {
+            let arr = [];
+            for (let i = 0; i < trees.random(1, 25); i++) {
+                arr.push(trees.randomColor());
+            }
+            return arr;
+        }();
 
-    balloon.stripeColor = function() {
-        let arr = [];
-        for (let i = 0; i < trees.random(1, 25); i++) {
-            arr.push(trees.randomColor());
+        balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
+        balloon.color = trees.randomColor();
+        balloon.callback = function() {
+            this.y -= size / 50;
         }
-        return arr;
-    }();
-
-    balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][trees.random(0, 2)];
-    balloon.color = trees.randomColor();
-    balloon.callback = function() {
-        this.y -= size / 50;
+        shapes.addToDynamicBackground(balloon);
     }
-    shapes.addToDynamicBackground(balloon);
 }
 
-function createCloud() {
-    let width = Width.percent(trees.random(2, 15));
-    let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(0, 30));
-    let height = width / 4
-    let cloud = new engine.complex.Cloud(x, y, width, height);
-    let opacity = 1 - width / 300;
-    cloud.color = trees.setOpacity("white", opacity);
-    shapes.addToStaticForeground(cloud);
+function createClouds() {
+    for (let i = 0; i < 50; i++) {
+        let width = Width.percent(trees.random(2, 15));
+        let x = trees.random(0, Width);
+        let y = trees.random(0, skyHeight - Height.percent(10));
+        let height = width / 4
+        let cloud = new engine.complex.Cloud(x, y, width, height);
+        let opacity = 1 - width / 300;
+        cloud.color = trees.setOpacity("white", opacity);
+        shapes.addToStaticForeground(cloud);
+    }
 }
 
 function createMountains() {
-    let width = Width.percent(103);
-    let height = width / 10
-    let y = Height.percent(40) - height;
-    let mountain = new engine.complex.Mountains(-100, y, width, height, 0);
+    let width = Width;
+    let height = Height.percent(5);
+    let x = 0;
+    let y = skyHeight - height;
+    let mountain = new engine.complex.Mountains(x, y, width, height);
     mountain.color = "black";
     mountain.collidable = false;
     shapes.addToDynamicBackground(mountain);
@@ -142,55 +141,28 @@ function createWheel() {
     let width = Width.percent(32.3);
     let height = width;
     let x = Width.percent(15);
-    let y = Height.percent(40) - height / 2;
+    let y = skyHeight - height / 2;
 
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
-    shapes.addToDynamicBackground(wheel);
 
     wheel.callback = function() {
         wheel.rotate(0.5, wheel.center);
         this.shape.forEach(shape => {
-            if (shape.type === "Cup" && shape.y > water.y && shape.y < water.y + water.height) {
+            if (shape.type === "Cup" && shape.y > skyHeight) {
                 shape.fill(1);
             }
         })
     }
+    shapes.addToDynamicBackground(wheel);
 
 }
 
-function createGrassAndWater() {
-
-    water = new engine.complex.Box(0, Height.percent(40), Width, Width.percent(50));
-    grass = new engine.complex.Lake(0, Height.percent(40), Width, Width.percent(50));
-
-    earth = new engine.complex.Box(0, Height.percent(40) + Width.percent(50), Width, Height.percent(10));
-    caveBackground = new engine.complex.Box(0, Height.percent(50) + Width.percent(50), Width, Height.percent(30));
-    cave = new engine.complex.Cave(0, Height.percent(50) + Width.percent(50), Width, Height.percent(30));
-    let cavePool = new engine.complex.Box(0, Height.percent(70) + Width.percent(50), Width, Height.percent(8));
-
-    earth.color = "#190D03";
-    water.color = "rgb(0,47,57)";
-    grass.color = "rgb(0,74,37)";
-    caveBackground.color = "#1A001A";
-    cave.color = "#44355B"
-    cavePool.color = "rgb(0,47,57)";
-
-    cave.shape.forEach(shape => {
-        if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
-    });
-
-    engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
-
-    new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
-    new engine.complex.RockyBorder(grass, Width.percent(2), grass.lines()[2]);
-
-    shapes.addToStaticBackground(caveBackground);
-
+function createCrystals() {
     for (let i = 0; i < 50; i++) {
 
-        let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
-        let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
-        let height = trees.random(caveBackground.width.percent(.1), caveBackground.width.percent(1));
+        let x = trees.random(0, Width);
+        let y = trees.random(skyHeight + lakeHeight + earthHeight, skyHeight + lakeHeight + earthHeight + caveHeight);
+        let height = trees.random(Width.percent(.1), Width.percent(1));
         let width = height;
 
         let crystal = new engine.complex.Crystal(x, y, width, height);
@@ -198,12 +170,14 @@ function createGrassAndWater() {
         crystal.rotate(trees.random(0, 180), crystal.center);
         shapes.addToStaticBackground(crystal);
     }
+}
 
+function createGleamingCrystals() {
     for (let i = 0; i < 3; i++) {
 
-        let x = trees.random(caveBackground.x, caveBackground.x + caveBackground.width);
-        let y = trees.random(caveBackground.y, caveBackground.y + caveBackground.height)
-        let height = trees.random(caveBackground.width.percent(2), caveBackground.width.percent(4));
+        let x = trees.random(0, Width);
+        let y = trees.random(skyHeight + lakeHeight + earthHeight, skyHeight + lakeHeight + earthHeight + caveHeight);
+        let height = trees.random(Width.percent(2), Width.percent(4));
         let width = height / 2;
 
         let gleamingCrystal = new engine.complex.GleamingCrystal(x, y, width, height);
@@ -215,12 +189,43 @@ function createGrassAndWater() {
         gleamingCrystal.rotate(trees.random(0, 180), gleamingCrystal.center);
         shapes.addToStaticBackground(gleamingCrystal);
     }
+}
 
-    shapes.addToStaticForeground(cavePool);
-    shapes.addToStaticForeground(cave);
+function createLake() {
+    let water = new engine.complex.Box(0, skyHeight, Width, lakeHeight);
+    let lake = new engine.complex.Lake(0, skyHeight, Width, lakeHeight);
+    let earth = new engine.complex.Box(0, skyHeight + lakeHeight, Width, earthHeight);
+    earth.color = BROWN;
+    water.color = BLUE;
+    lake.color = GREEN;
+
+    engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
+    new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
+    new engine.complex.RockyBorder(lake, Width.percent(2), lake.lines()[2]);
+
     shapes.addToStaticForeground(earth);
     shapes.addToStaticForeground(water);
-    shapes.addToStaticForeground(grass);
+    shapes.addToStaticForeground(lake);
+}
+
+function createCave() {
+
+    let caveBackground = new engine.complex.Box(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
+    let cave = new engine.complex.Cave(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
+    let cavePool = new engine.complex.Box(0, skyHeight + lakeHeight + earthHeight + caveHeight - Height.percent(8), Width, Height.percent(8));
+
+    caveBackground.color = DARKPURPLE;
+    cave.color = LIGHTPURPLE;
+    cavePool.color = BLUE;
+
+    cave.shape.forEach(shape => {
+        if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
+    });
+
+    shapes.addToStaticBackground(caveBackground);
+    shapes.addToStaticForeground(cavePool);
+    shapes.addToStaticForeground(cave);
+
 }
 
 export { level0 };
