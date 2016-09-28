@@ -3,9 +3,6 @@ import { engine } from '../engine/engine.js';
 let shapes = engine.shapesRegistry;
 let Width;
 let Height;
-let scrollDown = false;
-let scrollUp = false;
-let max = 0;
 
 let skyHeight;
 let lakeHeight;
@@ -16,7 +13,13 @@ const BROWN = "#190D03";
 const BLUE = "rgb(0,47,57)";
 const GREEN = "rgb(0,74,37)";
 const DARKPURPLE = "#1A001A";
-const LIGHTPURPLE = "#44355B"
+const LIGHTPURPLE = "#44355B";
+const PINK = "pink";
+const FONTPRIMARY = "BungeeShade";
+const WHITE = "white";
+const BLACK = "black";
+const GRAY = "gray";
+const YELLOW = "yellow";
 
 function level0() {
 
@@ -28,38 +31,38 @@ function level0() {
     earthHeight = Height.percent(10);
     caveHeight = Height.percent(30);
 
-    shapes.staticBackgroundCanvas.element.style.backgroundColor = "pink";
+    shapes.staticBackgroundCanvas.element.style.backgroundColor = PINK;
 
-    createStripedBalloons();
-    createMountains();
-    createClouds();
-    createText();
-    createWheel();
-    createCave();
-    createLake();
-    createCrystals();
-    createGleamingCrystals();
-    createWaterFall();
+    StripedBalloons();
+    Mountains();
+    Clouds();
+    Text();
+    Wheel();
+    Cave();
+    Lake();
+    Crystals();
+    GleamingCrystals();
+    WaterFall();
 
 }
 
-function createText() {
+function Text() {
     let size = Width.percent(5);
     let x = Width.percent(50);
     let y = Height.percent(3);
 
-    let text = new engine.simples.Text("Gary Kertis", x, y, size, "BungeeShade");
+    let text = new engine.simples.Text("Gary Kertis", x, y, size, FONTPRIMARY);
     text.color = "black";
 
     shapes.addToStaticForeground(text);
 
-    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), "BungeeShade");
+    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
 
 }
 
-function createWaterFall() {
+function WaterFall() {
 
     let x = Width.percent(30);
     let y = skyHeight + lakeHeight + earthHeight;
@@ -72,7 +75,7 @@ function createWaterFall() {
     waterFall.activePour.oscillate = true;
 }
 
-function createStripedBalloons() {
+function StripedBalloons() {
     for (let i = 0; i < 10; i++) {
 
         let size = Width.percent(trees.random(1, 5));
@@ -100,7 +103,7 @@ function createStripedBalloons() {
     }
 }
 
-function createClouds() {
+function Clouds() {
     for (let i = 0; i < 50; i++) {
         let width = Width.percent(trees.random(2, 15));
         let x = trees.random(0, Width);
@@ -108,22 +111,22 @@ function createClouds() {
         let height = width / 4
         let cloud = new engine.complex.Cloud(x, y, width, height);
         let opacity = 1 - width / 300;
-        cloud.color = trees.setOpacity("white", opacity);
+        cloud.color = trees.setOpacity(WHITE, opacity);
         shapes.addToStaticForeground(cloud);
     }
 }
 
-function createMountains() {
+function Mountains() {
     let width = Width;
     let height = Height.percent(5);
     let x = 0;
     let y = skyHeight - height;
     let mountain = new engine.complex.Mountains(x, y, width, height);
-    mountain.color = "black";
+    mountain.color = BLACK;
     mountain.collidable = false;
     shapes.addToDynamicBackground(mountain);
 
-    engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, "yellow");
+    engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, YELLOW);
 
     mountain.callback = function() {
         this.shape.forEach(shape => {
@@ -136,7 +139,7 @@ function createMountains() {
     }
 }
 
-function createWheel() {
+function Wheel() {
 
     let width = Width.percent(32.3);
     let height = width;
@@ -157,7 +160,7 @@ function createWheel() {
 
 }
 
-function createCrystals() {
+function Crystals() {
     for (let i = 0; i < 50; i++) {
 
         let x = trees.random(0, Width);
@@ -172,7 +175,7 @@ function createCrystals() {
     }
 }
 
-function createGleamingCrystals() {
+function GleamingCrystals() {
     for (let i = 0; i < 3; i++) {
 
         let x = trees.random(0, Width);
@@ -184,14 +187,14 @@ function createGleamingCrystals() {
         gleamingCrystal.color = trees.randomColor();
         gleamingCrystal.stripeWidth = gleamingCrystal.width.percent(10);
         gleamingCrystal.stripeSpacing = gleamingCrystal.width.percent(90);
-        gleamingCrystal.stripeColor = [trees.setOpacity("white", 0.5)];
+        gleamingCrystal.stripeColor = [trees.setOpacity(WHITE, 0.5)];
         gleamingCrystal.stripeOrientation = "vertical";
         gleamingCrystal.rotate(trees.random(0, 180), gleamingCrystal.center);
         shapes.addToStaticBackground(gleamingCrystal);
     }
 }
 
-function createLake() {
+function Lake() {
     let water = new engine.complex.Box(0, skyHeight, Width, lakeHeight);
     let lake = new engine.complex.Lake(0, skyHeight, Width, lakeHeight);
     let earth = new engine.complex.Box(0, skyHeight + lakeHeight, Width, earthHeight);
@@ -199,7 +202,7 @@ function createLake() {
     water.color = BLUE;
     lake.color = GREEN;
 
-    engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, "#CC8B79")
+    engine.patterns.polkaDots(earth, engine.simples.Circle, 100, 1, 5, PINK)
     new engine.complex.RockyBorder(earth, Width.percent(3), earth.lines()[2])
     new engine.complex.RockyBorder(lake, Width.percent(2), lake.lines()[2]);
 
@@ -208,7 +211,7 @@ function createLake() {
     shapes.addToStaticForeground(lake);
 }
 
-function createCave() {
+function Cave() {
 
     let caveBackground = new engine.complex.Box(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
     let cave = new engine.complex.Cave(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
@@ -219,7 +222,7 @@ function createCave() {
     cavePool.color = BLUE;
 
     cave.shape.forEach(shape => {
-        if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, "gray");
+        if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, GRAY);
     });
 
     shapes.addToStaticBackground(caveBackground);
