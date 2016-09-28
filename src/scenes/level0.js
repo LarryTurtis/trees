@@ -42,12 +42,12 @@ function createText() {
     let x = Width.percent(50);
     let y = Height.percent(3);
 
-    let text = new engine.simples.Text("Gary Kertis", x, y, size, "Bungee");
+    let text = new engine.simples.Text("Gary Kertis", x, y, size, "BungeeShade");
     text.color = "black";
 
     shapes.addToStaticForeground(text);
     
-    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), "Bungee");
+    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), "BungeeShade");
     text2.color = "black";
     shapes.addToStaticForeground(text2);
 
@@ -57,7 +57,7 @@ function createWaterFall() {
 
     let x = Width.percent(30);
     let y = water.y + water.height.percent(90);
-    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), cave.height);
+    let pour = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
     pour.color = trees.setOpacity(water.color, 0.8);
     pour.collidable = true;
     shapes.addToDynamicBackground(pour);
@@ -107,7 +107,7 @@ function createStripedBalloon() {
 function createCloud() {
     let width = Width.percent(trees.random(2, 15));
     let x = Width.percent(trees.random(1, 100));
-    let y = Height.percent(trees.random(0, 20));
+    let y = Height.percent(trees.random(0, 30));
     let height = width / 4
     let cloud = new engine.complex.Cloud(x, y, width, height);
     let opacity = 1 - width / 300;
@@ -118,7 +118,7 @@ function createCloud() {
 function createMountains() {
     let width = Width.percent(103);
     let height = width / 10
-    let y = Height.percent(30) - height;
+    let y = Height.percent(40) - height;
     let mountain = new engine.complex.Mountains(-100, y, width, height, 0);
     mountain.color = "black";
     mountain.collidable = false;
@@ -142,7 +142,7 @@ function createWheel() {
     let width = Width.percent(32.3);
     let height = width;
     let x = Width.percent(15);
-    let y = Height.percent(30) - height / 2;
+    let y = Height.percent(40) - height / 2;
 
     let wheel = new engine.complex.WaterWheel(x, y, width, height);
     shapes.addToDynamicBackground(wheel);
@@ -160,12 +160,13 @@ function createWheel() {
 
 function createGrassAndWater() {
 
-    water = new engine.complex.Box(0, Height.percent(30), Width, Width.percent(50));
-    earth = new engine.complex.Box(0, water.y + water.height, Width, Height.percent(5));
-    grass = new engine.complex.Lake(0, Height.percent(30), Width, Width.percent(50));
-    caveBackground = new engine.complex.Box(0, earth.y + earth.height, Width, Width.percent(75));
-    cave = new engine.complex.Cave(0, earth.y + earth.height, Width, Width.percent(75));
-    let cavePool = new engine.complex.Box(0, cave.y + cave.height - Width.percent(25), Width, Width.percent(25));
+    water = new engine.complex.Box(0, Height.percent(40), Width, Width.percent(50));
+    grass = new engine.complex.Lake(0, Height.percent(40), Width, Width.percent(50));
+
+    earth = new engine.complex.Box(0, Height.percent(40) + Width.percent(50), Width, Height.percent(10));
+    caveBackground = new engine.complex.Box(0, Height.percent(50) + Width.percent(50), Width, Height.percent(30));
+    cave = new engine.complex.Cave(0, Height.percent(50) + Width.percent(50), Width, Height.percent(30));
+    let cavePool = new engine.complex.Box(0, Height.percent(70) + Width.percent(50), Width, Height.percent(8));
 
     earth.color = "#190D03";
     water.color = "rgb(0,47,57)";

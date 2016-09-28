@@ -9,6 +9,8 @@ let shapes = new ShapesRegistry();
 let boundingBoxes = false;
 let i = 0;
 
+let nowScrolling = false;
+
 function initialize() {
     document.onkeydown = mapKeys;
 }
