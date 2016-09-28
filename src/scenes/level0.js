@@ -21,6 +21,7 @@ const BLACK = "black";
 const GRAY = "gray";
 const YELLOW = "yellow";
 const OLIVE = "#666633";
+const LIGHTOLIVE = "#d4d4aa";
 
 function level0() {
 
@@ -68,7 +69,7 @@ function WaterFall() {
     let x = Width.percent(30);
     let y = skyHeight + lakeHeight + earthHeight;
     let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
-    waterFall.color = BLUE;
+    waterFall.color = OLIVE;
     waterFall.collidable = true;
     shapes.addToDynamicBackground(waterFall);
 
@@ -77,7 +78,7 @@ function WaterFall() {
 
     let splash = new engine.complex.Box(x - Width.percent(1), y + Height.percent(21), Width.percent(12), Height.percent(2));
     shapes.addToDynamicBackground(splash);
-    engine.patterns.polkaDots(splash, engine.simples.Circle, 20, 1, Width.percent(4), WHITE);
+    engine.patterns.polkaDots(splash, engine.simples.Circle, 20, 1, Width.percent(4), LIGHTOLIVE);
     splash.shape.forEach(shape => {
         if (shape.type === "Circle") {
             shape.x = splash.center.x;
@@ -250,7 +251,7 @@ function Cave() {
 
     caveBackground.color = DARKPURPLE;
     cave.color = LIGHTPURPLE;
-    cavePool.color = BLUE;
+    cavePool.color = OLIVE;
 
     cave.shape.forEach(shape => {
         if (shape.type === "Box") engine.patterns.polkaTrapezoids(shape, 10, 1, 5, GRAY);
