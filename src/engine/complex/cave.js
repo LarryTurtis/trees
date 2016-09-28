@@ -47,7 +47,7 @@ class Cave extends ComplexShape {
 
         this.addShape(rectangle7);
 
-        let rectangle8 = new complex.Box(x, y + height.percent(81), width, height.percent(100));
+        let rectangle8 = new complex.Box(x, y + height.percent(80), width, height.percent(20));
         this.addShape(rectangle8);
     }
 

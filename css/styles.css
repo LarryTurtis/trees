@@ -9,15 +9,15 @@
 }
 
 @font-face {
-    font-family: 'Bungee';
+    font-family: 'BungeeShade';
     src: url('./fonts/BungeeShade-Regular.ttf') format('truetype')
 }
 
 body {
-    background-color: #004d00;
-    font-family: 'Lato', Arial, serif;
+    background-color: pink;
+    font-family: 'BungeeShade', Arial, serif;
     font-size: 36px;
-    color: orange;
+    color: pink;
     height: 0px;
 }
 
