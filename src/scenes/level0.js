@@ -50,14 +50,14 @@ function level0() {
 function Text() {
     let size = Width.percent(5);
     let x = Width.percent(50);
-    let y = Height.percent(3);
+    let y = Height.percent(8);
 
     let text = new engine.simples.Text("Gary Kertis", x, y, size, FONTPRIMARY);
     text.color = "black";
 
     shapes.addToStaticForeground(text);
 
-    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(7), Width.percent(3), FONTPRIMARY);
+    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
 
@@ -210,7 +210,7 @@ function GleamingCrystals() {
     for (let i = 0; i < 3; i++) {
 
         let x = trees.random(0, Width);
-        let y = trees.random(skyHeight + lakeHeight + earthHeight, skyHeight + lakeHeight + earthHeight + caveHeight);
+        let y = trees.random(skyHeight + lakeHeight + earthHeight, skyHeight + lakeHeight + earthHeight + caveHeight.percent(60));
         let height = trees.random(Width.percent(2), Width.percent(4));
         let width = height / 2;
 
