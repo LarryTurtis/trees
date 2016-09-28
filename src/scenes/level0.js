@@ -60,7 +60,6 @@ function Text() {
     let text2 = new engine.simples.Text("Portfolio", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
-
 }
 
 function WaterFall() {
