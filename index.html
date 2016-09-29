@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 
 <head>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Chelsea+Market|Chicle|Kranky|Ubuntu" rel="stylesheet">    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <script src="./node_modules/sat-js/SAT.js">
     </script>
@@ -15,11 +15,6 @@
     <div id="dynamicBackgroundCanvas" class="canvases"></div>
     <div id="main" class="canvases">
         <div id="about">
-            <ul class="nav nav-pills" ng-controller="siteCtrl">
-                <li ng-repeat="site in sites" ng-class="getClass('/sites/{{site.id}}')">
-                    <a href="#/sites/{{site.id}}">{{site.name}}</a>
-                </li>
-            </ul>
             <div class="row">
                 <div class="col-md-12">
                     <div class="view-animate-container">
@@ -39,6 +34,11 @@
                     </ul>
                 </div>
             </div>
+            <ul class="nav nav-pills" ng-controller="siteCtrl">
+                <li ng-repeat="site in sites" ng-class="getClass('/sites/{{site.id}}')">
+                    <a href="#/sites/{{site.id}}">{{site.name}}</a>
+                </li>
+            </ul>
         </div>
     </div>
     <div id="staticForegroundCanvas" class="canvases"></div>

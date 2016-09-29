@@ -15,7 +15,7 @@
 
 body {
     background-color: pink;
-    font-family: 'Yatra', Arial, serif;
+    font-family: 'Lato', Arial, serif;
     color: pink;
     height: 0px;
 }
@@ -79,45 +79,39 @@ img {
   margin: 5px;
 }
 .active a {
-  background-color: #AF001E !important;
+  background-color: black !important;
 }
 .nav-pills li a {
   border-radius: 0px!important;
-  color: #AF001E;
-}
-.nav {
-  border-top: 2px solid #AF001E;
-  border-bottom: 2px solid #AF001E;
-  background-color: #44355B;
+  color: white;
 }
 a:hover {
-  color: #c15420;
+  color: black;
   text-decoration: none;
 }
 p,
 a {
-  color: #AF001E;
-  font-family: 'Yatra';
+  color: white;
+  font-family: 'Chicle';
 }
 #sun {
   z-index: -1;
   position: fixed;
   top: 0;
   left: 0;
-  border: 2px solid #AF001E;
+  border: 2px solid white;
 }
 
 .main {
   margin-top: 50px;
-  border: 1px solid #e1e1e1;
-  background: white;
+  border: 1px solid black;
   padding: 0px!important;
 }
 .view-animate-container {
   height: 350px;
   position: relative;
   padding: 0px!important;
-  border-bottom: 1px solid #AF001E;
+  border-bottom: 1px solid white;
 }
 .view-animate {
   padding: 10px!important;
