@@ -1,5 +1,5 @@
 import { Sprite } from '../src/engine/sprite.js';
-import { ContainerComposite } from '../src/engine/complex/containerComposite.js';
+import { ContainerComposite } from '../src/engine/complex/containers/containerComposite.js';
 
 describe('Container Composite', () => {
 

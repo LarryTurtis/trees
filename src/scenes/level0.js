@@ -68,7 +68,6 @@ function WaterFall() {
     let y = skyHeight + lakeHeight + earthHeight;
     let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
     waterFall.color = trees.setOpacity(BLUE, 0.5);
-    waterFall.collidable = true;
     shapes.addToDynamicBackground(waterFall);
 
     waterFall.start();
@@ -102,7 +101,6 @@ function WaterFall() {
         });
     }
 
-
 }
 
 function StripedBalloons() {
@@ -112,7 +110,7 @@ function StripedBalloons() {
         let x = Width.percent(trees.random(0, 95));
         let y = Height.percent(trees.random(10, 30));
 
-        let balloon = new engine.complex.StripedBalloon(x, y, size, size);
+        let balloon = new engine.client.StripedBalloon(x, y, size, size);
         balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
         balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
 
@@ -139,7 +137,7 @@ function Clouds() {
         let x = trees.random(0, Width);
         let y = trees.random(0, skyHeight - Height.percent(10));
         let height = width / 4
-        let cloud = new engine.complex.Cloud(x, y, width, height);
+        let cloud = new engine.client.Cloud(x, y, width, height);
         let opacity = 1 - width / 300;
         cloud.color = trees.setOpacity(WHITE, opacity);
         shapes.addToStaticForeground(cloud);
@@ -151,9 +149,8 @@ function Mountains() {
     let height = Height.percent(5);
     let x = 0;
     let y = skyHeight - height;
-    let mountain = new engine.complex.Mountains(x, y, width, height);
+    let mountain = new engine.client.Mountains(x, y, width, height);
     mountain.color = BLACK;
-    mountain.collidable = false;
     shapes.addToDynamicBackground(mountain);
 
     engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, YELLOW);
@@ -176,7 +173,7 @@ function Wheel() {
     let x = Width.percent(15);
     let y = skyHeight - height / 2;
 
-    let wheel = new engine.complex.WaterWheel(x, y, width, height);
+    let wheel = new engine.client.WaterWheel(x, y, width, height);
 
     wheel.callback = function() {
         wheel.rotate(0.5, wheel.center);
@@ -198,7 +195,7 @@ function Crystals() {
         let height = trees.random(Width.percent(.1), Width.percent(1));
         let width = height;
 
-        let crystal = new engine.complex.Crystal(x, y, width, height);
+        let crystal = new engine.client.Crystal(x, y, width, height);
         crystal.color = trees.randomColor();
         crystal.rotate(trees.random(0, 180), crystal.center);
         shapes.addToStaticBackground(crystal);
@@ -213,7 +210,7 @@ function GleamingCrystals() {
         let height = trees.random(Width.percent(2), Width.percent(4));
         let width = height / 2;
 
-        let gleamingCrystal = new engine.complex.GleamingCrystal(x, y, width, height);
+        let gleamingCrystal = new engine.client.GleamingCrystal(x, y, width, height);
         gleamingCrystal.color = trees.randomColor();
         gleamingCrystal.stripeWidth = gleamingCrystal.width.percent(10);
         gleamingCrystal.stripeSpacing = gleamingCrystal.width.percent(90);
@@ -226,7 +223,7 @@ function GleamingCrystals() {
 
 function Lake() {
     let water = new engine.complex.Box(0, skyHeight, Width, lakeHeight);
-    let lake = new engine.complex.Lake(0, skyHeight, Width, lakeHeight);
+    let lake = new engine.client.Lake(0, skyHeight, Width, lakeHeight);
     let earth = new engine.complex.Box(0, skyHeight + lakeHeight, Width, earthHeight);
     earth.color = BROWN;
     water.color = BLUE;
@@ -244,7 +241,7 @@ function Lake() {
 function Cave() {
 
     let caveBackground = new engine.complex.Box(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
-    let cave = new engine.complex.Cave(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
+    let cave = new engine.client.Cave(0, skyHeight + lakeHeight + earthHeight, Width, caveHeight);
     let cavePool = new engine.complex.Box(0, skyHeight + lakeHeight + earthHeight + caveHeight - Height.percent(8), Width, Height.percent(8));
 
     caveBackground.color = DARKPURPLE;

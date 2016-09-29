@@ -1,5 +1,5 @@
 import { Sprite } from '../src/engine/sprite.js';
-import { Container } from '../src/engine/complex/container.js';
+import { Container } from '../src/engine/complex/containers/container.js';
 
 describe('Container', () => {
     let container;

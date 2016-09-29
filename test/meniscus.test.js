@@ -1,4 +1,4 @@
-import { Meniscus } from '../src/engine/complex/meniscus.js';
+import { Meniscus } from '../src/engine/complex/containers/meniscus.js';
 import { Point } from "../src/engine/point.js";
 
 describe('Meniscus', () => {

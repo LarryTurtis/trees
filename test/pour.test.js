@@ -1,6 +1,6 @@
-import { Pour } from '../src/engine/complex/pour.js';
+import { Pour } from '../src/engine/complex/containers/pour.js';
 import { Rectangle } from '../src/engine/simples/rectangle.js';
-import { Container } from '../src/engine/complex/container.js';
+import { Container } from '../src/engine/complex/containers/container.js';
 import { updateCollisions } from '../src/engine/collisions/collisionDetection.js';
 
 describe('Pour', () => {

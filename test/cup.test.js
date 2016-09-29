@@ -1,4 +1,4 @@
-import { Cup } from '../src/engine/complex/cup.js';
+import { Cup } from '../src/engine/client/cup.js';
 
 describe('Cup', () => {
     let cup;

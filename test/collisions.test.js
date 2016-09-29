@@ -1,6 +1,6 @@
-import { PourComposite } from '../src/engine/complex/pourComposite.js';
+import { PourComposite } from '../src/engine/complex/containers/pourComposite.js';
 import { Rectangle } from '../src/engine/simples/rectangle.js';
-import { Container } from '../src/engine/complex/container.js';
+import { Container } from '../src/engine/complex/containers/container.js';
 import { updateCollisions } from '../src/engine/collisions/collisionDetection.js';
 import { ShapesRegistry } from '../src/engine/shapesregistry.js';
 

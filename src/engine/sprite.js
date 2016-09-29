@@ -1,6 +1,5 @@
 import { Point } from './point.js';
 import { Line } from './line.js';
-import { scroll } from './animations/scroll.js'
 
 class Sprite {
     constructor(x, y, width, height) {

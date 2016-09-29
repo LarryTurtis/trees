@@ -6,19 +6,19 @@ import { animate } from './animate.js';
 import { drawStaticShapes } from './drawStaticShapes.js';
 import { simples } from './simples/simples.js';
 import { complex } from './complex/complex.js';
-import { animations } from './animations/animations.js';
+import { client } from './client/client.js';
 import { patterns } from './patterns/patterns.js';
 import { mouseEvents } from './userInput/mouseEvents.js';
 import { keyboardEvents } from './userInput/keyboardEvents.js';
 import { scrollEvents } from './userInput/scrollEvents.js';
 
 let engine = {
-    animations: animations,
     patterns: patterns,
     shapesRegistry: shapesRegistry,
     drawStaticShapes: drawStaticShapes,
     simples: simples,
     complex: complex,
+    client: client,
     go: go,
     levels: []
 };

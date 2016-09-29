@@ -1,4 +1,4 @@
-import { LevelLine } from '../src/engine/complex/levelLine.js';
+import { LevelLine } from '../src/engine/complex/containers/levelLine.js';
 
 describe('LevelLine', function() {
     describe('interface', function() {

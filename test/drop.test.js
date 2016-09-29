@@ -1,4 +1,4 @@
-import { Drop } from '../src/engine/complex/drop.js';
+import { Drop } from '../src/engine/complex/containers/drop.js';
 
 describe('Drop', () => {
 

@@ -1,6 +1,6 @@
 import { Sprite } from '../src/engine/sprite.js';
-import { Container } from '../src/engine/complex/container.js';
-import { Liquid } from '../src/engine/complex/liquid.js';
+import { Container } from '../src/engine/complex/containers/container.js';
+import { Liquid } from '../src/engine/complex/containers/liquid.js';
 
 let tolerance = 0.001;
 
