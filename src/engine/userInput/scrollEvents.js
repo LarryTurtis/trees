@@ -19,6 +19,7 @@ function initialize() {
                     canvas.currentY = last_known_scroll_position;
                     canvas.scroll(0)
                 });
+                document.getElementById("main").style.marginTop = -last_known_scroll_position + "px"
                 ticking = false;
             });
         }

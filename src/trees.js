@@ -58,7 +58,7 @@ class trees {
     }
 
     static getRGB(color) {
-        d = document.createElement("div");
+        d = document.getElementById("staticBackgroundCanvas");
         d.style.color = color;
         document.body.appendChild(d)
         return window.getComputedStyle(d).color

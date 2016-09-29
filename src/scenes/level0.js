@@ -57,7 +57,7 @@ function Text() {
 
     shapes.addToStaticForeground(text);
 
-    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
+    let text2 = new engine.simples.Text("Projects", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
 }

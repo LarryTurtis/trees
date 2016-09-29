@@ -37,7 +37,7 @@ function go(callback) {
     document.getElementById("main").style.height = window.innerWidth * 2.5 + "px";
 
     window.addEventListener('load', () => {
-        keyboardEvents.initialize();
+        // keyboardEvents.initialize();
         scrollEvents.initialize();
         callback();
         drawStaticShapes();
