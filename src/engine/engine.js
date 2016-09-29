@@ -34,9 +34,10 @@ function go(callback) {
         canvas.height = window.innerWidth * 2.5;
     });
     document.body.style.height = window.innerWidth * 2.5 + "px";
+    document.getElementById("main").style.height = window.innerWidth * 2.5 + "px";
 
     window.addEventListener('load', () => {
-        keyboardEvents.initialize();
+        // keyboardEvents.initialize();
         scrollEvents.initialize();
         callback();
         drawStaticShapes();

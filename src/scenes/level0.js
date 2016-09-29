@@ -57,10 +57,9 @@ function Text() {
 
     shapes.addToStaticForeground(text);
 
-    let text2 = new engine.simples.Text("Portfolio", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
+    let text2 = new engine.simples.Text("Projects", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
-
 }
 
 function WaterFall() {
@@ -68,7 +67,7 @@ function WaterFall() {
     let x = Width.percent(30);
     let y = skyHeight + lakeHeight + earthHeight;
     let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
-    waterFall.color = BLUE;
+    waterFall.color = trees.setOpacity(BLUE, 0.5);
     waterFall.collidable = true;
     shapes.addToDynamicBackground(waterFall);
 

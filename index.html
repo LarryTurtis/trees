@@ -1,18 +1,43 @@
 <!doctype html>
+<html lang="en">
 
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Chelsea+Market|Chicle|Kranky|Ubuntu" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <script src="./node_modules/sat-js/SAT.js">
     </script>
 </head>
 
 <body style="margin: 0px;">
-	Web Portfolio
     <div class="title">Gary Kertis</div>
+    <p>Web Portfolio</p>
     <div id="staticBackgroundCanvas" class="canvases"></div>
     <div id="dynamicBackgroundCanvas" class="canvases"></div>
     <div id="staticForegroundCanvas" class="canvases"></div>
     <div id="dynamicForegroundCanvas" class="canvases"></div>
+    <div id="main" class="canvases">
+        <div id="about" class="nav nav-pills" ng-controller="siteCtrl">
+            <h2>Work</h2>
+            <ul>
+                <li><a target="_blank" href="http://mobydickmarathonnyc.org">Moby Dick Marathon NYC</a></li>
+                <li><a target="_blank" href="http://garykertis.com/vivopara">Vivo Para</a></li>
+                <li><a target="_blank" href="http://garykertis.com/demos/pinball12">Pinball</a></li>
+                <li><a target="_blank" href="http://garykertis.com/wordpress/">Quebec Bike Trip</a></li>
+                <li><a target="_blank" href="http://garykertis.com/extraneato">Extra Neato</a></li>
+                <li><a target="_blank" href="http://garykertis.com/hsstanislaus/">Humane Society</a></li>
+                <li><a target="_blank" href="http://garykertis.com/larryturtis/">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="footer">
+        <ul class="menu">
+            <li><a href="https://www.facebook.com/gary.kertis" target="_blank">Facebook</a></li>
+            <li><a href="https://www.linkedin.com/profile/view?id=23709354" target="_blank">LinkedIn</a></li>
+            <li><a href="https://plus.google.com/u/0/111327913229867413812/" target="_blank">Google+</a></li>
+            <li><a href="https://github.com/GaryKertis" target="_blank">GitHub</a></li>
+            <li><a href="https://twitter.com/GaryKertis" target="_blank">Twitter</a></li>
+        </ul>
+    </div>
 </body>
 <script src="./build/build.js"></script>
 
