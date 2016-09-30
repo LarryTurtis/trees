@@ -18,6 +18,8 @@ class ShapesRegistry {
             this._staticForegroundCanvas = new Canvas("staticForegroundCanvas");
             this._dynamicBackgroundCanvas = new Canvas("dynamicBackgroundCanvas");
             this._dynamicForegroundCanvas = new Canvas("dynamicForegroundCanvas");
+            this.static = document.URL.split("?")[1] === "static";
+
         }
         return instance;
     }

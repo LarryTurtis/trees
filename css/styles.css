@@ -10,7 +10,7 @@
 
 body {
     background-color: rgb(68, 53, 91);
-    color: pink;
+    color: rgb(68, 53, 91);
     font-family: 'Chicle', Arial, serif;
     font-size: 2.5vw;
     height: 0px;
@@ -22,6 +22,7 @@ li {
 
 .title {
     font-family: 'BungeeShade', Arial, serif;
+    color: rgb(68, 53, 91);
     position: absolute;
     top: 100px;
     left: 100px;
@@ -87,7 +88,6 @@ a:hover {
     text-decoration: none;
 }
 
-p,
 a {
     color: white;
     font-family: 'Chicle';

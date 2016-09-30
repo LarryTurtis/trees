@@ -8,9 +8,11 @@ let then = Date.now();
 let delta;
 
 function animate() {
-    requestAnimationFrame(() => {
-        animate();
-    });
+    if (!shapesRegistry.static) {
+        requestAnimationFrame(() => {
+            animate();
+        });
+    }
 
     now = Date.now();
     delta = now - then;
@@ -42,16 +44,16 @@ function animate() {
             let counter = 0;
 
             shapesRegistry.dynamicShapes.forEach(shape => {
-                if (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10)) {
+                if (!shapesRegistry.static && (shape.boundary.a.x > shape.canvas.width.percent(110) || shape.boundary.b.x < -shape.canvas.width.percent(10))) {
                     //shapesRegistry.remove(shape);
                     return;
                 }
 
-                if (shape.boundary.a.y > shape.canvas.currentY + window.innerHeight.percent(110) || shape.boundary.d.y < shape.canvas.currentY - shape.canvas.height.percent(10)) {
+                if (!shapesRegistry.static && (shape.boundary.a.y > shape.canvas.currentY + window.innerHeight.percent(110) || shape.boundary.d.y < shape.canvas.currentY - shape.canvas.height.percent(10))) {
                     //shapesRegistry.remove(shape);
                     return;
                 }
-                counter ++;
+                counter++;
                 let collisions = [];
 
                 if (shape.animate) {
@@ -71,7 +73,7 @@ function animate() {
                 if (shape.visible) shape.draw(shape.canvas.ctx);
             });
 
-            //console.log("Drew " + counter + " shapes.");
+            //console.log("Drew " + counter + " shapesRegistry.");
 
         }
 
