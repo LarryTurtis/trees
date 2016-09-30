@@ -69,10 +69,19 @@ function WaterFall() {
     let waterFall = new engine.complex.PourComposite(x, y, Width.percent(10), Height.percent(35));
     waterFall.color = trees.setOpacity(BLUE, 0.5);
     shapes.addToDynamicBackground(waterFall);
-
     waterFall.start();
     waterFall.activePour.oscillate = true;
+    for (let i = 0; i < waterFall.height; i++) {
+        waterFall.activePour.addDrop();
+    }
 
+    let dropY = y;
+    waterFall.activePour.drops.forEach(drop => {
+        drop.y = dropY;
+        dropY += 1;
+    });
+    waterFall.stop();
+    waterFall.start();
     let splash = new engine.complex.Box(x - Width.percent(1), y + Height.percent(21), Width.percent(12), Height.percent(2));
     shapes.addToDynamicBackground(splash);
     engine.patterns.polkaDots(splash, engine.simples.Circle, 20, 1, Width.percent(4), WHITE);
