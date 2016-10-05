@@ -20,6 +20,10 @@ li {
     list-style: none;
 }
 
+h2 {
+    color: pink;
+}
+
 .title {
     font-family: 'BungeeShade', Arial, serif;
     color: rgb(68, 53, 91);
@@ -56,6 +60,7 @@ li {
 }
 
 #main {
+    height: 200%;
     z-index: 150;
     pointer-events: all;
 }
@@ -71,7 +76,7 @@ li {
 #footer {
     position: fixed;
     font-size: 1vw;
-    top: 90%;
+    bottom: 3%;
     width: 50%;
     padding: 1%;
     height: 1%;
