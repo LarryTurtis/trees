@@ -112,6 +112,7 @@ class PourComposite extends ComplexShape {
     }
 
     draw(ctx) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
         super.draw(ctx);
         if (this.pours.length) {
             this.pours.forEach(pour => {

@@ -12,7 +12,7 @@ function drawStaticShapes() {
             }
 
             shapesRegistry.staticShapes.forEach(shape => {
-                if (shape.visible) shape.draw(shape.canvas.ctx);
+                if (shape.visible) shape.draw();
             });
 
         }

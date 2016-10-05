@@ -324,6 +324,8 @@ class Sprite {
     }
 
     draw(ctx) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
+
         if (!ctx || !ctx.beginPath || !ctx.closePath) {
             throw new Error("Attempted to draw without supplying context");
         }

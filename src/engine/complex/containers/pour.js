@@ -9,7 +9,7 @@ class Pour {
         this.type = "Pour";
 
         this.oscillateSpeed = 4;
-        this.oscillate = true;
+        this.oscillate = false;
         this.oscillateInterval = width.percent(1);
 
         this.oscillateCounter = 0;
@@ -31,8 +31,8 @@ class Pour {
             drop.y += amount;
             drop.y += amount;
             if (drop.y > this.endPoint) {
-               this.removeDrop(drop)
-           }
+                this.removeDrop(drop)
+            }
         });
     }
 
@@ -75,10 +75,11 @@ class Pour {
     }
 
     draw(ctx) {
-        if (this.drops.length) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
 
-            ctx.beginPath();
+        if (this.drops.length) {
             ctx.fillStyle = this.color;
+            ctx.beginPath();
             ctx.yMove(this.drops[0].start);
             this.drops.forEach(drop => {
                 ctx.yLine(drop.start);

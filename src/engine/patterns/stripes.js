@@ -12,6 +12,8 @@ function stripes(container, stripeSize, stripeSpacing, color, orientation) {
             let stripe = new simples.Rectangle(currentStripe, container.y, stripeSize, container.height);
             stripe.color = color[i % color.length];
             stripe.draw = function(ctx) {
+                ctx = ctx || this.canvas && this.canvas.ctx;
+
                 ctx.save();
                 ctx.beginPath();
                 container.pathOnly = true;
@@ -47,6 +49,8 @@ function stripes(container, stripeSize, stripeSpacing, color, orientation) {
             let stripe = new simples.Rectangle(container.x, currentStripe, container.width, stripeSize);
             stripe.color = color[i % color.length];
             stripe.draw = function(ctx) {
+                ctx = ctx || this.canvas && this.canvas.ctx;
+
                 ctx.save();
                 ctx.beginPath();
                 container.pathOnly = true;
@@ -82,6 +86,8 @@ function stripes(container, stripeSize, stripeSpacing, color, orientation) {
             stripe.rotate(-45, stripe.center);
             stripe.color = color[i % color.length];
             stripe.draw = function(ctx) {
+                ctx = ctx || this.canvas && this.canvas.ctx;
+
                 ctx.save();
                 ctx.beginPath();
                 container.pathOnly = true;

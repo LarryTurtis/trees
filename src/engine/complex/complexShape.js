@@ -178,6 +178,8 @@ class ComplexShape extends Sprite {
     }
 
     draw(ctx) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
+
         super.draw(ctx);
 
         ctx.beginPath();

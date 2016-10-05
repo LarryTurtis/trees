@@ -52,6 +52,7 @@ class Text extends Sprite {
     }
 
     draw(ctx) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
         super.draw(ctx);
         ctx.font = this.font;
         ctx.textBaseline = "hanging";

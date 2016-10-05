@@ -10,8 +10,6 @@ class Rectangle extends Sprite {
         lines.forEach(line => {
             this.drawingInstructions.push(new DrawInstruction(line))
         });
-
-        console.log(this.drawingInstructions);
     }
 
     createSATObject() {

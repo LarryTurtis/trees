@@ -70,7 +70,7 @@ function animate() {
                     }
                 }
 
-                if (shape.visible) shape.draw(shape.canvas.ctx);
+                if (shape.visible) shape.draw();
             });
 
             //console.log("Drew " + counter + " shapesRegistry.");
