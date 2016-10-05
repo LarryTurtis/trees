@@ -1,9 +1,17 @@
 import { Sprite } from '../sprite.js'
+import { DrawInstruction } from '../drawInstruction.js'
 
 class Rectangle extends Sprite {
     constructor(x, y, width, height, angle) {
         super(x, y, width, height, angle);
         this.type = "Rectangle";
+
+        let lines = this.lines();
+        lines.forEach(line => {
+            this.drawingInstructions.push(new DrawInstruction(line))
+        });
+
+        console.log(this.drawingInstructions);
     }
 
     createSATObject() {

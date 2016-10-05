@@ -25,6 +25,7 @@ class Sprite {
         this._minHeight = 1;
         this._visible = true;
         this._pathOnly = false;
+        this._drawingInstructions = [];
     }
 
     set x(x) {
@@ -312,6 +313,14 @@ class Sprite {
         this.boundary.b = new Point(lowestX + boundaryW, lowestY);
         this.boundary.c = new Point(lowestX + boundaryW, lowestY + boundaryH);
         this.boundary.d = new Point(lowestX, lowestY + boundaryH);
+    }
+
+    get drawingInstructions() {
+        return this._drawingInstructions;
+    }
+
+    set drawingInstructions(drawingInstructions) {
+        this._drawingInstructions = drawingInstructions;
     }
 
     draw(ctx) {
