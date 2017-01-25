@@ -1,6 +1,4 @@
 import { ShapesRegistry } from './shapesregistry.js';
-import { updateCollisions } from './collisions/collisionDetection.js';
-import { collisionHandler } from './collisions/collisionHandler.js';
 
 let shapesRegistry = new ShapesRegistry();
 let now;
@@ -8,9 +6,10 @@ let then = Date.now();
 let delta;
 
 function animate() {
+    console.log('anim!');
     if (!shapesRegistry.static) {
         requestAnimationFrame(() => {
-            animate();
+           animate();
         });
     }
 
@@ -54,20 +53,12 @@ function animate() {
                     return;
                 }
                 counter++;
-                let collisions = [];
 
                 if (shape.animate) {
                     shape.animate();
                 }
                 if (shape.callback) {
                     shape.callback();
-                }
-
-                if (shape.collidable) {
-                    collisions = updateCollisions(shape);
-                    if (collisions.length) {
-                        collisions.forEach(collisionHandler);
-                    }
                 }
 
                 if (shape.visible) shape.draw();

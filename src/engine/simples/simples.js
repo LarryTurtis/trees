@@ -9,10 +9,7 @@ import { Text } from './text.js'
 
 let simples = {
     Rectangle: Rectangle,
-    Triangle: Triangle,
     Circle: Circle,
-    Polygon: Polygon,
-    SemiCircle: SemiCircle,
     Wedge: Wedge,
     Trapezoid: Trapezoid,
     Text: Text

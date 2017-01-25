@@ -22,6 +22,7 @@ class Rectangle extends Sprite {
     }
 
     draw(ctx) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
         super.draw(ctx);
         let rect = {
             a: this.a,
