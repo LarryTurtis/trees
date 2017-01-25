@@ -113,12 +113,8 @@ li {
     bottom: 0%;
 }
 
-#footer a {
-    color: white;
-}
-
 a:hover {
-    color: orange;
+    color: pink;
     text-decoration: none;
 }
 
