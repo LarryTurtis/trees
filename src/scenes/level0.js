@@ -52,12 +52,12 @@ function Text() {
     let x = Width.percent(50);
     let y = Height.percent(8);
 
-    let text = new engine.simples.Text("Gary Kertis", x, y, size, FONTPRIMARY);
+    let text = new engine.simples.Text("Canvas Experiment", x, y, size, FONTPRIMARY);
     text.color = "black";
 
     shapes.addToStaticForeground(text);
 
-    let text2 = new engine.simples.Text("Projects", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
+    let text2 = new engine.simples.Text("Please enjoy.", x, Height.percent(11), Width.percent(3), FONTPRIMARY);
     text2.color = "black";
     shapes.addToStaticForeground(text2);
 }

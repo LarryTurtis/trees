@@ -10,7 +10,7 @@
 
 body {
     background-color: rgb(68, 53, 91);
-    color: rgb(68, 53, 91);
+    color: white;
     font-family: 'Chicle', Arial, serif;
     font-size: 2.5vw;
     height: 0px;
@@ -68,7 +68,7 @@ h2 {
 #about {
     position: relative;
     top: 76%;
-    left: 60%;
+    left: 10%;
     height: 5%;
     width: 50%;
 }
