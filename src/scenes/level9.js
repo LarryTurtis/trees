@@ -12,7 +12,7 @@ function level9() {
     cup = createCup();
     erlenmeyer = createErlenmeyer();
     testTube = createTestTube();
-    shapes.addToDynamicForeground(hose);
+    //shapes.addToDynamicForeground(hose);
 
     shapes.addToDynamicForeground(cup);
     shapes.addToDynamicForeground(erlenmeyer);

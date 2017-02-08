@@ -65,7 +65,6 @@ function mapKeys(e) {
             })
             break;
         case 40: // down
-            console.log('down');
             shapes.allCanvases.forEach(canvas => {
                 canvas.dispatchEvent(upArrow);
             })

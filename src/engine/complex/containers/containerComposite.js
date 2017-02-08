@@ -427,7 +427,7 @@ class ContainerComposite extends ComplexShape {
     }
 
     draw(ctx) {
-                ctx = ctx || this.canvas && this.canvas.ctx;
+        ctx = ctx || this.canvas && this.canvas.ctx;
 
         if (this.liquids.length) {
             this.liquids.forEach(liquid => {
@@ -447,14 +447,16 @@ class ContainerComposite extends ComplexShape {
             });
         }
 
-        // ctx.beginPath();
-        // ctx.fillStyle = "red";
-        // ctx.rect(this.liquidCenterPoint.x - 2.5, this.liquidCenterPoint.y - 2.5, 5, 5)
-        // ctx.rect(this.liquidTop.start.x - 2.5, this.liquidTop.start.y - 2.5, 5, 5)
-        // ctx.rect(this.liquidTop.end.x - 2.5, this.liquidTop.end.y - 2.5, 5, 5)
-        // ctx.fill()
-        // ctx.fillStyle = this.color;
-        // ctx.closePath();
+        if (this.liquidCenterPoint) {
+            ctx.beginPath();
+            ctx.fillStyle = "red";
+            ctx.rect(this.liquidCenterPoint.x - 2.5, this.liquidCenterPoint.y - 2.5, 5, 5)
+            ctx.rect(this.liquidTop.start.x - 2.5, this.liquidTop.start.y - 2.5, 5, 5)
+            ctx.rect(this.liquidTop.end.x - 2.5, this.liquidTop.end.y - 2.5, 5, 5)
+            ctx.fill()
+            ctx.fillStyle = this.color;
+            ctx.closePath();
+        }
     }
 
 }

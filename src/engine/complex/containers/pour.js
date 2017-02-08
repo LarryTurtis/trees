@@ -31,7 +31,7 @@ class Pour {
             drop.y += amount;
             drop.y += amount;
             if (drop.y > this.endPoint) {
-                this.removeDrop(drop)
+               // this.removeDrop(drop)
             }
         });
     }
