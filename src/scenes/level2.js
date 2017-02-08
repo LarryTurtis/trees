@@ -6,7 +6,7 @@ function createBubble() {
     let size = trees.random(10, 30);
     let thickness = trees.random(1, 6);
     let times = trees.random(-1,1);
-    let box = new engine.complex.Arch(trees.random(1, engine.canvas.width), -size, size, size/2, 0, thickness);
+    let box = new engine.complex.Arch(trees.random(1, shapes.staticBackgroundCanvas.width), -size, size, size/2, thickness);
     box.rotate(trees.random(0,360), box.center);
     box.color = trees.randomColor();
     box.ySpeed = size / 10;
@@ -15,7 +15,7 @@ function createBubble() {
         this.rotate(this.ySpeed * times, this.center);
     }
     box.collidable = false;
-    shapes.add(box);
+    shapes.addToDynamicBackground(box);
 }
 
 function level2() {

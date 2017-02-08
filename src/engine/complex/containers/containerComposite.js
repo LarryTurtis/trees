@@ -427,6 +427,8 @@ class ContainerComposite extends ComplexShape {
     }
 
     draw(ctx) {
+                ctx = ctx || this.canvas && this.canvas.ctx;
+
         if (this.liquids.length) {
             this.liquids.forEach(liquid => {
                 liquid.draw(ctx);

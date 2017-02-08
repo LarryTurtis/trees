@@ -31,13 +31,10 @@ function go(callback) {
 
     shapesRegistry.allCanvases.forEach(canvas => {
         canvas.width = window.innerWidth;
-        canvas.height = window.innerWidth * 2.5;
+        canvas.height = window.innerHeight;
     });
-    document.body.style.height = window.innerWidth * 2.5 + "px";
-    document.getElementById("main").style.height = window.innerWidth * 2.5 + "px";
-
     window.addEventListener('load', () => {
-        // keyboardEvents.initialize();
+        keyboardEvents.initialize();
         scrollEvents.initialize();
         callback();
         drawStaticShapes();

@@ -11,8 +11,8 @@ function level6() {
 
     let extraRows = width / -offsetFactor;
 
-    let hexRows = engine.canvas.height / width + extraRows;
-    let hexColumns = engine.canvas.width / width + extraRows;
+    let hexRows = shapes.staticBackgroundCanvas.height / width + extraRows;
+    let hexColumns = shapes.staticBackgroundCanvas.width / width + extraRows;
 
     for (let n = 0; n < hexRows; n++) {
 
@@ -25,11 +25,11 @@ function level6() {
 
             start = n % 2 ? width / 2 + offsetFactor / 2 : 0;
 
-            let hex = new engine.simples.Polygon(i * width + wOffset - start, n * width + hOffset, width, width, 0, 6);
+            let hex = new engine.simples.Polygon(i * width + wOffset - start, n * width + hOffset, width, width, 6);
             hex.color = trees.randomColor();
             //hex.lineColor = "black";
             hex.ySpeed = 3;
-            shapes.add(hex);
+            shapes.addToDynamicBackground(hex);
         }
     }
 

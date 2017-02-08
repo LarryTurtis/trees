@@ -195,6 +195,7 @@ class Hose extends ComplexShape {
 
     draw(ctx) {
         //super.draw(ctx);
+        ctx = ctx || this.canvas && this.canvas.ctx;
 
         ctx.fillStyle = this.fullSectionColor;
         this.drawHose(ctx, this.fullSection);
@@ -209,6 +210,8 @@ class Hose extends ComplexShape {
     }
 
     drawHose(ctx, hose) {
+        ctx = ctx || this.canvas && this.canvas.ctx;
+
         if (hose.length) {
             ctx.beginPath();
             ctx.yMove(hose[0].a);

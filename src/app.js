@@ -4,7 +4,6 @@ import { scenes } from './scenes/scenes.js';
 
 function load() {
     engine.levels.push(scenes.level0);
-    engine.levels.push(scenes.level1);
     engine.levels.push(scenes.level2);
     engine.levels.push(scenes.level3);
     engine.levels.push(scenes.level4);
@@ -13,7 +12,7 @@ function load() {
     engine.levels.push(scenes.level7);
     engine.levels.push(scenes.level8);
     engine.levels.push(scenes.level9);
-    scenes.level0();
+    scenes.level9();
 }
 
 engine.go(load);

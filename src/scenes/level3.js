@@ -3,11 +3,11 @@ import { engine } from '../engine/engine.js';
 let shapes = engine.shapesRegistry;
 
 function level3() {
-    let width = engine.canvas.width;
-    let height = engine.canvas.height;
+    let width = shapes.staticBackgroundCanvas.width;
+    let height = shapes.staticBackgroundCanvas.height;
     let x = 0;
     let y = 0;
-    let box = new engine.complex.Box(x, y, width, height, 0);
+    let box = new engine.complex.Box(x, y, width, height);
     box.radius = width;
     box.color = "black";
 
@@ -24,7 +24,7 @@ function level3() {
         this.x -= 0.5;
         this.y -= 0.5;
     }
-    shapes.add(box);
+    shapes.addToDynamicBackground(box);
 }
 
 export { level3 };

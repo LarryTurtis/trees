@@ -3,7 +3,7 @@ import { engine } from '../engine/engine.js';
 let shapes = engine.shapesRegistry;
 
 function createDot(x) {
-    let dot = new engine.simples.Circle(engine.canvas.width / 2, engine.canvas.height / 2, 1, 1, 0);
+    let dot = new engine.simples.Circle(shapes.staticBackgroundCanvas.width / 2, shapes.staticBackgroundCanvas.height / 2, 1, 1);
     dot.color = "black";
     dot.xSpeed = 16;
     dot.ySpeed = 16;
@@ -17,7 +17,7 @@ function createDot(x) {
             this.height += this.ySpeed;
             this.y -= this.ySpeed / 2;
             this.x -= this.xSpeed / 2;
-            if (this.radius > engine.canvas.width) expanding = false;
+            if (this.radius > shapes.staticBackgroundCanvas.width) expanding = false;
         }
         if (!expanding) {
             this.width -= this.xSpeed;
@@ -29,7 +29,7 @@ function createDot(x) {
         done = true;
         return done;
     }
-    shapes.add(dot);
+    shapes.addToDynamicBackground(dot);
 }
 
 

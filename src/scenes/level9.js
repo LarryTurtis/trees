@@ -12,7 +12,7 @@ function level9() {
     cup = createCup();
     erlenmeyer = createErlenmeyer();
     testTube = createTestTube();
-    // shapes.add(hose);
+    shapes.addToDynamicForeground(hose);
 
     shapes.addToDynamicForeground(cup);
     shapes.addToDynamicForeground(erlenmeyer);
@@ -48,22 +48,20 @@ function level9() {
             hose.bend(-1);
             erlenmeyer.rotate(-1, erlenmeyer.center)
             cup.rotate(-1, cup.center);
-            testTube.levelLine = testTube.y + testTube.height;
-            testTube.fill(10);
-            console.log(testTube.empty);
+            testTube.rotate(-1, testTube.center);
         });
         canvas.addEventListener('downArrow', function(e) {
             hose.bend(1);
             erlenmeyer.rotate(1, erlenmeyer.center)
             cup.rotate(1, cup.center)
-            testTube.rotate(1, cup.center);
+            testTube.rotate(1, testTube.center);
         });
     });
 
 }
 
 function createCup() {
-    let cup = new engine.complex.Cup(200, 100, 200, 300, 85);
+    let cup = new engine.client.Cup(200, 100, 200, 300, 85);
     cup.color = trees.setOpacity("white", 0.2);
     cup.liquidColor = trees.setOpacity("orange", 0.9);
     cup.level = 90;
@@ -72,18 +70,18 @@ function createCup() {
 }
 
 function createTestTube() {
-    let testTube = new engine.complex.TestTube(600, 100, 200, 300);
+    let testTube = new engine.client.TestTube(600, 100, 200, 300);
     testTube.color = trees.setOpacity("white", 0.2);
     testTube.liquidColor = trees.setOpacity("orange", 0.9);
     testTube.level = 50;
-    //testTube.thickness = 10;
+    testTube.thickness = 10;
     testTube.lip.thickness = 20;
     return testTube;
 }
 
 
 function createErlenmeyer() {
-    let erlenmeyer = new engine.complex.Erlenmeyer(900, 300, 200, 300, 85);
+    let erlenmeyer = new engine.client.Erlenmeyer(900, 300, 200, 300, 85);
     erlenmeyer.color = trees.setOpacity("white", 0.2);
     erlenmeyer.liquidColor = trees.setOpacity("orange", 0.9);
     erlenmeyer.level = 90;

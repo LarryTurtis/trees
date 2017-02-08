@@ -2,9 +2,9 @@ import { engine } from '../engine/engine.js';
 
 function level4() {
     let shapes = engine.shapesRegistry;
-    let octopus = new engine.complex.Octopus(300, 300, 300, 300, 0);
+    let octopus = new engine.client.Octopus(300, 300, 300, 300);
     octopus.color = "black";
-    shapes.add(octopus);
+    shapes.addToDynamicBackground(octopus);
 }
 
 

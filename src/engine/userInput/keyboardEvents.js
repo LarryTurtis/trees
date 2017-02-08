@@ -52,18 +52,23 @@ function scrollDown() {
 
 function mapKeys(e) {
     e = e || window.event;
+    let downArrow = new CustomEvent('downArrow', {});
+    let upArrow = new CustomEvent('upArrow', {});
 
     switch (e.keyCode) {
         case 32: // space
             toggleBoundingBoxes();
             break;
         case 38:
-            i = 0;
-            if (!nowScrolling) scrollUp();
+            shapes.allCanvases.forEach(canvas => {
+                canvas.dispatchEvent(downArrow);
+            })
             break;
         case 40: // down
-            i = 0;
-            if (!nowScrolling) scrollDown();
+            console.log('down');
+            shapes.allCanvases.forEach(canvas => {
+                canvas.dispatchEvent(upArrow);
+            })
             break;
         default:
             return;
