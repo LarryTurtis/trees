@@ -7,11 +7,11 @@ class ShapesRegistry {
     if (!instance) {
       instance = this;
       this._shapes = {};
-      this._dynamicShapes = [];
+      this._dynamicShapes = {};
       this._staticShapes = [];
       this._shapeId = 0;
       this._maxShapes = 1000000;
-      this._fps = 30;
+      this._fps = 60;
       this._interval = 1000 / this._fps;
       this.blur = false;
       this._staticBackgroundCanvas = new Canvas("staticBackgroundCanvas");
@@ -19,6 +19,7 @@ class ShapesRegistry {
       this._dynamicBackgroundCanvas = new Canvas("dynamicBackgroundCanvas");
       this._dynamicForegroundCanvas = new Canvas("dynamicForegroundCanvas");
       this.static = document.URL.split("?")[1] === "static";
+      this.cache = [];
     }
     return instance;
   }
@@ -108,6 +109,14 @@ class ShapesRegistry {
     return Object.keys(this.shapes).length;
   }
 
+  updateCache() {
+    this.cache = Object.keys(this._dynamicShapes)
+      .map((key) => this._dynamicShapes[key])
+      .sort((a, b) => {
+        return a.height - b.height;
+      });
+  }
+
   addToStaticBackground(shape) {
     this.add(shape);
     if (!Array.isArray(shape)) {
@@ -131,21 +140,33 @@ class ShapesRegistry {
   addToDynamicBackground(shape) {
     this.add(shape);
     if (!Array.isArray(shape)) {
-      this.dynamicShapes.push(shape);
+      this.dynamicShapes[shape.id] = shape;
     } else {
-      shape.forEach((s) => this.dynamicShapes.push(s));
+      shape.forEach((s) => (this.dynamicShapes[s.id] = s));
     }
     shape.canvas = this.dynamicBackgroundCanvas;
+    this.updateCache();
+  }
+
+  removeFromDynamicBackground(shape) {
+    this.remove(shape);
+    if (!Array.isArray(shape)) {
+      delete this.dynamicShapes[shape.id];
+    } else {
+      shape.forEach((s) => delete this.dynamicShapes[s.id]);
+    }
+    this.updateCache();
   }
 
   addToDynamicForeground(shape) {
     this.add(shape);
     if (!Array.isArray(shape)) {
-      this.dynamicShapes.push(shape);
+      this.dynamicShapes[shape.id] = shape;
     } else {
-      shape.forEach((s) => this.dynamicShapes.push(s));
+      shape.forEach((s) => (this.dynamicShapes[s.id] = s));
     }
     shape.canvas = this.dynamicForegroundCanvas;
+    this.updateCache();
   }
 
   forEach(callback) {
@@ -180,7 +201,6 @@ class ShapesRegistry {
     var shapesRegistry = this;
     setTimeout(function () {
       delete shapesRegistry._shapes[shape.id];
-      console.log("removed", shape);
     }, 0);
   }
 

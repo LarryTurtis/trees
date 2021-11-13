@@ -1,3 +1,4 @@
+import { Balloon } from "../engine/complex/balloon.js";
 import { engine } from "../engine/engine.js";
 
 let shapes = engine.shapesRegistry;
@@ -14,13 +15,15 @@ const BLUE = "rgb(0,47,57)";
 const GREEN = "rgb(0,74,37)";
 const DARKPURPLE = "#1A001A";
 const LIGHTPURPLE = "#44355B";
-const PINK = "pink";
+const PINK = "springgreen";
 const FONTPRIMARY = "BungeeShade";
 const WHITE = "white";
-const BLACK = "black";
+const BLACK = "#333333";
 const GRAY = "gray";
-const YELLOW = "yellow";
+const YELLOW = "gold";
 const OLIVE = "#666633";
+
+const backgroundColors = ["springgreen", "pink", "gold", "lightblue"];
 
 function level0() {
   Width = shapes.staticBackgroundCanvas.width;
@@ -31,7 +34,8 @@ function level0() {
   //   earthHeight = Height.percent(10);
   //   caveHeight = Height.percent(30);
 
-  shapes.staticBackgroundCanvas.element.style.backgroundColor = PINK;
+  shapes.staticBackgroundCanvas.element.style.backgroundColor =
+    backgroundColors[trees.random(0, backgroundColors.length - 1)];
 
   StripedBalloons();
   Mountains();
@@ -50,8 +54,8 @@ function Text() {
   let x = Width.percent(50);
   let y = Height.percent(8);
 
-  let text = new engine.simples.Text("Gary Kertis", x, y, size, FONTPRIMARY);
-  text.color = "black";
+  let text = new engine.simples.Text("G.k.", x, y, size, FONTPRIMARY);
+  text.color = BLACK;
 
   shapes.addToStaticForeground(text);
 }
@@ -128,58 +132,72 @@ function WaterFall() {
 }
 
 function StripedBalloons(start) {
-  for (let i = 0; i < 10; i++) {
-    let size = Width.percent(trees.random(1, 5));
-    let x = Width.percent(trees.random(0, 95));
-    let y = start || Height.percent(trees.random(50, 100));
-
-    let balloon = new engine.client.StripedBalloon(x, y, size, size);
-    balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
-    balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
-
-    balloon.stripeColor = (function () {
-      let arr = [];
-      for (let i = 0; i < trees.random(1, 25); i++) {
-        arr.push(trees.randomColor());
-      }
-      return arr;
-    })();
-
-    balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][
-      trees.random(0, 2)
-    ];
-    balloon.color = trees.randomColor();
-    balloon.callback = function () {
-      this.y -= size / 40;
-      shapes.remove(this);
-    };
-    shapes.addToDynamicBackground(balloon);
+  let numballoons = 1;
+  for (let i = 0; i < numballoons; i++) {
+    newBalloon(Width.percent((i * 100) / numballoons));
   }
 }
 
+function newBalloon(start) {
+  let size = trees.random(30, 100);
+  let y = Height.percent(trees.random(15, 65));
+  let x = start - size || Width.percent(trees.random(5, 95));
+
+  let balloon = new engine.client.StripedBalloon(x, y, size, size);
+  balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
+  balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
+
+  balloon.stripeColor = (function () {
+    let arr = [];
+    for (let i = 0; i < trees.random(1, 25); i++) {
+      arr.push(trees.randomColor());
+    }
+    return arr;
+  })();
+
+  balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][
+    trees.random(0, 2)
+  ];
+  balloon.color = trees.randomColor();
+  let drift = size / 150;
+  balloon.callback = function () {
+    this.x += drift;
+    // if ((Date.now() + this.id) % 2 === 0) {
+    //   this.x += Math.random() < 0.5 ? -0.1 : 0.1;
+    // }
+    // this.y += drift;
+    this.y = y + (size / 2) * Math.sin(this.x / (2 * size));
+    if (this.x > Width.percent(100) + size) {
+      shapes.removeFromDynamicBackground(this);
+      newBalloon(0);
+    }
+  };
+  shapes.addToDynamicBackground(balloon);
+}
+
 function Clouds() {
-  for (let i = 0; i < 20; i++) {
-    let width = Width.percent(trees.random(2, 15));
-    let x = trees.random(0, Width);
+  for (let i = 0; i < 10; i++) {
+    let width = Width.percent(trees.random(10, 25));
+    let x = Width.percent(i * 10);
     let y = trees.random(0, skyHeight - Height.percent(10));
     let height = width / 4;
     let cloud = new engine.client.Cloud(x, y, width, height);
-    let opacity = 1 - width / 300;
+    let opacity = 1 - width / 400;
     cloud.color = trees.setOpacity(WHITE, opacity);
     shapes.addToStaticForeground(cloud);
   }
 }
 
 function Mountains() {
-  let width = Width;
+  let width = Width.percent(120);
   let height = Height.percent(25);
-  let x = 0;
+  let x = Width.percent(-10);
   let y = skyHeight - height;
   let mountain = new engine.client.Mountains(x, y, width, height);
   mountain.color = BLACK;
-  shapes.addToDynamicBackground(mountain);
+  shapes.addToStaticBackground(mountain);
 
-  engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, YELLOW);
+  //   engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, YELLOW);
 }
 
 function Wheel() {
