@@ -4,11 +4,12 @@ let shapesRegistry = new ShapesRegistry();
 let now;
 let then = Date.now();
 let delta;
+let pause = false;
 
 function animate() {
   if (!shapesRegistry.static) {
     requestAnimationFrame(() => {
-      animate();
+      pause || animate();
     });
   }
 
@@ -42,33 +43,38 @@ function animate() {
       );
 
       shapesRegistry.cache.forEach((shape) => {
-        if (
-          !shapesRegistry.static &&
-          (shape.boundary.a.x > shape.canvas.width.percent(110) ||
-            shape.boundary.b.x < -shape.canvas.width.percent(10))
-        ) {
-          //shapesRegistry.remove(shape);
-          return;
-        }
+        try {
+          if (
+            !shapesRegistry.static &&
+            (shape.boundary.a.x > shape.canvas.width.percent(110) ||
+              shape.boundary.b.x < -shape.canvas.width.percent(10))
+          ) {
+            //shapesRegistry.remove(shape);
+            return;
+          }
 
-        if (
-          !shapesRegistry.static &&
-          (shape.boundary.a.y >
-            shape.canvas.currentY + window.innerHeight.percent(110) ||
-            shape.boundary.d.y <
-              shape.canvas.currentY - shape.canvas.height.percent(10))
-        ) {
-          //shapesRegistry.remove(shape);
-          return;
-        }
-        if (shape.animate) {
-          shape.animate();
-        }
-        if (shape.callback) {
-          shape.callback();
-        }
+          if (
+            !shapesRegistry.static &&
+            (shape.boundary.a.y >
+              shape.canvas.currentY + window.innerHeight.percent(110) ||
+              shape.boundary.d.y <
+                shape.canvas.currentY - shape.canvas.height.percent(10))
+          ) {
+            //shapesRegistry.remove(shape);
+            return;
+          }
+          if (shape.animate) {
+            shape.animate();
+          }
+          if (shape.callback) {
+            shape.callback();
+          }
 
-        if (shape.visible) shape.draw();
+          if (shape.visible) shape.draw();
+        } catch (e) {
+          pause = true;
+          console.error(e);
+        }
       });
     }
   }

@@ -143,21 +143,7 @@ function newBalloon(start) {
   let y = Height.percent(trees.random(15, 65));
   let x = start - size || Width.percent(trees.random(5, 95));
 
-  let balloon = new engine.client.StripedBalloon(x, y, size, size);
-  balloon.stripeWidth = balloon.width.percent(trees.random(1, 20));
-  balloon.stripeSpacing = balloon.width.percent(trees.random(1, 20));
-
-  balloon.stripeColor = (function () {
-    let arr = [];
-    for (let i = 0; i < trees.random(1, 25); i++) {
-      arr.push(trees.randomColor());
-    }
-    return arr;
-  })();
-
-  balloon.stripeOrientation = ["vertical", "diagonal", "horizontal"][
-    trees.random(0, 2)
-  ];
+  let balloon = new engine.client.FancyBalloon(x, y, size, size);
   balloon.color = trees.randomColor();
   let drift = size / 150;
   balloon.callback = function () {
