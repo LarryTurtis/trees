@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 @font-face {
   font-family: "BungeeShade";
   src: url("./fonts/BungeeShade-Regular.ttf") format("truetype");
@@ -10,33 +13,33 @@
 
 body {
   font-family: "Chicle", Arial, serif;
-  font-size: 2.5vw;
+  font-size: 10vh;
+  height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+  color: #333333;
 }
 
+ul {
+  padding: 0px;
+  margin: 0px;
+}
 li {
   list-style: none;
 }
 
-h2 {
-  color: pink;
+h1,
+h2,
+ul,
+footer,
+content {
+  z-index: 1000;
 }
 
 h1 {
   font-family: "BungeeShade", Arial, serif;
-
-  z-index: 1000;
-}
-
-.title {
-  font-family: "BungeeShade", Arial, serif;
-  color: rgb(68, 53, 91);
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  z-index: -1;
 }
 
 .canvases {
@@ -65,51 +68,43 @@ h1 {
   z-index: 400;
 }
 
-#main {
-  height: 200%;
-  z-index: 150;
-  pointer-events: all;
+footer {
+  font-size: 3vh;
+  color: beige;
+  align-self: flex-start;
+  margin: 1vh;
 }
 
-#about {
-  position: relative;
-  top: 76%;
-  left: 60%;
-  height: 5%;
-  width: 50%;
-}
-
-#footer {
-  position: fixed;
-  font-size: 1vw;
-  bottom: 3%;
-  width: 50%;
-  padding: 1%;
-  height: 1%;
-  z-index: 500;
-  color: pink;
-}
-
-#footer a {
+footer a {
   color: white;
 }
 
+content {
+  font-size: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+}
+
+h2 {
+  margin: 0px;
+  flex: 1 1 auto;
+  font-family: "Chicle";
+}
+
+content div {
+  margin: 1vh;
+}
+
 a:hover {
-  color: pink;
+  color: beige;
   text-decoration: none;
 }
 
 a {
-  color: white;
-  font-family: "Chicle";
+  color: #333333;
   text-decoration: none;
-}
-
-.menu {
-  list-style: none;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-  color: pink;
 }
 
 .menu:before {
