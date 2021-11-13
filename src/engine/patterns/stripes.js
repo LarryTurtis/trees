@@ -1,153 +1,89 @@
 import { simples } from "../simples/simples.js";
 import { complex } from "../complex/complex.js";
 
+const HORIZONTAL = "horizontal";
+const VERTICAL = "vertical";
+const DIAGONAL = "diagonal";
+const REVERSE_DIAGONAL = "reverse-diagonal";
+
+const getRandomColorList = () => Array(25).fill().map(trees.randomColor);
+
 function argyle(container) {
   return getRandomStripes(container);
+}
+function getRandomOrientation() {
+  return [HORIZONTAL, VERTICAL, DIAGONAL, REVERSE_DIAGONAL][trees.random(0, 3)];
 }
 function getRandomStripes(container) {
   let stripeSize = container.width.percent(trees.random(1, 20));
   let stripeSpacing = container.width.percent(trees.random(1, 20));
-  let stripeColor = (function () {
-    let arr = [];
-    for (let i = 0; i < trees.random(1, 25); i++) {
-      arr.push(trees.randomColor());
-    }
-    return arr;
-  })();
-  let stripeOrientation = ["vertical", "diagonal", "horizontal"][
-    trees.random(0, 2)
-  ];
   return stripes(
     container,
     stripeSize,
     stripeSpacing,
-    stripeColor,
-    stripeOrientation
+    getRandomColorList(),
+    getRandomOrientation()
   );
 }
 function stripes(container, stripeSize, stripeSpacing, color, orientation) {
   let stripes = [];
-  if (!orientation || orientation === "vertical") {
-    let numStripes = container.width / (stripeSize + stripeSpacing);
-    let currentStripe = container.x;
+  let numStripes = (container.width / (stripeSize + stripeSpacing)) * 1.5;
+  let totalWidth = numStripes * (stripeSize + stripeSpacing);
+  let currentStripe = container.x - (totalWidth - container.width) / 2;
 
-    for (let i = 0; i < numStripes; i++) {
-      let stripe = new simples.Rectangle(
-        currentStripe,
-        container.y,
-        stripeSize,
-        container.height
-      );
-      stripe.color = color[i % color.length];
-      stripe.draw = function (ctx) {
-        ctx = ctx || (this.canvas && this.canvas.ctx);
+  for (let i = 0; i < numStripes; i++) {
+    let stripeHeight = container.height * 1.5;
+    let stripeY = container.y - (stripeHeight - container.height) / 2;
 
-        ctx.save();
-        ctx.beginPath();
-        container.pathOnly = true;
-        container.draw(ctx);
-        container.pathOnly = false;
-        ctx.clip();
-        ctx.closePath();
-        ctx.beginPath();
-        let rect = {
-          a: this.a,
-          b: this.b,
-          c: this.c,
-          d: this.d,
-        };
-        ctx.yMove(this.a);
-        ctx.yRect(rect);
-        ctx.fillStyle = color[i % color.length];
-        ctx.fill();
-        ctx.closePath();
-        ctx.restore();
+    let stripe = new simples.Rectangle(
+      currentStripe,
+      stripeY,
+      stripeSize,
+      stripeHeight
+    );
+    stripe.color = color[i % color.length];
+    stripe.draw = function (ctx) {
+      ctx = ctx || (this.canvas && this.canvas.ctx);
+
+      ctx.save();
+      ctx.beginPath();
+      container.pathOnly = true;
+      container.draw(ctx);
+      container.pathOnly = false;
+      ctx.clip();
+      ctx.closePath();
+      ctx.beginPath();
+      let rect = {
+        a: this.a,
+        b: this.b,
+        c: this.c,
+        d: this.d,
       };
+      ctx.translate(container.center.x, container.center.y);
 
-      stripes.push(stripe);
-      currentStripe += stripeSize + stripeSpacing;
-    }
-  } else if (orientation === "horizontal") {
-    let numStripes = container.height / (stripeSize + stripeSpacing);
-    let currentStripe = container.y;
+      switch (orientation) {
+        case "diagonal":
+          ctx.rotate((45 * Math.PI) / 180);
+          break;
+        case "reverse-diagonal":
+          ctx.rotate((135 * Math.PI) / 180);
+          break;
+        case "horizontal":
+          ctx.rotate(Math.PI / 2);
+          break;
+      }
 
-    for (let i = 0; i < numStripes; i++) {
-      let stripe = new simples.Rectangle(
-        container.x,
-        currentStripe,
-        container.width,
-        stripeSize
-      );
-      stripe.color = color[i % color.length];
-      stripe.draw = function (ctx) {
-        ctx = ctx || (this.canvas && this.canvas.ctx);
+      ctx.translate(-container.center.x, -container.center.y);
+      ctx.yMove(this.a);
+      ctx.yRect(rect);
+      ctx.fillStyle = color[i % color.length];
+      ctx.fill();
+      ctx.closePath();
+      ctx.restore();
+    };
 
-        ctx.save();
-        ctx.beginPath();
-        container.pathOnly = true;
-        container.draw(ctx);
-        container.pathOnly = false;
-        ctx.clip();
-        ctx.closePath();
-        ctx.beginPath();
-        let rect = {
-          a: this.a,
-          b: this.b,
-          c: this.c,
-          d: this.d,
-        };
-        ctx.yMove(this.a);
-        ctx.yRect(rect);
-        ctx.fillStyle = color[i % color.length];
-        ctx.fill();
-        ctx.closePath();
-        ctx.restore();
-      };
-
-      stripes.push(stripe);
-      currentStripe += stripeSize + stripeSpacing;
-    }
-  } else if (orientation === "diagonal") {
-    let numStripes = (container.height / (stripeSize + stripeSpacing)) * 2;
-    let currentStripe = container.y;
-
-    for (let i = 0; i < numStripes; i++) {
-      let stripe = new simples.Rectangle(
-        container.x - container.width / 2,
-        currentStripe - container.width / 2,
-        container.width * 2,
-        stripeSize
-      );
-      stripe.rotate(-45, stripe.center);
-      stripe.color = color[i % color.length];
-      stripe.draw = function (ctx) {
-        ctx = ctx || (this.canvas && this.canvas.ctx);
-
-        ctx.save();
-        ctx.beginPath();
-        container.pathOnly = true;
-        container.draw(ctx);
-        container.pathOnly = false;
-        ctx.clip();
-        ctx.closePath();
-        ctx.beginPath();
-        let rect = {
-          a: this.a,
-          b: this.b,
-          c: this.c,
-          d: this.d,
-        };
-        ctx.yMove(this.a);
-        ctx.yRect(rect);
-        ctx.fillStyle = color[i % color.length];
-        ctx.fill();
-        ctx.closePath();
-        ctx.restore();
-      };
-
-      stripes.push(stripe);
-      currentStripe += stripeSize + stripeSpacing;
-    }
+    stripes.push(stripe);
+    currentStripe += stripeSize + stripeSpacing;
   }
 
   return stripes;

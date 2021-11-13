@@ -11,7 +11,9 @@
 body {
   font-family: "Chicle", Arial, serif;
   font-size: 2.5vw;
-  height: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 li {
@@ -20,6 +22,12 @@ li {
 
 h2 {
   color: pink;
+}
+
+h1 {
+  font-family: "BungeeShade", Arial, serif;
+
+  z-index: 1000;
 }
 
 .title {

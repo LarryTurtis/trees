@@ -11,7 +11,7 @@ class ShapesRegistry {
       this._staticShapes = [];
       this._shapeId = 0;
       this._maxShapes = 1000000;
-      this._fps = 60;
+      this._fps = 30;
       this._interval = 1000 / this._fps;
       this.blur = false;
       this._staticBackgroundCanvas = new Canvas("staticBackgroundCanvas");

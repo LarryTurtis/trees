@@ -40,7 +40,6 @@ function level0() {
   StripedBalloons();
   Mountains();
   Clouds();
-  Text();
   //   Wheel();
   // Cave();
   //   Lake();
@@ -49,92 +48,10 @@ function level0() {
   //   WaterFall();
 }
 
-function Text() {
-  let size = Width.percent(5);
-  let x = Width.percent(50);
-  let y = Height.percent(8);
-
-  let text = new engine.simples.Text("G.k.", x, y, size, FONTPRIMARY);
-  text.color = BLACK;
-
-  shapes.addToStaticForeground(text);
-}
-
-function WaterFall() {
-  let x = Width.percent(30);
-  let y = skyHeight + lakeHeight + earthHeight;
-  let waterFall = new engine.complex.PourComposite(
-    x,
-    y,
-    Width.percent(10),
-    Height.percent(35)
-  );
-  waterFall.color = trees.setOpacity(BLUE, 0.5);
-  shapes.addToDynamicBackground(waterFall);
-  waterFall.start();
-  waterFall.activePour.oscillate = true;
-  for (let i = 0; i < waterFall.height; i++) {
-    waterFall.activePour.addDrop();
-  }
-
-  let dropY = y;
-  waterFall.activePour.drops.forEach((drop) => {
-    drop.y = dropY;
-    dropY += 1;
-  });
-  waterFall.stop();
-  waterFall.start();
-  let splash = new engine.complex.Box(
-    x - Width.percent(1),
-    y + Height.percent(21),
-    Width.percent(12),
-    Height.percent(2)
-  );
-  shapes.addToDynamicBackground(splash);
-  engine.patterns.polkaDots(
-    splash,
-    engine.simples.Circle,
-    20,
-    1,
-    Width.percent(4),
-    WHITE
-  );
-  splash.shape.forEach((shape) => {
-    if (shape.type === "Circle") {
-      shape.x = splash.center.x;
-      shape.y = splash.center.y;
-      shape.speed =
-        trees.posNeg() * trees.random(1, splash.width / Width.percent(4));
-    }
-  });
-  splash.callback = function () {
-    splash.shape.forEach((shape, index) => {
-      if (shape.type === "Circle") {
-        if (
-          shape.x + shape.width < splash.x ||
-          shape.x > splash.x + splash.width
-        ) {
-          shape.x = splash.center.x - shape.width / 2;
-          shape.y = splash.center.y;
-          shape.speed =
-            (index % 2 === 0 ? 1 : -1) *
-            trees.random(1, splash.width / Width.percent(4));
-        } else {
-          shape.x += shape.speed;
-        }
-
-        if (shape.y > splash.center.y - shape.width / 2) {
-          shape.y -= Math.abs(shape.speed);
-        }
-      }
-    });
-  };
-}
-
 function StripedBalloons(start) {
   let numballoons = 1;
   for (let i = 0; i < numballoons; i++) {
-    newBalloon(Width.percent((i * 100) / numballoons));
+    newBalloon();
   }
 }
 
@@ -180,7 +97,6 @@ function Mountains() {
   let x = Width.percent(-10);
   let y = skyHeight - height;
   let mountain = new engine.client.Mountains(x, y, width, height);
-  mountain.color = BLACK;
   shapes.addToStaticBackground(mountain);
 
   //   engine.patterns.polkaDots(mountain, engine.simples.Circle, 100, 1, 5, YELLOW);
