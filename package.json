@@ -2,10 +2,10 @@
   "name": "pubapplication",
   "version": "0.0.0",
   "dependencies": {
-    "gulp": "3.9.1",
+    "gulp": "^4",
     "bower": "1.7.2",
     "browserify": "13.0.0",
-    "vinyl-source-stream": "1.1.0",
+    "vinyl-source-stream": "^2",
     "sat-js": "git://github.com/jriecken/sat-js.git"
   },
   "devDependencies": {
