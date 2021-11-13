@@ -1,3 +1,4 @@
+import { StripedBalloon } from "../engine/client/stripedBalloon.js";
 import { Balloon } from "../engine/complex/balloon.js";
 import { engine } from "../engine/engine.js";
 
@@ -40,6 +41,14 @@ function level0() {
   StripedBalloons();
   Mountains();
   Clouds();
+
+  let counter = 0;
+
+  document.body.addEventListener("click", (e) => {
+    if (counter < 100) StripedBalloons(e.clientX, e.clientY);
+    counter++;
+  });
+
   //   Wheel();
   // Cave();
   //   Lake();
@@ -48,17 +57,17 @@ function level0() {
   //   WaterFall();
 }
 
-function StripedBalloons(start) {
+function StripedBalloons(x, y) {
   let numballoons = 1;
   for (let i = 0; i < numballoons; i++) {
-    newBalloon();
+    newBalloon(x, y);
   }
 }
 
-function newBalloon(start) {
+function newBalloon(x, y) {
   let size = trees.random(30, 100);
-  let y = Height.percent(trees.random(15, 65));
-  let x = start - size || Width.percent(trees.random(5, 95));
+  y = y ? y - size / 2 : Height.percent(trees.random(15, 65));
+  x = x ? x - size / 2 : -size;
 
   let balloon = new engine.client.FancyBalloon(x, y, size, size);
   balloon.color = trees.randomColor();
@@ -72,7 +81,7 @@ function newBalloon(start) {
     this.y = y + (size / 2) * Math.sin(this.x / (2 * size));
     if (this.x > Width.percent(100) + size) {
       shapes.removeFromDynamicBackground(this);
-      newBalloon(0);
+      newBalloon();
     }
   };
   shapes.addToDynamicBackground(balloon);

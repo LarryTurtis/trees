@@ -35,7 +35,7 @@ h2,
 ul,
 footer,
 content {
-  z-index: 1000;
+  z-index: 150;
 }
 
 h1 {
