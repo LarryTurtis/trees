@@ -18,7 +18,7 @@ class Mountains extends ComplexShape {
       //the x of the triangle should overlap the right edge of the previous triangle by 25%
       let overlap = Math.floor(Math.random() * 3) + 1;
       triangleX = previoustriangle
-        ? previoustriangle.b.x - previoustriangle.width / overlap
+        ? previoustriangle.b.x - previoustriangle.width * 0.3
         : this.x;
 
       //the max size of any triangle should be 1/5 of the width. Min size is 1/10 of that.

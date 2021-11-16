@@ -34,7 +34,7 @@ class Cloud extends ComplexShape {
       //if the circle's right edge exceeds the width of the cloud, move it over.
       //otherwise add another circle.
       if (circle.b.x > this.b.x) {
-        circle.x = this.b.x - circle.width;
+        // circle.x = this.b.x - circle.width;
         moreCircles = false;
       }
     }

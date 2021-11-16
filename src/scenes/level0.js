@@ -12,19 +12,18 @@ let earthHeight;
 let caveHeight;
 
 const BROWN = "#190D03";
-const BLUE = "rgb(0,47,57)";
-const GREEN = "rgb(0,74,37)";
+const BLUE = "lightblue";
+const GREEN = "springgreen";
 const DARKPURPLE = "#1A001A";
 const LIGHTPURPLE = "#44355B";
-const PINK = "springgreen";
-const FONTPRIMARY = "BungeeShade";
+const PINK = "pink";
 const WHITE = "white";
 const BLACK = "#333333";
 const GRAY = "gray";
 const YELLOW = "gold";
 const OLIVE = "#666633";
 
-const backgroundColors = ["springgreen", "pink", "gold", "lightblue"];
+const backgroundColors = [GREEN, BLUE, YELLOW, PINK];
 
 function level0() {
   Width = shapes.staticBackgroundCanvas.width;
@@ -45,7 +44,7 @@ function level0() {
   let counter = 0;
 
   document.body.addEventListener("click", (e) => {
-    if (counter < 100) StripedBalloons(e.clientX, e.clientY);
+    if (counter < 10) StripedBalloons(e.clientX, e.clientY);
     counter++;
   });
 
@@ -91,11 +90,11 @@ function Clouds() {
   for (let i = 0; i < 10; i++) {
     let width = Width.percent(trees.random(10, 25));
     let x = Width.percent(i * 10);
-    let y = trees.random(0, skyHeight - Height.percent(10));
+    let y = trees.random(Height.percent(30), Height.percent(80));
     let height = width / 4;
     let cloud = new engine.client.Cloud(x, y, width, height);
     let opacity = 1 - width / 400;
-    cloud.color = trees.setOpacity(WHITE, opacity);
+    cloud.color = trees.setOpacity("beige", opacity);
     shapes.addToStaticForeground(cloud);
   }
 }
