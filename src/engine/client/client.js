@@ -18,6 +18,7 @@ import { TestTube } from "./testTube.js";
 import { ShoreLine } from "./shoreLine.js";
 import { Lake } from "./lake.js";
 import { Cave } from "./cave.js";
+import { Bird } from "./bird.js";
 import { Crystal } from "./crystal.js";
 import { GleamingCrystal } from "./gleamingCrystal.js";
 
@@ -31,6 +32,7 @@ let client = {
   Mushroom: Mushroom,
   Octopus: Octopus,
   Cloud: Cloud,
+  Bird: Bird,
   Mountains: Mountains,
   HotAirBalloon: HotAirBalloon,
   StripedBalloon: StripedBalloon,

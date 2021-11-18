@@ -1,4 +1,6 @@
+import { Bird } from "../engine/client/bird.js";
 import { StripedBalloon } from "../engine/client/stripedBalloon.js";
+import { Tree } from "../engine/client/tree.js";
 import { Balloon } from "../engine/complex/balloon.js";
 import { engine } from "../engine/engine.js";
 
@@ -40,7 +42,9 @@ function level0() {
   StripedBalloons();
   Mountains();
   Clouds();
-
+  for (let i = 0; i < 5; i++) {
+    newBird(i);
+  }
   let counter = 0;
 
   document.body.addEventListener("click", (e) => {
@@ -84,6 +88,30 @@ function newBalloon(x, y) {
     }
   };
   shapes.addToDynamicBackground(balloon);
+}
+
+function newBird(i) {
+  let tree = new Bird(
+    Width.percent(trees.random(110, 110 - i)),
+    Height.percent(trees.random(80, 80 - i)),
+    10,
+    10
+  );
+  let speed = trees.random(2, 3);
+  tree.color = "#333333";
+  tree.callback = function () {
+    this.x -= speed;
+    // if ((Date.now() + this.id) % 2 === 0) {
+    //   this.x -= Math.random() < 0.5 ? -0.5 : 0.5;
+    // }
+    this.y += speed / 10;
+    if (this.x < 0 - 10) {
+      shapes.removeFromDynamicBackground(this);
+      newBird(i);
+    }
+  };
+  // tree.lineColor = "red";
+  shapes.addToDynamicBackground(tree);
 }
 
 function Clouds() {
